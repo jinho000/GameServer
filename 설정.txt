@@ -1,0 +1,51 @@
+- 프로젝트는 윈도우 64비트 환경으로 빌드
+
+
+- 프로젝트 빌드 위치 설정
+출력 디렉터리(exe파일):	SolutinoDir, Bin, Config, Platform (모든구성, 모든 플랫폼)
+중간 디렉터리(pdb등)	:	SolutinoDir, Bin, Config, Platform (모든구성, 모든 플랫폼), Projectname, 
+
+
+- 프로젝트 종속성(순서)
+1. GameServerBase
+2. GameServerApp
+
+
+- C++ 버전: 17
+- 플랫폼 도구집합: 2022
+
+
+- Pre Compile Header
+미리 컴파일 헤더 사용하기
+미리 컴파일헤더 - 만들기
+
+
+- 프로젝트 템플릿 만들기
+프로젝트 - 템플릿 내보내기 -> 새 프로젝트 생성시 템플릿 생성
+MyExportTemplate에 있음
+
+
+- 클래스 템플릿 만들기
+프로젝트 - 템플릿 내보내기
+visual studio로 만들기 체크 해제
+헤더, cpp파일 2번 내보내기
+내보낸 zip파일을 하나로 합치기
+.vstemplate 수정
+itemptemplate 폴더에 넣기
+
+
+- ServerBase프로젝트는 정적라이브러리로 사용(.lib)
+
+
+- C/C++ 일반
+추가포함 디렉터리에 상위 폴더 포함(다른 프로젝트의 헤더파일 사용)
+
+- 라이브러리 추가
+VC++ 라이브러리 디렉토리
+
+- 코딩 규칙
+1. nullptr 체크를 클래스 내부의 IsValid() 함수로 처리
+2. 클래스 이름에는 GameServer를 항상 붙인다
+3. using namespace std 안함
+
+

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="pch">
+      <UniqueIdentifier>{9187dec3-1682-4147-9601-58d82513fc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{4a203654-bed0-49f3-b4fb-0620924b00a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{cf259dfd-4b66-49f4-a450-07795915b03b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
