@@ -49,7 +49,7 @@ void ServerBaseObject::SetLink(ServerBaseObject* _link)
 	// 중복처리(같은 객체를 두번넣는 경우 방지)
 	for (int i = 0; i < m_linkObject.size(); ++i)
 	{
-		if (this == m_linkObject[i])
+		if (_link == m_linkObject[i])
 		{
 			return;
 		}
