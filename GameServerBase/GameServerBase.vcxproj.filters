@@ -4,16 +4,28 @@
     <ClInclude Include="pch.h">
       <Filter>pch</Filter>
     </ClInclude>
-    <ClInclude Include="GameServerDebug.h">
+    <ClInclude Include="ServerBaseObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerDebug.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerNameBase.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
     </ClCompile>
-    <ClCompile Include="GameServerDebug.cpp">
+    <ClCompile Include="ServerBaseObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerDebug.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerNameBase.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +37,9 @@
     </Filter>
     <Filter Include="Thread">
       <UniqueIdentifier>{cf259dfd-4b66-49f4-a450-07795915b03b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{213bbe81-0d63-4e21-9967-e02c35fec97a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

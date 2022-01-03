@@ -1,11 +1,10 @@
 #include "pch.h"
 #include <iostream>
-#include <GameServerBase/GameServerDebug.h>
+#include "Test.h"
 
 int main()
 {
-	GameServerDebug::AssertDebugMsg("debug test");
+	Test::TestServerBaseObj();
 
-	std::cout << "test" << std::endl;
 	return 0;
 }
