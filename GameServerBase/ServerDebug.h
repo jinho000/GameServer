@@ -4,7 +4,7 @@
 
 enum class LOG_TYPE
 {
-	TYPE_WARRNING,
+	TYPE_WARNING,
 	TYPE_ERROR,
 	TYPE_INFO,
 	SIZE
@@ -16,13 +16,13 @@ enum class LOG_TYPE
 class ServerDebug
 {
 private:
-	class LogInfo
+	class LogJob
 	{
 	public:
 		LOG_TYPE logType;
 		std::string logText;
 
-		LogInfo(LOG_TYPE _logType, std::string& _log)
+		LogJob(LOG_TYPE _logType, std::string& _log)
 			: logType(_logType)
 			, logText(_log)
 		{}
@@ -53,6 +53,10 @@ private:
 public: // member Func
 	static void AssertDebug();
 	static void AssertDebugMsg(const std::string& _msg);
-	static void Log(LOG_TYPE _type, std::string& _log);
+
+	static void Log(LOG_TYPE _type, const std::string& _log);
+	static void LogError(const std::string& _log);
+	static void LogInfo(const std::string& _log);
+	static void LogWarning(const std::string& _log);
 };
 

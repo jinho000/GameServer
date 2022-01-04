@@ -21,7 +21,6 @@ void ServerDebug::Destroy()
 	Sleep(1);
 }
 
-
 void ServerDebug::LogThread(std::shared_ptr<ServerIOCPWorker> _IOCPworker)
 {
 	while (true)
@@ -34,7 +33,7 @@ void ServerDebug::LogThread(std::shared_ptr<ServerIOCPWorker> _IOCPworker)
 
 		++LogCount;
 
-		std::unique_ptr<LogInfo> receiveLog(_IOCPworker->GetCompletionKey<LogInfo*>());
+		std::unique_ptr<LogJob> receiveLog(_IOCPworker->GetCompletionKey<LogJob*>());
 		std::cout << TypeText[static_cast<int>(receiveLog->logType)] << receiveLog.get()->logText << std::endl;
 
 	}
@@ -51,9 +50,26 @@ void ServerDebug::AssertDebugMsg(const std::string& _msg)
 	AssertDebug();
 }
 
-void ServerDebug::Log(LOG_TYPE _type, std::string& _log)
+void ServerDebug::Log(LOG_TYPE _type, const std::string& _log)
 {
-	std::unique_ptr<LogInfo> sendLog = std::make_unique<LogInfo>(_type, _log);
+	std::string logText = _log;
+	std::unique_ptr<LogJob> sendLog = std::make_unique<LogJob>(_type, logText);
 	LogIOCP.PostQueued(0, reinterpret_cast<ULONG_PTR>(sendLog.get()));
 	sendLog.release();
 }
+
+void ServerDebug::LogError(const std::string& _log)
+{
+	Log(LOG_TYPE::TYPE_ERROR, _log);
+}
+
+void ServerDebug::LogInfo(const std::string& _log)
+{
+	Log(LOG_TYPE::TYPE_INFO, _log);
+}
+
+void ServerDebug::LogWarning(const std::string& _log)
+{
+	Log(LOG_TYPE::TYPE_WARNING, _log);
+}
+
