@@ -176,7 +176,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerIOCP.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerIOCPWorker.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ServerNameBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerThread.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -196,7 +208,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ServerIOCP.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerIOCPWorker.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ServerNameBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerThread.cpp">
       <SubType>
       </SubType>
     </ClCompile>

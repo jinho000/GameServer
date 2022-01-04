@@ -1,9 +1,10 @@
 #pragma once
+#include "ServerBaseObject.h"
 
 // 용도 :
 // 분류 :
 // 첨언 :
-class ServerNameBase
+class ServerNameBase : public ServerBaseObject
 {
 private: // member var
 	std::string m_name;

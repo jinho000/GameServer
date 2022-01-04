@@ -1,89 +1,39 @@
-스레드를 벡터로 관리하는 이유
--> 벡터가 쓰기 편해서
-
-- debug 클래스
-디버그 관련 클래스
+- IOCP 스레드 핸들러 클래스 추가
+ServerIOCP 객체에 스레드를 만들고 void(ServerWorker) 함수를 받아 처리하는 스레드 핸들링 기본구조 추가
 
 
-- ServerBaseObject
-게임서버 기본 오브젝트
-모든 오브젝트에서 사용할 기능을 관리
+void IOCPFunc(std::shared_ptr<ServerIOCPWorker> _iocpWorker)
+{
+	while (true)
+	{
+		IocpWaitReturnType returnType = _iocpWorker->Wait();
+		
+		switch (returnType)
+		{
+		case IocpWaitReturnType::RETURN_TIMEOUT:
+			break;
+		case IocpWaitReturnType::RETURN_POST:
+			break;
+		case IocpWaitReturnType::RETURN_ERROR:
+			break;
+		default:
+			break;
+		}
 
-멤버변수로 부모객체 포인터, 연관 객체 배열 선언
--> 부모객체나 자식객체들 관련된 객체를 빠르게 찾기위해 설정
-
-dynamic_cast로 관련 객체를 다운캐스팅하여 받아옴
-찾아올수 없는경우 nullptr
-
-관련객체 세팅시 한번에 처리
-
-
-enable_shard_from_this
-침습형 카운팅 방식
--> 객체가 레퍼런스 카운트를 가지고 있음
-enable_shard_from_this에 레퍼런스 카운트가 있으며 이 클래스를 상속받아 shared_ptr의 레퍼런스 카운트를 처리
-
-
-
-- GameServerNameBase
-오브젝트의 이름을 관리하는 클래스
-이름이 필요한 경우 namebase까지 상속
-이름이 필요없는경우 baseObject만 상속받음
+		std::cout << "test" << std::endl;
+	}
+}
 
 
+int main()
+{
+	ServerIOCP iocp(&IOCPFunc, 3, INFINITE);
 
+	while (true)
+	{
+		char c = _getch();
+		iocp.PostQueued(10, 10);
+	}
 
-- Thread 클래스
-thread관련 기능 클래스
-이름을 가져야하므로 namebase 상속 받음
-
-thread 함수
-setTheadDescription()
-스레드의 이름을 설정해줌 -> 디버깅에서 스레드 이름 확인 가능
-중간에 이름을 바꿀 수 없음
-스레드에 이름 설정 방법
-
-스레드안에서 이름 짓기
-클래스 내부에서 스레드함수 설정
-설정함 스레드 함수에서 전달받은 함수 호출 -> 안됨
-
-
-- IOCP 클래스
-스레드 관리 클래스
-내부 벡터에서 스레드 관리(shard ptr)
-
-동시에 여러개 스레드를 추가할경우 동기화 문제 처리(중간에 스레드를 추가할일이 없는게 좋음)
--> iocpLock 
-
-스레드 관리 함수 추가
-iocp 핸들생성, 스레드 대기 함수, 스레드 깨우기 함수
-
-IOCP에서 work를 관리
-
-
-iocp 만들고 스레드 생성
-스레드 대기, 깨우기, 일시키기 함수 생성
-iocp에서 깨운건지 스레드에서 time 때문인지 구별해야함
-
-GequeuedCompletionPort
-post로 전달받으면 true
-timeout일 경우 false
-
-- IOCP worker 클래스
-스레드 관리함수 처리 클래스
-wait 
-
-
-여러개의 스레드에서 같은 icop객체에 스레드 추가시 동기화문제?
--> 중간에 스레드를 추가할일이 없는게 좋음
-
-- log
-로그는 한번에 출력되어야함
--> 여러스레드에서 요청할경우 동기화 되어야함
-lock걸지않고 iocp로 처리가능
-iocp에 로그를 출력하는 하나의 스레드를 만들고, 여러 스레드에서 log iocp에 로그 출력을 요청함
-
-iocp에 작업을 요청했을때(post함수 호출) 만약 일할 수 있는 스레드가 없다면?
-
-
--문자열-
+	return 0;
+}

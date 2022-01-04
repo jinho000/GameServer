@@ -5,7 +5,7 @@
 // 첨언 :
 // 서버 프레임워크에서 사용할 모든 클래스의 부모 오브젝트
 // 모든 오브젝트에서 사용할 기능을 관리
-class ServerBaseObject
+class ServerBaseObject : public std::enable_shared_from_this<ServerBaseObject>
 {
 private: // member var
 	ServerBaseObject*				m_parent;		// 부모 오브젝트
@@ -33,7 +33,7 @@ public: // member Func
 	template<typename ParentType>
 	const ServerBaseObject* GetParent() const
 	{
-		return dynamic_cast<ParentType>(mParent);
+		return dynamic_cast<ParentType>(m_parent);
 	}
 
 	void SetLink(ServerBaseObject* _link);

@@ -13,6 +13,15 @@
     <ClInclude Include="ServerNameBase.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="ServerIOCP.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerIOCPWorker.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -26,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="ServerNameBase.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerIOCP.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerThread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerIOCPWorker.cpp">
+      <Filter>Thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
