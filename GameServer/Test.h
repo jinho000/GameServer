@@ -3,4 +3,5 @@
 namespace Test
 {
 	void TestServerBaseObject();
+	void TestIOCP();
 }
