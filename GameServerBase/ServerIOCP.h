@@ -1,10 +1,9 @@
 #pragma once
 #include "ServerThread.h"
 #include "ServerBaseObject.h"
-#include "ServerThread.h"
 #include "ServerIOCPWorker.h"
 
-// 용도 :
+// 용도 : 스레드 관리 클래스
 // 분류 :
 // 첨언 :
 class ServerIOCP : public ServerBaseObject
@@ -15,7 +14,7 @@ private: // member var
 	std::vector<std::shared_ptr<ServerIOCPWorker>>	m_vecIOCPWorker;
 
 public: // default
-	ServerIOCP(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount, UINT _timeout);
+	ServerIOCP(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount);
 	~ServerIOCP();
 
 	ServerIOCP(const ServerIOCP& _other) = delete;
@@ -26,8 +25,8 @@ protected:
 	ServerIOCP& operator=(const ServerIOCP&& _other) = delete;
 
 private:
+	void Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount);
 
 public: // member Func
 	void PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey);
-	
 };

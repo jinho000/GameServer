@@ -37,5 +37,6 @@ protected:
 private:
 
 public: // member Func
+	void Join();
 };
 

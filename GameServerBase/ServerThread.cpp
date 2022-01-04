@@ -9,3 +9,8 @@ ServerThread::ServerThread(const ServerThread&& _other) noexcept
 	: ServerNameBase(_other.GetName())
 {
 }
+
+void ServerThread::Join()
+{
+	m_thread.join();
+}

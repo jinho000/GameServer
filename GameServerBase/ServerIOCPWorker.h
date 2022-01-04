@@ -1,10 +1,6 @@
 #pragma once
 #include "ServerBaseObject.h"
 
-// 용도 : iocp worker에 필요한 
-// 분류 :
-// 첨언 :
-
 enum class IocpWaitReturnType
 {
 	RETURN_TIMEOUT,
@@ -19,10 +15,10 @@ private: // member var
 	DWORD			m_lpNumberOfBytesTransferred;
 	ULONG_PTR		m_lpCompletionKey;
 	LPOVERLAPPED	m_lpOverlapped;
-	DWORD			m_dwMilliseconds;
+	UINT			m_index;
 
 public: // default
-	ServerIOCPWorker(HANDLE _IOCPHandle, DWORD _timeout);
+	ServerIOCPWorker(HANDLE _IOCPHandle, UINT _index);
 	~ServerIOCPWorker();
 
 	ServerIOCPWorker(const ServerIOCPWorker& _other) = delete;
@@ -35,12 +31,22 @@ protected:
 private:
 
 public: // member Func
-	IocpWaitReturnType Wait();
+	IocpWaitReturnType Wait(DWORD _timeoutMillSecond);
+
+	DWORD GetNumberOfBytes()
+	{
+		return m_lpNumberOfBytesTransferred;
+	}
 
 	template<typename type>
 	type GetCompletionKey()
 	{
 		return reinterpret_cast<type>(m_lpCompletionKey);
+	}
+
+	UINT GetIndex()
+	{
+		return m_index;
 	}
 };
 
