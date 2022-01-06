@@ -7,6 +7,8 @@
 
 - Pre Compile Header 사용
 
+- 윈도우 소켓 라이브러리 사용(ws2_32.lib)
+
 
 라이브러리 설정
 - GameServer외 다른 프로젝트는 정적라이브러리로 사용(.lib)
