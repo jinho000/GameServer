@@ -21,6 +21,25 @@
 //
 //
 //
+/*
+	* socket(af, type, protocol)
+	*
+	* @param
+	* int af(domain)   : 주소영역을 정의하기 위해서 사용한다.
+	*                    AF_INET   : IPv4 주소영역
+	*                    AF_INET6  : IPv6 주소영역
+	* int type         : 소켓의 통신 타입을 지정하기 위해서 사용한다.
+	*                    SOCK_STREAM(TCP)      : 연결지향, 양방향의 TCP/IP 기반의 통신을 위해서 사용된다
+	*                    SOCK_DGRAM(UDP)       : UDP/IP 기반의 통신을 위해 사용한다.
+	*                    SOCK_RAW(사용자 정의)  : IP 헤더를 직접 제어하기 위한 목적으로 사용한다.
+	* int protocol     : 호스트간 통신에 사용할 프로토콜을 결정하기 위해서 사용한다.
+	*                    IPPROTO_TCP : TCP를 사용한다.
+	*                    IPPROTO_UDP : UDP를 사용한다.
+	*
+	* @return
+	* SOCKET(UINT_PTR) : 해당 소켓을 가리키는 소켓 디스크립터(socket descriptor) 반환
+	*                    -1(소켓 생성 실패) / 0 이상의 값(socket descriptor 반환)
+*/
 int main()
 {
 	WSADATA wsa;
@@ -30,8 +49,6 @@ int main()
 	// 사용할 소켓버전을 윈도우에 알리고, Windows Sockets DLL의 사용을 초기화 
 	// MAKEWORD(2, 2): 소켓통신 버전 설정(2.2 버전)
 	// WSADATA 구조체 주소값을 넘겨 초기화된 데이터의 정보를 받아옴
-
-
 	if (0 != WSAStartup(MAKEWORD(2, 2), &wsa))
 	{
 		std::cout << "WSAStartup Error" << std::endl;
@@ -41,9 +58,9 @@ int main()
 
 	// 소켓통신을 위해 주소정보를 담는 구조체
 	// 소켓통신을 하기 위해 포트, 프로토콜, IPv4 주소값 설정
-	UINT portNumber = 40001;
+	UINT portNumber = 30000;
 	ADDRESS_FAMILY addFamily = AF_INET;
-	std::string socketLocalAddr = "127.0.0.1";
+	std::string socketLocalAddr = "172.30.1.45";
 
 	SOCKADDR_IN sockAddrIn = { 0, };
 	sockAddrIn.sin_family = addFamily; // IPv4 주소체계 사용
@@ -89,6 +106,7 @@ int main()
 	int len = sizeof(SOCKADDR_IN);
 
 	// 클라이언트 요청에 대한 소켓 반환
+	// 서버 통신 대기 함수
 	SOCKET sessionSocket = accept(acceptSocket, (sockaddr*)&userAddrIn, &len);
 	if (INVALID_SOCKET == sessionSocket)
 	{
@@ -103,6 +121,7 @@ int main()
 	while (true)
 	{
 		char buff[512];
+		// 소켓을 통해 들어온 데이터 대기 함수
 		int result = recv(sessionSocket, buff, sizeof(buff), 0);
 
 		std::cout << buff << std::endl;

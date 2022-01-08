@@ -46,9 +46,10 @@ int main()
 	// 연결할 소켓에 대한 정보 생성
 	// 소켓통신을 위해 주소정보를 담는 구조체
 	// 소켓통신을 하기 위해 포트, 프로토콜, IPv4 주소값 설정
-	UINT portNumber = 40001;
+	UINT portNumber = 30000;
 	ADDRESS_FAMILY addFamily = AF_INET;
-	std::string socketLocalAddr = "127.0.0.1";
+	std::string socketLocalAddr = "118.37.33.92";
+
 	SOCKADDR_IN sockAddrIn = { 0, };
 	sockAddrIn.sin_family = addFamily; // IPv4 주소체계 사용
 	sockAddrIn.sin_port = htons(portNumber); // 포트 번호 설정
