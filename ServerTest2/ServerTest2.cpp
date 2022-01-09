@@ -85,10 +85,10 @@ int main()
     *   );
     *
     * @param
-    * af            :   소켓이 사용할 프로토콜 체계(protocol family) 전달
-    *                   protocol family: 주소값 프로토콜 체계
+    * af            :   소켓이 사용할 주소 체계(address family) 전달
+    *                   protocol family     : 주소값 프로토콜 체계
     *                   AF_UNSPEC           : 주소값 체계를 설정하지 않음
-    *                   AF_INET(PF_INET)    : IPv4 주소 체계 사용
+    *                   AF_INET             : IPv4 주소 체계 사용
     *                   AF_IPX              : IPv6 주소체계 사용
     *
     *
@@ -111,13 +111,19 @@ int main()
     // 서버와 클라간 연결을 유지하며 데이터를 전송하는 방식
     // 연결이 유지되므로 데이터가 전송순서대로 수신됨
     // 연결을 유지하는데 비용이 듦
+    // 데이터의 경계가 존재하지 않음
     // 
     // 비 연결 지향형 소켓
     // 서버와 클라간 연결을 유지하지 않는 데이터 전송방식
-    // 데이터 전송순서를 보장하지 않음
+    // 연결지향형 소켓에 비해 빠르지만 데이터손실이 발생하지 않음을 보장해주지 않음
+    // 한번에 전송할 수 있는 데이터의 크기가 제한됨
+    // 데이터의 경계가 존재
+    // -> 하나의 데이터를 2번에 걸쳐 보낼때 2번에 나눠 받아야함
+    // -> 보낸 데이터가 이전에 보낸 데이터와 같은 데이터인지 확인해야함(데이터의 경계가 존재)
     // 
     // IPv4 주소체계를 사용하는 연결지향형 TCP 소켓
-    SOCKET acceptSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+    // 클라이언트의 요청을 받아들이는 소켓
+    SOCKET acceptSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (INVALID_SOCKET == acceptSocket)
     {
         std::cout << "Socket err!\n";
@@ -151,16 +157,16 @@ int main()
     *      CHAR             sin_zero[8];
     *   }SOCKADDR_IN;
     * 
-    *   ADDRESS_FAMILY  sin_family      :   주소체계
-    *                                       Address Family
-    *                                       AF_INET : IPv4 주소체계
-    *                                       AF_INET6: IPv6 주소체계
-    * 
-    *   USHORT          sin_port        :   16비트의 포트 번호(네트워크 바이트순서로 저장)
-    *   IN_ADDR         sin_addr        :   32비트 IP주소(네트워크 바이트순서로 저장)
-    *   CHAR            sin_zero[8]     :   사용되지 않음
-    *
-    */
+*   ADDRESS_FAMILY  sin_family      :   주소체계
+*                                       Address Family
+*                                       AF_INET : IPv4 주소체계
+*                                       AF_INET6: IPv6 주소체계
+* 
+*   USHORT          sin_port        :   16비트의 포트 번호(네트워크 바이트순서로 저장)
+*   IN_ADDR         sin_addr        :   32비트 IP주소(네트워크 바이트순서로 저장)
+*   CHAR            sin_zero[8]     :   사용되지 않음
+*
+*/
 
     // 네트워크 바이트 순서(Network Byte Order)
     // Host Byte Order: CPU가 데이터를 저장하는 방식 리틀엔디언과 빅엔디언 방식이 있음
@@ -207,10 +213,10 @@ int main()
     * SOCKET        :   성공시 1을 반환, 이외의 값은 err
     *
     */
-    std::string ip = "192.168.1.211";
+    std::string ip = "127.0.255.123"; // 루프백 주소
     if (1 != inet_pton(AF_INET, ip.c_str(), &sockAddrIn.sin_addr))
     {
-        std::cout << "inet pton err!\n";
+        std::cout << "(local addr)inet pton err!\n";
         return 0;
     }
     
@@ -228,10 +234,9 @@ int main()
     * @param
     * socket        :   주소정보를 전달받을 소켓
     *
-    *
     * addr          :   전달할 주소값 sockaddr구조체 포인터
     *
-    * namelen       :   주소값의 길이
+    * namelen       :   주소값 구조체의 길이
     *
     * @return
     * int           :   성공시 0을 반환, 실패할경우 SOCKET_ERROR반환
@@ -245,7 +250,8 @@ int main()
     
     /*
     * listen
-    * 소켓을 수신 가능상태로 바꿔주는 함수
+    * 소켓을 연결요청대기상태로 바꿔주는 함수
+    * 연결요청대기상태: 클라이언트의 연결요청을 받아 들일 수 있는 상태이며 연결요청 대기큐가 생성됨
     *
     *   int WSAAPI listen(
     *     [in] SOCKET socket,
@@ -256,6 +262,7 @@ int main()
     * socket    :   수신상태로 바꿀 소켓
     *         
     * backlog   :   보류중인 연결대기열의 최대 길이
+    *               연결 요청 대기큐의 길이
     *          
     * @return  
     * int       :   성공시 0을 반환, 실패할경우 SOCKET_ERROR반환
@@ -267,13 +274,40 @@ int main()
         return 0;
     }
 
-    // 클라이언트 요청을 받는 함수 실행
+
+    /*
+    * accept
+    * 연결요청 대기큐에서 대기중인 클라이언트의 연결요청을 수락하는 함수
+    * 클라이언트와 데이터통신이 가능한 소켓이 생성됨
+    * 생성된 소켓은 이미 클라이언트와 연결되어 있음
+    * 연결요청이 오지 않으면 연결요청이 올때까지 대기함
+    * 
+    *
+    *   SOCKET WSAAPI accept(
+    *     [in]      SOCKET   socket,
+    *     [out]     sockaddr *addr,
+    *     [in, out] int      *addrlen
+    *   );
+    *
+    * @param
+    * socket    :   수신대기상태에 있는 소켓
+    *
+    * addr      :   연결요청한 클라이언트의 주소값을 담는 구조체 주소값
+    *               연결이 완료되면 이 구조체로 클라이언트의 주소값이 채워진다
+    * addrlen   :   SOCKADDR_IN 구조체의 길이를 전달
+    *               함수호출이 완료되면 클라이언트의 주소값 데이터 길이가 채워짐
+    *
+    * @return
+    * SOCKET    :   서버와 클라간 연결이 만들어진 소켓
+    *               실패시 INVALID_SOCKET 반환
+    * 
+    */
+
     std::cout << "서버 접속 함수 실행" << std::endl;
-    SOCKADDR_IN userAddrIn = { 0, };
+
+    SOCKADDR_IN userAddrIn = { 0, }; // 연결된 유저의 정보를 담는 구조체
     int len = sizeof(SOCKADDR_IN);
 
-    // 클라이언트 요청에 대한 소켓 반환
-    // 서버 통신 대기 함수
     SOCKET sessionSocket = accept(acceptSocket, (sockaddr*)&userAddrIn, &len);
     if (INVALID_SOCKET == sessionSocket)
     {
@@ -283,6 +317,8 @@ int main()
 
 
     std::cout << "접속자가 있습니다" << std::endl;
+
+
 
     /*
         * send

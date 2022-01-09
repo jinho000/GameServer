@@ -46,9 +46,9 @@ int main()
 	// 연결할 소켓에 대한 정보 생성
 	// 소켓통신을 위해 주소정보를 담는 구조체
 	// 소켓통신을 하기 위해 포트, 프로토콜, IPv4 주소값 설정
-	UINT portNumber = 30000;
-	ADDRESS_FAMILY addFamily = AF_INET;
-	std::string socketLocalAddr = "118.37.33.92";
+	UINT portNumber = 30000;	// 접속할 서버의 포트
+	ADDRESS_FAMILY addFamily = AF_INET; // 접속할 서버의 주소체계
+	std::string socketLocalAddr = "118.37.33.92";// 접속할 서버의 IP
 
 	SOCKADDR_IN sockAddrIn = { 0, };
 	sockAddrIn.sin_family = addFamily; // IPv4 주소체계 사용
@@ -59,7 +59,30 @@ int main()
 		return 0;
 	}
 
-	// 서버 연결 요청함수
+	/*
+	* connect
+	* 서버에 연결을 요청하는 함수
+	* 연결을 요청 후 서버의 연결요청 대기큐에 들어감(바로 수락되지 않음)
+	* 프로그래머가 클라이언트의 주소와 포트를 전달하지 않고 운영체제에서 할당하여 서버에 전달함
+	*
+	*	int WSAAPI connect(
+	*		[in] SOCKET         socket,
+	*		[in] const sockaddr *name,
+	*		[in] int			namelen
+	*	);
+	*
+	* @param
+	* socket        :   서버와 연결할 세션 소켓
+	*
+	*
+	* name			:   연결요청할 서버의 주소값 정보를 가진 구조체
+	*
+	* namelen		:   연결할 서버주소값구조체의 길이
+	*
+	* @return
+	* int			:   성공시 0을 반환, 실패시 SOCKET_ERROR
+	*
+	*/
 	int len = sizeof(SOCKADDR_IN);
 	if (SOCKET_ERROR == connect(sessionSocket, (const sockaddr*)&sockAddrIn, len))
 	{
