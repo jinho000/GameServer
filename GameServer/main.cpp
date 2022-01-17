@@ -4,7 +4,5 @@
 
 int main()
 {
-	Test::TestLog();
-
 	return 0;
 }
