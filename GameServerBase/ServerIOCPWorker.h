@@ -3,9 +3,9 @@
 
 enum class IocpWaitReturnType
 {
+	RETURN_ERROR,
 	RETURN_TIMEOUT,
-	RETURN_POST,
-	RETURN_ERROR
+	RETURN_OK,
 };
 
 class ServerIOCPWorker : public ServerBaseObject

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ServerDebug.h"
+#include <iostream>
 #include <cassert>
 
 const char* ServerDebug::TypeText[static_cast<int>(LOG_TYPE::SIZE)] = { "ERROR	: ", "WARNING	: ", "INFO	: ", };
@@ -15,11 +16,6 @@ void ServerDebug::Initialize()
 	//LogIOCP.Initialize(&ServerDebug::LogThread, 1);
 }
 
-void ServerDebug::Destroy()
-{
-	LogIOCP.PostQueued(-1, 0);
-	Sleep(1);
-}
 
 void ServerDebug::LogThread(std::shared_ptr<ServerIOCPWorker> _IOCPworker)
 {

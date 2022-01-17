@@ -29,22 +29,17 @@ IocpWaitReturnType ServerIOCPWorker::Wait(DWORD _timeoutMillSecond)
 {
 	BOOL LastWaitValue = GetQueuedCompletionStatus(m_IOCPHandle, &m_lpNumberOfBytesTransferred, &m_lpCompletionKey, &m_lpOverlapped, _timeoutMillSecond);
 
-	switch (LastWaitValue)
+	if (0 == LastWaitValue)
 	{
-	case 0:
-	{
-		return IocpWaitReturnType::RETURN_TIMEOUT;
-	}
-	case 1: 
-	{
-		return IocpWaitReturnType::RETURN_POST;
-	}
-	default:
-		break;
+		if (WAIT_TIMEOUT == GetLastError())
+		{
+			return IocpWaitReturnType::RETURN_TIMEOUT;
+		}
+
+		return IocpWaitReturnType::RETURN_ERROR;
 	}
 
-	ServerDebug::AssertDebug();
-	return IocpWaitReturnType::RETURN_ERROR;
+	return IocpWaitReturnType::RETURN_OK;
 }
 
 

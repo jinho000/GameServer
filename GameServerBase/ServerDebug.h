@@ -41,7 +41,6 @@ public: // default
 	ServerDebug(ServerDebug&& _other) = delete;
 
 	static void Initialize();
-	static void Destroy();
 
 protected:
 	ServerDebug& operator=(const ServerDebug& _other) = delete;

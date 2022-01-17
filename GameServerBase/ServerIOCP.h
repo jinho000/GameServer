@@ -10,6 +10,7 @@ class ServerIOCP : public ServerBaseObject
 {
 private: // member var
 	HANDLE											m_IOCPHandle;
+	std::mutex										m_iocpLock;
 	std::vector<std::shared_ptr<ServerThread>>		m_vecThread;
 	std::vector<std::shared_ptr<ServerIOCPWorker>>	m_vecIOCPWorker;
 
@@ -28,5 +29,8 @@ private:
 	void Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount);
 
 public: // member Func
+	size_t GetThreadCount();
+
 	void PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey);
+
 };

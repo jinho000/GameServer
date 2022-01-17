@@ -6,9 +6,34 @@
 #include <Windows.h> // 아래쪽에 놔야 합니다.
 #include <MSWSock.h>
 
-#include <iostream>
-#include <string>
-#include <vector>
+// 쓰레드
+#include <thread>
+#include <mutex>
 #include <memory>
+#include <process.h>
+#include <atomic>
+
+// 수학
+#include <math.h>
+#include <random>
+
+// 자료구조
+#include <list>
+#include <map>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+#include <sstream>
+#include <deque>
+
+// 디버깅
 #include <functional>
-#include <algorithm>
+#include <assert.h>
+#include <crtdbg.h>
+
+
+#pragma comment (lib, "ws2_32") // 서버통신용 구현이 들어있는 라이브러리
+#pragma comment (lib, "mswsock.lib")
