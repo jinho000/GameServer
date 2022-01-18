@@ -3,7 +3,6 @@
 여러 스레드에서 요청한 로그를 동기화 하기 위해 IOCP를 만들어 로그 처리
 
 
-
 - ServerBaseObject
 프레임워크에서 사용할 모든 클래스의 부모 오브젝트 
 프레임워크에서 클래스의 공통적으로 필요한 기능 처리
@@ -12,7 +11,6 @@
 
 - ServerObjectName
 오브젝트의 이름을 관리하는 클래스
-
 
 
 - ServerIOCP
@@ -32,10 +30,33 @@ IOCP객체 종료시 스레드 우아한 종료
 - ServerThread
 std::thread 레퍼 클래스
 
-
-
 - ServerWorker
 IOCP에 전달할 함수에서 필요한 정보를 받기 위해 사용
 
 
+- ServerQueue
+IOCP를 감싸 전달받은 일을 쓰레드에게 시키는 클래스
+처리를 동기(post enque), 비동기(network bind)로 처리할 수 있음
+ServerQueue를 처음 만들면 모든 쓰레드는 대기상태로 들어감
+요청이 올경우 내부함수(QueueFunction)에서 스레드를 깨워 일을 시킴 
+
+
+- ServerTCPListener
+들어온 접속을 처리하는 클래스
+Acceptex함수로 요청을 대기, 들어온 요청을 비동기로 처리함
+미리 일정개수만큼 소켓을 만들어놓음
+요청이 들어오면 소켓을 연결하여 세션을 만듦
+클라이언트 접속이 끊어지면 소켓을 connection pool에 넣어 재활용
+
+
+
+- ServerTCPSession
+서버와 클라간 서로 소켓이 연결된 세션 클래스
+
+
+- Overlapped
+overlapped 데이터를 처리하는 클래스
+
+- AcceptExOverlapped
+acceptEx의 overlapped 데이터를 처리하는 클래스
 

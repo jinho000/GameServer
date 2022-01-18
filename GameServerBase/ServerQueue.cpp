@@ -16,20 +16,28 @@ void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQ
 	HRESULT hr = SetThreadDescription(GetCurrentThread(), String.c_str());
 
 	// 스레드 일 시작
-	bool isFinish = false;
-	while (!isFinish)
-	{
-		IocpWaitReturnType returnType = _work->Wait(1000);
+	BOOL result = _work->Wait(INFINITE);
 
-		switch (returnType)
+	IocpWaitReturnType checkType = IocpWaitReturnType::RETURN_OK;
+	if (0 == result)
+	{
+		if (WAIT_TIMEOUT == GetLastError())
 		{
-		case IocpWaitReturnType::RETURN_TIMEOUT: isFinish = true; break;
+			checkType = IocpWaitReturnType::RETURN_TIMEOUT;
+		}
+		checkType = IocpWaitReturnType::RETURN_ERROR;
+	}
+
+	while (true)
+	{
+		switch (checkType)
+		{
+		case IocpWaitReturnType::RETURN_TIMEOUT:  break;
 		case IocpWaitReturnType::RETURN_OK:
 		{
 			DWORD msgType = _work->GetNumberOfBytes();
 			if (-1 == msgType)
 			{
-				isFinish = true;
 				return;
 			}
 
@@ -44,7 +52,7 @@ void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQ
 			}
 			break;
 		}
-		case IocpWaitReturnType::RETURN_ERROR: isFinish = true; break;
+		case IocpWaitReturnType::RETURN_ERROR: break;
 		default:
 			break;
 		}
@@ -68,6 +76,11 @@ ServerQueue::~ServerQueue()
 {
 }
 
+ServerQueue& ServerQueue::operator=(const ServerQueue&& _other)
+{
+	// TODO: 여기에 return 문을 삽입합니다.
+}
+
 
 void ServerQueue::Enqueue(const std::function<void()> _callback)
 {
@@ -75,4 +88,21 @@ void ServerQueue::Enqueue(const std::function<void()> _callback)
 	postJob->task = _callback;
 	m_Iocp.PostQueued(0, reinterpret_cast<ULONG_PTR>(postJob.get()));
 	postJob.release();
+}
+
+bool ServerQueue::NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback)
+{
+	// socket과 completionkey는 연결되어있음
+	// 비동기로 요청이 올때마다 completionkey가 전달됨
+	// unique_ptr로 할 경우 전달받아 포인터를 삭제하므로 문제가 됨
+	std::unique_ptr<OverlappedJob> overJobPtr = std::make_unique<OverlappedJob>();
+	overJobPtr->task = _callback;
+	if (false == m_Iocp.AsyncBind(reinterpret_cast<HANDLE>(_socket), reinterpret_cast<ULONG_PTR>(overJobPtr.get())))
+	{
+		return false;
+	}
+
+	overJobPtr.release();
+
+	return true;
 }

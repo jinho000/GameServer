@@ -25,6 +25,18 @@
     <ClInclude Include="ServerQueue.h">
       <Filter>Thread</Filter>
     </ClInclude>
+    <ClInclude Include="DateTime.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="DateTimeKind.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeInternal.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerUnique.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -51,6 +63,18 @@
     <ClCompile Include="ServerQueue.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
+    <ClCompile Include="DateTime.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="DateTimeKind.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeInternal.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerUnique.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -64,6 +88,9 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{213bbe81-0d63-4e21-9967-e02c35fec97a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{b38d3764-e4b8-4c0e-ab05-91762280e1f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

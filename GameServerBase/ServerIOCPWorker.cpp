@@ -25,21 +25,9 @@ ServerIOCPWorker::ServerIOCPWorker(ServerIOCPWorker&& _other) noexcept
 {
 }
 
-IocpWaitReturnType ServerIOCPWorker::Wait(DWORD _timeoutMillSecond)
+BOOL ServerIOCPWorker::Wait(DWORD _timeoutMillSecond)
 {
-	BOOL LastWaitValue = GetQueuedCompletionStatus(m_IOCPHandle, &m_lpNumberOfBytesTransferred, &m_lpCompletionKey, &m_lpOverlapped, _timeoutMillSecond);
-
-	if (0 == LastWaitValue)
-	{
-		if (WAIT_TIMEOUT == GetLastError())
-		{
-			return IocpWaitReturnType::RETURN_TIMEOUT;
-		}
-
-		return IocpWaitReturnType::RETURN_ERROR;
-	}
-
-	return IocpWaitReturnType::RETURN_OK;
+	return GetQueuedCompletionStatus(m_IOCPHandle, &m_lpNumberOfBytesTransferred, &m_lpCompletionKey, &m_lpOverlapped, _timeoutMillSecond);
 }
 
 

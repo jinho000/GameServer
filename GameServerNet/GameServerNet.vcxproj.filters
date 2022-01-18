@@ -19,6 +19,24 @@
     <ClInclude Include="enum.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="TCPListener.h">
+      <Filter>NetObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeDefine.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerHelper.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlapped.h">
+      <Filter>IO\Overlapped</Filter>
+    </ClInclude>
+    <ClInclude Include="AcceptExOverlapped.h">
+      <Filter>IO\Overlapped</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPSession.h">
+      <Filter>NetObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -35,6 +53,21 @@
     </ClCompile>
     <ClCompile Include="SocketAddress.cpp">
       <Filter>IP</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPListener.cpp">
+      <Filter>NetObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHelper.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlapped.cpp">
+      <Filter>IO\Overlapped</Filter>
+    </ClCompile>
+    <ClCompile Include="AcceptExOverlapped.cpp">
+      <Filter>IO\Overlapped</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPSession.cpp">
+      <Filter>NetObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +88,9 @@
     </Filter>
     <Filter Include="NetObject">
       <UniqueIdentifier>{d8b30b00-e960-495e-98b8-7489b4eaf24c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Overlapped">
+      <UniqueIdentifier>{40392f50-d27b-464d-9258-0582c21214c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

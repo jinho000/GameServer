@@ -31,7 +31,7 @@ protected:
 private:
 
 public: // member Func
-	IocpWaitReturnType Wait(DWORD _timeoutMillSecond);
+	BOOL Wait(DWORD _timeoutMillSecond);
 
 	DWORD GetNumberOfBytes()
 	{

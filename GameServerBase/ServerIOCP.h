@@ -29,8 +29,8 @@ private:
 	void Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount);
 
 public: // member Func
-	size_t GetThreadCount();
+	size_t GetThreadCount() const;
 
-	void PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey);
-
+	void PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey) const;
+	bool AsyncBind(HANDLE _handle, ULONG_PTR _dwCompletionKey) const;
 };

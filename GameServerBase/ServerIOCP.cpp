@@ -57,12 +57,22 @@ void ServerIOCP::Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>
 	}
 }
 
-size_t ServerIOCP::GetThreadCount()
+size_t ServerIOCP::GetThreadCount() const
 {
 	return m_vecThread.size();
 }
 
-void ServerIOCP::PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey)
+void ServerIOCP::PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey) const
 {
 	PostQueuedCompletionStatus(m_IOCPHandle, _dwNumberOfBytesTransferred, _dwCompletionKey, nullptr);
+}
+
+bool ServerIOCP::AsyncBind(HANDLE _handle, ULONG_PTR _dwCompletionKey) const
+{
+	if (m_IOCPHandle != CreateIoCompletionPort(_handle, m_IOCPHandle, _dwCompletionKey, 0))
+	{
+		return false;
+	}
+
+	return true;
 }

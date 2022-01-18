@@ -24,6 +24,12 @@ private: // data
 		std::function<void()> task;
 	};
 
+	// 비동기 입출력용 job
+	struct OverlappedJob : public std::enable_shared_from_this<OverlappedJob>
+	{
+		std::function<void(BOOL, DWORD, LPOVERLAPPED)> task;
+	};
+
 private: // member var
 	ServerIOCP m_Iocp;
 
@@ -45,5 +51,7 @@ private:
 
 public: // member Func
 	void Enqueue(const std::function<void()> _callback);
+
+	bool NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback);
 };
 

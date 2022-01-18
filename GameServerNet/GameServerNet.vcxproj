@@ -167,6 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AcceptExOverlapped.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndPoint.h">
       <SubType>
       </SubType>
@@ -180,13 +184,34 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Overlapped.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ServerHelper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SocketAddress.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TCPListener.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TCPSession.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TypeDefine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AcceptExOverlapped.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndPoint.cpp">
       <SubType>
       </SubType>
@@ -199,13 +224,29 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Overlapped.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ServerHelper.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SocketAddress.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TCPListener.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TCPSession.cpp">
       <SubType>
       </SubType>
     </ClCompile>

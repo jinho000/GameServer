@@ -167,6 +167,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DateTime.h" />
+    <ClInclude Include="DateTimeKind.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerBaseObject.h">
       <SubType>
@@ -196,8 +198,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerUnique.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TimeInternal.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DateTime.cpp" />
+    <ClCompile Include="DateTimeKind.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -232,6 +241,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ServerUnique.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TimeInternal.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
