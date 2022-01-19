@@ -5,6 +5,7 @@ namespace Test
 	void TestServerBaseObject();
 	void TestIOCP();
 	void TestServerQueue();
-
 	void TestLog();
+
+	void TestListener();
 }

@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "ServerQueue.h"
 #include "ServerDebug.h"
-#include "ServerDebug.h"
 
 void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQueue* _this, const std::string& _threadName)
 {
@@ -15,49 +14,72 @@ void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQ
 	String.assign(_threadName.begin(), _threadName.end());
 	HRESULT hr = SetThreadDescription(GetCurrentThread(), String.c_str());
 
-	// 스레드 일 시작
-	BOOL result = _work->Wait(INFINITE);
-
-	IocpWaitReturnType checkType = IocpWaitReturnType::RETURN_OK;
-	if (0 == result)
-	{
-		if (WAIT_TIMEOUT == GetLastError())
-		{
-			checkType = IocpWaitReturnType::RETURN_TIMEOUT;
-		}
-		checkType = IocpWaitReturnType::RETURN_ERROR;
-	}
-
 	while (true)
 	{
+		// 스레드 일 시작
+		BOOL waitResult = _work->Wait(INFINITE);
+
+		IocpWaitReturnType checkType = IocpWaitReturnType::RETURN_OK;
+		if (0 == waitResult)
+		{
+			if (WAIT_TIMEOUT == GetLastError())
+			{
+				checkType = IocpWaitReturnType::RETURN_TIMEOUT;
+			}
+			checkType = IocpWaitReturnType::RETURN_ERROR;
+		}
+
+
 		switch (checkType)
 		{
-		case IocpWaitReturnType::RETURN_TIMEOUT:  break;
+		case IocpWaitReturnType::RETURN_TIMEOUT:
+			break;
 		case IocpWaitReturnType::RETURN_OK:
 		{
-			DWORD msgType = _work->GetNumberOfBytes();
-			if (-1 == msgType)
+			DWORD MsgType = _work->GetNumberOfBytes();
+
+			switch (MsgType)
 			{
-				return;
+			case (DWORD)ServerQueue::WORK_MSG::WORK_DESTROY: break;
+			case (DWORD)ServerQueue::WORK_MSG::POST_JOB:
+			{
+				std::unique_ptr<PostJob> jobTesk = std::unique_ptr<PostJob>(_work->GetCompletionKey<PostJob*>());
+				if (nullptr != jobTesk)
+				{
+					jobTesk->task();
+				}
+				else
+				{
+					ServerDebug::LogError("PostJob Is Null");
+				}
+				break;
+			}
+			default: // post job이 아닌 비동기 통신 작업일 경우
+			{
+				OverlappedJob* jobTesk = _work->GetCompletionKey<OverlappedJob*>();
+				if (nullptr != jobTesk)
+				{
+					// 이것도 처리해야 합니다.
+					jobTesk->task(waitResult, _work->GetNumberOfBytes(), _work->GetOverlappedPtr());
+				}
+				else
+				{
+					ServerDebug::LogError("OverJob Is Null");
+				}
+
+				break;
+			}
 			}
 
-			std::unique_ptr<PostJob> jobTesk = std::unique_ptr<PostJob>(_work->GetCompletionKey<PostJob*>());
-			if (nullptr != jobTesk)
-			{
-				jobTesk->task();
-			}
-			else
-			{
-				ServerDebug::LogError("PostJob Is Null");
-			}
 			break;
 		}
-		case IocpWaitReturnType::RETURN_ERROR: break;
+		case IocpWaitReturnType::RETURN_ERROR:
+			ServerDebug::AssertDebugMsg("IOCP worker return error"); break;
 		default:
+
 			break;
 		}
 	}
-	
 }
 
 ServerQueue::ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName)
@@ -76,17 +98,17 @@ ServerQueue::~ServerQueue()
 {
 }
 
-ServerQueue& ServerQueue::operator=(const ServerQueue&& _other)
-{
-	// TODO: 여기에 return 문을 삽입합니다.
-}
+//ServerQueue& ServerQueue::operator=(const ServerQueue&& _other)
+//{
+//	// TODO: 여기에 return 문을 삽입합니다.
+//}
 
 
 void ServerQueue::Enqueue(const std::function<void()> _callback)
 {
 	std::unique_ptr<PostJob> postJob = std::make_unique<PostJob>();
 	postJob->task = _callback;
-	m_Iocp.PostQueued(0, reinterpret_cast<ULONG_PTR>(postJob.get()));
+	m_Iocp.PostQueued((DWORD)WORK_MSG::POST_JOB, reinterpret_cast<ULONG_PTR>(postJob.get()));
 	postJob.release();
 }
 
@@ -99,6 +121,7 @@ bool ServerQueue::NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD
 	overJobPtr->task = _callback;
 	if (false == m_Iocp.AsyncBind(reinterpret_cast<HANDLE>(_socket), reinterpret_cast<ULONG_PTR>(overJobPtr.get())))
 	{
+		ServerDebug::GetLastErrorPrint();
 		return false;
 	}
 

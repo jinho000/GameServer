@@ -29,7 +29,7 @@ private:
 	};
 
 private: // member var
-	static const char*		TypeText[static_cast<int>(LOG_TYPE::SIZE)];
+	static const char* TypeText[static_cast<int>(LOG_TYPE::SIZE)];
 	static ServerIOCP		LogIOCP;
 	static std::atomic<int> LogCount;
 
@@ -57,5 +57,7 @@ public: // member Func
 	static void LogError(const std::string& _log);
 	static void LogInfo(const std::string& _log);
 	static void LogWarning(const std::string& _log);
-};
 
+	static void GetLastErrorPrint();
+
+};

@@ -63,6 +63,10 @@ bool IPEndPoint::operator!=(const IPEndPoint& _endPoint) const
 	return !((*this) == _endPoint);
 }
 
+IPEndPoint::~IPEndPoint()
+{
+}
+
 const IPAddress& IPEndPoint::GetIPAddress() const
 {
 	return m_ipAddress;

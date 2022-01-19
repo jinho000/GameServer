@@ -17,6 +17,13 @@ public: // type
 		Extension	// GetQueuedCompletionStatusEx로 여러개 사용 타입
 	};
 
+private: // private type
+	enum class WORK_MSG
+	{
+		POST_JOB = -2,
+		WORK_DESTROY = -1,	
+	};
+
 private: // data
 	// 내가 일시키는 용 job
 	struct PostJob : public std::enable_shared_from_this<PostJob>

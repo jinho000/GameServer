@@ -7,6 +7,9 @@
 #include <GameServerBase/ServerIOCPWorker.h>
 #include <GameServerBase/ServerDebug.h>
 #include <GameServerBase/ServerQueue.h>
+#include <GameServerNet/TCPListener.h>
+
+#include <GameServerNet/enum.h>
 
 void Test::TestServerBaseObject()
 {
@@ -17,23 +20,10 @@ void IOCPFunc(std::shared_ptr<ServerIOCPWorker> _iocpWorker)
 {
 	while (true)
 	{
-		IocpWaitReturnType returnType = _iocpWorker->Wait(INFINITE);
+		_iocpWorker->Wait(INFINITE);
 		std::string logInfo = "test Log";
 		ServerDebug::Log(LOG_TYPE::TYPE_INFO, logInfo);
 		
-
-		switch (returnType)
-		{
-		case IocpWaitReturnType::RETURN_TIMEOUT:
-			break;
-		case IocpWaitReturnType::RETURN_OK:
-			break;
-		case IocpWaitReturnType::RETURN_ERROR:
-			break;
-		default:
-			break;
-		}
-
 		std::cout << "test" << std::endl;
 	}
 }
@@ -81,4 +71,14 @@ void Test::TestLog()
 		}
 	}
 
+}
+
+void Test::TestListener()
+{
+	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession){
+		ServerDebug::LogInfo("접속자가 있습니다");
+
+	});
+
+	_getch();
 }

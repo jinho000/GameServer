@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServerNet", "GameServer
 		{8109AB64-86B5-40BA-A15A-C91E58E612D5} = {8109AB64-86B5-40BA-A15A-C91E58E612D5}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameClient", "GameClient\GameClient.vcxproj", "{5F6C0C9B-F079-4319-8D0A-3926AED1F167}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -66,6 +68,14 @@ Global
 		{12646427-A883-4A1E-9648-BE9170F00B09}.Release|x64.Build.0 = Release|x64
 		{12646427-A883-4A1E-9648-BE9170F00B09}.Release|x86.ActiveCfg = Release|Win32
 		{12646427-A883-4A1E-9648-BE9170F00B09}.Release|x86.Build.0 = Release|Win32
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Debug|x64.ActiveCfg = Debug|x64
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Debug|x64.Build.0 = Debug|x64
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Debug|x86.ActiveCfg = Debug|Win32
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Debug|x86.Build.0 = Debug|Win32
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Release|x64.ActiveCfg = Release|x64
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Release|x64.Build.0 = Release|x64
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Release|x86.ActiveCfg = Release|Win32
+		{5F6C0C9B-F079-4319-8D0A-3926AED1F167}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

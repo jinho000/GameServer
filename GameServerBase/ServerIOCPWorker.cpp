@@ -16,14 +16,14 @@ ServerIOCPWorker::~ServerIOCPWorker()
 {
 }
 
-ServerIOCPWorker::ServerIOCPWorker(ServerIOCPWorker&& _other) noexcept
-	: m_IOCPHandle(_other.m_IOCPHandle)
-	, m_lpNumberOfBytesTransferred(_other.m_lpNumberOfBytesTransferred)
-	, m_lpCompletionKey(_other.m_lpCompletionKey)
-	, m_lpOverlapped(_other.m_lpOverlapped)
-	, m_index(_other.m_index)
-{
-}
+//ServerIOCPWorker::ServerIOCPWorker(ServerIOCPWorker&& _other) noexcept
+//	: m_IOCPHandle(_other.m_IOCPHandle)
+//	, m_lpNumberOfBytesTransferred(_other.m_lpNumberOfBytesTransferred)
+//	, m_lpCompletionKey(_other.m_lpCompletionKey)
+//	, m_lpOverlapped(_other.m_lpOverlapped)
+//	, m_index(_other.m_index)
+//{
+//}
 
 BOOL ServerIOCPWorker::Wait(DWORD _timeoutMillSecond)
 {

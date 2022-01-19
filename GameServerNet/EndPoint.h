@@ -7,8 +7,8 @@ class SocketAddress;
 class EndPoint
 {
 public: // default
-	EndPoint() {};
-	virtual ~EndPoint() = 0;
+	EndPoint() = default;
+	virtual ~EndPoint() = default;
 
 	virtual AddressFamily GetAddressFamily() const = 0;
 

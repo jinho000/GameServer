@@ -3,7 +3,7 @@
 #include <GameServerBase/ServerDebug.h>
 
 AcceptExOverlapped::AcceptExOverlapped(std::shared_ptr<TCPSession> _tcpSession)
-	: m_buffer({})
+	: m_buffer{}
 	, m_tcpSession(_tcpSession)
 {
 }

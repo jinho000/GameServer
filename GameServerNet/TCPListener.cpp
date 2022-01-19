@@ -35,7 +35,7 @@ void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 
 	// IP4, IP6 구분?
 	SocketAddress addrSerial = (_EndPoint.Serialize());
-	int ErrorCode = ::bind(m_listenerSocket, reinterpret_cast<const sockaddr*>(addrSerial.GetBuffer()), addrSerial.GetBufferLength());
+	int ErrorCode = ::bind(m_listenerSocket, reinterpret_cast<const sockaddr*>(addrSerial.GetBuffer()), (int)addrSerial.GetBufferLength());
 	if (SOCKET_ERROR == ErrorCode)
 	{
 		CloseSocket();
@@ -64,7 +64,7 @@ void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 	// Bind queue
 	// 리스너 소켓과 접속을 받아들이는 함수 연결
 	// 비동기 처리
-	m_pJobQueue.NetworkAyncBind(m_listenerSocket, std::bind(&OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	m_pJobQueue.NetworkAyncBind(m_listenerSocket, std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 	// Start Accept
 	StartAccept(10);

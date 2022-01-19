@@ -34,9 +34,10 @@
 #include <assert.h>
 #include <crtdbg.h>
 
-
 #pragma comment (lib, "ws2_32") // 서버통신용 구현이 들어있는 라이브러리
 #pragma comment (lib, "mswsock.lib")
 
 #pragma comment(lib, "GameServerBase.lib")
 #pragma comment(lib, "GameServerNet.lib")
+
+#include <GameServerNet/pch.h>

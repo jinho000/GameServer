@@ -69,3 +69,23 @@ void ServerDebug::LogWarning(const std::string& _log)
 	Log(LOG_TYPE::TYPE_WARNING, _log);
 }
 
+void ServerDebug::GetLastErrorPrint()
+{
+	DWORD error = WSAGetLastError();
+	char* message = nullptr;
+
+	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+		nullptr,
+		error,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(char*)&message,
+		0,
+		nullptr);
+
+	if (nullptr != message)
+	{
+		// print error message 
+		printf_s("Code : %d Message : %s", error, message);
+		LocalFree(message);
+	}
+}

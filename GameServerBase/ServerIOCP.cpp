@@ -11,6 +11,7 @@ ServerIOCP::ServerIOCP(std::function<void(std::shared_ptr<ServerIOCPWorker>)> fu
 
 ServerIOCP::~ServerIOCP()
 {
+	// IOCP 스레드 종료코드
 	for (int i = 0; i < m_vecThread.size(); ++i)
 	{
 		PostQueued(-1, 0);
@@ -50,7 +51,7 @@ void ServerIOCP::Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>
 	for (UINT i = 0; i < threadCount; ++i)
 	{
 		m_iocpLock.lock();
-		std::shared_ptr<ServerIOCPWorker> iocpWorker = std::make_shared<ServerIOCPWorker>(m_IOCPHandle, m_vecIOCPWorker.size());
+		std::shared_ptr<ServerIOCPWorker> iocpWorker = std::make_shared<ServerIOCPWorker>(m_IOCPHandle, (UINT)m_vecIOCPWorker.size());
 		m_vecIOCPWorker.push_back(iocpWorker);
 		m_vecThread.push_back(std::make_shared<ServerThread>(func, iocpWorker));
 		m_iocpLock.unlock();

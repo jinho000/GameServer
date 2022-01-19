@@ -9,7 +9,7 @@ protected: // member var
 	WSAOVERLAPPED m_overlapped;
 
 public: // default
-	Overlapped();
+	Overlapped() = default;
 	virtual ~Overlapped() = 0 {};
 
 	Overlapped(const Overlapped& _other) = delete;

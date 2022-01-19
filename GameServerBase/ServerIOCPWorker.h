@@ -22,7 +22,7 @@ public: // default
 	~ServerIOCPWorker();
 
 	ServerIOCPWorker(const ServerIOCPWorker& _other) = delete;
-	ServerIOCPWorker(ServerIOCPWorker&& _other) noexcept;
+	ServerIOCPWorker(ServerIOCPWorker&& _other) = delete;
 
 protected:
 	ServerIOCPWorker& operator=(const ServerIOCPWorker& _other) = delete;
@@ -42,6 +42,11 @@ public: // member Func
 	type GetCompletionKey()
 	{
 		return reinterpret_cast<type>(m_lpCompletionKey);
+	}
+
+	LPOVERLAPPED GetOverlappedPtr()
+	{
+		return m_lpOverlapped;
 	}
 
 	UINT GetIndex()

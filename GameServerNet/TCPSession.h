@@ -21,14 +21,14 @@ public: // default
 	~TCPSession();
 
 	TCPSession(const TCPSession& _other) = delete;
-	TCPSession(TCPSession&& _other) noexcept;
+	TCPSession(TCPSession&& _other) = delete;
 
 protected:
 	TCPSession& operator=(const TCPSession& _other) = delete;
 	TCPSession& operator=(const TCPSession&& _other) = delete;
 
 private:
-	bool Initialize();
+	void CloseSocket();
 
 private:
 	// friend class 접근함수

@@ -2,11 +2,12 @@
 #include "Test.h"
 #include <crtdbg.h>
 
+
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	Test::TestServerQueue();
+	Test::TestListener();
 
 	// IOCP bind 함수 테스트
 	// 바인드 하고 다시 바인드할때 정상작동?

@@ -26,7 +26,7 @@ public: // default
 	bool operator==(const IPEndPoint& _endPoint) const;
 	bool operator!=(const IPEndPoint& _endPoint) const;
 
-	~IPEndPoint() = default;
+	~IPEndPoint();
 
 private:
 
