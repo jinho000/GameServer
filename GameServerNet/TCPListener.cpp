@@ -95,6 +95,7 @@ void TCPListener::AsyncAccept()
 		if (m_connectionPool.empty())
 		{
 			newSession = std::make_shared<TCPSession>();
+			newSession->Initialize();
 		}
 		else
 		{
@@ -162,14 +163,19 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	
 	// acceptExOver 객체에 리모트, 로컬 주소값을 채워넣음
 	acceptExOver->Excute(_result, _byteSize);
-	//acceptExOver->Session BindQueue();
-	//acceptExOver->Session RecvRequest();
 
-	//m_connections.insert(std::make_pair());
+	// 클라와 연결된 세션에 IOCP 연결후 리시브 요청
+	PtrSTCPSession session = acceptExOver->GetTCPSession();
+	session->BindQueue(m_pJobQueue);
+	session->RequestRecv();
+	
+	// 세션 저장하기
+	m_connecsLock.lock();
+	m_connections.insert(std::make_pair(session->GetSessionID(), session));
+	m_connecsLock.unlock();
 
 	// callback 함수 실행
 	m_acceptCallback(acceptExOver->GetTCPSession());
-
 }
 
 void TCPListener::CloseSocket()

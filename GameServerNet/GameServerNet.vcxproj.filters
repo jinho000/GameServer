@@ -37,6 +37,9 @@
     <ClInclude Include="TCPSession.h">
       <Filter>NetObject</Filter>
     </ClInclude>
+    <ClInclude Include="RecvOverlapped.h">
+      <Filter>IO\Overlapped</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="TCPSession.cpp">
       <Filter>NetObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RecvOverlapped.cpp">
+      <Filter>IO\Overlapped</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

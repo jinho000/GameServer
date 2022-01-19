@@ -59,6 +59,6 @@ private:
 public: // member Func
 	void Enqueue(const std::function<void()> _callback);
 
-	bool NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback);
+	bool NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback) const;
 };
 

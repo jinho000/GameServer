@@ -8,4 +8,5 @@ namespace Test
 	void TestLog();
 
 	void TestListener();
+	void TestRecv();
 }

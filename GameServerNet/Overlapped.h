@@ -22,7 +22,7 @@ protected:
 private:
 
 public: // member Func
-	virtual void Excute(BOOL _result, DWORD _byteSize) = 0;
+	virtual void Excute(BOOL _result, DWORD _byteSize) {};
 	
 	LPWSAOVERLAPPED GetLPOverlapped();
 	void ResetOverlapped();

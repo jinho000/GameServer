@@ -112,7 +112,7 @@ void ServerQueue::Enqueue(const std::function<void()> _callback)
 	postJob.release();
 }
 
-bool ServerQueue::NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback)
+bool ServerQueue::NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback) const
 {
 	// socket과 completionkey는 연결되어있음
 	// 비동기로 요청이 올때마다 completionkey가 전달됨

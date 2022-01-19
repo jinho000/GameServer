@@ -51,18 +51,14 @@ int main()
 
 	// RecvThread = std::thread(RecvFunc, SessionSocket);
 
-	//while (true)
-	//{
-	//	std::string In;
-	//	std::cin >> In;
-	//	char Buffer[1024] = { "cccc" };
-
-	//	Sleep(1);
-
-	//	memcpy_s(Buffer, sizeof(Buffer), In.c_str(), In.size());
-
-	//	int Result = send(SessionSocket, Buffer, sizeof(Buffer), 0);
-	//}
+	while (true)
+	{
+		std::string In;
+		std::cin >> In;
+		//char buffer[1024] = { 0, };
+		//memcpy_s(buffer, sizeof(buffer), In.c_str(), In.length() + 1);
+		int Result = send(SessionSocket, In.c_str(), In.length() + 1, 0);
+	}
 
 	_getch();
 

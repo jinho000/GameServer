@@ -8,6 +8,7 @@
 #include <GameServerBase/ServerDebug.h>
 #include <GameServerBase/ServerQueue.h>
 #include <GameServerNet/TCPListener.h>
+#include <GameServerNet/TCPSession.h>
 
 #include <GameServerNet/enum.h>
 
@@ -79,6 +80,20 @@ void Test::TestListener()
 		ServerDebug::LogInfo("접속자가 있습니다");
 
 	});
+
+	_getch();
+}
+
+void Test::TestRecv()
+{
+	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
+		ServerDebug::LogInfo("접속자가 있습니다");
+
+		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
+				std::string data = &_data[0];
+				ServerDebug::LogInfo(data);
+			});
+		});
 
 	_getch();
 }
