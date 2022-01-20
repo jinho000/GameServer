@@ -25,59 +25,49 @@ void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQ
 			if (WAIT_TIMEOUT == GetLastError())
 			{
 				checkType = IocpWaitReturnType::RETURN_TIMEOUT;
+				ServerDebug::LogInfo("work wait return timeout");
 			}
-			checkType = IocpWaitReturnType::RETURN_ERROR;
+			else
+			{
+				checkType = IocpWaitReturnType::RETURN_ERROR;
+				ServerDebug::LogInfo("work wait return 0");
+			}
 		}
 
 
-		switch (checkType)
+		DWORD MsgType = _work->GetNumberOfBytes();
+
+		switch (MsgType)
 		{
-		case IocpWaitReturnType::RETURN_TIMEOUT:
+		case (DWORD)ServerQueue::WORK_MSG::WORK_DESTROY: break;
+		case (DWORD)ServerQueue::WORK_MSG::POST_JOB:
+		{
+			std::unique_ptr<PostJob> jobTesk = std::unique_ptr<PostJob>(_work->GetCompletionKey<PostJob*>());
+			if (nullptr != jobTesk)
+			{
+				jobTesk->task();
+			}
+			else
+			{
+				ServerDebug::LogError("PostJob Is Null");
+			}
 			break;
-		case IocpWaitReturnType::RETURN_OK:
+		}
+		default: // post job이 아닌 비동기 통신 작업일 경우
 		{
-			DWORD MsgType = _work->GetNumberOfBytes();
-
-			switch (MsgType)
+			OverlappedJob* jobTesk = _work->GetCompletionKey<OverlappedJob*>();
+			if (nullptr != jobTesk)
 			{
-			case (DWORD)ServerQueue::WORK_MSG::WORK_DESTROY: break;
-			case (DWORD)ServerQueue::WORK_MSG::POST_JOB:
-			{
-				std::unique_ptr<PostJob> jobTesk = std::unique_ptr<PostJob>(_work->GetCompletionKey<PostJob*>());
-				if (nullptr != jobTesk)
-				{
-					jobTesk->task();
-				}
-				else
-				{
-					ServerDebug::LogError("PostJob Is Null");
-				}
-				break;
+				// 이것도 처리해야 합니다.
+				jobTesk->task(waitResult, _work->GetNumberOfBytes(), _work->GetOverlappedPtr());
 			}
-			default: // post job이 아닌 비동기 통신 작업일 경우
+			else
 			{
-				OverlappedJob* jobTesk = _work->GetCompletionKey<OverlappedJob*>();
-				if (nullptr != jobTesk)
-				{
-					// 이것도 처리해야 합니다.
-					jobTesk->task(waitResult, _work->GetNumberOfBytes(), _work->GetOverlappedPtr());
-				}
-				else
-				{
-					ServerDebug::LogError("OverJob Is Null");
-				}
-
-				break;
-			}
+				ServerDebug::LogError("OverJob Is Null");
 			}
 
 			break;
 		}
-		case IocpWaitReturnType::RETURN_ERROR:
-			ServerDebug::AssertDebugMsg("IOCP worker return error"); break;
-		default:
-
-			break;
 		}
 	}
 }

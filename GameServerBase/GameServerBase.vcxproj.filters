@@ -37,6 +37,9 @@
     <ClInclude Include="ServerUnique.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="ServerObjectPool.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -75,6 +78,9 @@
     <ClCompile Include="ServerUnique.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="ServerObjectPool.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -91,6 +97,9 @@
     </Filter>
     <Filter Include="Time">
       <UniqueIdentifier>{b38d3764-e4b8-4c0e-ab05-91762280e1f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{0e3e1d03-d732-4e63-b4bd-1b4c777cb44c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

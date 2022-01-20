@@ -11,4 +11,6 @@ namespace Test
 
 	void TestListener();
 	void TestRecv();
+
+	void TestSend();
 }

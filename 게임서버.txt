@@ -36,16 +36,19 @@ IOCP에 전달할 함수에서 필요한 정보를 받기 위해 사용
 
 - ServerQueue
 IOCP를 감싸 전달받은 일을 쓰레드에게 시키는 클래스
-처리를 동기(post enque), 비동기(network bind)로 처리할 수 있음
 ServerQueue를 처음 만들면 모든 쓰레드는 대기상태로 들어감
 요청이 올경우 내부함수(QueueFunction)에서 스레드를 깨워 일을 시킴 
+직접일을 시키거나(post), 소켓의 IO작업을 비동기 처리함(network bind)
+
+직접 일을 시키는 함수의 경우 void()
+비동기 처리에 대한 함수는 void(BOOL, DWORD, LPOVERLAPPED) 형태로 전달해야함
 
 
 - ServerTCPListener
 들어온 접속을 처리하는 클래스
+미리 소켓을 지정된 개수만큼 만들어둠
 Acceptex함수로 요청을 대기, 들어온 요청을 비동기로 처리함
-미리 일정개수만큼 소켓을 만들어놓음
-요청이 들어오면 소켓을 연결하여 세션을 만듦
+요청이 들어오면 만들어둔 소켓과 연결하여 세션을 만듦
 클라이언트 접속이 끊어지면 소켓을 connection pool에 넣어 재활용
 
 
@@ -60,3 +63,8 @@ overlapped 데이터를 처리하는 클래스
 - AcceptExOverlapped
 acceptEx의 overlapped 데이터를 처리하는 클래스
 
+- Disconnect
+
+- recv
+
+- send

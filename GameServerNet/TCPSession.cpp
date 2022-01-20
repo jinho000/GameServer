@@ -4,6 +4,7 @@
 #include "Overlapped.h"
 #include "RecvOverlapped.h"
 #include "DisconnectOverlapped.h"
+#include "SendOverlapped.h"
 #include "TCPListener.h"
 
 TCPSession::TCPSession()
@@ -92,10 +93,6 @@ void TCPSession::DisconnectSocket()
 		, TF_DISCONNECT | TF_REUSE_SOCKET
 	);
 
-	//LPFN_DISCONNECTEX()(m_sessionSocket, m_disconOverlapped->GetLPOverlapped(), TF_REUSE_SOCKET, 0);
-	//LPFN_DISCONNECTEX(m_sessionSocket, m_disconOverlapped->GetLPOverlapped(), TF_REUSE_SOCKET, 0);
-	//BOOL b = ::LPFN_DISCONNECTEX(m_sessionSocket, m_disconOverlapped->GetLPOverlapped(), TF_REUSE_SOCKET, 0);;
-
 	if (FALSE == bResult)
 	{
 		int iError = WSAGetLastError();
@@ -180,6 +177,45 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 		// 리시브 처리 후 다시 리시브 요청
 		RequestRecv();
 	}
+}
+
+void TCPSession::Send(const std::vector<char>& _buffer)
+{
+	if (_buffer.empty())
+	{
+		return;
+	}
+
+	DWORD byteSize = 0;
+	DWORD flag     = 0;
+
+	SendOverlapped* sendOverlapped = m_sendPool.Pop();
+	sendOverlapped->SetTCPSession(std::dynamic_pointer_cast<TCPSession>(shared_from_this()));
+	sendOverlapped->CopyFrom(_buffer);
+
+	int sockError = WSASend(m_sessionSocket
+		, sendOverlapped->GetBuffer()
+		, 1
+		, &byteSize
+		, flag
+		, sendOverlapped->GetLPOverlapped()
+		, nullptr
+	);
+
+	if (SOCKET_ERROR == sockError)
+	{
+		if (WSA_IO_PENDING != WSAGetLastError())
+		{
+			ServerDebug::GetLastErrorPrint();
+			return;
+		}
+	}
+
+}
+
+void TCPSession::OnSendComplete(SendOverlapped* _sendOverlapped)
+{
+	m_sendPool.Push(_sendOverlapped);
 }
 
 SOCKET TCPSession::GetSessionSocket() const

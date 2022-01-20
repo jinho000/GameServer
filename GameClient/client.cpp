@@ -4,6 +4,22 @@
 
 #pragma comment (lib, "GameServerBase.lib")
 
+bool end = false;
+void RecvFunc(SOCKET _sessionSocket)
+{
+	while (false == end)
+	{
+		char buffer[1024];
+		int result = recv(_sessionSocket, buffer, sizeof(buffer), 0);
+		if (SOCKET_ERROR == result)
+		{
+			end = true;
+			return;
+		}
+
+		std::cout << buffer << std::endl;
+	}
+}
 
 int main()
 {
@@ -49,7 +65,7 @@ int main()
 
 	std::cout << "Ä¿³ØÆ® ¼º°ø." << std::endl;
 
-	// RecvThread = std::thread(RecvFunc, SessionSocket);
+	std::thread RecvThread(RecvFunc, SessionSocket);
 
 	while (true)
 	{
@@ -60,6 +76,9 @@ int main()
 		if (In == "q")
 		{
 			closesocket(SessionSocket);
+			end = true;
+			RecvThread.join();
+
 			return 0;
 		}
 		int Result = send(SessionSocket, In.c_str(), In.length() + 1, 0);

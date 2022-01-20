@@ -2,6 +2,8 @@
 #include "IPEndPoint.h"
 #include "GameServerBase/ServerBaseObject.h"
 #include "GameServerBase/ServerQueue.h"
+#include "GameServerBase/ServerObjectPool.h"
+#include "SendOverlapped.h"
 
 // 용도 : 서버와 클라의 연결
 // 분류 :
@@ -15,6 +17,7 @@ private:
 	friend class TCPListener;
 	friend class RecvOverlapped;
 	friend class DisconnectOverlapped;
+	friend class SendOverlapped;
 
 private: // member var
 	__int64			m_conectId;
@@ -30,6 +33,8 @@ private: // member var
 
 	using CloseCallBack = std::function<void(PtrSTCPSession)>;
 	CloseCallBack			m_closeCallBack;
+
+	ServerObjectPool<SendOverlapped> m_sendPool;
 
 	std::atomic_bool		m_callClose;
 	std::atomic_bool		m_bReuseSocket;
@@ -54,6 +59,8 @@ private:
 	void RequestRecv();
 	void OnRecv(const char* _data, DWORD _byteSize);
 
+	void OnSendComplete(SendOverlapped* _sendOverlapped);
+
 	void Close(bool _forceClose = false);
 	void CloseSocket();
 	void DisconnectSocket();
@@ -67,4 +74,5 @@ private:
 public: // member Func
 	__int64 GetSessionID() const;
 	void SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack);
+	void Send(const std::vector<char>& _buffer);
 };

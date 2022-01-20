@@ -155,3 +155,29 @@ void Test::TestRecv()
 
 	_getch();
 }
+
+void Test::TestSend()
+{
+	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
+		ServerDebug::LogInfo("접속자가 있습니다");
+
+		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
+				std::string data = &_data[0];
+				ServerDebug::LogInfo(data);
+
+				data += " - server";
+
+				std::vector<char> buffer;
+				buffer.resize(data.length() + 1);
+				std::copy(data.begin(), data.end(), buffer.begin());
+				buffer[data.length()] = '\0';
+
+				_tcpSession->Send(buffer);
+			},
+			[](PtrSTCPSession _tcpSession) {
+				ServerDebug::LogInfo("접속자 접속 종료");
+			});
+		});
+
+	_getch();
+}
