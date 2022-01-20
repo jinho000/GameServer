@@ -96,12 +96,14 @@ void TCPListener::AsyncAccept()
 		{
 			newSession = std::make_shared<TCPSession>();
 			newSession->Initialize();
+			newSession->SetParent(this);
 		}
 		else
 		{
 			// 커넥션 풀에 세션이 있을경우 재활용
 			newSession = m_connectionPool.front();
 			m_connectionPool.pop_front();
+			newSession->SetReuse();
 		}
 
 		m_connectPoolLock.unlock();
@@ -176,6 +178,23 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 
 	// callback 함수 실행
 	m_acceptCallback(acceptExOver->GetTCPSession());
+}
+
+void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
+{
+	// session에서 처리가 끝남
+
+	// 관리 맵에서 삭제
+	{
+		std::lock_guard<std::mutex> lock(m_connecsLock);
+		m_connections.erase(_tcpSession->GetSessionID());
+	}
+
+	// 재활용하기 위해 connection 풀에 추가
+	{
+		std::lock_guard<std::mutex> lock(m_connectPoolLock);
+		m_connectionPool.push_back(_tcpSession);
+	}
 }
 
 void TCPListener::CloseSocket()

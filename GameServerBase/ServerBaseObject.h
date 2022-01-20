@@ -31,9 +31,9 @@ public: // member Func
 
 	// 타입이 잘못되었거나 부모객체가 없는경우 nullptr
 	template<typename ParentType>
-	const ServerBaseObject* GetParent() const
+	ParentType* GetParent() const
 	{
-		return dynamic_cast<ParentType>(m_parent);
+		return dynamic_cast<ParentType*>(m_parent);
 	}
 
 	void SetLink(ServerBaseObject* _link);
@@ -42,7 +42,7 @@ public: // member Func
 	template<typename LinkObjectType>
 	const ServerBaseObject* GetLink(UINT _idx) const
 	{
-		return dynamic_cast<LinkObjectType>(m_linkObject[_idx]);
+		return dynamic_cast<LinkObjectType*>(m_linkObject[_idx]);
 	}
 
 	const std::vector<ServerBaseObject*>& GetAllLink() const;

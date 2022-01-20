@@ -10,6 +10,8 @@ class ServerQueue;
 class TCPSession;
 class TCPListener : public ServerBaseObject
 {
+	friend class TCPSession;
+
 private: // member var
 	SOCKET												m_listenerSocket;
 	IPEndPoint											m_ipEndPoint;
@@ -41,9 +43,13 @@ private:
 	void AsyncAccept();
 	void OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped);
 
+	void CloseSession(PtrSTCPSession _tcpSession);
+
+	// listen 소켓 종료
 	void CloseSocket();
 
 public: // member Func
+
 
 };
 

@@ -2,6 +2,8 @@
 
 namespace Test
 {
+	SOCKET CreateSocket();
+
 	void TestServerBaseObject();
 	void TestIOCP();
 	void TestServerQueue();

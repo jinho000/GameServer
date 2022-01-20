@@ -40,6 +40,9 @@
     <ClInclude Include="RecvOverlapped.h">
       <Filter>IO\Overlapped</Filter>
     </ClInclude>
+    <ClInclude Include="DisconnectOverlapped.h">
+      <Filter>IO\Overlapped</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -73,6 +76,9 @@
       <Filter>NetObject</Filter>
     </ClCompile>
     <ClCompile Include="RecvOverlapped.cpp">
+      <Filter>IO\Overlapped</Filter>
+    </ClCompile>
+    <ClCompile Include="DisconnectOverlapped.cpp">
       <Filter>IO\Overlapped</Filter>
     </ClCompile>
   </ItemGroup>

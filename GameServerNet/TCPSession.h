@@ -7,12 +7,14 @@
 // 분류 :
 // 첨언 : 
 class RecvOverlapped;
+class DisconnectOverlapped;
 class TCPSession : public ServerBaseObject
 {
 private:
 	// friend class
 	friend class TCPListener;
 	friend class RecvOverlapped;
+	friend class DisconnectOverlapped;
 
 private: // member var
 	__int64			m_conectId;
@@ -20,12 +22,17 @@ private: // member var
 	//IPEndPoint	m_localAddr;
 	//IPEndPoint	m_remoteAddr;
 
-	RecvOverlapped* m_recvOverlapped;
+	RecvOverlapped*			m_recvOverlapped;
+	DisconnectOverlapped*	m_disconOverlapped;
 
 	using RecvCallBack = std::function<void(PtrSTCPSession, const std::vector<char>&)>;
-	RecvCallBack	m_recvCallBack;
+	RecvCallBack			m_recvCallBack;
 
-	std::atomic_bool m_callClose;
+	using CloseCallBack = std::function<void(PtrSTCPSession)>;
+	CloseCallBack			m_closeCallBack;
+
+	std::atomic_bool		m_callClose;
+	std::atomic_bool		m_bReuseSocket;
 
 public: // default
 	TCPSession();
@@ -41,10 +48,16 @@ protected:
 private:
 	static void OnCallback(PtrWTCPSession _weakSession, BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped);
 
-	void CloseSocket();
+	void SetReuse();
 	bool BindQueue(const ServerQueue& _jobQueue);
+	
 	void RequestRecv();
 	void OnRecv(const char* _data, DWORD _byteSize);
+
+	void Close(bool _forceClose = false);
+	void CloseSocket();
+	void DisconnectSocket();
+	void UnregisterSession();
 
 private:
 	// friend class 접근함수
@@ -53,6 +66,5 @@ private:
 
 public: // member Func
 	__int64 GetSessionID() const;
-	void SetCallBack(RecvCallBack _recvCallBack);
+	void SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack);
 };
-

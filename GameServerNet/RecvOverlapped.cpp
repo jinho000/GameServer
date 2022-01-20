@@ -22,10 +22,11 @@ void RecvOverlapped::Clear()
 
 void RecvOverlapped::Excute(BOOL Result, DWORD _ByteSize)
 {
+	// 클라와 접속이 끊김
+	// 클라와 접속을 종료해야함
 	if (0 == _ByteSize)
 	{
-		// 접속이 종료된 경우
-		//m_tcpSession->
+		m_tcpSession->Close();
 		return;
 	}
 

@@ -57,6 +57,11 @@ int main()
 		std::cin >> In;
 		//char buffer[1024] = { 0, };
 		//memcpy_s(buffer, sizeof(buffer), In.c_str(), In.length() + 1);
+		if (In == "q")
+		{
+			closesocket(SessionSocket);
+			return 0;
+		}
 		int Result = send(SessionSocket, In.c_str(), In.length() + 1, 0);
 	}
 

@@ -12,6 +12,54 @@
 
 #include <GameServerNet/enum.h>
 
+SOCKET Test::CreateSocket()
+{
+    WSADATA ws;
+    if (0 != WSAStartup(MAKEWORD(2, 2), &ws))
+    {
+        std::cout << "WSAStartUp err!\n";
+        return 0;
+    }
+
+    SOCKET acceptSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (INVALID_SOCKET == acceptSocket)
+    {
+        std::cout << "Socket err!\n";
+        return 0;
+    }
+
+    SOCKADDR_IN sockAddrIn = { 0, };
+    sockAddrIn.sin_family = AF_INET;
+    sockAddrIn.sin_port = htons(30000);
+
+    std::string ip = "127.0.0.1"; // 루프백 주소
+    if (1 != inet_pton(AF_INET, ip.c_str(), &sockAddrIn.sin_addr))
+    {
+        std::cout << "(local addr)inet pton err!\n";
+        return 0;
+    }
+
+    if (SOCKET_ERROR == bind(acceptSocket, (const sockaddr*)&sockAddrIn, sizeof(SOCKADDR_IN)))
+    {
+        std::cout << "socket bind err!\n";
+        return 0;
+    }
+
+    if (SOCKET_ERROR == listen(acceptSocket, 512))
+    {
+        std::cout << "socket listen err!\n";
+        return 0;
+    }
+
+
+    std::cout << "서버 접속 함수 실행" << std::endl;
+
+    SOCKADDR_IN userAddrIn = { 0, }; // 연결된 유저의 정보를 담는 구조체
+    int len = sizeof(SOCKADDR_IN);
+
+    return acceptSocket;
+}
+
 void Test::TestServerBaseObject()
 {
 
@@ -32,17 +80,24 @@ void IOCPFunc(std::shared_ptr<ServerIOCPWorker> _iocpWorker)
 void Test::TestIOCP()
 {
 	ServerIOCP iocp(&IOCPFunc, 3);
+	bool b = false;
+	HANDLE hnd = (HANDLE)CreateSocket();
+	b = iocp.AsyncBind(hnd, 0);
 
-	while (true)
+	if (b == false)
 	{
-		char c = _getch();
-		if (c == 'q')
-		{
-			return;
-		}
-
-		iocp.PostQueued(10, 10);
+		int a = 0;
 	}
+
+	b = iocp.AsyncBind(hnd, 0);
+
+	if (b == false)
+	{
+		ServerDebug::GetLastErrorPrint();
+		int a = 0;
+	}
+
+	_getch();
 }
 
 void testfunc()
@@ -92,6 +147,9 @@ void Test::TestRecv()
 		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
 				std::string data = &_data[0];
 				ServerDebug::LogInfo(data);
+			}, 
+			[](PtrSTCPSession _tcpSession) {
+
 			});
 		});
 
