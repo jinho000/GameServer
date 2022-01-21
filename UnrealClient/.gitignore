@@ -366,6 +366,9 @@ FodyWeavers.xsd
 # Visual Studio 2015 user specific files
 .vs/
 
+#Content
+Content/
+
 # Compiled Object files
 *.slo
 *.lo
