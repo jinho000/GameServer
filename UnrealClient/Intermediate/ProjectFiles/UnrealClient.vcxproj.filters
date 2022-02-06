@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\UnrealClient.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{9EFE46E0-B2E8-4470-9823-80F7C7F2D71A}</UniqueIdentifier>
+      <UniqueIdentifier>{3E69C693-BDE9-401F-BBB2-3FC61912A254}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\UnrealClient.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{E27E05CD-7C6B-4573-8597-639ABDAB9F8E}</UniqueIdentifier>
+      <UniqueIdentifier>{A29E803E-9358-4CD7-9C56-D8AB1F98305F}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -24,7 +24,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\UnrealClient">
-      <UniqueIdentifier>{9CB2FC5B-8F03-4ECF-BD55-8B7A02902BA8}</UniqueIdentifier>
+      <UniqueIdentifier>{15166AAC-8E49-4D22-AF59-33775FFF78EE}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\UnrealClient\UnrealClient.Build.cs">
       <Filter>Source\UnrealClient</Filter>
@@ -34,6 +34,15 @@
     </ClCompile>
     <ClInclude Include="..\..\Source\UnrealClient\UnrealClient.h">
       <Filter>Source\UnrealClient</Filter>
+    </ClInclude>
+    <Filter Include="Source\UnrealClient\Login">
+      <UniqueIdentifier>{66FABC99-0F66-481F-BC90-597AF4D89027}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\UnrealClient\Login\CLoginUI.cpp">
+      <Filter>Source\UnrealClient\Login</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UnrealClient\Login\CLoginUI.h">
+      <Filter>Source\UnrealClient\Login</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

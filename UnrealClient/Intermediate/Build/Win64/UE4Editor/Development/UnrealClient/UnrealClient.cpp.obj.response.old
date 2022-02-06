@@ -32,7 +32,6 @@
 /wd4244
 /wd4838
 /I .
-/I C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Inc\UnrealClient
 /I C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Source
 /I Runtime
 /I Runtime\TraceLog\Public
