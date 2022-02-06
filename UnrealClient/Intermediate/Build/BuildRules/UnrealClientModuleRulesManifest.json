@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\jinho\\Desktop\\GameServerProgramming\\GameServer\\Project\\UnrealClient\\Source\\UnrealClient\\UnrealClient.Build.cs",
+		"C:\\Users\\jinho\\Desktop\\GameServerProgramming\\GameServer\\Project\\UnrealClient\\Source\\UnrealClient.Target.cs",
+		"C:\\Users\\jinho\\Desktop\\GameServerProgramming\\GameServer\\Project\\UnrealClient\\Source\\UnrealClientEditor.Target.cs"
+	],
+	"EngineVersion": "4.27.2"
+}
