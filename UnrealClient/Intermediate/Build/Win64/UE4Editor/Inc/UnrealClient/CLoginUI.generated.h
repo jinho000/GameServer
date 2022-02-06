@@ -14,8 +14,20 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define UNREALCLIENT_CLoginUI_generated_h
 
 #define UnrealClient_Source_UnrealClient_Login_CLoginUI_h_21_SPARSE_DATA
-#define UnrealClient_Source_UnrealClient_Login_CLoginUI_h_21_RPC_WRAPPERS
-#define UnrealClient_Source_UnrealClient_Login_CLoginUI_h_21_RPC_WRAPPERS_NO_PURE_DECLS
+#define UnrealClient_Source_UnrealClient_Login_CLoginUI_h_21_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execLogin); \
+	DECLARE_FUNCTION(execConnectServer); \
+	DECLARE_FUNCTION(execResetConnectInfo);
+
+
+#define UnrealClient_Source_UnrealClient_Login_CLoginUI_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execLogin); \
+	DECLARE_FUNCTION(execConnectServer); \
+	DECLARE_FUNCTION(execResetConnectInfo);
+
+
 #define UnrealClient_Source_UnrealClient_Login_CLoginUI_h_21_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUCLoginUI(); \

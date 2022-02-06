@@ -34,4 +34,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ConnectInfo")
 	FString Password;
 
+public:
+	// UFUNCTION: 블루프린트에서 함수를 사용하기 위한 설정
+	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
+	void ResetConnectInfo();
+	
+	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
+	void ConnectServer();
+
+	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
+	void Login();
 };

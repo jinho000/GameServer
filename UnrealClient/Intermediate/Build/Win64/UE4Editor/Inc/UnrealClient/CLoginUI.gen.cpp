@@ -18,8 +18,107 @@ void EmptyLinkFunctionForGeneratedCodeCLoginUI() {}
 	UMG_API UClass* Z_Construct_UClass_UUserWidget();
 	UPackage* Z_Construct_UPackage__Script_UnrealClient();
 // End Cross Module References
+	DEFINE_FUNCTION(UCLoginUI::execLogin)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->Login();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(UCLoginUI::execConnectServer)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ConnectServer();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(UCLoginUI::execResetConnectInfo)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ResetConnectInfo();
+		P_NATIVE_END;
+	}
 	void UCLoginUI::StaticRegisterNativesUCLoginUI()
 	{
+		UClass* Class = UCLoginUI::StaticClass();
+		static const FNameNativePtrPair Funcs[] = {
+			{ "ConnectServer", &UCLoginUI::execConnectServer },
+			{ "Login", &UCLoginUI::execLogin },
+			{ "ResetConnectInfo", &UCLoginUI::execResetConnectInfo },
+		};
+		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_UCLoginUI_ConnectServer_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UCLoginUI_ConnectServer_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Login|Connect" },
+		{ "ModuleRelativePath", "Login/CLoginUI.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UCLoginUI_ConnectServer_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UCLoginUI, nullptr, "ConnectServer", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UCLoginUI_ConnectServer_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UCLoginUI_ConnectServer_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UCLoginUI_ConnectServer()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UCLoginUI_ConnectServer_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UCLoginUI_Login_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UCLoginUI_Login_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Login|Connect" },
+		{ "ModuleRelativePath", "Login/CLoginUI.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UCLoginUI_Login_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UCLoginUI, nullptr, "Login", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UCLoginUI_Login_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UCLoginUI_Login_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UCLoginUI_Login()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UCLoginUI_Login_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UCLoginUI_ResetConnectInfo_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UCLoginUI_ResetConnectInfo_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Login|Connect" },
+		{ "Comment", "// UFUNCTION: ????????\xc6\xae???? ?\xd4\xbc??? ?????\xcf\xb1? ???? ????\n" },
+		{ "ModuleRelativePath", "Login/CLoginUI.h" },
+		{ "ToolTip", "UFUNCTION: ????????\xc6\xae???? ?\xd4\xbc??? ?????\xcf\xb1? ???? ????" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UCLoginUI_ResetConnectInfo_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UCLoginUI, nullptr, "ResetConnectInfo", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UCLoginUI_ResetConnectInfo_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UCLoginUI_ResetConnectInfo_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UCLoginUI_ResetConnectInfo()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UCLoginUI_ResetConnectInfo_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	UClass* Z_Construct_UClass_UCLoginUI_NoRegister()
 	{
@@ -28,6 +127,7 @@ void EmptyLinkFunctionForGeneratedCodeCLoginUI() {}
 	struct Z_Construct_UClass_UCLoginUI_Statics
 	{
 		static UObject* (*const DependentSingletons[])();
+		static const FClassFunctionLinkInfo FuncInfo[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
@@ -54,6 +154,11 @@ void EmptyLinkFunctionForGeneratedCodeCLoginUI() {}
 	UObject* (*const Z_Construct_UClass_UCLoginUI_Statics::DependentSingletons[])() = {
 		(UObject* (*)())Z_Construct_UClass_UUserWidget,
 		(UObject* (*)())Z_Construct_UPackage__Script_UnrealClient,
+	};
+	const FClassFunctionLinkInfo Z_Construct_UClass_UCLoginUI_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_UCLoginUI_ConnectServer, "ConnectServer" }, // 2325214481
+		{ &Z_Construct_UFunction_UCLoginUI_Login, "Login" }, // 2268909238
+		{ &Z_Construct_UFunction_UCLoginUI_ResetConnectInfo, "ResetConnectInfo" }, // 1326170343
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UCLoginUI_Statics::Class_MetaDataParams[] = {
@@ -107,11 +212,11 @@ void EmptyLinkFunctionForGeneratedCodeCLoginUI() {}
 		nullptr,
 		&StaticCppClassTypeInfo,
 		DependentSingletons,
-		nullptr,
+		FuncInfo,
 		Z_Construct_UClass_UCLoginUI_Statics::PropPointers,
 		nullptr,
 		UE_ARRAY_COUNT(DependentSingletons),
-		0,
+		UE_ARRAY_COUNT(FuncInfo),
 		UE_ARRAY_COUNT(Z_Construct_UClass_UCLoginUI_Statics::PropPointers),
 		0,
 		0x00B010A0u,
@@ -126,7 +231,7 @@ void EmptyLinkFunctionForGeneratedCodeCLoginUI() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UCLoginUI, 3787476053);
+	IMPLEMENT_CLASS(UCLoginUI, 2480374620);
 	template<> UNREALCLIENT_API UClass* StaticClass<UCLoginUI>()
 	{
 		return UCLoginUI::StaticClass();
