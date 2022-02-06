@@ -6,6 +6,10 @@ public class UnrealClient : ModuleRules
 {
 	public UnrealClient(ReadOnlyTargetRules Target) : base(Target)
 	{
+		// 언리얼은 각 기능을 모듈로 가지고 있음
+		// 모든 기능을 전부 빌드하지 않고 필요한 기능만 빌드하여 사용함
+		// 사용할 기능을 여기서 빌드에 포함시켜야 사용할 수 있음
+		
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
