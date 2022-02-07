@@ -13,10 +13,10 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define UNREALCLIENT_CGameInstance_generated_h
 
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_SPARSE_DATA
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_RPC_WRAPPERS
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_RPC_WRAPPERS_NO_PURE_DECLS
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_INCLASS_NO_PURE_DECLS \
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_SPARSE_DATA
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_RPC_WRAPPERS
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_RPC_WRAPPERS_NO_PURE_DECLS
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUCGameInstance(); \
 	friend struct Z_Construct_UClass_UCGameInstance_Statics; \
@@ -25,7 +25,7 @@ public: \
 	DECLARE_SERIALIZER(UCGameInstance)
 
 
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_INCLASS \
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_INCLASS \
 private: \
 	static void StaticRegisterNativesUCGameInstance(); \
 	friend struct Z_Construct_UClass_UCGameInstance_Statics; \
@@ -34,7 +34,7 @@ public: \
 	DECLARE_SERIALIZER(UCGameInstance)
 
 
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_STANDARD_CONSTRUCTORS \
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UCGameInstance(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UCGameInstance) \
@@ -47,7 +47,7 @@ private: \
 public:
 
 
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_ENHANCED_CONSTRUCTORS \
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UCGameInstance(UCGameInstance&&); \
@@ -58,28 +58,28 @@ public: \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UCGameInstance)
 
 
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_PRIVATE_PROPERTY_OFFSET
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_14_PROLOG
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_GENERATED_BODY_LEGACY \
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_PRIVATE_PROPERTY_OFFSET
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_15_PROLOG
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_PRIVATE_PROPERTY_OFFSET \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_SPARSE_DATA \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_RPC_WRAPPERS \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_INCLASS \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_STANDARD_CONSTRUCTORS \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_PRIVATE_PROPERTY_OFFSET \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_SPARSE_DATA \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_RPC_WRAPPERS \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_INCLASS \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_GENERATED_BODY \
+#define UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_PRIVATE_PROPERTY_OFFSET \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_SPARSE_DATA \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_RPC_WRAPPERS_NO_PURE_DECLS \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_INCLASS_NO_PURE_DECLS \
-	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_17_ENHANCED_CONSTRUCTORS \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_PRIVATE_PROPERTY_OFFSET \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_SPARSE_DATA \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_RPC_WRAPPERS_NO_PURE_DECLS \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_INCLASS_NO_PURE_DECLS \
+	UnrealClient_Source_UnrealClient_Global_CGameInstance_h_18_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

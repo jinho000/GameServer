@@ -2,7 +2,9 @@
 
 
 #include "CLoginUI.h"
+#include <vector>
 #include "../Global/CGameInstance.h"
+
 
 void UCLoginUI::ResetConnectInfo()
 {
@@ -13,10 +15,6 @@ void UCLoginUI::ResetConnectInfo()
 void UCLoginUI::ConnectServer()
 {
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	if (nullptr == gameInst)
-	{
-		return;
-	}
 
 	if (false == gameInst->ConnectServer(IP, Port))
 	{
@@ -27,5 +25,22 @@ void UCLoginUI::ConnectServer()
 
 void UCLoginUI::Login()
 {
-	int a = 0;
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	gameInst->SendFString(IP);
+
+	// UTF16 
+	//const char* utf8 = TCHAR_TO_UTF8(*IP);
+	//
+	//std::vector<uint8> vecBytes;
+	//vecBytes.reserve(100);
+	//while ('\0' != *utf8)
+	//{
+	//	vecBytes.push_back(*utf8);
+	//	++utf8;
+	//}
+
+	//vecBytes.push_back('\0');
+
+	//FString recv(UTF8_TO_TCHAR(vecBytes.data()));
+	//gameInst->SendBytes(vecBytes);
 }

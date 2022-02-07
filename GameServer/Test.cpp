@@ -162,7 +162,7 @@ void Test::TestSend()
 		ServerDebug::LogInfo("접속자가 있습니다");
 
 		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
-				std::string data = &_data[0];
+				std::string data = _data.data();
 				ServerDebug::LogInfo(data);
 
 				//data += " - server";

@@ -6,6 +6,7 @@
 #include <SocketSubsystem.h>
 #include <Interfaces/IPv4/IPv4Address.h>
 #include <Interfaces/IPv4/IPv4Endpoint.h>
+#include <Containers/StringConv.h>
 
 
 UCGameInstance::UCGameInstance()
@@ -61,6 +62,7 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	{
 		// 접속 실패
 		FString error = m_socketSystem->GetSocketError(m_socketSystem->GetLastErrorCode());
+		
 		UE_LOG(LogTemp, Error, TEXT("GameInstance - %s"), *error);
 
 		CloseSocket();
@@ -71,4 +73,33 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	// 스레드 만들어 Recv데이터 받기
 
 	return true;
+}
+
+bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
+{
+	if (0 == _bytes.size())
+	{
+		return false;
+	}
+
+	int dataSendSize = 0;
+	return m_socket->Send(_bytes.data(), _bytes.size(), dataSendSize);
+}
+
+bool UCGameInstance::SendFString(const FString& _fstr)
+{
+	// 언리얼 인코딩 헬퍼함수 사용
+	FTCHARToUTF8 convert(*_fstr);
+	std::vector<uint8> vecBytes;
+	
+	vecBytes.resize(convert.Length() + 1);
+
+	memcpy(vecBytes.data(), (ANSICHAR*)convert.Get(), convert.Length());
+	vecBytes[convert.Length()] = '\0';
+
+	// 역변환
+	//FUTF8ToTCHAR rConvert((ANSICHAR*)vecBytes.data());
+	//FString recv((TCHAR*)rConvert.Get());
+
+	return SendBytes(vecBytes);
 }
