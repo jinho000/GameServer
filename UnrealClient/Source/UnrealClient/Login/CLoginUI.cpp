@@ -2,16 +2,27 @@
 
 
 #include "CLoginUI.h"
+#include "../Global/CGameInstance.h"
 
 void UCLoginUI::ResetConnectInfo()
 {
-	IP = TEXT("127.0.0.0");
+	IP = TEXT("127.0.0.1");
 	Port = TEXT("30001");
 }
 
 void UCLoginUI::ConnectServer()
 {
-	int a = 0;
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	if (nullptr == gameInst)
+	{
+		return;
+	}
+
+	if (false == gameInst->ConnectServer(IP, Port))
+	{
+
+		return;
+	}
 }
 
 void UCLoginUI::Login()

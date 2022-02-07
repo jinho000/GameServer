@@ -165,14 +165,14 @@ void Test::TestSend()
 				std::string data = &_data[0];
 				ServerDebug::LogInfo(data);
 
-				data += " - server";
+				//data += " - server";
 
-				std::vector<char> buffer;
-				buffer.resize(data.length() + 1);
-				std::copy(data.begin(), data.end(), buffer.begin());
-				buffer[data.length()] = '\0';
+				//std::vector<char> buffer;
+				//buffer.resize(data.length() + 1);
+				//std::copy(data.begin(), data.end(), buffer.begin());
+				//buffer[data.length()] = '\0';
 
-				_tcpSession->Send(buffer);
+				//_tcpSession->Send(buffer);
 			},
 			[](PtrSTCPSession _tcpSession) {
 				ServerDebug::LogInfo("立加磊 立加 辆丰");

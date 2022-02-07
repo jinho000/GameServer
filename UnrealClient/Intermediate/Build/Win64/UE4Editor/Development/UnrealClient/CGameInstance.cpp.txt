@@ -1,0 +1,9 @@
+C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\Definitions.UnrealClient.h
+C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Source\UnrealClient\Global\CGameInstance.h
+C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Inc\UnrealClient\CGameInstance.generated.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Sockets\Public\Sockets.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Sockets\Public\SocketSubsystem.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Sockets\Public\AddressInfoTypes.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Networking\Public\Interfaces/IPv4/IPv4Address.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Networking\Public\Interfaces/IPv4/IPv4SubnetMask.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Networking\Public\Interfaces/IPv4/IPv4Endpoint.h

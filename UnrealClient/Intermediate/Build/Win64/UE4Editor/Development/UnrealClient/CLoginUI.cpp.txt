@@ -100,3 +100,5 @@ C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\In
 C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\UMG\WidgetBlueprintGeneratedClass.generated.h
 C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\UMG\UserWidget.generated.h
 C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Inc\UnrealClient\CLoginUI.generated.h
+C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Source\UnrealClient\Login\../Global/CGameInstance.h
+C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Inc\UnrealClient\CGameInstance.generated.h

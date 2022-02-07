@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\UnrealClient.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{3E69C693-BDE9-401F-BBB2-3FC61912A254}</UniqueIdentifier>
+      <UniqueIdentifier>{D688C75A-332E-491E-B3BD-A600D5CDA6F1}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\UnrealClient.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{A29E803E-9358-4CD7-9C56-D8AB1F98305F}</UniqueIdentifier>
+      <UniqueIdentifier>{A0D577C6-64A2-4FFE-A72E-CF7430ED1BF6}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -24,7 +24,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\UnrealClient">
-      <UniqueIdentifier>{15166AAC-8E49-4D22-AF59-33775FFF78EE}</UniqueIdentifier>
+      <UniqueIdentifier>{C98DBA5A-F5FE-4286-B23A-B7511EEB984E}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\UnrealClient\UnrealClient.Build.cs">
       <Filter>Source\UnrealClient</Filter>
@@ -36,13 +36,28 @@
       <Filter>Source\UnrealClient</Filter>
     </ClInclude>
     <Filter Include="Source\UnrealClient\Login">
-      <UniqueIdentifier>{66FABC99-0F66-481F-BC90-597AF4D89027}</UniqueIdentifier>
+      <UniqueIdentifier>{5E336003-6DFC-4023-819A-8DBA323A1E3C}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\UnrealClient\Login\CLoginUI.cpp">
       <Filter>Source\UnrealClient\Login</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\UnrealClient\Login\CLoginUI.h">
       <Filter>Source\UnrealClient\Login</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source\UnrealClient\Global">
+      <UniqueIdentifier>{70bb3e0f-ffe2-4191-8686-ec0312c7857f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\UnrealClient\Global\CGameInstance.cpp">
+      <Filter>Source\UnrealClient\Global</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\UnrealClient\Global\CGameInstance.h">
+      <Filter>Source\UnrealClient\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

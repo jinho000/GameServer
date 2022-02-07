@@ -7,6 +7,11 @@
 /IGNORE:4221
 /NODEFAULTLIB
 "C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UnrealClientEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\CLoginUI.cpp.obj"
+"C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\CGameInstance.cpp.obj"
 "C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\UnrealClient.cpp.obj"
+"C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\CGameInstance.gen.cpp.obj"
+"C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\CLoginUI.gen.cpp.obj"
+"C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\UnrealClient.init.gen.cpp.obj"
 "C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\Default.rc2.res"
 /OUT:"C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Development\UnrealClient\UE4Editor-UnrealClient.lib"

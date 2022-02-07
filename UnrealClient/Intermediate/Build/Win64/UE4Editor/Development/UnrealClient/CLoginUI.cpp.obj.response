@@ -233,6 +233,7 @@
 /I Runtime\PropertyPath\Public
 /I C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Intermediate\Build\Win64\UE4Editor\Inc\UnrealClient
 /I C:\Users\jinho\Desktop\GameServerProgramming\GameServer\Project\UnrealClient\Source
+/I Runtime\Networking\Public
 /I ThirdParty\PhysX3\PxShared\include
 /I ThirdParty\PhysX3\PxShared\include\cudamanager
 /I ThirdParty\PhysX3\PxShared\include\filebuf
