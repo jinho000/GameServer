@@ -12,21 +12,16 @@ void UCLoginUI::ResetConnectInfo()
 	Port = TEXT("30001");
 }
 
-void UCLoginUI::ConnectServer()
+bool UCLoginUI::ConnectServer()
 {
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-
-	if (false == gameInst->ConnectServer(IP, Port))
-	{
-
-		return;
-	}
+	return gameInst->ConnectServer(IP, Port);
 }
 
-void UCLoginUI::Login()
+bool UCLoginUI::Login()
 {
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	gameInst->SendFString(IP);
+	return gameInst->SendFString(IP);
 
 	// UTF16 
 	//const char* utf8 = TCHAR_TO_UTF8(*IP);

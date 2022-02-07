@@ -44,7 +44,7 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	if (nullptr == m_socket)
 	{
 		// 소켓 생성 실패
-		UE_LOG(LogTemp, Error, TEXT("Create Socket Error"));
+		UE_LOG(LogTemp, Error, TEXT("GameInstance - Create Socket Error"));
 		return false;
 	}
 
@@ -71,6 +71,7 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 
 
 	// 스레드 만들어 Recv데이터 받기
+	UE_LOG(LogTemp, Log, TEXT("GameInstance - Connect Server"));
 
 	return true;
 }

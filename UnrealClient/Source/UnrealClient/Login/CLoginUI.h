@@ -29,10 +29,16 @@ public:
 	FString Port;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ConnectInfo")
+	FString ConnectStatus;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LoginInfo")
 	FString ID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ConnectInfo")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LoginInfo")
 	FString Password;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LoginInfo")
+	FString LoginStatus;
 
 public:
 	// UFUNCTION: 블루프린트에서 함수를 사용하기 위한 설정
@@ -40,8 +46,8 @@ public:
 	void ResetConnectInfo();
 	
 	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
-	void ConnectServer();
+	bool ConnectServer();
 
 	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
-	void Login();
+	bool Login();
 };
