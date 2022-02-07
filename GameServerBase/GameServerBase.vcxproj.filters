@@ -40,6 +40,9 @@
     <ClInclude Include="ServerObjectPool.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="ServerString.h">
+      <Filter>String</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="ServerObjectPool.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
+    <ClCompile Include="ServerString.cpp">
+      <Filter>String</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -100,6 +106,9 @@
     </Filter>
     <Filter Include="Memory">
       <UniqueIdentifier>{0e3e1d03-d732-4e63-b4bd-1b4c777cb44c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{c968b20c-d711-4823-aeaa-c236ea7b425e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

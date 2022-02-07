@@ -13,4 +13,6 @@ namespace Test
 	void TestRecv();
 
 	void TestSend();
+
+	void TestString();
 }

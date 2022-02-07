@@ -9,6 +9,7 @@
 #include <GameServerBase/ServerQueue.h>
 #include <GameServerNet/TCPListener.h>
 #include <GameServerNet/TCPSession.h>
+#include <GameServerBase/ServerString.h>
 
 #include <GameServerNet/enum.h>
 
@@ -162,8 +163,10 @@ void Test::TestSend()
 		ServerDebug::LogInfo("접속자가 있습니다");
 
 		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
-				std::string data = _data.data();
-				ServerDebug::LogInfo(data);
+				std::string strANSI;
+				std::string strUTF8(_data.data());
+				ServerString::UTF8ToANSI(strUTF8, strANSI);
+				ServerDebug::LogInfo(strANSI);
 
 				//data += " - server";
 
@@ -180,4 +183,21 @@ void Test::TestSend()
 		});
 
 	_getch();
+}
+
+void Test::TestString()
+{
+	std::wstring unicodeStr = L"한글 테스트";
+	std::string ansiStr;
+	std::string utf8Buffer;
+	std::string ansiBuffer;
+
+
+	ServerString::UNICODEToANSI(unicodeStr, ansiStr);
+	std::cout << "ANSI String: " << ansiStr << std::endl; // 시작 문자
+
+	ServerString::ANSIToUTF8(ansiStr, utf8Buffer); // 데이터 전송
+	ServerString::UTF8ToANSI(utf8Buffer, ansiBuffer); // 데이터 수신
+
+	std::cout << "ANSI Buffer String: " << ansiBuffer << std::endl; // 시작 문자
 }
