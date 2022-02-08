@@ -4,6 +4,8 @@
 #include "CLoginUI.h"
 #include <vector>
 #include "../Global/CGameInstance.h"
+#include "../Packets/LoginPacket.h"
+#include "../Packets/ClientSerializer.h"
 
 
 void UCLoginUI::ResetConnectInfo()
@@ -20,8 +22,10 @@ bool UCLoginUI::ConnectServer()
 
 bool UCLoginUI::Login()
 {
+	LoginPacket packet(ID, Password);
+	ClientSerializer sr;
+	packet >> sr;
+	
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	return gameInst->SendFString(IP);
-
-
+	return gameInst->SendBytes(sr.GetBuffer());
 }
