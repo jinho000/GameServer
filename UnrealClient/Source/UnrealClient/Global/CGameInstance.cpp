@@ -6,8 +6,8 @@
 #include <SocketSubsystem.h>
 #include <Interfaces/IPv4/IPv4Address.h>
 #include <Interfaces/IPv4/IPv4Endpoint.h>
-#include <Containers/StringConv.h>
 
+#include "CBlueprintFunctionLibrary.h"
 
 UCGameInstance::UCGameInstance()
 	: m_socketSystem(nullptr)
