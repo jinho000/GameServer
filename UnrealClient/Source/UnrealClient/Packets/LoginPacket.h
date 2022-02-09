@@ -11,6 +11,7 @@ private: // member var
 	std::string m_password;
 
 public: // default
+	LoginPacket() = delete;
 	LoginPacket(const FString& _id, const FString& _password);
 	~LoginPacket();
 
@@ -24,6 +25,6 @@ protected:
 private:
 
 public: // member Func
-	virtual void Serialize(ClientSerializer& _serializer);
-	virtual void Deserialize(ClientSerializer& _serializer);
+	virtual void Serialize(ClientSerializer& _serializer) override;
+	virtual void Deserialize(ClientSerializer& _serializer) override;
 };

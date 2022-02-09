@@ -160,7 +160,7 @@ void TCPSession::RequestRecv()
 
 void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 {
-	std::vector<char> outBuffer = std::vector<char>(_byteSize);
+	std::vector<uint8_t> outBuffer = std::vector<uint8_t>(_byteSize);
 	memcpy_s(&outBuffer[0], _byteSize, _data, _byteSize);
 	
 	// 프로토콜 처리

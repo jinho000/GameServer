@@ -14,5 +14,7 @@ namespace Test
 
 	void TestSend();
 
+	void TesListner();
+
 	void TestString();
 }

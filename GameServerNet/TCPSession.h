@@ -28,7 +28,7 @@ private: // member var
 	RecvOverlapped*			m_recvOverlapped;
 	DisconnectOverlapped*	m_disconOverlapped;
 
-	using RecvCallBack = std::function<void(PtrSTCPSession, const std::vector<char>&)>;
+	using RecvCallBack = std::function<void(PtrSTCPSession, const std::vector<uint8_t>&)>;
 	RecvCallBack			m_recvCallBack;
 
 	using CloseCallBack = std::function<void(PtrSTCPSession)>;

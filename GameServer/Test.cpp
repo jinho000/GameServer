@@ -10,6 +10,9 @@
 #include <GameServerNet/TCPListener.h>
 #include <GameServerNet/TCPSession.h>
 #include <GameServerBase/ServerString.h>
+#include <GameServerBase/ServerSerializer.h>
+#include <GameServerBase/ServerPacketBase.h>
+#include <GameServerBase/LoginPacket.h>
 
 #include <GameServerNet/enum.h>
 
@@ -145,9 +148,8 @@ void Test::TestRecv()
 	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");
 
-		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
-				std::string data = &_data[0];
-				ServerDebug::LogInfo(data);
+		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _data) {
+				
 			}, 
 			[](PtrSTCPSession _tcpSession) {
 
@@ -162,9 +164,9 @@ void Test::TestSend()
 	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");
 
-		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<char>& _data) {
+		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _data) {
 				std::string strANSI;
-				std::string strUTF8(_data.data());
+				std::string strUTF8(reinterpret_cast<const char*>(_data.data()));
 				ServerString::UTF8ToANSI(strUTF8, strANSI);
 				ServerDebug::LogInfo(strANSI);
 
@@ -176,6 +178,41 @@ void Test::TestSend()
 				//buffer[data.length()] = '\0';
 
 				//_tcpSession->Send(buffer);
+			},
+			[](PtrSTCPSession _tcpSession) {
+				ServerDebug::LogInfo("접속자 접속 종료");
+			});
+		});
+
+	_getch();
+}
+
+void Test::TesListner()
+{
+	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
+		ServerDebug::LogInfo("접속자가 있습니다");
+
+		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _data) {
+			
+			PacketType type;
+			memcpy_s(&type, sizeof(PacketType), _data.data(), sizeof(PacketType));
+			switch (type)
+			{
+			case PacketType::LOGIN:
+			{
+				ServerSerializer sr(_data);
+				LoginPacket packet;
+				packet << sr;
+
+				std::cout << "ID: " << packet.m_id << std::endl;
+				std::cout << "PW: " << packet.m_password << std::endl;
+
+				break;
+			}
+			default:
+				break;
+			}
+
 			},
 			[](PtrSTCPSession _tcpSession) {
 				ServerDebug::LogInfo("접속자 접속 종료");
