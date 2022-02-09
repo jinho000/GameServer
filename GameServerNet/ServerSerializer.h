@@ -1,8 +1,6 @@
 #pragma once
 
-// 용도 :
-// 분류 :
-// 첨언 :
+// 데이터 직렬화 처리
 class ServerSerializer
 {
 private: // member var

@@ -46,6 +46,24 @@
     <ClInclude Include="SendOverlapped.h">
       <Filter>IO\Overlapped</Filter>
     </ClInclude>
+    <ClInclude Include="LoginPacket.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketConvertor.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketDispatcher.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketBase.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSerializer.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginPacketHandler.h">
+      <Filter>Packet\ThreadHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -87,6 +105,24 @@
     <ClCompile Include="SendOverlapped.cpp">
       <Filter>IO\Overlapped</Filter>
     </ClCompile>
+    <ClCompile Include="LoginPacket.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketConvertor.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketDispatcher.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPacketBase.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSerializer.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPacketHandler.cpp">
+      <Filter>Packet\ThreadHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -109,6 +145,12 @@
     </Filter>
     <Filter Include="IO\Overlapped">
       <UniqueIdentifier>{40392f50-d27b-464d-9258-0582c21214c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{f9874992-2b32-4471-8656-9cd3c6f38b19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\ThreadHandler">
+      <UniqueIdentifier>{255b8424-2fd6-4e78-b8ec-3ea38e6130f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

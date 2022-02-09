@@ -5,6 +5,7 @@
 #include <WinSock2.h>
 #include <Windows.h> // 아래쪽에 놔야 합니다.
 #include <MSWSock.h>
+#include <iostream>
 
 // 쓰레드
 #include <thread>

@@ -43,15 +43,6 @@
     <ClInclude Include="ServerString.h">
       <Filter>String</Filter>
     </ClInclude>
-    <ClInclude Include="ServerSerializer.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerPacketBase.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginPacket.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -96,15 +87,6 @@
     <ClCompile Include="ServerString.cpp">
       <Filter>String</Filter>
     </ClCompile>
-    <ClCompile Include="ServerSerializer.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerPacketBase.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginPacket.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -127,9 +109,6 @@
     </Filter>
     <Filter Include="String">
       <UniqueIdentifier>{c968b20c-d711-4823-aeaa-c236ea7b425e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packet">
-      <UniqueIdentifier>{b9d7f0b0-0163-45e2-9e6c-30bc898a17e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

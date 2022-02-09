@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "LoginPacket.h"
-#include "ServerString.h"
+
+#include "GameServerBase/ServerString.h"
 
 LoginPacket::LoginPacket()
 	: ServerPacketBase(PacketType::LOGIN)

@@ -2,7 +2,10 @@
 #include "Test.h"
 
 #include <iostream>
+#include <unordered_map>
 #include <conio.h>
+#include <functional>
+
 #include <GameServerBase/ServerIOCP.h>
 #include <GameServerBase/ServerIOCPWorker.h>
 #include <GameServerBase/ServerDebug.h>
@@ -10,9 +13,12 @@
 #include <GameServerNet/TCPListener.h>
 #include <GameServerNet/TCPSession.h>
 #include <GameServerBase/ServerString.h>
-#include <GameServerBase/ServerSerializer.h>
-#include <GameServerBase/ServerPacketBase.h>
-#include <GameServerBase/LoginPacket.h>
+#include <GameServerNet/ServerSerializer.h>
+#include <GameServerNet/ServerPacketBase.h>
+#include <GameServerNet/LoginPacket.h>
+#include <GameServerNet/PacketConvertor.h>
+#include <GameServerNet/PacketDispatcher.h>
+#include <GameServerNet/LoginPacketHandler.h>
 
 #include <GameServerNet/enum.h>
 
@@ -116,7 +122,6 @@ void Test::TestServerQueue()
 	serverQueue.Enqueue(testfunc);
 }
 
-
 void Test::TestLog()
 {
 	ServerIOCP iocp(&IOCPFunc, 10);
@@ -131,16 +136,6 @@ void Test::TestLog()
 		}
 	}
 
-}
-
-void Test::TestListener()
-{
-	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession){
-		ServerDebug::LogInfo("접속자가 있습니다");
-
-	});
-
-	_getch();
 }
 
 void Test::TestRecv()
@@ -187,31 +182,39 @@ void Test::TestSend()
 	_getch();
 }
 
-void Test::TesListner()
+ServerQueue loginJobQeue(ServerQueue::WORK_TYPE::Default, 10, "jobQueue");
+
+template<class PacketType, class PacketHandler> 
+void ProcessHandler(PtrSTCPSession _s, PtrSPacketBase _packet)
 {
+	// 패킷 변환
+	std::shared_ptr<PacketType> packet = std::dynamic_pointer_cast<PacketType> (_packet);
+	assert(nullptr != packet);
+
+	// handler 처리 시작
+	std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>(_s, packet);
+	handler->Start();
+}
+
+PacketDispatcher<TCPSession> dispatcher;
+
+void Test::TestListener()
+{
+	// dispatcher에 패킷을 처리할 함수 추가
+	PacketHandler<TCPSession> loginHandler = &ProcessHandler<LoginPacket, LoginPacketHandler>;
+	dispatcher.AddHandler(PacketType::LOGIN, loginHandler);
+
 	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");
 
-		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _data) {
-			
-			PacketType type;
-			memcpy_s(&type, sizeof(PacketType), _data.data(), sizeof(PacketType));
-			switch (type)
-			{
-			case PacketType::LOGIN:
-			{
-				ServerSerializer sr(_data);
-				LoginPacket packet;
-				packet << sr;
-
-				std::cout << "ID: " << packet.m_id << std::endl;
-				std::cout << "PW: " << packet.m_password << std::endl;
-
-				break;
-			}
-			default:
-				break;
-			}
+		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _buffer) {
+				
+				// 패킷 처리
+				PacketConvertor convertor(_buffer);
+				// 패킷에 대한 처리 프로세스 가져오기
+				const PacketHandler<TCPSession>& handler = dispatcher.GetHandler(convertor.GetPacketType());
+				// 패킷 처리 실행
+				handler(_tcpSession, convertor.GetPacket());
 
 			},
 			[](PtrSTCPSession _tcpSession) {
