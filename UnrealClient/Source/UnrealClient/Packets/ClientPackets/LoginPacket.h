@@ -11,7 +11,7 @@ private: // member var
 	std::string m_password;
 
 public: // default
-	LoginPacket() = delete;
+	LoginPacket();
 	LoginPacket(const FString& _id, const FString& _password);
 	~LoginPacket();
 

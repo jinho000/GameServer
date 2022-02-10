@@ -10,7 +10,9 @@
 #include "CBlueprintFunctionLibrary.h"
 
 UCGameInstance::UCGameInstance()
-	: m_socketSystem(nullptr)
+	: m_recvThread(nullptr)
+	, m_runnableThread(nullptr)
+	, m_socketSystem(nullptr)
 	, m_socket(nullptr)
 {
 	int a = 0;
@@ -34,8 +36,11 @@ void UCGameInstance::CloseSocket()
 
 bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 {
-	// 소켓 정리
-	CloseSocket();
+	// 이미 서버에 연결된 경우
+	if (nullptr != m_socket)
+	{
+		return true;
+	}
 
 	// 소켓 만들기
 	m_socketSystem = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM);
@@ -62,17 +67,17 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	{
 		// 접속 실패
 		FString error = m_socketSystem->GetSocketError(m_socketSystem->GetLastErrorCode());
-		
 		UE_LOG(LogTemp, Error, TEXT("GameInstance - %s"), *error);
 
 		CloseSocket();
 		return false;
 	}
-
-
-	// 스레드 만들어 Recv데이터 받기
 	UE_LOG(LogTemp, Log, TEXT("GameInstance - Connect Server"));
 
+	// 스레드 만들어 Recv데이터 받기
+	m_recvThread = new UnrealThread(m_socket, &m_packetQueue);
+	m_runnableThread = FRunnableThread::Create(m_recvThread, TEXT("Recv Thread"));
+	
 	return true;
 }
 

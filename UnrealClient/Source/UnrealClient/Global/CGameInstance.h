@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+
 #include <vector>
+#include <memory>
+
+#include "../Packets/ClientPacketBase.h"
+#include "UnrealThread.h"
 #include "CGameInstance.generated.h"
 
 /**
@@ -18,6 +23,11 @@ class UNREALCLIENT_API UCGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 private:
+	TQueue<std::shared_ptr<ClientPacketBase>> m_packetQueue;
+
+	UnrealThread*		m_recvThread;
+	FRunnableThread*	m_runnableThread;
+
 	ISocketSubsystem*	m_socketSystem;
 	FSocket*			m_socket;
 

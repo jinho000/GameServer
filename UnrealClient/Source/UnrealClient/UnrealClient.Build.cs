@@ -11,7 +11,7 @@ public class UnrealClient : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
-
+		
 		// 네트워크 소켓 기능 모듈 추가
 		PublicDependencyModuleNames.AddRange(new string[] { "Sockets", "Networking" });
 

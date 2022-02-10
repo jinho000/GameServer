@@ -34,4 +34,6 @@ public: // member Func
 
 	virtual void Deserialize(ClientSerializer& _serializer) = 0 {};
 	virtual void operator<<(ClientSerializer& _serializer);
+
+	PacketType GetPacketType() { return m_packetType; }
 };

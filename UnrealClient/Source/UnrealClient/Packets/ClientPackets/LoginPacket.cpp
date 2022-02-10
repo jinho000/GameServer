@@ -1,5 +1,10 @@
 #include "LoginPacket.h"
 
+LoginPacket::LoginPacket()
+	: ClientPacketBase(PacketType::LOGIN)
+{
+}
+
 LoginPacket::LoginPacket(const FString& _id, const FString& _password)
 	: ClientPacketBase(PacketType::LOGIN)
 	, m_id(FTCHARToUTF8(*_id).Get())
