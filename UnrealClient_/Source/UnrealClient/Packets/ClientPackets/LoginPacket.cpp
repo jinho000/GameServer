@@ -1,4 +1,6 @@
 #include "LoginPacket.h"
+#include "PacketType.h"
+
 
 LoginPacket::LoginPacket()
 	: ClientPacketBase(PacketType::LOGIN)

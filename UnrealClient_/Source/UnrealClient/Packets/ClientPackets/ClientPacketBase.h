@@ -1,11 +1,6 @@
 #pragma once
-#include "ClientSerializer.h"
-
-enum class PacketType
-{
-	LOGIN,
-
-};
+#include "../ClientSerializer.h"
+#include "PacketType.h"
 
 // 클라이언트에서 사용할 패킷의 기본 클래스
 class ClientPacketBase

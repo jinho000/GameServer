@@ -179,7 +179,7 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 	}
 }
 
-void TCPSession::Send(const std::vector<char>& _buffer)
+void TCPSession::Send(const std::vector<uint8_t>& _buffer)
 {
 	if (_buffer.empty())
 	{

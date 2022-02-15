@@ -24,7 +24,7 @@ private:
 
 
 public: // member Func
-	virtual void Serialize(ServerSerializer& _serializer) {};
+	virtual void Serialize(ServerSerializer& _serializer) override {};
 	virtual void Deserialize(ServerSerializer& _serializer) override;
 };
 

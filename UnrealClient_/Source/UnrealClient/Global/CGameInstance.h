@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 
-#include "../Packets/ClientPacketBase.h"
+#include "../Packets/ClientPackets/ClientPacketBase.h"
 #include "UnrealThread.h"
 #include "CGameInstance.generated.h"
 
@@ -50,4 +50,6 @@ public:
 	// -> UTF8 형식으로 통일
 	//    전송시 utf8로 변환하여 전송, 수신시 utf8을 변환하여 수신
 	bool SendFString(const FString& _fstr);
+
+	TQueue<std::shared_ptr<ClientPacketBase>>& GetPacketQueue() { return m_packetQueue; }
 };

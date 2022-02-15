@@ -5,7 +5,7 @@
 
 UnrealThread::UnrealThread(FSocket* _socket, TQueue<std::shared_ptr<ClientPacketBase>>* _recvQueue)
 	: m_recvSocket(_socket)
-	, m_recvQueue(_recvQueue)
+	, m_pRecvQueue(_recvQueue)
 {
 	if (nullptr == m_recvSocket)
 	{
@@ -33,9 +33,15 @@ uint32 UnrealThread::Run()
 			break;
 		}
 
+		UE_LOG(LogTemp, Log, TEXT("Recv data"));
+
 		// 전달받은 패킷을 리시브 큐에 추가
+		// 리시브 큐를 각 게임모드에 달린 패킷 컴포넌트 틱에서 처리
 		PacketConvertor convertor(recvBuffer);
-		m_recvQueue->Enqueue(convertor.GetPacket());
+
+		check(nullptr != convertor.GetPacket());
+
+		m_pRecvQueue->Enqueue(convertor.GetPacket());
 	}
 
 	return 0;

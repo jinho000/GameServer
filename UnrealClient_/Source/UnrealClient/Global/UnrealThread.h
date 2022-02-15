@@ -4,7 +4,7 @@
 #include "CoreMinimal.h"
 #include <memory>
 
-#include "../Packets/ClientPacketBase.h"
+#include "../Packets/ClientPackets/ClientPacketBase.h"
 
 
 //리시브 처리는 다른 스레드에서 처리
@@ -17,7 +17,7 @@ class UnrealThread : public FRunnable
 {
 private:
 	FSocket*									m_recvSocket;
-	TQueue<std::shared_ptr<ClientPacketBase>>*	m_recvQueue;
+	TQueue<std::shared_ptr<ClientPacketBase>>*	m_pRecvQueue;
 
 public:
 	UnrealThread() = delete;

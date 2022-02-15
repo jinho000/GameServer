@@ -3,23 +3,33 @@
 
 #include "PacketConvertor.h"
 #include "ClientSerializer.h"
-#include "LoginPacket.h"
+#include "ClientPackets/LoginPacket.h"
+#include "ClientPackets/LoginResultPacket.h"
 
 PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	: m_packet(nullptr)
 {
+	ClientSerializer sr(_buffer);
+
 	PacketType type;
 	memcpy_s(&type, sizeof(PacketType), _buffer.data(), sizeof(PacketType));
 	switch (type)
 	{
 	case PacketType::LOGIN:
 	{
-		ClientSerializer sr(_buffer);
 		m_packet = std::make_shared<LoginPacket>();
 		*m_packet << sr;
 		break;
 	}
+	case PacketType::LOGIN_RESULT:
+	{
+		m_packet = std::make_shared<LoginResultPacket>();
+		*m_packet << sr;
+		break;
+	}
 	default:
+		// 패킷 타입 처리 필요
+		check(false);
 		break;
 	}
 }

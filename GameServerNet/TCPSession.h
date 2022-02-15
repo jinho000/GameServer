@@ -74,5 +74,5 @@ private:
 public: // member Func
 	__int64 GetSessionID() const;
 	void SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack);
-	void Send(const std::vector<char>& _buffer);
+	void Send(const std::vector<uint8_t>& _buffer);
 };

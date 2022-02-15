@@ -46,16 +46,10 @@
     <ClInclude Include="SendOverlapped.h">
       <Filter>IO\Overlapped</Filter>
     </ClInclude>
-    <ClInclude Include="LoginPacket.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
     <ClInclude Include="PacketConvertor.h">
       <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="PacketDispatcher.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerPacketBase.h">
       <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="ServerSerializer.h">
@@ -63,6 +57,18 @@
     </ClInclude>
     <ClInclude Include="LoginPacketHandler.h">
       <Filter>Packet\ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginPacket.h">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginResultPacket.h">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketBase.h">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketType.h">
+      <Filter>Packet\ServerPackets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,16 +111,10 @@
     <ClCompile Include="SendOverlapped.cpp">
       <Filter>IO\Overlapped</Filter>
     </ClCompile>
-    <ClCompile Include="LoginPacket.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
     <ClCompile Include="PacketConvertor.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="PacketDispatcher.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerPacketBase.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="ServerSerializer.cpp">
@@ -122,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="LoginPacketHandler.cpp">
       <Filter>Packet\ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPacket.cpp">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginResultPacket.cpp">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPacketBase.cpp">
+      <Filter>Packet\ServerPackets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +160,9 @@
     </Filter>
     <Filter Include="Packet\ThreadHandler">
       <UniqueIdentifier>{255b8424-2fd6-4e78-b8ec-3ea38e6130f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\ServerPackets">
+      <UniqueIdentifier>{a4cc6a13-2a76-4b21-8cb3-ac58934dc23d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -193,12 +193,17 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LoginResultPacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Overlapped.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PacketConvertor.h" />
     <ClInclude Include="PacketDispatcher.h" />
+    <ClInclude Include="PacketType.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RecvOverlapped.h">
       <SubType>
@@ -251,6 +256,10 @@
     </ClCompile>
     <ClCompile Include="LoginPacket.cpp" />
     <ClCompile Include="LoginPacketHandler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LoginResultPacket.cpp">
       <SubType>
       </SubType>
     </ClCompile>

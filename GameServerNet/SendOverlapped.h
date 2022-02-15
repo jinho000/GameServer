@@ -31,7 +31,7 @@ public: // member Func
 	// 새로운 버퍼 생성
 	void New(size_t _maxBufferLength);
 	// 외부에서 전달한 버퍼를 복사
-	void CopyFrom(const std::vector<char>& _from);
+	void CopyFrom(const std::vector<uint8_t>& _from);
 
 	int GetMaxBufferLength();
 	LPWSABUF GetBuffer();

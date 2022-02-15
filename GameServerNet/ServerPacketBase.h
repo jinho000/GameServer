@@ -1,10 +1,7 @@
 #pragma once
 #include "ServerSerializer.h"
+#include "PacketType.h"
 
-enum class PacketType
-{
-	LOGIN,
-};
 
 // 서버에서 사용할 패킷 베이스
 class ServerPacketBase

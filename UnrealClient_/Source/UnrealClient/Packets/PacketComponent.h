@@ -3,8 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <functional>
+#include <memory>
+
+#include "../Global/CGameInstance.h"
 #include "Components/ActorComponent.h"
+#include "ClientPackets/ClientPacketBase.h"
 #include "PacketComponent.generated.h"
+
+using ClientPacketHandler = std::function<void(std::shared_ptr<ClientPacketBase>)>;
 
 //패킷을 메시지 컴포넌트에서 매프레임마다 틱을 돌며 큐에있는 패킷을 처리
 //게임모드에 메시지컴포넌트를 추가
@@ -20,9 +27,16 @@ class UNREALCLIENT_API UPacketComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+	TMap<PacketType, ClientPacketHandler> m_handlerContainer;
+	UCGameInstance* m_pGameInst;
+	
 public:	
 	// Sets default values for this component's properties
 	UPacketComponent();
+
+private:
+	//const PacketHandler& GetHandler(PacketType _type);
 
 protected:
 	// Called when the game starts

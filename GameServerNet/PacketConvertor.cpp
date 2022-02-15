@@ -2,6 +2,7 @@
 #include "PacketConvertor.h"
 #include "ServerSerializer.h"
 #include "LoginPacket.h"
+#include "LoginResultPacket.h"
 
 PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	: m_packet(nullptr)

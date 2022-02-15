@@ -88,6 +88,8 @@ bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
 		return false;
 	}
 
+	UE_LOG(LogTemp, Log, TEXT("GameInstance - Send Data"));
+
 	int dataSendSize = 0;
 	return m_socket->Send(_bytes.data(), _bytes.size(), dataSendSize);
 }

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ClientPacketBase.h"
+#include "ClientPackets/ClientPacketBase.h"
 #include <memory>
 #include <vector>
 /**
@@ -30,7 +30,7 @@ protected:
 private:
 
 public: // member Func
-	std::shared_ptr<ClientPacketBase> GetPacket() { return m_packet; }
+	const std::shared_ptr<ClientPacketBase>& GetPacket() { return m_packet; }
 
 	template<class PacketType>
 	std::shared_ptr<PacketType> GetPacket()

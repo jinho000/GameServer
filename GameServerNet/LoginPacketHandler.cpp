@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "LoginPacketHandler.h"
-
+#include "LoginResultPacket.h"
+#include "ServerSerializer.h"
+#include "TCPSession.h"
 
 LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, PtrSLoginPacket _packet)
 	: m_TCPSession(_TCPSession)
@@ -26,4 +28,10 @@ void LoginPacketHandler::Start()
 	std::cout << "ID: " << m_packet->m_id << std::endl;;
 	std::cout << "PW: " << m_packet->m_password << std::endl;;
 
+	// 결과 검증 후 확인 패킷 전달
+	LoginResultPacket resultPacket(EResultCode::OK);
+	ServerSerializer sr;
+	resultPacket >> sr;
+
+	m_TCPSession->Send(sr.GetBuffer());
 }
