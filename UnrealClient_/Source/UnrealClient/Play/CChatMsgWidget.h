@@ -14,4 +14,8 @@ class UNREALCLIENT_API UCChatMsgWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChatMessage")
+	FString Message;
+
 };
