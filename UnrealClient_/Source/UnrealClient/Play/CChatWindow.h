@@ -21,10 +21,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UListView* MessageList;
 
+	// 입력 텍스트
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chatting")
+	FString InputText;
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Chatting")
 	void AddChatMessage(UObject* _chatMsgObj, UUserWidget* _chatMsgWidget);
 
 	UFUNCTION(BlueprintCallable, Category = "Chatting")
-	void OnChatMsgCommitted(const FString& _text, ETextCommit::Type _textType);
+	void OnChatMsgCommitted(const FString& _text, ETextCommit::Type _commitType);
 };
