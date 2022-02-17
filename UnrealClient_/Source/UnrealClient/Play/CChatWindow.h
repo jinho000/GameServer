@@ -26,8 +26,13 @@ public:
 	FString InputText;
 
 public:
+	void NativeConstruct() override;
+
+public:
 	UFUNCTION(BlueprintCallable, Category = "Chatting")
 	void AddChatMessage(UObject* _chatMsgObj, UUserWidget* _chatMsgWidget);
+	
+	void AddChatMessage(class UCChatMessage* _chatMassage);
 
 	UFUNCTION(BlueprintCallable, Category = "Chatting")
 	void OnChatMsgCommitted(const FString& _text, ETextCommit::Type _commitType);

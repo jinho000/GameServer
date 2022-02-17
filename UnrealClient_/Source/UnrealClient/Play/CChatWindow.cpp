@@ -10,6 +10,12 @@
 #include "../Packets/ClientSerializer.h"
 #include "../Global/CGameInstance.h"
 
+void UCChatWindow::NativeConstruct()
+{
+	UCGameInstance* Inst = Cast<UCGameInstance>(GetGameInstance());
+	Inst->SetChatWindow(this);
+}
+
 // 채팅리스트에 채팅위젯이 추가된 경우 실행 함수
 void UCChatWindow::AddChatMessage(UObject* _chatMsgObj, UUserWidget* _chatMsgWidget)
 {
@@ -26,6 +32,12 @@ void UCChatWindow::AddChatMessage(UObject* _chatMsgObj, UUserWidget* _chatMsgWid
 
 	FString msg = pChatMessage->GetChatMessage();
 	pMsgWidget->Message = msg;
+}
+
+void UCChatWindow::AddChatMessage(UCChatMessage* _chatMassage)
+{
+	MessageList->AddItem(_chatMassage);
+	MessageList->SetScrollOffset(MessageList->GetNumItems() * 50.0f);
 }
 
 void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::Type _commitType)

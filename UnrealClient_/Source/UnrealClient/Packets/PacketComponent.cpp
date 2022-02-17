@@ -3,6 +3,7 @@
 
 #include "PacketComponent.h"
 #include "ClientPackets/LoginResultPacket.h"
+#include "ClientPackets/ChatMessagePacket.h"
 #include "PacketHandler/HandlerHeader.h"
 
 // 패킷 처리 함수
@@ -50,6 +51,9 @@ void UPacketComponent::BeginPlay()
 
 	m_handlerContainer.Add(PacketType::LOGIN_RESULT
 		, std::bind(&ProcessHandler<LoginResultPacketHandler, LoginResultPacket>, std::placeholders::_1, m_pGameInst, world));
+	
+	m_handlerContainer.Add(PacketType::CHAT_MESSAGE
+		, std::bind(&ProcessHandler<ChatMessagePacketHandler, ChatMessagePacket>, std::placeholders::_1, m_pGameInst, world));
 
 }
 
@@ -75,6 +79,7 @@ void UPacketComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 			continue;
 		}
 
+		UE_LOG(LogTemp, Log, TEXT("start packet handler"));
 		(*handler)(packet);
 	}
 }

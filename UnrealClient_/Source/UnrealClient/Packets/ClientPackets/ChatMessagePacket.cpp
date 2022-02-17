@@ -10,7 +10,7 @@ ChatMessagePacket::ChatMessagePacket()
 ChatMessagePacket::ChatMessagePacket(const FString& _userID, const FString& _ChatMessage)
 	: ClientPacketBase(PacketType::CHAT_MESSAGE)
 	, m_userID(FTCHARToUTF8(*_userID).Get())
-	, m_ChatMessage(FTCHARToUTF8(*_ChatMessage).Get())
+	, m_chatMessage(FTCHARToUTF8(*_ChatMessage).Get())
 {
 }
 
@@ -22,7 +22,7 @@ void ChatMessagePacket::Serialize(ClientSerializer& _serializer)
 {
 	_serializer << static_cast<int>(m_packetType);
 	_serializer << m_userID;
-	_serializer << m_ChatMessage;
+	_serializer << m_chatMessage;
 }
 
 void ChatMessagePacket::Deserialize(ClientSerializer& _serializer)
@@ -32,6 +32,6 @@ void ChatMessagePacket::Deserialize(ClientSerializer& _serializer)
 	m_packetType = (PacketType)type;
 
 	_serializer >> m_userID;
-	_serializer >> m_ChatMessage;
+	_serializer >> m_chatMessage;
 }
 

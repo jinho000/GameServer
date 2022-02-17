@@ -12,9 +12,9 @@
 #include "UnrealThread.h"
 #include "CGameInstance.generated.h"
 
-/**
- * 
- */
+class UCChatWindow;
+
+
 // 게임 시작부터 종료시까지 살아있는 클래스
 // 레벨이 바뀔때에도 남아 할일을 처리
 UCLASS()
@@ -32,8 +32,9 @@ private:
 	ISocketSubsystem*	m_socketSystem;
 	FSocket*			m_socket;
 
-	// UserInfo
+	// Chatting
 	FString				m_userID;
+	UCChatWindow*	m_chatWindow;
 
 public:
 	UCGameInstance();
@@ -58,8 +59,16 @@ public:
 
 	TQueue<std::shared_ptr<ClientPacketBase>>& GetPacketQueue() { return m_packetQueue; }
 
-// UserInfo
+// Chatting
 public:
 	const FString& GetUserID() { return m_userID; }
 	void SetUserID(const FString& _id) { m_userID = _id; }
+
+	UCChatWindow* GetChatWindow() 
+	{
+		check(nullptr != m_chatWindow)
+		return m_chatWindow; 
+	}
+
+	void SetChatWindow(UCChatWindow* _chatWindow) { m_chatWindow = _chatWindow; }
 };

@@ -6,9 +6,9 @@
 // 패킷 구성: [패킷타입] [m_userID] [m_ChatMessage]
 class ChatMessagePacket : public ClientPacketBase
 {
-private: // member var
+public: // member var
 	std::string m_userID;
-	std::string m_ChatMessage;
+	std::string m_chatMessage;
 
 public: // default
 	ChatMessagePacket();

@@ -12,7 +12,6 @@ LoginPacket::LoginPacket(const FString& _id, const FString& _password)
 	, m_id(FTCHARToUTF8(*_id).Get())
 	, m_password(FTCHARToUTF8(*_password).Get())
 {
-
 }
 
 LoginPacket::~LoginPacket()

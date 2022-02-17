@@ -16,7 +16,7 @@ void LoginResultPacketHandler::Start()
 	if (EResultCode::OK == m_packet->GetResultCode())
 	{
 		UE_LOG(LogTemp, Log, TEXT("Recv Login Result Packet"))
-		//UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));
+		UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));
 	}
 }
 
