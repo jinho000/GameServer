@@ -4,6 +4,7 @@
 #include "GameServerBase/ServerQueue.h"
 #include "GameServerBase/ServerObjectPool.h"
 #include "SendOverlapped.h"
+#include "TCPListener.h"
 
 // 용도 : 서버와 클라의 연결
 // 분류 :
@@ -75,4 +76,6 @@ public: // member Func
 	__int64 GetSessionID() const;
 	void SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack);
 	void Send(const std::vector<uint8_t>& _buffer);
+
+	TCPListener* GetTCPListener() { return GetParent<TCPListener>(); }
 };

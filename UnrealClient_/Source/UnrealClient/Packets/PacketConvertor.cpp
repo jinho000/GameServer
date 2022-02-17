@@ -5,6 +5,7 @@
 #include "ClientSerializer.h"
 #include "ClientPackets/LoginPacket.h"
 #include "ClientPackets/LoginResultPacket.h"
+#include "ClientPackets/ChatMessagePacket.h"
 
 PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	: m_packet(nullptr)
@@ -24,6 +25,12 @@ PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	case PacketType::LOGIN_RESULT:
 	{
 		m_packet = std::make_shared<LoginResultPacket>();
+		*m_packet << sr;
+		break;
+	}
+	case PacketType::CHAT_MESSAGE:
+	{
+		m_packet = std::make_shared<ChatMessagePacket>();
 		*m_packet << sr;
 		break;
 	}

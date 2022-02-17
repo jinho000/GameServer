@@ -49,7 +49,8 @@ private:
 	void CloseSocket();
 
 public: // member Func
-
+	void BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession);
+	void BroadCast(const std::vector<uint8_t>& _buffer);
 
 };
 

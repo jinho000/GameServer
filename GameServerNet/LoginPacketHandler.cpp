@@ -3,6 +3,7 @@
 #include "LoginResultPacket.h"
 #include "ServerSerializer.h"
 #include "TCPSession.h"
+#include "GameServerBase/ServerDebug.h"
 
 LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, PtrSLoginPacket _packet)
 	: m_TCPSession(_TCPSession)
@@ -25,8 +26,8 @@ void LoginPacketHandler::ResultSend()
 
 void LoginPacketHandler::Start()
 {
-	std::cout << "ID: " << m_packet->m_id << std::endl;;
-	std::cout << "PW: " << m_packet->m_password << std::endl;;
+	ServerDebug::LogInfo("ID: " + m_packet->m_id);
+	ServerDebug::LogInfo("PW: " + m_packet->m_password);
 
 	// 결과 검증 후 확인 패킷 전달
 	LoginResultPacket resultPacket(EResultCode::OK);

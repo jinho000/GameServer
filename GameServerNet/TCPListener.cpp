@@ -4,6 +4,7 @@
 #include "ServerHelper.h"
 #include "AcceptExOverlapped.h"
 #include "TCPSession.h"
+#include "GameServerBase/ServerDebug.h"
 
 TCPListener::TCPListener(const IPEndPoint& _EndPoint, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
 	: m_listenerSocket(NULL)
@@ -204,4 +205,29 @@ void TCPListener::CloseSocket()
 		closesocket(m_listenerSocket);
 		m_listenerSocket = NULL;
 	}
+}
+
+void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession)
+{
+	ServerDebug::LogInfo("BroadCast");
+
+	std::lock_guard<std::mutex> lockGuard(m_connecsLock);
+
+	auto iter = m_connections.begin();
+	while (iter != m_connections.end())
+	{
+		// 패킷요청한 세션을 무시하고 전달하는 경우
+		if (iter->second == _requestSession)
+		{
+			continue;
+		}
+
+		iter->second->Send(_buffer);
+		++iter;
+	}
+}
+
+void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer)
+{
+	BroadCast(_buffer, nullptr);
 }

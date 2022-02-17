@@ -67,9 +67,15 @@ void UPacketComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		std::shared_ptr<ClientPacketBase> packet;
 		packetQueue.Dequeue(packet);
 		PacketType type = packet->GetPacketType();
-		ClientPacketHandler& handler = *m_handlerContainer.Find(packet->GetPacketType());
-		handler(packet);
+		ClientPacketHandler* handler = m_handlerContainer.Find(packet->GetPacketType());
 		
+		if (nullptr == handler)
+		{
+			UE_LOG(LogTemp, Log, TEXT("packet handler is nullptr"));
+			continue;
+		}
+
+		(*handler)(packet);
 	}
 }
 

@@ -70,6 +70,12 @@
     <ClInclude Include="PacketType.h">
       <Filter>Packet\ServerPackets</Filter>
     </ClInclude>
+    <ClInclude Include="ChatMessagePacket.h">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatPacketHandler.h">
+      <Filter>Packet\ThreadHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -131,6 +137,12 @@
     </ClCompile>
     <ClCompile Include="ServerPacketBase.cpp">
       <Filter>Packet\ServerPackets</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatMessagePacket.cpp">
+      <Filter>Packet\ServerPackets</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatPacketHandler.cpp">
+      <Filter>Packet\ThreadHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

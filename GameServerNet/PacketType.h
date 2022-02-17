@@ -3,7 +3,8 @@
 enum class PacketType
 {
 	LOGIN,
-	LOGIN_RESULT
+	LOGIN_RESULT,
+	CHAT_MESSAGE
 };
 
 enum class EResultCode

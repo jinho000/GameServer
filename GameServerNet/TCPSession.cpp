@@ -5,7 +5,6 @@
 #include "RecvOverlapped.h"
 #include "DisconnectOverlapped.h"
 #include "SendOverlapped.h"
-#include "TCPListener.h"
 
 TCPSession::TCPSession()
 	: m_conectId(ServerUnique::GetNextUniqueId())

@@ -34,6 +34,10 @@ public: // member Func
 	const PacketHandler<Session>& GetHandler(PacketType _packetType)
 	{
 		auto iter = m_handlers.find(_packetType);
+
+		// 패킷에 대한 핸들러가 등록되어 있어야함
+		assert(iter != m_handlers.end());
+
 		return iter->second;
 	}
 };

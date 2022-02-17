@@ -1,6 +1,5 @@
 #pragma once
 #include "ServerPacketBase.h"
-#include "ServerSerializer.h"
 
 // 서버에서 사용할 로그인 패킷
 class LoginPacket : public ServerPacketBase

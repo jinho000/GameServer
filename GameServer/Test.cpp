@@ -16,9 +16,11 @@
 #include <GameServerNet/ServerSerializer.h>
 #include <GameServerNet/ServerPacketBase.h>
 #include <GameServerNet/LoginPacket.h>
+#include <GameServerNet/ChatMessagePacket.h>
 #include <GameServerNet/PacketConvertor.h>
 #include <GameServerNet/PacketDispatcher.h>
 #include <GameServerNet/LoginPacketHandler.h>
+#include <GameServerNet/ChatPacketHandler.h>
 
 #include <GameServerNet/enum.h>
 
@@ -202,7 +204,10 @@ void Test::TestListener()
 {
 	// dispatcher에 패킷을 처리할 함수 추가
 	PacketHandler<TCPSession> loginHandler = &ProcessHandler<LoginPacket, LoginPacketHandler>;
+	PacketHandler<TCPSession> chatMessageHandler = &ProcessHandler<ChatMessagePacket, ChatPacketHandler>;
+	
 	dispatcher.AddHandler(PacketType::LOGIN, loginHandler);
+	dispatcher.AddHandler(PacketType::CHAT_MESSAGE, chatMessageHandler);
 
 	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");

@@ -85,6 +85,13 @@ bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
 {
 	if (0 == _bytes.size())
 	{
+		UE_LOG(LogTemp, Log, TEXT("GameInstance - Byte Size is 0"));
+		return false;
+	}
+
+	if (nullptr == m_socket)
+	{
+		UE_LOG(LogTemp, Log, TEXT("GameInstance - Not Connected"));
 		return false;
 	}
 

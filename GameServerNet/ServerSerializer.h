@@ -1,4 +1,5 @@
 #pragma once
+#include "GameServerBase/ServerString.h"
 
 // 单捞磐 流纺拳 贸府
 class ServerSerializer

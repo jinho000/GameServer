@@ -171,6 +171,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ChatMessagePacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ChatPacketHandler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DisconnectOverlapped.h">
       <SubType>
       </SubType>
@@ -235,6 +243,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AcceptExOverlapped.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ChatMessagePacket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ChatPacketHandler.cpp">
       <SubType>
       </SubType>
     </ClCompile>

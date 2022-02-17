@@ -23,6 +23,7 @@ class UNREALCLIENT_API UCGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 private:
+	// Socket
 	TQueue<std::shared_ptr<ClientPacketBase>> m_packetQueue;
 
 	UnrealThread*		m_recvThread;
@@ -31,10 +32,14 @@ private:
 	ISocketSubsystem*	m_socketSystem;
 	FSocket*			m_socket;
 
+	// UserInfo
+	FString				m_userID;
+
 public:
 	UCGameInstance();
 	virtual ~UCGameInstance();
 
+// Socket
 private:
 	void CloseSocket();
 
@@ -52,4 +57,9 @@ public:
 	bool SendFString(const FString& _fstr);
 
 	TQueue<std::shared_ptr<ClientPacketBase>>& GetPacketQueue() { return m_packetQueue; }
+
+// UserInfo
+public:
+	const FString& GetUserID() { return m_userID; }
+	void SetUserID(const FString& _id) { m_userID = _id; }
 };

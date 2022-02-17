@@ -6,7 +6,11 @@
 
 #include "CChatMsgWidget.h"
 #include "CChatMessage.h"
+#include "../Packets/ClientPackets/ChatMessagePacket.h"
+#include "../Packets/ClientSerializer.h"
+#include "../Global/CGameInstance.h"
 
+// 채팅리스트에 채팅위젯이 추가된 경우 실행 함수
 void UCChatWindow::AddChatMessage(UObject* _chatMsgObj, UUserWidget* _chatMsgWidget)
 {
 	UE_LOG(LogTemp, Log, TEXT("AddChatMessage"));
@@ -24,20 +28,29 @@ void UCChatWindow::AddChatMessage(UObject* _chatMsgObj, UUserWidget* _chatMsgWid
 	pMsgWidget->Message = msg;
 }
 
-void UCChatWindow::OnChatMsgCommitted(const FString& _text, ETextCommit::Type _commitType)
+void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::Type _commitType)
 {
-	UE_LOG(LogTemp, Log, TEXT("OnChatMsgCommitted"));
-
 	// enter 입력인경우만 처리
 	if (ETextCommit::Type::OnEnter != _commitType)
 	{
 		return;
 	}
 
-	UCChatMessage* pChatMessage = NewObject<UCChatMessage>();
-	pChatMessage->Init(TEXT("UserID"), _text);
+	UE_LOG(LogTemp, Log, TEXT("OnChatMsgCommitted"));
+	
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	ChatMessagePacket packet(gameInst->GetUserID(), _chatMessage);
+	ClientSerializer sr;
+	packet >> sr;
 
-	MessageList->AddItem(pChatMessage);
+	UE_LOG(LogTemp, Log, TEXT("Send id: %s"), *gameInst->GetUserID());
+	UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
+	gameInst->SendBytes(sr.GetBuffer());
+
+	//UCChatMessage* pChatMessage = NewObject<UCChatMessage>();
+	//pChatMessage->Init(gameInst->GetUserID(), _text);
+	//MessageList->AddItem(pChatMessage);
+
 
 	// 입력 비우기
 	InputText.Empty();

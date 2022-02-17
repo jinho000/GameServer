@@ -3,6 +3,7 @@
 #include "ServerSerializer.h"
 #include "LoginPacket.h"
 #include "LoginResultPacket.h"
+#include "ChatMessagePacket.h"
 
 PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	: m_packet(nullptr)
@@ -18,7 +19,16 @@ PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 		*m_packet << sr;
 		break;
 	}
+	case PacketType::CHAT_MESSAGE:
+	{
+		ServerSerializer sr(_buffer);
+		m_packet = std::make_shared<ChatMessagePacket>();
+		*m_packet << sr;
+		break;
+	}
 	default:
+		// 패킷 타입을 정하지 않은경우
+		assert(nullptr); 
 		break;
 	}
 }
