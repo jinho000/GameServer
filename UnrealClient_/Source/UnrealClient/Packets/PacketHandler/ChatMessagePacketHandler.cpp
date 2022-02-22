@@ -1,8 +1,8 @@
 #include "ChatMessagePacketHandler.h"
 #include <Kismet/GameplayStatics.h>
-#include "../../Play/CChatMessage.h"
+#include "../../Play/Chat/CChatMessage.h"
 #include "../../Global/CGameInstance.h"
-#include "../../Play/CChatWindow.h"
+#include "../../Play/Chat/CChatWindow.h"
 
 ChatMessagePacketHandler::ChatMessagePacketHandler(const std::shared_ptr<ChatMessagePacket>& _packet)
 	: m_packet(_packet)

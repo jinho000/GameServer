@@ -6,9 +6,9 @@
 
 #include "CChatMsgWidget.h"
 #include "CChatMessage.h"
-#include "../Packets/ClientPackets/ChatMessagePacket.h"
-#include "../Packets/ClientSerializer.h"
-#include "../Global/CGameInstance.h"
+#include "../../Packets/ClientPackets/ChatMessagePacket.h"
+#include "../../Packets/ClientSerializer.h"
+#include "../../Global/CGameInstance.h"
 
 void UCChatWindow::NativeConstruct()
 {
