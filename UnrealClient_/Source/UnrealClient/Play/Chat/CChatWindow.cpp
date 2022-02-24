@@ -6,7 +6,9 @@
 
 #include "CChatMsgWidget.h"
 #include "CChatMessage.h"
-#include "../../Packets/ClientPackets/ChatMessagePacket.h"
+#include "../../Packets/ClientPackets/ClientToServer.h"
+#include "../../Packets/ClientPackets/ServerToClient.h"
+#include "../../Packets/ClientPackets/ServerAndClient.h"
 #include "../../Packets/ClientSerializer.h"
 #include "../../Global/CGameInstance.h"
 
@@ -50,14 +52,14 @@ void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::
 
 	UE_LOG(LogTemp, Log, TEXT("OnChatMsgCommitted"));
 	
-	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	ChatMessagePacket packet(gameInst->GetUserID(), _chatMessage);
-	ClientSerializer sr;
-	packet >> sr;
+	//UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	//ChatMessagePacket packet(gameInst->GetUserID(), _chatMessage);
+	//ClientSerializer sr;
+	//packet >> sr;
 
-	UE_LOG(LogTemp, Log, TEXT("Send id: %s"), *gameInst->GetUserID());
-	UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
-	gameInst->SendBytes(sr.GetBuffer());
+	//UE_LOG(LogTemp, Log, TEXT("Send id: %s"), *gameInst->GetUserID());
+	//UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
+	//gameInst->SendBytes(sr.GetBuffer());
 
 	//UCChatMessage* pChatMessage = NewObject<UCChatMessage>();
 	//pChatMessage->Init(gameInst->GetUserID(), _text);

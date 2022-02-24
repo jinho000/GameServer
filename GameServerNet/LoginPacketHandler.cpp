@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "LoginPacketHandler.h"
-#include "LoginResultPacket.h"
 #include "ServerSerializer.h"
 #include "TCPSession.h"
 #include "GameServerBase/ServerDebug.h"

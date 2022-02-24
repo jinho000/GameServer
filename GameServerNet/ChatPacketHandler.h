@@ -1,6 +1,7 @@
 #pragma once
-#include "ChatMessagePacket.h"
-
+#include "ServerToClient.h"
+#include "ClientToServer.h"
+#include "ServerAndClient.h"
 
 class ChatPacketHandler
 {

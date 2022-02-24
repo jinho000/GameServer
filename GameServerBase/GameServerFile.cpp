@@ -1,6 +1,6 @@
-#include "PreCompile.h"
+#include "pch.h"
 #include "GameServerFile.h"
-#include "GameServerDebug.h"
+#include "ServerDebug.h"
 
 
 // Static Var
@@ -27,7 +27,7 @@ GameServerFile::GameServerFile(const std::string& _Path, const std::string& _Ope
 
 	if (false == IsExist())
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 	}
 }
 
@@ -38,7 +38,7 @@ GameServerFile::GameServerFile(const std::string& _Path)
 
 	if (false == IsExist())
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 	}
 }
 
@@ -60,7 +60,7 @@ void GameServerFile::Open(const std::string& _Mode)
 	fopen_s(&fileHandle_, path_.string().c_str(), _Mode.c_str());
 	if (nullptr == fileHandle_)
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 	}
 }
 
@@ -79,14 +79,14 @@ void GameServerFile::Write(const void* _Data, size_t _Size)
 	// 왜 쓰려고 하는냐에 대한 예외처리입니다.
 	if (OpenMode[0] != 'w')
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 		return;
 	}
 
 	// 열지도 않은 파일을 사용하려고 했다.
 	if (nullptr == fileHandle_)
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 		return;
 	}
 
@@ -99,14 +99,14 @@ void GameServerFile::Read(void* _Buffer, size_t _BufferSize, size_t _DataSize)
 // 왜 쓰려고 하는냐에 대한 예외처리입니다.
 	if (OpenMode[0] != 'r')
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 		return;
 	}
 
 	// 열지도 않은 파일을 사용하려고 했다.
 	if (nullptr == fileHandle_)
 	{
-		GameServerDebug::AssertDebug();
+		ServerDebug::AssertDebug();
 		return;
 	}
 

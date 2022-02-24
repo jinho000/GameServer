@@ -8,13 +8,3 @@ ClientPacketBase::ClientPacketBase(PacketType _packetType)
 ClientPacketBase::~ClientPacketBase()
 {
 }
-
-void ClientPacketBase::operator>>(ClientSerializer& _serializer)
-{
-	Serialize(_serializer);
-}
-
-void ClientPacketBase::operator<<(ClientSerializer& _serializer)
-{
-	Deserialize(_serializer);
-}

@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "PacketConvertor.h"
 #include "ServerSerializer.h"
-#include "LoginPacket.h"
-#include "LoginResultPacket.h"
-#include "ChatMessagePacket.h"
+#include "ServerAndClient.h"
+#include "ServerToClient.h"
+#include "ClientToServer.h"
 
 PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	: m_packet(nullptr)

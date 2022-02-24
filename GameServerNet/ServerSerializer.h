@@ -32,12 +32,25 @@ public: // member Func
 	// Write
 	void Write(const void* _data, int size);
 	void operator<<(int _value);
+	void operator<<(UINT _value);
 	void operator<<(const std::string& _value);
+	template<typename T>
+	void WriteEnum(const T _Value)
+	{
+		Write(reinterpret_cast<const void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+	}
 
 	// read
 	void Read(void* _data, int size);
 	void operator>>(int& _value);
+	void operator>>(UINT& _value);
 	void operator>>(std::string& _value);
+
+	template<typename T>
+	void ReadEnum(T& _Value)
+	{
+		Read(reinterpret_cast<void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+	}
 
 public:
 	const std::vector<uint8_t>& GetBuffer() { return m_buffer; }

@@ -10,17 +10,20 @@
 #include <GameServerBase/ServerIOCPWorker.h>
 #include <GameServerBase/ServerDebug.h>
 #include <GameServerBase/ServerQueue.h>
+#include <GameServerBase/ServerString.h>
+
 #include <GameServerNet/TCPListener.h>
 #include <GameServerNet/TCPSession.h>
-#include <GameServerBase/ServerString.h>
 #include <GameServerNet/ServerSerializer.h>
 #include <GameServerNet/ServerPacketBase.h>
-#include <GameServerNet/LoginPacket.h>
-#include <GameServerNet/ChatMessagePacket.h>
 #include <GameServerNet/PacketConvertor.h>
 #include <GameServerNet/PacketDispatcher.h>
 #include <GameServerNet/LoginPacketHandler.h>
 #include <GameServerNet/ChatPacketHandler.h>
+
+#include <GameServerNet/ServerAndClient.h>
+#include <GameServerNet/ServerToClient.h>
+#include <GameServerNet/ClientToServer.h>
 
 #include <GameServerNet/enum.h>
 

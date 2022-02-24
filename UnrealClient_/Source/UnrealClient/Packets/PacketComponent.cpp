@@ -2,8 +2,9 @@
 
 
 #include "PacketComponent.h"
-#include "ClientPackets/LoginResultPacket.h"
-#include "ClientPackets/ChatMessagePacket.h"
+#include "ClientPackets/ServerAndClient.h"
+#include "ClientPackets/ServerToClient.h"
+#include "ClientPackets/ClientToServer.h"
 #include "PacketHandler/HandlerHeader.h"
 
 // 패킷 처리 함수

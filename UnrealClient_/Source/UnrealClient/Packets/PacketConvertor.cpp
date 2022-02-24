@@ -3,9 +3,9 @@
 
 #include "PacketConvertor.h"
 #include "ClientSerializer.h"
-#include "ClientPackets/LoginPacket.h"
-#include "ClientPackets/LoginResultPacket.h"
-#include "ClientPackets/ChatMessagePacket.h"
+#include "ClientPackets/ServerAndClient.h"
+#include "ClientPackets/ServerToClient.h"
+#include "ClientPackets/ClientToServer.h"
 
 PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
 	: m_packet(nullptr)

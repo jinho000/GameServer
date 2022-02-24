@@ -1,8 +1,8 @@
-#include "PreCompile.h"
+#include "pch.h"
 #include "GameServerDirectory.h"
 #include "GameServerFile.h"
-#include "GameServerDebug.h"
-#include "GameServerString.h"
+#include "ServerDebug.h"
+#include "ServerString.h"
 #include <filesystem>
 
 // Static Var
@@ -71,7 +71,7 @@ bool GameServerDirectory::MoveChild(const std::string& _DirName)
 
 	if (false == IsExist())
 	{
-		GameServerDebug::AssertDebugMsg("존재하지 않는 경로로 이동했습니다.");
+		ServerDebug::AssertDebugMsg("존재하지 않는 경로로 이동했습니다.");
 		return false;
 	}
 
@@ -100,7 +100,7 @@ std::vector<GameServerFile> GameServerDirectory::GetAllFile(const std::string& _
 
 	Filter += _filter;
 
-	GameServerString::ToUpper(Filter);
+	ServerString::ToUpper(Filter);
 
 	std::vector<GameServerFile> Return;
 
@@ -109,7 +109,7 @@ std::vector<GameServerFile> GameServerDirectory::GetAllFile(const std::string& _
 	for (const std::filesystem::directory_entry& File : DirIter)
 	{
 		std::string Ext = File.path().extension().string();
-		GameServerString::ToUpper(Ext);
+		ServerString::ToUpper(Ext);
 
 		if (_filter != "*" && Filter != Ext)
 		{

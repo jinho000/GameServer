@@ -29,6 +29,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameClient", "GameClient\GameClient.vcxproj", "{5F6C0C9B-F079-4319-8D0A-3926AED1F167}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PacketGenerator", "PacketGenerator\PacketGenerator.vcxproj", "{D467DE80-0F5B-4414-8514-14AD262EC3F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{12646427-A883-4A1E-9648-BE9170F00B09} = {12646427-A883-4A1E-9648-BE9170F00B09}
+		{8109AB64-86B5-40BA-A15A-C91E58E612D5} = {8109AB64-86B5-40BA-A15A-C91E58E612D5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

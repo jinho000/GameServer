@@ -1,6 +1,9 @@
 #pragma once
 #include <memory>
-#include "../ClientPackets/ClientPacketBase.h"
+#include "../ClientPackets/ServerAndClient.h"
+#include "../ClientPackets/ServerToClient.h"
+#include "../ClientPackets/ClientToServer.h"
+
 
 // 패킷 핸들러 기본 클래스
 class UCGameInstance;

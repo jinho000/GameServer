@@ -41,6 +41,11 @@ void ClientSerializer::operator<<(int _value)
 	Write(&_value, sizeof(int));
 }
 
+void ClientSerializer::operator<<(UINT _value)
+{
+	Write(&_value, sizeof(UINT));
+}
+
 void ClientSerializer::operator<<(const std::string& _value)
 {
 	size_t size = _value.size();
@@ -63,6 +68,11 @@ void ClientSerializer::Read(void* _data, int _size)
 void ClientSerializer::operator>>(int& _value)
 {
 	Read(&_value, sizeof(int));
+}
+
+void ClientSerializer::operator>>(UINT& _value)
+{
+	Read(&_value, sizeof(UINT));
 }
 
 void ClientSerializer::operator>>(std::string& _value)

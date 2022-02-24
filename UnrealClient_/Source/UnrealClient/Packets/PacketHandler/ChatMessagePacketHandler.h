@@ -1,6 +1,5 @@
 #pragma once
 #include "PacketHandlerBase.h"
-#include "../ClientPackets/ChatMessagePacket.h"
 
 // 로그인 결과 패킷을 처리하기 위한 핸들러
 class ChatMessagePacketHandler : public PacketHandlerBase

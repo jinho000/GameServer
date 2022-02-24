@@ -4,7 +4,10 @@
 #include "CLoginUI.h"
 #include <vector>
 #include "../Global/CGameInstance.h"
-#include "../Packets/ClientPackets/LoginPacket.h"
+#include "../Packets/ClientPackets/ServerAndClient.h"
+#include "../Packets/ClientPackets/ServerToClient.h"
+#include "../Packets/ClientPackets/ClientToServer.h"
+
 #include "../Packets/ClientSerializer.h"
 
 

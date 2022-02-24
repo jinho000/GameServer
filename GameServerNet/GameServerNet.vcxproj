@@ -171,14 +171,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ChatMessagePacket.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ChatPacketHandler.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ClientToServer.h" />
     <ClInclude Include="DisconnectOverlapped.h">
       <SubType>
       </SubType>
@@ -196,12 +193,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="LoginPacket.h" />
     <ClInclude Include="LoginPacketHandler.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="LoginResultPacket.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -211,6 +203,7 @@
     </ClInclude>
     <ClInclude Include="PacketConvertor.h" />
     <ClInclude Include="PacketDispatcher.h" />
+    <ClInclude Include="PacketHandlerHeader.h" />
     <ClInclude Include="PacketType.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RecvOverlapped.h">
@@ -221,12 +214,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerAndClient.h" />
     <ClInclude Include="ServerHelper.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerPacketBase.h" />
     <ClInclude Include="ServerSerializer.h" />
+    <ClInclude Include="ServerToClient.h" />
     <ClInclude Include="SocketAddress.h">
       <SubType>
       </SubType>
@@ -243,10 +238,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AcceptExOverlapped.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ChatMessagePacket.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -270,12 +261,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="LoginPacket.cpp" />
     <ClCompile Include="LoginPacketHandler.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="LoginResultPacket.cpp">
       <SubType>
       </SubType>
     </ClCompile>

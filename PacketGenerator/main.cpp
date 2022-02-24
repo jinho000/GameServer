@@ -1,5 +1,5 @@
 #include <iostream>
-#include <Windows.h>
+#include <GameServerBase/pch.h>
 #include <GameServerBase/ServerDebug.h>
 #include <GameServerBase/GameServerFile.h>
 #include <GameServerBase/GameServerDirectory.h>
