@@ -304,6 +304,11 @@
       </SubType>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="PacketInfo\ClientToServer.txt" />
+    <Text Include="PacketInfo\ServerAndClient.txt" />
+    <Text Include="PacketInfo\ServerToClient.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

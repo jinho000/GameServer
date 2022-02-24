@@ -1,0 +1,2 @@
+|LoginResult-
+EResultCode LoginResultCode;

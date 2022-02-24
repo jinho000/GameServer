@@ -10,7 +10,7 @@ private: // member var
 public: // default
 	PacketConvertor() = delete;
 	PacketConvertor(const std::vector<uint8_t>& _buffer);
-	~PacketConvertor();
+	~PacketConvertor() = default;
 
 	PacketConvertor(const PacketConvertor& _other) = delete;
 	PacketConvertor(PacketConvertor&& _other) = delete;

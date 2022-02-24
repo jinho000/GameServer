@@ -3,6 +3,16 @@
 #include "PacketType.h"
 #include "ServerSerializer.h"
 
+// 패킷의 enum 이름은 항상 E로 시작해야함
+enum class EResultCode
+{
+	NONE = -1,
+	OK,
+	PACKET_ERROR,
+	MAX
+};
+
+
 // 서버에서 사용할 패킷 베이스
 class ServerPacketBase
 {

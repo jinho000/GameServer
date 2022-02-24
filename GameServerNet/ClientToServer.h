@@ -1,45 +1,42 @@
 #pragma once
 #include "ServerPacketBase.h"
 
-// 클라이언트에서 전달한 로그인 패킷
-class LoginPacket : public ServerPacketBase
-{
-public: // member var
-	std::string m_id;
-	std::string m_password;
+class LoginPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::string ID;
+	std::string PW;
+                                                                
+public:                                                         
+    LoginPacket()                                               
+        : ServerPacketBase(PacketType::Login)                    
+        , ID()
+        , PW()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~LoginPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ID) + DataSizeCheck(PW);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << ID;
+        _Serializer << PW;
 
-public: // default
-	LoginPacket()
-		: ServerPacketBase(PacketType::LOGIN)
-		, m_id()
-		, m_password()
-	{}
+    }                                                           
+                                                                
+    void DeSerialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> ID;
+        _Serializer >> PW;
 
-	~LoginPacket() = default;
-
-	LoginPacket(const LoginPacket& _other) = delete;
-	LoginPacket(LoginPacket&& _other) = delete;
-
-protected:
-	LoginPacket& operator=(const LoginPacket& _other) = delete;
-	LoginPacket& operator=(const LoginPacket&& _other) = delete;
-
-private:
-
-
-public: // member Func
-	virtual int SizeCheck() override
-	{
-		return DataSizeCheck(m_id) + DataSizeCheck(m_password);
-	}
-
-	virtual void Serialize(ServerSerializer& _serializer) override {};
-	virtual void Deserialize(ServerSerializer& _serializer) override
-	{
-		ServerPacketBase::Deserialize(_serializer);
-
-		_serializer >> m_id;
-		_serializer >> m_password;
-	}
-};
+    }                                                           
+};                                                              
 

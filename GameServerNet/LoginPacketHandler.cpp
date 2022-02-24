@@ -25,11 +25,13 @@ void LoginPacketHandler::ResultSend()
 
 void LoginPacketHandler::Start()
 {
-	ServerDebug::LogInfo("ID: " + m_packet->m_id);
-	ServerDebug::LogInfo("PW: " + m_packet->m_password);
+	ServerDebug::LogInfo("ID: " + m_packet->ID);
+	ServerDebug::LogInfo("PW: " + m_packet->PW);
 
 	// 결과 검증 후 확인 패킷 전달
-	LoginResultPacket resultPacket(EResultCode::OK);
+	LoginResultPacket resultPacket;
+	resultPacket.LoginResultCode = EResultCode::OK;
+
 	ServerSerializer sr;
 	resultPacket >> sr;
 

@@ -1,45 +1,38 @@
 #pragma once
 #include "ServerPacketBase.h"
 
-// 클라이언트에 로그인 결과 전달 패킷
-class LoginResultPacket : public ServerPacketBase
-{
-private: // member var
-	EResultCode m_resultCode;
+class LoginResultPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	EResultCode LoginResultCode;
+                                                                
+public:                                                         
+    LoginResultPacket()                                               
+        : ServerPacketBase(PacketType::LoginResult)                    
+        , LoginResultCode()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~LoginResultPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(LoginResultCode);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteEnum(LoginResultCode);
 
-public: // default
-	LoginResultPacket()
-		: ServerPacketBase(PacketType::LOGIN_RESULT)
-	{}
+    }                                                           
+                                                                
+    void DeSerialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadEnum(LoginResultCode);
 
-	LoginResultPacket(EResultCode _eResultCode)
-		: ServerPacketBase(PacketType::LOGIN_RESULT)
-		, m_resultCode(_eResultCode)
-	{
-	}
+    }                                                           
+};                                                              
 
-	~LoginResultPacket() = default;
-
-	LoginResultPacket(const LoginResultPacket& _other) = delete;
-	LoginResultPacket(LoginResultPacket&& _other) = delete;
-
-protected:
-	LoginResultPacket& operator=(const LoginResultPacket& _other) = delete;
-	LoginResultPacket& operator=(const LoginResultPacket&& _other) = delete;
-
-private:
-
-public: // member Func
-	virtual int SizeCheck() override
-	{
-		return DataSizeCheck(m_resultCode);
-	}
-
-	virtual void Serialize(ServerSerializer& _serializer) override
-	{
-		ServerPacketBase::Serialize(_serializer);
-		_serializer.WriteEnum(m_resultCode);
-	}
-
-	virtual void Deserialize(ServerSerializer& _serializer) override {};
-};

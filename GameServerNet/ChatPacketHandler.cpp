@@ -18,8 +18,8 @@ void ChatPacketHandler::Start()
 {
 	std::string userID;
 	std::string message;
-	ServerString::UTF8ToANSI(m_packet->m_userID, userID);
-	ServerString::UTF8ToANSI(m_packet->m_chatMessage, message);
+	ServerString::UTF8ToANSI(m_packet->ID, userID);
+	ServerString::UTF8ToANSI(m_packet->Message, message);
 
 	ServerDebug::LogInfo("User ID: " + userID);
 	ServerDebug::LogInfo("Message: " + message);

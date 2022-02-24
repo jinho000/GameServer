@@ -189,28 +189,13 @@ void Test::TestSend()
 
 ServerQueue loginJobQeue(ServerQueue::WORK_TYPE::Default, 10, "jobQueue");
 
-template<class PacketType, class PacketHandler> 
-void ProcessHandler(PtrSTCPSession _s, PtrSPacketBase _packet)
-{
-	// 패킷 변환
-	std::shared_ptr<PacketType> packet = std::dynamic_pointer_cast<PacketType> (_packet);
-	assert(nullptr != packet);
-
-	// handler 처리 시작
-	std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>(_s, packet);
-	handler->Start();
-}
-
 PacketDispatcher<TCPSession> dispatcher;
 
 void Test::TestListener()
 {
 	// dispatcher에 패킷을 처리할 함수 추가
-	PacketHandler<TCPSession> loginHandler = &ProcessHandler<LoginPacket, LoginPacketHandler>;
-	PacketHandler<TCPSession> chatMessageHandler = &ProcessHandler<ChatMessagePacket, ChatPacketHandler>;
-	
-	dispatcher.AddHandler(PacketType::LOGIN, loginHandler);
-	dispatcher.AddHandler(PacketType::CHAT_MESSAGE, chatMessageHandler);
+	//dispatcher.AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
+	//dispatcher.AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatPacketHandler>, std::placeholders::_1, std::placeholders::_2));
 
 	TCPListener listener(std::string("localhost"), 30001, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");

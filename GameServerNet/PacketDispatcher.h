@@ -1,5 +1,9 @@
 #pragma once
 #include "ServerPacketBase.h"
+#include "ServerToClient.h"
+#include "ClientToServer.h"
+#include "ServerAndClient.h"
+#include "PacketHandlerHeader.h"
 
 template <class Session>
 using PacketHandler = std::function<void(std::shared_ptr<Session>, std::shared_ptr<ServerPacketBase>)>;
@@ -13,7 +17,7 @@ private: // member var
 	std::unordered_map<PacketType, PacketHandler<Session>> m_handlers;
 
 public: // default
-	PacketDispatcher() = default;
+	PacketDispatcher();
 	~PacketDispatcher() = default;
 
 	PacketDispatcher(const PacketDispatcher& _other) = delete;
@@ -26,7 +30,7 @@ protected:
 private:
 
 public: // member Func
-	void AddHandler(PacketType _packetType, PacketHandler<Session>& _handler)
+	void AddHandler(PacketType _packetType, PacketHandler<Session> _handler)
 	{
 		m_handlers.insert(std::make_pair(_packetType, _handler));
 	}
@@ -40,5 +44,24 @@ public: // member Func
 
 		return iter->second;
 	}
+
+	template<class PacketType, class PacketHandler>
+	static void ProcessHandler(PtrSTCPSession _s, PtrSPacketBase _packet)
+	{
+		// 패킷 변환
+		std::shared_ptr<PacketType> packet = std::dynamic_pointer_cast<PacketType> (_packet);
+		assert(nullptr != packet);
+
+		// handler 처리 시작
+		std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>(_s, packet);
+		handler->Start();
+	}
 };
 
+template<class Session>
+inline PacketDispatcher<Session>::PacketDispatcher()
+{
+	// dispatcher에 패킷을 처리할 함수 추가
+	AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
+	AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatPacketHandler>, std::placeholders::_1, std::placeholders::_2));
+}

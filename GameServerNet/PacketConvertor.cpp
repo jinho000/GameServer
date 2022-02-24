@@ -5,35 +5,28 @@
 #include "ServerToClient.h"
 #include "ClientToServer.h"
 
-PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
+PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	: m_packet(nullptr)
 {
+	ServerSerializer sr(_buffer);
+
 	PacketType type;
 	memcpy_s(&type, sizeof(PacketType), _buffer.data(), sizeof(PacketType));
 	switch (type)
 	{
-	case PacketType::LOGIN:
-	{
-		ServerSerializer sr(_buffer);
+	case PacketType::Login:
 		m_packet = std::make_shared<LoginPacket>();
-		*m_packet << sr;
 		break;
-	}
-	case PacketType::CHAT_MESSAGE:
-	{
-		ServerSerializer sr(_buffer);
+	case PacketType::LoginResult:
+		m_packet = std::make_shared<LoginResultPacket>();
+		break;
+	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();
-		*m_packet << sr;
 		break;
-	}
 	default:
-		// 패킷 타입을 정하지 않은경우
-		assert(nullptr); 
-		break;
+		assert(nullptr);
+		return;
 	}
-}
 
-PacketConvertor::~PacketConvertor()
-{
+	*m_packet << sr;
 }
-

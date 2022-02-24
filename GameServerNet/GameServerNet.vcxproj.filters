@@ -170,5 +170,19 @@
     <Filter Include="Packet\ServerPackets">
       <UniqueIdentifier>{a4cc6a13-2a76-4b21-8cb3-ac58934dc23d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet\PacketInfo">
+      <UniqueIdentifier>{b88ba3c5-c965-46dc-ac77-56f2d94c92db}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PacketInfo\ClientToServer.txt">
+      <Filter>Packet\PacketInfo</Filter>
+    </Text>
+    <Text Include="PacketInfo\ServerAndClient.txt">
+      <Filter>Packet\PacketInfo</Filter>
+    </Text>
+    <Text Include="PacketInfo\ServerToClient.txt">
+      <Filter>Packet\PacketInfo</Filter>
+    </Text>
   </ItemGroup>
 </Project>
