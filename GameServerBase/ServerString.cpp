@@ -215,3 +215,65 @@ bool ServerString::UNICODEToUTF8(const std::wstring& _UNICODEStr, std::string& _
 
     return true;
 }
+
+std::vector<std::string> ServerString::split(const std::string& input, char delimiter)
+{
+    std::vector<std::string> answer;
+    std::stringstream ss(input);
+    std::string temp;
+
+    while (getline(ss, temp, delimiter))
+    {
+        if (temp == "")
+        {
+            continue;
+        }
+        answer.push_back(temp);
+    }
+
+    return answer;
+}
+
+void ServerString::Replace(std::string& _Text, const std::string& _Prev, const std::string& _Next, int _Count /*= 1*/)
+{
+    int cnt = 0;
+    while (_Count > cnt++)
+    {
+        size_t startIdx = _Text.find(_Prev);
+        if (startIdx == std::string::npos)
+            return;
+        _Text.replace(startIdx, _Prev.length(), _Next);
+    }
+    return;
+}
+
+// 삽입하려는 인덱스가 문자열 길이보다 클 경우 삽입 x, 인덱스가 0보다 작을경우 삽입 x
+void ServerString::Insert(std::string& _Text, int _Index, const std::string& _InsertText)
+{
+    if (_Text.length() < _Index || _Index < 0)
+        return;
+    _Text.insert(_Index, _InsertText);
+}
+
+// 공백 제거
+void ServerString::TrimRemove(std::string& _Text)
+{
+    Replace(_Text, " ", "", static_cast<int>(_Text.length()));
+}
+
+void ServerString::ToUpper(std::string& _Text)
+{
+    std::transform(_Text.begin(), _Text.end(), _Text.begin(), [](const char& c) { return std::toupper(c); });
+}
+
+// 전부 삭제
+void ServerString::Remove(std::string& _Text, const std::string& _DeleteText)
+{
+    Replace(_Text, _DeleteText, "", static_cast<int>(_Text.length()));
+}
+
+void ServerString::ClearText(std::string& _Text)
+{
+    Replace(_Text, "\t", "", static_cast<int>(_Text.length()));
+    Replace(_Text, "\n", "", static_cast<int>(_Text.length()));
+}

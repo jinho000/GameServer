@@ -43,6 +43,15 @@
     <ClInclude Include="ServerString.h">
       <Filter>String</Filter>
     </ClInclude>
+    <ClInclude Include="GameServerDirectory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerPath.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -87,6 +96,15 @@
     <ClCompile Include="ServerString.cpp">
       <Filter>String</Filter>
     </ClCompile>
+    <ClCompile Include="GameServerDirectory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerPath.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -109,6 +127,9 @@
     </Filter>
     <Filter Include="String">
       <UniqueIdentifier>{c968b20c-d711-4823-aeaa-c236ea7b425e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{e3e7a599-7b95-4949-9163-c5f00dc3083c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
