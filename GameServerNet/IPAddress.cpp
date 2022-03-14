@@ -31,7 +31,7 @@ __int64 IPAddress::ParseToIPv4Int64(const std::string& _ip)
 	}
 	else
 	{
-		if (inet_pton(AF_INET, strIP.c_str(), &sin.sin_addr.s_addr))
+		if (1 != inet_pton(AF_INET, strIP.c_str(), &sin.sin_addr.s_addr))
 		{
 			return -1;
 		}

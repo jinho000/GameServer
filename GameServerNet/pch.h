@@ -5,3 +5,7 @@
 
 #include "enum.h"
 #include "TypeDefine.h"
+
+#pragma comment (lib, "libmysql.lib")
+
+#include <mysql\mysql.h>

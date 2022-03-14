@@ -79,6 +79,9 @@
     <ClInclude Include="PacketHandlerHeader.h">
       <Filter>Packet\ThreadHandler</Filter>
     </ClInclude>
+    <ClInclude Include="DBConnecterBase.h">
+      <Filter>DB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -138,6 +141,9 @@
     <ClCompile Include="ChatPacketHandler.cpp">
       <Filter>Packet\ThreadHandler</Filter>
     </ClCompile>
+    <ClCompile Include="DBConnecterBase.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -172,6 +178,9 @@
     </Filter>
     <Filter Include="Packet\PacketInfo">
       <UniqueIdentifier>{b88ba3c5-c965-46dc-ac77-56f2d94c92db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

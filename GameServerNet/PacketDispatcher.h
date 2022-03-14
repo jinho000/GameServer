@@ -30,7 +30,7 @@ protected:
 private:
 
 public: // member Func
-	void AddHandler(PacketType _packetType, PacketHandler<Session> _handler)
+	void AddHandler(PacketType _packetType, const PacketHandler<Session>& _handler)
 	{
 		m_handlers.insert(std::make_pair(_packetType, _handler));
 	}
@@ -62,6 +62,6 @@ template<class Session>
 inline PacketDispatcher<Session>::PacketDispatcher()
 {
 	// dispatcher에 패킷을 처리할 함수 추가
-	AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
-	AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatPacketHandler>, std::placeholders::_1, std::placeholders::_2));
+	//AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
+	//AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatPacketHandler>, std::placeholders::_1, std::placeholders::_2));
 }

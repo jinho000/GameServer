@@ -45,7 +45,7 @@ int main()
 	if ("Q" == Ip
 		|| "q" == Ip)
 	{
-		Ip = "127.0.0.1";
+		Ip = "54.84.207.208";
 	}
 
 	SOCKADDR_IN Add = { 0, };

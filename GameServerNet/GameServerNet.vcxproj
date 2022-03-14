@@ -176,6 +176,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ClientToServer.h" />
+    <ClInclude Include="DBConnecterBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DisconnectOverlapped.h">
       <SubType>
       </SubType>
@@ -242,6 +246,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ChatPacketHandler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DBConnecterBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
