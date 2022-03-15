@@ -20,6 +20,7 @@
 #include <GameServerNet/PacketDispatcher.h>
 #include <GameServerNet/LoginPacketHandler.h>
 #include <GameServerNet/ChatPacketHandler.h>
+#include <GameServerNet/DBConnecterBase.h>
 
 #include <GameServerNet/ServerAndClient.h>
 #include <GameServerNet/ServerToClient.h>
@@ -215,8 +216,8 @@ void Test::TestListener()
 	//dispatcher.AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
 	TestHandler();
 
-	TCPListener listener(std::string("172.31.91.10"), 30001, [](PtrSTCPSession _tcpSession) {
-	//TCPListener listener(std::string("172.30.1.45"), 30000, [](PtrSTCPSession _tcpSession) {
+	//TCPListener listener(std::string("172.31.91.10"), 30001, [](PtrSTCPSession _tcpSession) {
+	TCPListener listener(std::string("172.30.1.45"), 30000, [](PtrSTCPSession _tcpSession) {
 	//TCPListener listener(std::string("localhost"), 30000, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");
 
@@ -234,6 +235,9 @@ void Test::TestListener()
 				ServerDebug::LogInfo("접속자 접속 종료");
 			});
 		});
+
+	DBConnecterBase db;
+	db.Connect("sdf", "Sdf", "Sdf", "Sdf", 123);
 
 	_getch();
 }

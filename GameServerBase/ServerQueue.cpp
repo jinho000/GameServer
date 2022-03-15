@@ -10,15 +10,38 @@ void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQ
 	}
 
 	// 스레드 이름 설정
-	std::wstring String;
-	String.assign(_threadName.begin(), _threadName.end());
-	HRESULT hr = SetThreadDescription(GetCurrentThread(), String.c_str());
+	ServerThread::SetThreadName(_threadName + " " + std::to_string(_work->GetIndex()));
 
+	// thread 작업 실행
+	_this->Run(_work);
+}
+
+ServerQueue::ServerQueue()
+	: ServerNameBase("serverQueue")
+	, m_Iocp()
+{
+}
+
+ServerQueue::ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName)
+	: ServerNameBase("serverQueue")
+	, m_Iocp(std::bind(ServerQueue::QueueFunction, std::placeholders::_1, this, _threadName), _threadCount)
+{
+	
+}
+
+
+ServerQueue::~ServerQueue()
+{
+}
+
+void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
+{
 	while (true)
 	{
-		// 스레드 일 시작
+		// 스레드 대기
 		BOOL waitResult = _work->Wait(INFINITE);
 
+		// 스레드 일 시작
 		IocpWaitReturnType checkType = IocpWaitReturnType::RETURN_OK;
 		if (0 == waitResult)
 		{
@@ -71,28 +94,6 @@ void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQ
 		}
 	}
 }
-
-ServerQueue::ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName)
-	: ServerNameBase("serverQueue")
-	, m_Iocp(std::bind(ServerQueue::QueueFunction, std::placeholders::_1, this, _threadName), _threadCount)
-{
-	
-}
-
-//ServerQueue::ServerQueue(ServerQueue&& _other) noexcept
-//	: ServerNameBase(_other.GetName())
-//{
-//}
-
-ServerQueue::~ServerQueue()
-{
-}
-
-//ServerQueue& ServerQueue::operator=(const ServerQueue&& _other)
-//{
-//	// TODO: 여기에 return 문을 삽입합니다.
-//}
-
 
 void ServerQueue::Enqueue(const std::function<void()> _callback)
 {

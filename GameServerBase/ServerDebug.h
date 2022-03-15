@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "ServerIOCP.h"
+//#include "ServerIOCP.h"
 
 enum class LOG_TYPE
 {
@@ -13,6 +13,8 @@ enum class LOG_TYPE
 // 용도 : 서버프레임워크 디버그, 로그 관련 클래스
 // 분류 :
 // 첨언 : 
+class ServerIOCP;
+class ServerIOCPWorker;
 class ServerDebug
 {
 private:
@@ -30,7 +32,7 @@ private:
 
 private: // member var
 	static const char* TypeText[static_cast<int>(LOG_TYPE::SIZE)];
-	static ServerIOCP		LogIOCP;
+	static ServerIOCP*		LogIOCP;
 	static std::atomic<int> LogCount;
 
 public: // default

@@ -82,6 +82,9 @@
     <ClInclude Include="DBConnecterBase.h">
       <Filter>DB</Filter>
     </ClInclude>
+    <ClInclude Include="DBQueue.h">
+      <Filter>Packet\Queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -144,6 +147,9 @@
     <ClCompile Include="DBConnecterBase.cpp">
       <Filter>DB</Filter>
     </ClCompile>
+    <ClCompile Include="DBQueue.cpp">
+      <Filter>Packet\Queue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -181,6 +187,9 @@
     </Filter>
     <Filter Include="DB">
       <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Queue">
+      <UniqueIdentifier>{38e46518-aad1-4dcd-a229-e6ac365b5a03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

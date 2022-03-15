@@ -40,7 +40,8 @@ void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 	if (SOCKET_ERROR == ErrorCode)
 	{
 		CloseSocket();
-		ServerDebug::LogError("bind error");
+		ServerDebug::GetLastErrorPrint();
+		//ServerDebug::LogError("bind error");
 		return;
 	}
 

@@ -41,8 +41,7 @@ private: // member var
 	ServerIOCP m_Iocp;
 
 public: // default
-	ServerQueue() = delete;
-
+	ServerQueue();
 	ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName = "thread queue");
 
 	ServerQueue(const ServerQueue& _other) = delete;
@@ -55,10 +54,35 @@ protected:
 	ServerQueue& operator=(const ServerQueue&& _other) = delete;
 
 private:
+	void Run(std::shared_ptr<ServerIOCPWorker> _Work);
 
 public: // member Func
 	void Enqueue(const std::function<void()> _callback);
 
 	bool NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback) const;
+
+public: // thread local 사용
+	template<typename LocalDataType>
+	void InitializeLocalData(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName)
+	{
+		m_Iocp.InitializeLocalData<LocalDataType>(std::bind(ServerQueue::QueueFunctionLocalData<LocalDataType>, std::placeholders::_1, this, _ThreadName), INFINITE, threadCount);
+	}
+
+	template<typename LocalDataType>
+	static void QueueFunctionLocalData(std::shared_ptr<ServerIOCPWorker> _Work, ServerQueue* _this, const std::string& _Name)
+	{
+		if (nullptr == _this)
+		{
+			ServerDebug::AssertDebugMsg("큐 쓰레드 생성에 실패했습니다.");
+		}
+
+		ServerThread::SetThreadName(_Name + " " + std::to_string(_Work->GetIndex()));
+
+		// thread local 영역의 데이터 생성
+		ServerThread::CreateThreadLocalData<LocalDataType>();
+
+		_this->Run(_Work);
+	}
+
 };
 

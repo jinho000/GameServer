@@ -2,13 +2,15 @@
 #include "ServerDebug.h"
 #include <iostream>
 #include <cassert>
+#include "ServerIOCP.h"
 
 const char* ServerDebug::TypeText[static_cast<int>(LOG_TYPE::SIZE)] = { "ERROR	: ", "WARNING	: ", "INFO	: ", };
-ServerIOCP ServerDebug::LogIOCP(&ServerDebug::LogThread, 1);
+ServerIOCP* ServerDebug::LogIOCP = nullptr;
 std::atomic<int> ServerDebug::LogCount = 0;
 
 ServerDebug::ServerDebug()
 {
+	LogIOCP->Initialize(&ServerDebug::LogThread, 1);
 }
 
 void ServerDebug::Initialize()
@@ -48,9 +50,14 @@ void ServerDebug::AssertDebugMsg(const std::string& _msg)
 
 void ServerDebug::Log(LOG_TYPE _type, const std::string& _log)
 {
+	if (nullptr == LogIOCP)
+	{
+		AssertDebug();
+	}
+
 	std::string logText = _log;
 	std::unique_ptr<LogJob> sendLog = std::make_unique<LogJob>(_type, logText);
-	LogIOCP.PostQueued(0, reinterpret_cast<ULONG_PTR>(sendLog.get()));
+	LogIOCP->PostQueued(0, reinterpret_cast<ULONG_PTR>(sendLog.get()));
 	sendLog.release();
 }
 

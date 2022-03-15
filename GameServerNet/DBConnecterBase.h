@@ -3,6 +3,7 @@
 // 용도 :
 // 분류 :
 // 첨언 :
+struct MYSQL;
 class DBConnecterBase
 {
 private: // member var
@@ -22,6 +23,12 @@ protected:
 private:
 
 public: // member Func
-
+	void Connect(
+		const std::string _Host,
+		const std::string _Id,
+		const std::string _Pw,
+		const std::string _Schema,
+		unsigned int _Port
+	);
 };
 

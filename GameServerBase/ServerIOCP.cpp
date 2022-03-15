@@ -3,6 +3,11 @@
 #include "ServerDebug.h"
 
 
+ServerIOCP::ServerIOCP()
+	: m_IOCPHandle(NULL)
+{
+}
+
 ServerIOCP::ServerIOCP(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount)
 	: m_IOCPHandle(NULL)
 {
@@ -31,6 +36,12 @@ ServerIOCP::ServerIOCP(ServerIOCP&& _other) noexcept
 
 void ServerIOCP::Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>)> func, UINT _threadCount)
 {
+	if (NULL != m_IOCPHandle)
+	{
+		ServerDebug::LogWarning("Handle is not NULL");
+		return;
+	}
+
 	UINT threadCount = _threadCount;
 	if (0 == _threadCount)
 	{
@@ -43,6 +54,7 @@ void ServerIOCP::Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>
 	if (nullptr == m_IOCPHandle)
 	{
 		ServerDebug::AssertDebug();
+		return;
 	}
 
 	m_vecThread.reserve(threadCount);
@@ -51,9 +63,14 @@ void ServerIOCP::Initialize(std::function<void(std::shared_ptr<ServerIOCPWorker>
 	for (UINT i = 0; i < threadCount; ++i)
 	{
 		m_iocpLock.lock();
+
 		std::shared_ptr<ServerIOCPWorker> iocpWorker = std::make_shared<ServerIOCPWorker>(m_IOCPHandle, (UINT)m_vecIOCPWorker.size());
 		m_vecIOCPWorker.push_back(iocpWorker);
-		m_vecThread.push_back(std::make_shared<ServerThread>(func, iocpWorker));
+
+		std::shared_ptr<ServerThread> NewThread = std::make_shared<ServerThread>(func, iocpWorker);
+		NewThread->SetThreadOrder(i);
+		m_vecThread.push_back(NewThread);
+
 		m_iocpLock.unlock();
 	}
 }
@@ -65,11 +82,21 @@ size_t ServerIOCP::GetThreadCount() const
 
 void ServerIOCP::PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey) const
 {
+	if (nullptr == m_IOCPHandle)
+	{
+		ServerDebug::AssertDebug();
+	}
+
 	PostQueuedCompletionStatus(m_IOCPHandle, _dwNumberOfBytesTransferred, _dwCompletionKey, nullptr);
 }
 
 bool ServerIOCP::AsyncBind(HANDLE _handle, ULONG_PTR _dwCompletionKey) const
 {
+	if (nullptr == m_IOCPHandle)
+	{
+		return false;
+	}
+
 	if (m_IOCPHandle != CreateIoCompletionPort(_handle, m_IOCPHandle, _dwCompletionKey, 0))
 	{
 		return false;
