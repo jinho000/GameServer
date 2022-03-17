@@ -176,7 +176,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ClientToServer.h" />
-    <ClInclude Include="DBConnecterBase.h">
+    <ClInclude Include="DBConnecter.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -253,7 +253,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DBConnecterBase.cpp">
+    <ClCompile Include="DBConnecter.cpp">
       <SubType>
       </SubType>
     </ClCompile>

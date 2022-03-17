@@ -4,21 +4,21 @@
 // ºÐ·ù :
 // Ã·¾ð :
 struct MYSQL;
-class DBConnecterBase
+class DBConnecter
 {
 private: // member var
 	MYSQL* mysql_;
 
 public: // default
-	DBConnecterBase();
-	~DBConnecterBase();
+	DBConnecter();
+	~DBConnecter();
 
-	DBConnecterBase(const DBConnecterBase& _other) = delete;
-	DBConnecterBase(DBConnecterBase&& _other) = delete;
+	DBConnecter(const DBConnecter& _other) = delete;
+	DBConnecter(DBConnecter&& _other) = delete;
 
 protected:
-	DBConnecterBase& operator=(const DBConnecterBase& _other) = delete;
-	DBConnecterBase& operator=(const DBConnecterBase&& _other) = delete;
+	DBConnecter& operator=(const DBConnecter& _other) = delete;
+	DBConnecter& operator=(const DBConnecter&& _other) = delete;
 
 private:
 

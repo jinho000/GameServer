@@ -1,19 +1,25 @@
 #include "pch.h"
-#include "DBConnecterBase.h"
+#include "DBConnecter.h"
 #include <mysql\mysql.h>
 
 
-DBConnecterBase::DBConnecterBase()
+DBConnecter::DBConnecter()
 	: mysql_(nullptr)
 {
 }
 
-DBConnecterBase::~DBConnecterBase()
+DBConnecter::~DBConnecter()
 {
 }
 
-void DBConnecterBase::Connect(const std::string _Host, const std::string _Id, const std::string _Pw, const std::string _Schema, unsigned int _Port)
+void DBConnecter::Connect(const std::string _Host, const std::string _Id, const std::string _Pw, const std::string _Schema, unsigned int _Port)
 {
+	// 이미 연결한 경우
+	if (nullptr != mysql_)
+	{
+		return;
+	}
+
 	// 디폴트 init
 	mysql_ = mysql_init(nullptr);
 

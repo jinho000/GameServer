@@ -77,12 +77,14 @@ public:
 			return nullptr;
 		}
 
+		// RTTI를 통해 타입체크
 		LOCAL_DATA_TYPE = &typeid(LocalDataType);
 
 		// 메모리 할당
 		LOCAL_DATA.resize(sizeof(LocalDataType));
 
-		// 주소값 반환
+		// place new
+		// LOCAL_DATA 벡터에 LocalDataType 객체 데이터 추가
 		return new (&LOCAL_DATA[0]) LocalDataType();
 	}
 

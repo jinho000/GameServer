@@ -79,7 +79,7 @@
     <ClInclude Include="PacketHandlerHeader.h">
       <Filter>Packet\ThreadHandler</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnecterBase.h">
+    <ClInclude Include="DBConnecter.h">
       <Filter>DB</Filter>
     </ClInclude>
     <ClInclude Include="DBQueue.h">
@@ -144,7 +144,7 @@
     <ClCompile Include="ChatPacketHandler.cpp">
       <Filter>Packet\ThreadHandler</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnecterBase.cpp">
+    <ClCompile Include="DBConnecter.cpp">
       <Filter>DB</Filter>
     </ClCompile>
     <ClCompile Include="DBQueue.cpp">
