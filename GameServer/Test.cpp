@@ -20,7 +20,7 @@
 #include <GameServerNet/PacketDispatcher.h>
 #include <GameServerNet/LoginPacketHandler.h>
 #include <GameServerNet/ChatPacketHandler.h>
-#include <GameServerNet/DBConnecterBase.h>
+#include <GameServerNet/DBConnecter.h>
 
 #include <GameServerNet/ServerAndClient.h>
 #include <GameServerNet/ServerToClient.h>
@@ -236,9 +236,7 @@ void Test::TestListener()
 			});
 		});
 
-	DBConnecterBase db;
-	db.Connect("sdf", "Sdf", "Sdf", "Sdf", 123);
-
+	
 	_getch();
 }
 
