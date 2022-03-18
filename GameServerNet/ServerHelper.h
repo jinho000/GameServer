@@ -7,13 +7,14 @@ class ServerHelper
 {
 public: // member var
 	static bool InitSocketLib();
+	static std::string GetMyIP();
 
 private: // default
-	ServerHelper();
-	~ServerHelper();
+	ServerHelper() = delete;
+	~ServerHelper() = delete;
 
 	ServerHelper(const ServerHelper& _other) = delete;
-	ServerHelper(ServerHelper&& _other) noexcept;
+	ServerHelper(ServerHelper&& _other) = delete;
 
 protected:
 	ServerHelper& operator=(const ServerHelper& _other) = delete;

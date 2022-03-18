@@ -25,6 +25,7 @@
 #include <GameServerNet/ServerAndClient.h>
 #include <GameServerNet/ServerToClient.h>
 #include <GameServerNet/ClientToServer.h>
+#include <GameServerNet/ServerHelper.h>
 
 #include <GameServerNet/enum.h>
 
@@ -212,14 +213,18 @@ void TestHandler()
 
 void Test::TestListener()
 {
+	//ServerHelper::InitSocketLib();
+
 	// dispatcher에 패킷을 처리할 함수 추가
 	//dispatcher.AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
 	TestHandler();
 
-	// AWS IP
-	//TCPListener listener(std::string("172.31.91.10"), 30001, [](PtrSTCPSession _tcpSession) {
-	TCPListener listener(std::string("172.30.1.45"), 30000, [](PtrSTCPSession _tcpSession) {
+	// AWS IP: 172.31.91.10
+	// My  IP: 172.30.1.45
 	//TCPListener listener(std::string("localhost"), 30000, [](PtrSTCPSession _tcpSession) {
+
+	std::string myIP = ServerHelper::GetMyIP();
+	TCPListener listener(myIP, 30000, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");
 
 		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _buffer) {

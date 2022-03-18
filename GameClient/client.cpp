@@ -1,8 +1,10 @@
 #include "pch.h"
 #include <iostream>
 #include <GameServerBase/ServerDebug.h>
+#include <GameServerNet/ServerHelper.h>
 
 #pragma comment (lib, "GameServerBase.lib")
+#pragma comment (lib, "GameServerNet.lib")
 
 bool end = false;
 void RecvFunc(SOCKET _sessionSocket)
@@ -39,8 +41,9 @@ int ConnectServer()
 
 	//std::cout << "风橇归 林家肺 立加" << std::endl;
 	//std::string Ip = "127.0.0.1";
+	//std::string Ip = "172.30.1.45";
 	std::cout << "辑滚 立加" << std::endl;
-	std::string Ip = "172.30.1.45";
+	std::string Ip = ServerHelper::GetMyIP();
 
 	SOCKADDR_IN Add = { 0, };
 	Add.sin_family = AF_INET;

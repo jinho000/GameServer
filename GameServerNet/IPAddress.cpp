@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "IPAddress.h"
 #include <WS2tcpip.h> // inet_pton 함수 헤더
+#include "GameServerBase/ServerDebug.h"
 
 IPAddress IPAddress::ParseToIPv4(const std::string& _ip)
 {	
@@ -33,6 +34,7 @@ __int64 IPAddress::ParseToIPv4Int64(const std::string& _ip)
 	{
 		if (1 != inet_pton(AF_INET, strIP.c_str(), &sin.sin_addr.s_addr))
 		{
+			ServerDebug::AssertDebugMsg("IP Error");
 			return -1;
 		}
 	}

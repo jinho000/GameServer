@@ -1,6 +1,8 @@
 #pragma once
 
 // OS 기본
+#define _WINSOCK_DEPRECATED_NO_WARNINGS // gethost함수 사용
+
 #include <WS2tcpip.h> // inet_pton 함수를 사용하기 위한 헤더
 #include <WinSock2.h>
 #include <Windows.h> // 아래쪽에 놔야 합니다.
