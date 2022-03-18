@@ -36,13 +36,14 @@ private: // member var
 	static std::atomic<int> LogCount;
 
 public: // default
-	ServerDebug();
+	ServerDebug() = delete;
 	~ServerDebug() = delete;
 
 	ServerDebug(const ServerDebug& _other) = delete;
 	ServerDebug(ServerDebug&& _other) = delete;
 
 	static void Initialize();
+	static void Destroy();
 
 protected:
 	ServerDebug& operator=(const ServerDebug& _other) = delete;

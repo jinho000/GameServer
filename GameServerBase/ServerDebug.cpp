@@ -5,17 +5,17 @@
 #include "ServerIOCP.h"
 
 const char* ServerDebug::TypeText[static_cast<int>(LOG_TYPE::SIZE)] = { "ERROR	: ", "WARNING	: ", "INFO	: ", };
-ServerIOCP* ServerDebug::LogIOCP = nullptr;
+ServerIOCP* ServerDebug::LogIOCP = new ServerIOCP;
 std::atomic<int> ServerDebug::LogCount = 0;
 
-ServerDebug::ServerDebug()
+void ServerDebug::Initialize()
 {
 	LogIOCP->Initialize(&ServerDebug::LogThread, 1);
 }
 
-void ServerDebug::Initialize()
+void ServerDebug::Destroy()
 {
-	//LogIOCP.Initialize(&ServerDebug::LogThread, 1);
+	delete LogIOCP;
 }
 
 
@@ -53,6 +53,7 @@ void ServerDebug::Log(LOG_TYPE _type, const std::string& _log)
 	if (nullptr == LogIOCP)
 	{
 		AssertDebug();
+		return;
 	}
 
 	std::string logText = _log;

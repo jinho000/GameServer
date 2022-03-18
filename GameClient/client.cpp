@@ -37,20 +37,14 @@ int ConnectServer()
 		return 0;
 	}
 
-	std::cout << "IP주소를 입력해주세요" << std::endl;
-	std::string Ip;
-	std::string Port;
-	std::cin >> Ip;
-
-	if ("Q" == Ip
-		|| "q" == Ip)
-	{
-		Ip = "54.84.207.208";
-	}
+	//std::cout << "루프백 주소로 접속" << std::endl;
+	//std::string Ip = "127.0.0.1";
+	std::cout << "서버 접속" << std::endl;
+	std::string Ip = "172.30.1.45";
 
 	SOCKADDR_IN Add = { 0, };
 	Add.sin_family = AF_INET;
-	Add.sin_port = htons(30001);
+	Add.sin_port = htons(30000);
 	if (SOCKET_ERROR == inet_pton(AF_INET, Ip.c_str(), &Add.sin_addr))
 	{
 		return 0;
@@ -120,7 +114,8 @@ void Input()
 //
 int main()
 {
-
+	_getch();
+	ConnectServer();
 	// 서버에 접속합니다
 	// 접속 서버 IP: ~~~
 

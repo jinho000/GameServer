@@ -216,6 +216,7 @@ void Test::TestListener()
 	//dispatcher.AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
 	TestHandler();
 
+	// AWS IP
 	//TCPListener listener(std::string("172.31.91.10"), 30001, [](PtrSTCPSession _tcpSession) {
 	TCPListener listener(std::string("172.30.1.45"), 30000, [](PtrSTCPSession _tcpSession) {
 	//TCPListener listener(std::string("localhost"), 30000, [](PtrSTCPSession _tcpSession) {
