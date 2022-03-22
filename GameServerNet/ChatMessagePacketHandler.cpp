@@ -1,20 +1,20 @@
 #include "pch.h"
-#include "ChatPacketHandler.h"
+#include "ChatMessagePacketHandler.h"
 #include "GameServerBase/ServerDebug.h"
 #include "TCPSession.h"
 #include "TCPListener.h"
 
-ChatPacketHandler::ChatPacketHandler(PtrSTCPSession _TCPSession, PtrSChatMsgPacket _packet)
+ChatMessagePacketHandler::ChatMessagePacketHandler(PtrSTCPSession _TCPSession, PtrSChatMsgPacket _packet)
 	: m_TCPSession(_TCPSession)
 	, m_packet(_packet)
 {
 }
 
-ChatPacketHandler::~ChatPacketHandler()
+ChatMessagePacketHandler::~ChatMessagePacketHandler()
 {
 }
 
-void ChatPacketHandler::Start()
+void ChatMessagePacketHandler::Start()
 {
 	std::string userID;
 	std::string message;

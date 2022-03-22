@@ -353,59 +353,31 @@ int main()
 		}
 
 		
-		///DisFile CREATE////////////////////////////////////////////////////////////////////////////
+		///DispatcherFile CREATE////////////////////////////////////////////////////////////////////////////
 		{
 			// Dispatcher 클래스 옮기기
+			std::string DisText;
+			DisText += "#pragma once									\n";
+			DisText += "template<class Session>							\n";
+			DisText += "PacketDispatcher<Session>::PacketDispatcher()	\n";
+			DisText += "{												\n";
+			DisText += "	// dispatcher에 패킷을 처리할 함수 추가			\n";
+			for (size_t i = 0; i < ClientMessage.size(); i++)
+			{
+				DisText += "	AddHandler(PacketType::" + ClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ClientMessage[i].Name + "Packet, " + ClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
+			}
+
+			for (size_t i = 0; i < ServerClientMessage.size(); i++)
+			{
+				DisText += "	AddHandler(PacketType::" + ServerClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ServerClientMessage[i].Name + "Packet, " + ServerClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
+			}
+			DisText += "}			\n";
+																																					
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
 			FileDir.MoveChild("GameServerNet");
 
-			std::string DisText;
-
-			DisText += "#include \"PreCompile.h\"																																							\n";
-			DisText += "#include \"ServerDispatcher.h\"																																						\n";
-			DisText += "#include <GameServerBase\\ServerDebug.h>																																			\n";
-			DisText += "																																													\n";
-			for (size_t i = 0; i < ClientMessage.size(); i++)
-			{
-				DisText += "#include \"ThreadHandler" + ClientMessage[i].Name + "Message.h\"\n";
-			}
-
-			for (size_t i = 0; i < ServerClientMessage.size(); i++)
-			{
-				DisText += "#include \"ThreadHandler" + ServerClientMessage[i].Name + "Message.h\"\n";
-			}
-			DisText += "																																													\n";
-			DisText += "Dispatcher<TCPSession> Dis;																																							\n";
-			DisText += "																																													\n";
-			DisText += "template<typename MessageHandler, typename MessageType>																																\n";
-			DisText += "void OnMessageProcess(std::shared_ptr<TCPSession> _Session, std::shared_ptr<GameServerMessage> _Message)																			\n";
-			DisText += "{																																													\n";
-			DisText += "	std::shared_ptr<MessageType> ConvertMessage = std::dynamic_pointer_cast<MessageType>(_Message);																					\n";
-			DisText += "	if (nullptr == ConvertMessage)																																					\n";
-			DisText += "	{																																												\n";
-			DisText += "		ServerDebug::LogError(\"ConvertError\");																																\n";
-			DisText += "		return;																																										\n";
-			DisText += "	}																																												\n";
-			DisText += "																																													\n";
-			DisText += "	std::shared_ptr<MessageHandler> Cmd = std::make_shared<MessageHandler>(_Session, ConvertMessage);																				\n";
-			DisText += "	Cmd->Start();																																									\n";
-			DisText += "}																																													\n";
-			DisText += "																																													\n";
-			DisText += "void DispatcherRegistration()																																						\n";
-			DisText += "{																																													\n";
-			for (size_t i = 0; i < ClientMessage.size(); i++)
-			{
-				DisText += "	Dis.AddHandler(static_cast<uint32_t>(MessageId::" + ClientMessage[i].Name + "), std::bind(&OnMessageProcess<ThreadHandler" + ClientMessage[i].Name + "Message, " + ClientMessage[i].Name + "Message>, std::placeholders::_1, std::placeholders::_2));	\n";
-			}
-
-			for (size_t i = 0; i < ServerClientMessage.size(); i++)
-			{
-				DisText += "	Dis.AddHandler(static_cast<uint32_t>(MessageId::" + ServerClientMessage[i].Name + "), std::bind(&OnMessageProcess<ThreadHandler" + ServerClientMessage[i].Name + "Message, " + ServerClientMessage[i].Name + "Message>, std::placeholders::_1, std::placeholders::_2));	\n";
-			}
-			DisText += "}																																													\n";
-
-			std::string SavePath = FileDir.PathToPlusFileName("ServerDispatcher.cpp");
+			std::string SavePath = FileDir.PathToPlusFileName("RegistHandlerToDispatcher.h");
 			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
 			SaveFile.Write(DisText.c_str(), DisText.size());
 

@@ -171,7 +171,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ChatPacketHandler.h">
+    <ClInclude Include="ChatMessagePacketHandler.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -218,6 +218,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="RegistHandlerToDispatcher.h" />
     <ClInclude Include="SendOverlapped.h">
       <SubType>
       </SubType>
@@ -249,7 +250,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ChatPacketHandler.cpp">
+    <ClCompile Include="ChatMessagePacketHandler.cpp">
       <SubType>
       </SubType>
     </ClCompile>

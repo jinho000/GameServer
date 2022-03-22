@@ -20,10 +20,10 @@ void ServerApp::Start()
 		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _buffer) {
 
 			// 패킷 처리
-			PacketConvertor convertor(_buffer);
 			// 패킷에 대한 처리 프로세스 가져오기
-			const PacketHandler<TCPSession>& handler = dispatcher.GetHandler(convertor.GetPacketType());
 			// 패킷 처리 실행
+			PacketConvertor convertor(_buffer);
+			const PacketHandler<TCPSession>& handler = dispatcher.GetHandler(convertor.GetPacketType());
 			handler(_tcpSession, convertor.GetPacket());
 
 			},
@@ -32,6 +32,7 @@ void ServerApp::Start()
 			});
 	});
 
+	_getch();
 
 	ServerDebug::Destroy();
 }

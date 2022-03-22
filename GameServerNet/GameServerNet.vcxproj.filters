@@ -64,7 +64,7 @@
     <ClInclude Include="PacketType.h">
       <Filter>Packet\ServerPackets</Filter>
     </ClInclude>
-    <ClInclude Include="ChatPacketHandler.h">
+    <ClInclude Include="ChatMessagePacketHandler.h">
       <Filter>Packet\ThreadHandler</Filter>
     </ClInclude>
     <ClInclude Include="ServerToClient.h">
@@ -84,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="DBQueue.h">
       <Filter>Packet\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistHandlerToDispatcher.h">
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +144,7 @@
     <ClCompile Include="ServerPacketBase.cpp">
       <Filter>Packet\ServerPackets</Filter>
     </ClCompile>
-    <ClCompile Include="ChatPacketHandler.cpp">
+    <ClCompile Include="ChatMessagePacketHandler.cpp">
       <Filter>Packet\ThreadHandler</Filter>
     </ClCompile>
     <ClCompile Include="DBConnecter.cpp">
