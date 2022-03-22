@@ -381,9 +381,35 @@ int main()
 			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
 			SaveFile.Write(DisText.c_str(), DisText.size());
 
-			std::cout << "test" << std::endl;
-			return 0;
+			
 		}
+
+		// PacketHandlerHeader 
+		{
+			std::string handlerHeaderTxt;
+			handlerHeaderTxt += "#pragma once									\n";
+
+			for (size_t i = 0; i < ClientMessage.size(); i++)
+			{
+				handlerHeaderTxt += "#include \"" + ClientMessage[i].Name + "PacketHandler.h\"\n";
+			}
+
+			for (size_t i = 0; i < ServerClientMessage.size(); i++)
+			{
+				handlerHeaderTxt += "#include \"" + ServerClientMessage[i].Name + "PacketHandler.h\"\n";
+			}
+
+			GameServerDirectory FileDir;
+			FileDir.MoveParent("Project");
+			FileDir.MoveChild("GameServerNet");
+
+			std::string SavePath = FileDir.PathToPlusFileName("PacketHandlerHeader.h");
+			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+			SaveFile.Write(handlerHeaderTxt.c_str(), handlerHeaderTxt.size());
+		}
+
+		std::cout << "complete" << std::endl;
+		return 0;
 	}
 
 
