@@ -15,14 +15,7 @@ ServerIOCP::ServerIOCP(std::function<void(std::shared_ptr<ServerIOCPWorker>)> fu
 }
 
 ServerIOCP::~ServerIOCP()
-{
-	// IOCP 스레드 종료코드
-	for (int i = 0; i < m_vecThread.size(); ++i)
-	{
-		PostQueued(-1, 0);
-		Sleep(1);
-	}
-	
+{	
 	for (int i = 0; i < m_vecThread.size(); ++i)
 	{
 		m_vecThread[i]->Join();

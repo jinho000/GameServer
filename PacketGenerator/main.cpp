@@ -601,10 +601,6 @@ int main()
 			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
 			SaveFile.Write(DisText.c_str(), DisText.size());
 		}
-
-
-
-
 	}
 
 	//if (어떠한 사소한 문제라도 있었다면)
@@ -612,6 +608,6 @@ int main()
 	//	return 1;
 	//}
 	// 
-	// 
+
 	return 0;
 }

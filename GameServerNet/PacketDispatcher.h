@@ -59,8 +59,9 @@ public: // member Func
 };
 
 template<class Session>
-inline PacketDispatcher<Session>::PacketDispatcher()
+PacketDispatcher<Session>::PacketDispatcher()
 {
+	int a = 0;
 	// dispatcher에 패킷을 처리할 함수 추가
 	//AddHandler(PacketType::Login, std::bind(&ProcessHandler<LoginPacket, LoginPacketHandler>, std::placeholders::_1, std::placeholders::_2));
 	//AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatPacketHandler>, std::placeholders::_1, std::placeholders::_2));

@@ -9,6 +9,8 @@
 bool end = false;
 void RecvFunc(SOCKET _sessionSocket)
 {
+	std::cout << "start Recv thread" << std::endl;
+
 	while (false == end)
 	{
 		char buffer[1024];
@@ -39,16 +41,14 @@ int ConnectServer()
 		return 0;
 	}
 
-	//std::cout << "루프백 주소로 접속" << std::endl;
-	//std::string Ip = "127.0.0.1";
-	//std::string Ip = "172.30.1.45";
-	std::cout << "서버 접속" << std::endl;
-	std::string Ip = ServerHelper::GetMyIP();
+	std::string IP = "127.0.0.1";
+	int port = 30000;
+	std::cout << "서버 접속 IP: " << IP << "Port: " << port << std::endl;
 
 	SOCKADDR_IN Add = { 0, };
 	Add.sin_family = AF_INET;
 	Add.sin_port = htons(30000);
-	if (SOCKET_ERROR == inet_pton(AF_INET, Ip.c_str(), &Add.sin_addr))
+	if (SOCKET_ERROR == inet_pton(AF_INET, IP.c_str(), &Add.sin_addr))
 	{
 		return 0;
 	}
@@ -78,6 +78,7 @@ int ConnectServer()
 
 			return 0;
 		}
+
 		int Result = send(SessionSocket, In.c_str(), In.length() + 1, 0);
 	}
 
@@ -104,20 +105,11 @@ void Input()
 
 }
 
-// 서버 테스트용 클라이언트
-// 1 프로그램 시작시 로컬서버에 접속
-// 1.1 접속성공시 접속성공 출력
-// 1.2 접속실패시 접속실패 출력 대기 후 입력을 다시 누르면 다시 접속 시도
-//
-// 2 패킷처리
-// 2.1 패킷 받아오기
-// 2.2 패킷 보내기
-// 
-// 
-//
+
 int main()
 {
 	_getch();
+
 	ConnectServer();
 	// 서버에 접속합니다
 	// 접속 서버 IP: ~~~

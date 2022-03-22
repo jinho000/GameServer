@@ -32,6 +32,12 @@ ServerQueue::ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::stri
 
 ServerQueue::~ServerQueue()
 {
+	// IOCP 스레드 종료코드
+	for (int i = 0; i < m_Iocp.GetThreadCount(); ++i)
+	{
+		m_Iocp.PostQueued((DWORD)ServerQueue::WORK_MSG::WORK_DESTROY, 0);
+		Sleep(1);
+	}
 }
 
 void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
@@ -57,12 +63,16 @@ void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
 			}
 		}
 
-
+		bool isExit = false;
 		DWORD MsgType = _work->GetNumberOfBytes();
 
 		switch (MsgType)
 		{
-		case (DWORD)ServerQueue::WORK_MSG::WORK_DESTROY: break;
+		case (DWORD)ServerQueue::WORK_MSG::WORK_DESTROY:
+		{
+			isExit = true;
+			break;
+		}
 		case (DWORD)ServerQueue::WORK_MSG::POST_JOB:
 		{
 			std::unique_ptr<PostJob> jobTesk = std::unique_ptr<PostJob>(_work->GetCompletionKey<PostJob*>());
@@ -91,6 +101,11 @@ void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
 
 			break;
 		}
+		}
+
+		if (isExit)
+		{
+			break;
 		}
 	}
 }

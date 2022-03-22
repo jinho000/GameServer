@@ -1,17 +1,11 @@
 #include "pch.h"
-#include "Test.h"
 #include <crtdbg.h>
 
+#include <GameServerApp/ServerApp.h>
 
 int main()
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
-	ServerDebug::Initialize();
-
-	Test::TestListener();
-
-	ServerDebug::Destroy();
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// IOCP bind 함수 테스트
 	// 바인드 하고 다시 바인드할때 정상작동?
@@ -20,6 +14,7 @@ int main()
 
 	// ServerQueue의 바인드 함수 이름?
 
+	ServerApp::Start();
 
 	return 0;
 }

@@ -15,6 +15,7 @@ void ServerDebug::Initialize()
 
 void ServerDebug::Destroy()
 {
+	LogIOCP->PostQueued(-1, 0);
 	delete LogIOCP;
 }
 
