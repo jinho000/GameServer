@@ -171,16 +171,19 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ChatMessagePacketHandler.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ClientToServer.h" />
     <ClInclude Include="DBConnecter.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="DBQueue.h">
+    <ClInclude Include="DBQuery.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DBStatement.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DBStatementResult.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -201,37 +204,23 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="LoginPacketHandler.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Overlapped.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PacketConvertor.h" />
-    <ClInclude Include="PacketDispatcher.h" />
-    <ClInclude Include="PacketHandlerHeader.h" />
-    <ClInclude Include="Packets.h" />
-    <ClInclude Include="PacketType.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RecvOverlapped.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="RegistHandlerToDispatcher.h" />
     <ClInclude Include="SendOverlapped.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ServerAndClient.h" />
     <ClInclude Include="ServerHelper.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ServerPacketBase.h" />
-    <ClInclude Include="ServerSerializer.h" />
-    <ClInclude Include="ServerToClient.h" />
     <ClInclude Include="SocketAddress.h">
       <SubType>
       </SubType>
@@ -251,15 +240,19 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ChatMessagePacketHandler.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="DBConnecter.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DBQueue.cpp">
+    <ClCompile Include="DBQuery.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DBStatement.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DBStatementResult.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -279,16 +272,10 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="LoginPacketHandler.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Overlapped.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PacketConvertor.cpp" />
-    <ClCompile Include="PacketDispatcher.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -307,7 +294,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ServerSerializer.cpp" />
     <ClCompile Include="SocketAddress.cpp">
       <SubType>
       </SubType>
@@ -320,11 +306,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="PacketInfo\ClientToServer.txt" />
-    <Text Include="PacketInfo\ServerAndClient.txt" />
-    <Text Include="PacketInfo\ServerToClient.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

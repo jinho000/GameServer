@@ -63,23 +63,30 @@ public: // member Func
 
 public: // thread local 사용
 	template<typename LocalDataType>
-	void InitializeLocalData(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName)
+	void InitializeLocalData(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName, std::function<void(LocalDataType*)> _initLocal = nullptr)
 	{
-		m_Iocp.InitializeLocalData<LocalDataType>(std::bind(ServerQueue::QueueFunctionLocalData<LocalDataType>, std::placeholders::_1, this, _ThreadName), INFINITE, threadCount);
+		m_Iocp.InitializeLocalData<LocalDataType>(std::bind(ServerQueue::QueueFunctionLocalData<LocalDataType>, std::placeholders::_1, this, _ThreadName, _initLocal), INFINITE, threadCount);
 	}
 
 	template<typename LocalDataType>
-	static void QueueFunctionLocalData(std::shared_ptr<ServerIOCPWorker> _Work, ServerQueue* _this, const std::string& _Name)
+	static void QueueFunctionLocalData(std::shared_ptr<ServerIOCPWorker> _Work, ServerQueue* _this, const std::string& _Name, std::function<void(LocalDataType*)> _initLocal)
 	{
 		if (nullptr == _this)
 		{
 			ServerDebug::AssertDebugMsg("큐 쓰레드 생성에 실패했습니다.");
 		}
 
+		// 스레드 이름 설정
 		ServerThread::SetThreadName(_Name + " " + std::to_string(_Work->GetIndex()));
 
-		// thread local 영역의 데이터 생성
-		ServerThread::CreateThreadLocalData<LocalDataType>();
+		// thread local 영역에 필요한 데이터 생성
+		LocalDataType* threadLocalData = ServerThread::CreateThreadLocalData<LocalDataType>();
+
+		// init local data
+		if (nullptr != _initLocal)
+		{
+			_initLocal(threadLocalData);
+		}
 
 		_this->Run(_Work);
 	}

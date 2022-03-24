@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "LoginPacketHandler.h"
 #include "ServerSerializer.h"
-#include "TCPSession.h"
 #include "GameServerBase/ServerDebug.h"
 #include "GameServerBase/ServerThread.h"
 #include "GameServerNet/DBConnecter.h"
-#include "DBQueue.h"
+#include "GameServerNet/TCPSession.h"
+
+#include <GameServerPacket/DBQueue.h>
+
+#include "UserTable.h"
 
 LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, PtrSLoginPacket _packet)
 	: m_TCPSession(_TCPSession)
@@ -31,10 +34,33 @@ void LoginPacketHandler::DBThreadCheckDB()
 	// 3 Thread local로 스레드마다 디비커넥터를 스레드의 로컬메모리로 만들어 두고 꺼내 사용
 	//   -> ServerThread::GetLocalData<DBConnecter>();
 	//   
+	//DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
 
-	DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
+	// 데이터 확인
 
-	int a = 0;
+	// ID로 유저정보 가져오기
+	UserTable_SelectIDToUserInfo SelectQuery(m_packet->ID);
+	std::string userID = m_packet->ID;
+	SelectQuery.DoQuery();
+	std::shared_ptr<UserRow> data = SelectQuery.RowData;
+
+	// 전체 데이터 가져오기
+	UserTable_AllUserInfo queryAllUserInfo;
+	queryAllUserInfo.DoQuery();
+	std::vector<std::shared_ptr<UserRow>> datas = queryAllUserInfo.RowDatas;
+
+
+	// 결과검증 후 콜백함수
+	{
+		// 결과 검증 후 확인 패킷 전달
+		LoginResultPacket resultPacket;
+		resultPacket.LoginResultCode = EResultCode::OK;
+
+		ServerSerializer sr;
+		resultPacket >> sr;
+
+		m_TCPSession->Send(sr.GetBuffer());
+	}
 }
 
 void LoginPacketHandler::ResultSend()
@@ -51,18 +77,5 @@ void LoginPacketHandler::Start()
 	// DB에서 결과가 오면 처리하도록 JobQueue를 만들어서 처리(DBQueue)
 	// 
 	// 핸들러에서 이함수를 실행 후 종료되면, 핸들러 객체가 사라지기때문에 shared_from_this 사용
-	//DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, shared_from_this()));
-
-
-	// 결과검증 후 콜백함수
-	{
-		// 결과 검증 후 확인 패킷 전달
-		LoginResultPacket resultPacket;
-		resultPacket.LoginResultCode = EResultCode::OK;
-
-		ServerSerializer sr;
-		resultPacket >> sr;
-
-		m_TCPSession->Send(sr.GetBuffer());
-	}
+	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, shared_from_this()));
 }

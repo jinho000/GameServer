@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketConvertor.h" />
+    <ClInclude Include="PacketDispatcher.h" />
+    <ClInclude Include="Packets.h" />
+    <ClInclude Include="ServerSerializer.h" />
+    <ClInclude Include="ClientToServer.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketType.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerAndClient.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketBase.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerToClient.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatMessagePacketHandler.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginPacketHandler.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandlerHeader.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistHandlerToDispatcher.h" />
+    <ClInclude Include="DBQueue.h">
+      <Filter>ThreadHandler\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="UserTable.h">
+      <Filter>ThreadHandler\DB</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketConvertor.cpp" />
+    <ClCompile Include="PacketDispatcher.cpp" />
+    <ClCompile Include="ServerSerializer.cpp" />
+    <ClCompile Include="ChatMessagePacketHandler.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPacketHandler.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="DBQueue.cpp">
+      <Filter>ThreadHandler\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="UserTable.cpp">
+      <Filter>ThreadHandler\DB</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="pch">
+      <UniqueIdentifier>{9187dec3-1682-4147-9601-58d82513fc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{188228c2-1f62-41c8-9566-0fe6d6b56f75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PacketInfo">
+      <UniqueIdentifier>{43b4349c-f54c-41b3-bce3-fabb0d16ed79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler">
+      <UniqueIdentifier>{78fb7c9f-87f0-493d-9406-5e5f80ae53a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\DB">
+      <UniqueIdentifier>{cf916334-ac70-4583-a739-7194ea68ec1f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PacketInfo\ClientToServer.txt">
+      <Filter>PacketInfo</Filter>
+    </Text>
+    <Text Include="PacketInfo\ServerAndClient.txt">
+      <Filter>PacketInfo</Filter>
+    </Text>
+    <Text Include="PacketInfo\ServerToClient.txt">
+      <Filter>PacketInfo</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

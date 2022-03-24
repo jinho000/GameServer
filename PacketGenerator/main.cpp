@@ -232,7 +232,7 @@ int main()
 	{
 		GameServerDirectory LoadDir;
 		LoadDir.MoveParent("Project");
-		LoadDir.MoveChild("GameServerNet\\PacketInfo");
+		LoadDir.MoveChild("GameServerPacket\\PacketInfo");
 		{
 			GameServerFile LoadFile = { LoadDir.PathToPlusFileName("ClientToServer.txt"), "rt" };
 			std::string Code = LoadFile.GetString();
@@ -281,7 +281,7 @@ int main()
 		{
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
-			FileDir.MoveChild("GameServerNet");
+			FileDir.MoveChild("GameServerPacket");
 
 			std::string EnumFileText = "#pragma once\n\nenum class PacketType \n{\n";
 
@@ -303,7 +303,7 @@ int main()
 		{
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
-			FileDir.MoveChild("GameServerNet");
+			FileDir.MoveChild("GameServerPacket");
 
 			std::string ConvertFileText = "#include \"pch.h\"\n";
 			// header
@@ -328,20 +328,20 @@ int main()
 			}
 
 			ConvertFileText += "\tdefault:\n";
-			ConvertFileText += "\t\treturn;\n\t}\n\n"; 
-								
+			ConvertFileText += "\t\treturn;\n\t}\n\n";
+
 			ConvertFileText += "\t*m_packet << sr;\n}\n";
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketConvertor.cpp");
-			
+
 			vecSaveFile.push_back({ SavePath, ConvertFileText });
 		}
-		
+
 		///Message Header////////////////////////////////////////////////////////////////////////////
 		{
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
-			FileDir.MoveChild("GameServerNet");
+			FileDir.MoveChild("GameServerPacket");
 
 			MessageHeaderCreate(ClientMessage, FileDir.PathToPlusFileName("ClientToServer.h"), vecSaveFile);
 			MessageHeaderCreate(ServerMessage, FileDir.PathToPlusFileName("ServerToClient.h"), vecSaveFile);
@@ -349,7 +349,7 @@ int main()
 
 		}
 
-		
+
 		///DispatcherFile CREATE////////////////////////////////////////////////////////////////////////////
 		{
 			// Dispatcher 클래스 옮기기
@@ -369,15 +369,15 @@ int main()
 				Code += "	AddHandler(PacketType::" + ServerClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ServerClientMessage[i].Name + "Packet, " + ServerClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
 			}
 			Code += "}			\n";
-																																					
+
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
-			FileDir.MoveChild("GameServerNet");
+			FileDir.MoveChild("GameServerPacket");
 
 			std::string SavePath = FileDir.PathToPlusFileName("RegistHandlerToDispatcher.h");
 			vecSaveFile.push_back({ SavePath , Code });
 
-			
+
 		}
 
 		// PacketHandlerHeader 
@@ -397,10 +397,10 @@ int main()
 
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
-			FileDir.MoveChild("GameServerNet");
+			FileDir.MoveChild("GameServerPacket");
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketHandlerHeader.h");
-			vecSaveFile.push_back({ SavePath , Code});
+			vecSaveFile.push_back({ SavePath , Code });
 		}
 
 	}
@@ -410,7 +410,7 @@ int main()
 	{
 		GameServerDirectory FileDir;
 		FileDir.MoveParent("Project");
-		FileDir.MoveChild("GameServerNet");
+		FileDir.MoveChild("GameServerPacket");
 
 		GameServerDirectory SaveDir;
 		SaveDir.MoveParent("Project");

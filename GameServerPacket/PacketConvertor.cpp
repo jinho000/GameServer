@@ -13,8 +13,10 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	switch (type)
 	{
 	case PacketType::Login:
+	{
 		m_packet = std::make_shared<LoginPacket>();
 		break;
+	}
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
 		break;
@@ -25,5 +27,5 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 		return;
 	}
 
-	*m_packet << sr;
+	m_packet->Deserialize(sr);
 }

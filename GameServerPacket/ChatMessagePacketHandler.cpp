@@ -2,8 +2,8 @@
 #include "ChatMessagePacketHandler.h"
 #include "GameServerBase/ServerDebug.h"
 #include "GameServerBase/ServerString.h"
-#include "TCPSession.h"
-#include "TCPListener.h"
+#include "GameServerNet/TCPSession.h"
+#include "GameServerNet/TCPListener.h"
 
 ChatMessagePacketHandler::ChatMessagePacketHandler(PtrSTCPSession _TCPSession, PtrSChatMsgPacket _packet)
 	: m_TCPSession(_TCPSession)

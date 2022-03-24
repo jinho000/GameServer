@@ -1,46 +1,33 @@
 #pragma once
 #include <GameServerBase/ServerQueue.h>
 
-class TestClass
-{
-public:
-	int Value;
-
-public:
-	TestClass()
-	{
-		int a = 0;
-	}
-
-	virtual ~TestClass()
-	{
-		int a = 0;
-	}
-};
-
-// DB관련 데이터 처리 요청을 위한 큐
+// 용도 : DB관련 처리 큐
+// 첨언 : 객체로 만들지않고 static으로 사용
+class DBConnecter;
 class DBQueue
 {
 private: // member var
-	static ServerQueue JobQueue;
-	
+	DBQueue();
+	~DBQueue();	
 
 public: // default
-	DBQueue();
-	~DBQueue();
 
 	DBQueue(const DBQueue& _other) = delete;
 	DBQueue(DBQueue&& _other) = delete;
 
-protected:
 	DBQueue& operator=(const DBQueue& _other) = delete;
 	DBQueue& operator=(const DBQueue&& _other) = delete;
 
+private: // mem var
+	static ServerQueue JobQueue;
+	static std::mutex ConnectionRock;
+
 private:
+	static void InitDBConnecter(DBConnecter* _DBConnecter);
 
 public:
 	static void Init();
-	static void EnQueue(const std::function<void()>& _callback);
-
+	static void EnQueue(const std::function<void()>& _work);
+	static void Destroy();
 };
 

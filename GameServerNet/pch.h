@@ -6,5 +6,4 @@
 #include "TypeDefine.h"
 
 // lib
-#pragma comment (lib, "GameServerBase.lib")
 #pragma comment (lib, "libmysql.lib")

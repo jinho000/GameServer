@@ -10,6 +10,9 @@ using PacketHandler = std::function<void(std::shared_ptr<Session>, std::shared_p
 
 // 각 패킷마다 타입이 존재
 // 패킷 타입에 따라 어떤 함수로 처리할지 연결시켜줌
+// 여러 패킷 처리에 대한 핸들러를 하나로 모아 정리 시켜줌
+//
+
 template <class Session>
 class PacketDispatcher
 {

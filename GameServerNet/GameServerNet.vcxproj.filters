@@ -46,50 +46,17 @@
     <ClInclude Include="SendOverlapped.h">
       <Filter>IO\Overlapped</Filter>
     </ClInclude>
-    <ClInclude Include="PacketConvertor.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketDispatcher.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerSerializer.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginPacketHandler.h">
-      <Filter>Packet\ThreadHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerPacketBase.h">
-      <Filter>Packet\ServerPackets</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketType.h">
-      <Filter>Packet\ServerPackets</Filter>
-    </ClInclude>
-    <ClInclude Include="ChatMessagePacketHandler.h">
-      <Filter>Packet\ThreadHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerToClient.h">
-      <Filter>Packet\ServerPackets</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientToServer.h">
-      <Filter>Packet\ServerPackets</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerAndClient.h">
-      <Filter>Packet\ServerPackets</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHandlerHeader.h">
-      <Filter>Packet\ThreadHandler</Filter>
-    </ClInclude>
     <ClInclude Include="DBConnecter.h">
       <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="DBQueue.h">
-      <Filter>Packet\Queue</Filter>
+    <ClInclude Include="DBStatement.h">
+      <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="RegistHandlerToDispatcher.h">
-      <Filter>Packet</Filter>
+    <ClInclude Include="DBStatementResult.h">
+      <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="Packets.h">
-      <Filter>Packet</Filter>
+    <ClInclude Include="DBQuery.h">
+      <Filter>DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,26 +99,17 @@
     <ClCompile Include="SendOverlapped.cpp">
       <Filter>IO\Overlapped</Filter>
     </ClCompile>
-    <ClCompile Include="PacketConvertor.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketDispatcher.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerSerializer.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginPacketHandler.cpp">
-      <Filter>Packet\ThreadHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatMessagePacketHandler.cpp">
-      <Filter>Packet\ThreadHandler</Filter>
-    </ClCompile>
     <ClCompile Include="DBConnecter.cpp">
       <Filter>DB</Filter>
     </ClCompile>
-    <ClCompile Include="DBQueue.cpp">
-      <Filter>Packet\Queue</Filter>
+    <ClCompile Include="DBStatement.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DBStatementResult.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DBQuery.cpp">
+      <Filter>DB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,34 +134,8 @@
     <Filter Include="IO\Overlapped">
       <UniqueIdentifier>{40392f50-d27b-464d-9258-0582c21214c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Packet">
-      <UniqueIdentifier>{f9874992-2b32-4471-8656-9cd3c6f38b19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packet\ThreadHandler">
-      <UniqueIdentifier>{255b8424-2fd6-4e78-b8ec-3ea38e6130f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packet\ServerPackets">
-      <UniqueIdentifier>{a4cc6a13-2a76-4b21-8cb3-ac58934dc23d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packet\PacketInfo">
-      <UniqueIdentifier>{b88ba3c5-c965-46dc-ac77-56f2d94c92db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DB">
       <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Packet\Queue">
-      <UniqueIdentifier>{38e46518-aad1-4dcd-a229-e6ac365b5a03}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="PacketInfo\ClientToServer.txt">
-      <Filter>Packet\PacketInfo</Filter>
-    </Text>
-    <Text Include="PacketInfo\ServerAndClient.txt">
-      <Filter>Packet\PacketInfo</Filter>
-    </Text>
-    <Text Include="PacketInfo\ServerToClient.txt">
-      <Filter>Packet\PacketInfo</Filter>
-    </Text>
   </ItemGroup>
 </Project>

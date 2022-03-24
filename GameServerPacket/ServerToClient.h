@@ -1,41 +1,37 @@
 #pragma once
 #include "ServerPacketBase.h"
 
-class LoginPacket : public ServerPacketBase                    
+class LoginResultPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	std::string ID;
-	std::string PW;
+	EResultCode LoginResultCode;
                                                                 
 public:                                                         
-    LoginPacket()                                               
-        : ServerPacketBase(PacketType::Login)                    
-        , ID()
-        , PW()
+    LoginResultPacket()                                               
+        : ServerPacketBase(PacketType::LoginResult)                    
+        , LoginResultCode()
     {                                                           
                                                                 
     }                                                           
                                                                 
-    virtual ~LoginPacket() {}             
+    virtual ~LoginResultPacket() {}             
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ID) + DataSizeCheck(PW);
+		return DataSizeCheck(LoginResultCode);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << ID;
-        _Serializer << PW;
+        _Serializer.WriteEnum(LoginResultCode);
 
     }                                                           
                                                                 
-    void DeSerialize(ServerSerializer& _Serializer)         
+    void Deserialize(ServerSerializer& _Serializer)
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> ID;
-        _Serializer >> PW;
+        _Serializer.ReadEnum(LoginResultCode);
 
     }                                                           
 };                                                              
