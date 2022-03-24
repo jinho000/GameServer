@@ -7,9 +7,7 @@
 #include "../Packets/ClientPackets/ServerAndClient.h"
 #include "../Packets/ClientPackets/ServerToClient.h"
 #include "../Packets/ClientPackets/ClientToServer.h"
-
-#include "../Packets/ClientSerializer.h"
-
+#include "../Packets/ClientPackets/ServerSerializer.h"
 
 void UCLoginUI::ResetConnectInfo()
 {
@@ -31,8 +29,11 @@ bool UCLoginUI::Login()
 	
 
 	// 서버에 유저 정보 전달
-	LoginPacket packet(ID, Password);
-	ClientSerializer sr;
+	LoginPacket packet;
+	packet.ID = std::string(FTCHARToUTF8(*ID).Get());
+	packet.PW = std::string(FTCHARToUTF8(*Password).Get());
+
+	ServerSerializer sr;
 	packet >> sr;
 	
 	return gameInst->SendBytes(sr.GetBuffer());

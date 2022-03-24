@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ChatMessagePacketHandler.h"
 #include "GameServerBase/ServerDebug.h"
+#include "GameServerBase/ServerString.h"
 #include "TCPSession.h"
 #include "TCPListener.h"
 

@@ -1,4 +1,3 @@
-
-#include "PacketHandlerBase.h"
+#pragma once									
 #include "LoginResultPacketHandler.h"
 #include "ChatMessagePacketHandler.h"

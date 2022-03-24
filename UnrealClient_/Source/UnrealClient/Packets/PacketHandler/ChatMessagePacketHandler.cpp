@@ -16,8 +16,8 @@ ChatMessagePacketHandler::~ChatMessagePacketHandler()
 void ChatMessagePacketHandler::Start()
 {
 	// 패킷 분석
-	FString userID = FUTF8ToTCHAR(m_packet->m_userID.c_str()).Get();
-	FString message = FUTF8ToTCHAR(m_packet->m_chatMessage.c_str()).Get();
+	FString userID = FUTF8ToTCHAR(m_packet->ID.c_str()).Get();
+	FString message = FUTF8ToTCHAR(m_packet->Message.c_str()).Get();
 
 	// 채팅 오브젝트 
 	UCChatMessage* chatMessage = NewObject<UCChatMessage>();

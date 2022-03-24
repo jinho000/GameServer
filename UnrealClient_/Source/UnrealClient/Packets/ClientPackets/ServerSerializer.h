@@ -2,10 +2,8 @@
 #include <vector>
 #include <string>
 
-// 클라이언트 객체 직렬화 클래스
-// int: [4바이트 데이터]
-// string: [문자열 사이즈] [문자열 데이터]
-class ClientSerializer
+// 데이터 직렬화 처리
+class ServerSerializer
 {
 private: // member var
 	std::vector<uint8_t>	m_buffer;
@@ -14,20 +12,20 @@ private: // member var
 
 public: // default
 	// write
-	ClientSerializer(int _bufferSizeByte);
-	ClientSerializer();
-	
-	// read
-	ClientSerializer(const std::vector<uint8_t>& _buffer);
-	
-	~ClientSerializer();
+	ServerSerializer(int _bufferSizeByte);
+	ServerSerializer();
 
-	ClientSerializer(const ClientSerializer& _other) = delete;
-	ClientSerializer(ClientSerializer&& _other) = delete;
+	// read
+	ServerSerializer(const std::vector<uint8_t>& _buffer);
+
+	~ServerSerializer();
+
+	ServerSerializer(const ServerSerializer& _other) = delete;
+	ServerSerializer(ServerSerializer&& _other) = delete;
 
 protected:
-	ClientSerializer& operator=(const ClientSerializer& _other) = delete;
-	ClientSerializer& operator=(const ClientSerializer&& _other) = delete;
+	ServerSerializer& operator=(const ServerSerializer& _other) = delete;
+	ServerSerializer& operator=(const ServerSerializer&& _other) = delete;
 
 private:
 
@@ -37,7 +35,6 @@ public: // member Func
 	void operator<<(int _value);
 	void operator<<(UINT _value);
 	void operator<<(const std::string& _value);
-	
 	template<typename T>
 	void WriteEnum(const T _Value)
 	{

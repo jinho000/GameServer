@@ -22,6 +22,12 @@ public:
 	std::vector<MemberInfo> Member;
 };
 
+struct CodeSave
+{
+	std::string savePath;
+	std::string code;
+};
+
 void SerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 {
 	if (_MemberInfo.Type == "std::string")
@@ -76,7 +82,7 @@ void DeSerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	}
 }
 
-void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::string Path)
+void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::string Path, std::vector<CodeSave>& _vecSave)
 {
 	std::string MessageText;
 
@@ -153,8 +159,8 @@ void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::strin
 		MessageText += "\n";
 	}
 
-	GameServerFile SaveFile = GameServerFile{ Path, "wt" };
-	SaveFile.Write(MessageText.c_str(), MessageText.size());
+	_vecSave.push_back({ Path , MessageText });
+
 }
 
 void MessageReflection(std::vector<MessageInfo>& _Collection, const std::string& Code)
@@ -214,16 +220,12 @@ void MessageReflection(std::vector<MessageInfo>& _Collection, const std::string&
 
 int main()
 {
-	//COORD pos = { 0, 0 };
-
-	//HANDLE stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	//SetConsoleCursorPosition(stdHandle, pos);
 
 	std::vector<MessageInfo> AllMessage;
 	std::vector<MessageInfo> ClientMessage;
 	std::vector<MessageInfo> ServerMessage;
 	std::vector<MessageInfo> ServerClientMessage;
+	std::vector<CodeSave>	 vecSaveFile;
 
 
 	// 만들고 나면 다 단순복사가 됩니다 ok?
@@ -294,9 +296,7 @@ int main()
 			EnumFileText += "};";
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketType.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(EnumFileText.c_str(), EnumFileText.size());
-			///////////////////////////////////////////////////////////////////////////////
+			vecSaveFile.push_back({ SavePath, EnumFileText });
 		}
 
 		///CONVERT FILE CREATE////////////////////////////////////////////////////////////////////////////
@@ -309,9 +309,7 @@ int main()
 			// header
 			ConvertFileText += "#include \"PacketConvertor.h\"\n";
 			ConvertFileText += "#include \"ServerSerializer.h\"\n";
-			ConvertFileText += "#include \"ServerAndClient.h\"\n";
-			ConvertFileText += "#include \"ServerToClient.h\"\n";
-			ConvertFileText += "#include \"ClientToServer.h\"\n\n";
+			ConvertFileText += "#include \"Packets.h\"\n\n";
 
 			ConvertFileText += "PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)\n";
 			ConvertFileText += "\t: m_packet(nullptr)\n";
@@ -330,14 +328,13 @@ int main()
 			}
 
 			ConvertFileText += "\tdefault:\n";
-			ConvertFileText += "\t\tassert(nullptr);\n";
 			ConvertFileText += "\t\treturn;\n\t}\n\n"; 
 								
 			ConvertFileText += "\t*m_packet << sr;\n}\n";
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketConvertor.cpp");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(ConvertFileText.c_str(), ConvertFileText.size());
+			
+			vecSaveFile.push_back({ SavePath, ConvertFileText });
 		}
 		
 		///Message Header////////////////////////////////////////////////////////////////////////////
@@ -346,9 +343,9 @@ int main()
 			FileDir.MoveParent("Project");
 			FileDir.MoveChild("GameServerNet");
 
-			MessageHeaderCreate(ClientMessage, FileDir.PathToPlusFileName("ClientToServer.h"));
-			MessageHeaderCreate(ServerMessage, FileDir.PathToPlusFileName("ServerToClient.h"));
-			MessageHeaderCreate(ServerClientMessage, FileDir.PathToPlusFileName("ServerAndClient.h"));
+			MessageHeaderCreate(ClientMessage, FileDir.PathToPlusFileName("ClientToServer.h"), vecSaveFile);
+			MessageHeaderCreate(ServerMessage, FileDir.PathToPlusFileName("ServerToClient.h"), vecSaveFile);
+			MessageHeaderCreate(ServerClientMessage, FileDir.PathToPlusFileName("ServerAndClient.h"), vecSaveFile);
 
 		}
 
@@ -356,47 +353,46 @@ int main()
 		///DispatcherFile CREATE////////////////////////////////////////////////////////////////////////////
 		{
 			// Dispatcher 클래스 옮기기
-			std::string DisText;
-			DisText += "#pragma once									\n";
-			DisText += "template<class Session>							\n";
-			DisText += "PacketDispatcher<Session>::PacketDispatcher()	\n";
-			DisText += "{												\n";
-			DisText += "	// dispatcher에 패킷을 처리할 함수 추가			\n";
+			std::string Code;
+			Code += "#pragma once									\n";
+			Code += "template<class Session>							\n";
+			Code += "PacketDispatcher<Session>::PacketDispatcher()	\n";
+			Code += "{												\n";
+			Code += "	// dispatcher에 패킷을 처리할 함수 추가			\n";
 			for (size_t i = 0; i < ClientMessage.size(); i++)
 			{
-				DisText += "	AddHandler(PacketType::" + ClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ClientMessage[i].Name + "Packet, " + ClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
+				Code += "	AddHandler(PacketType::" + ClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ClientMessage[i].Name + "Packet, " + ClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
 			}
 
 			for (size_t i = 0; i < ServerClientMessage.size(); i++)
 			{
-				DisText += "	AddHandler(PacketType::" + ServerClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ServerClientMessage[i].Name + "Packet, " + ServerClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
+				Code += "	AddHandler(PacketType::" + ServerClientMessage[i].Name + ", std::bind(&ProcessHandler<" + ServerClientMessage[i].Name + "Packet, " + ServerClientMessage[i].Name + "PacketHandler>, std::placeholders::_1, std::placeholders::_2));	\n";
 			}
-			DisText += "}			\n";
+			Code += "}			\n";
 																																					
 			GameServerDirectory FileDir;
 			FileDir.MoveParent("Project");
 			FileDir.MoveChild("GameServerNet");
 
 			std::string SavePath = FileDir.PathToPlusFileName("RegistHandlerToDispatcher.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(DisText.c_str(), DisText.size());
+			vecSaveFile.push_back({ SavePath , Code });
 
 			
 		}
 
 		// PacketHandlerHeader 
 		{
-			std::string handlerHeaderTxt;
-			handlerHeaderTxt += "#pragma once									\n";
+			std::string Code;
+			Code += "#pragma once									\n";
 
 			for (size_t i = 0; i < ClientMessage.size(); i++)
 			{
-				handlerHeaderTxt += "#include \"" + ClientMessage[i].Name + "PacketHandler.h\"\n";
+				Code += "#include \"" + ClientMessage[i].Name + "PacketHandler.h\"\n";
 			}
 
 			for (size_t i = 0; i < ServerClientMessage.size(); i++)
 			{
-				handlerHeaderTxt += "#include \"" + ServerClientMessage[i].Name + "PacketHandler.h\"\n";
+				Code += "#include \"" + ServerClientMessage[i].Name + "PacketHandler.h\"\n";
 			}
 
 			GameServerDirectory FileDir;
@@ -404,208 +400,176 @@ int main()
 			FileDir.MoveChild("GameServerNet");
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketHandlerHeader.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(handlerHeaderTxt.c_str(), handlerHeaderTxt.size());
+			vecSaveFile.push_back({ SavePath , Code});
 		}
 
-		std::cout << "complete" << std::endl;
-		return 0;
 	}
 
 
 	/////////////////////////////////////////////////////////////// 언리얼로 수정 파일 이동.
 	{
 		GameServerDirectory FileDir;
-		FileDir.MoveParent();
-		FileDir.MoveChild("GameServerBase");
+		FileDir.MoveParent("Project");
+		FileDir.MoveChild("GameServerNet");
 
 		GameServerDirectory SaveDir;
-		SaveDir.MoveParent();
-		SaveDir.MoveParent();
-		SaveDir.MoveChild("UnrealClient\\Source\\UnrealClient\\Message");
-
+		SaveDir.MoveParent("Project");
+		SaveDir.MoveChild("UnrealClient_\\Source\\UnrealClient\\Packets");
 
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("GameServerSerializer.h"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerSerializer.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-			Code.replace(Code.find("#include \"GameServerMathStruct.h\"\n")
-				, strlen("#include \"GameServerMathStruct.h\"\n"), "\n");
-
-			std::string SavePath = SaveDir.PathToPlusFileName("GameServerSerializer.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerSerializer.h");
+			
+			vecSaveFile.push_back({ SavePath , Code});
 		}
 
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("GameServerSerializer.cpp"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerSerializer.cpp"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-			Code.erase(0, strlen("#include \"PreCompile.h\"") + 1);
-			std::string SavePath = SaveDir.PathToPlusFileName("GameServerSerializer.cpp");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			Code.erase(0, strlen("#include \"pch.h\"") + 1);
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerSerializer.cpp");
+			vecSaveFile.push_back({ SavePath , Code });
+
 		}
-	}
-
-
-	{
-		GameServerDirectory FileDir;
-		FileDir.MoveParent();
-		FileDir.MoveChild("GameServerMessage");
-
-		GameServerDirectory SaveDir;
-		SaveDir.MoveParent();
-		SaveDir.MoveParent();
-		SaveDir.MoveChild("UnrealClient\\Source\\UnrealClient\\Message");
-
 
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("GameServerMessage.h"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerPacketBase.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-			Code.replace(Code.find("#include <GameServerBase/GameServerMathStruct.h>\n")
-				, strlen("#include <GameServerBase/GameServerMathStruct.h>\n"), "\n");
-
-			Code.replace(Code.find("#include <GameServerBase/GameServerSerializer.h>\n")
-				, strlen("#include <GameServerBase/GameServerSerializer.h>\n"), "#include \"GameServerSerializer.h\"\n");
-
-			std::string SavePath = SaveDir.PathToPlusFileName("GameServerMessage.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerPacketBase.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
 
 
 		{
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerToClient.h"), "rt" };
 			std::string Code = LoadFile.GetString();
-			std::string SavePath = SaveDir.PathToPlusFileName("ServerToClient.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerToClient.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
-
 
 		{
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ClientToServer.h"), "rt" };
 			std::string Code = LoadFile.GetString();
-			std::string SavePath = SaveDir.PathToPlusFileName("ClientToServer.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ClientToServer.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
-
 
 		{
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerAndClient.h"), "rt" };
 			std::string Code = LoadFile.GetString();
-			std::string SavePath = SaveDir.PathToPlusFileName("ServerAndClient.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerAndClient.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
 
 
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("Messages.h"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("Packets.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-
-			//Code.replace(Code.find("#include <GameServerBase/GameServerSerializer.h>\n")
-			//    , strlen("#include <GameServerBase/GameServerSerializer.h>\n"), "#include \"GameServerSerializer.h\"\n");
-
-
-			std::string SavePath = SaveDir.PathToPlusFileName("Messages.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\Packets.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
 
 
-
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("MessageIdEnum.h"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("PacketType.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-			std::string SavePath = SaveDir.PathToPlusFileName("MessageIdEnum.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\PacketType.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
 
-
-
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("MessageConverter.h"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("PacketConvertor.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-			std::string SavePath = SaveDir.PathToPlusFileName("MessageConverter.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			Code.replace(Code.find("#include \"ServerPacketBase.h\"\n")
+				, strlen("#include \"ServerPacketBase.h\"\n")
+				, "#include \"ClientPackets/ServerPacketBase.h\"\n");
+
+			std::string SavePath = SaveDir.PathToPlusFileName("PacketConvertor.h");
+			vecSaveFile.push_back({ SavePath , Code });
+
 		}
 
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("MessageConverter.cpp"), "rt" };
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("PacketConvertor.cpp"), "rt" };
 			std::string Code = LoadFile.GetString();
 
-			Code.erase(0, strlen("#include \"PreCompile.h\"") + 1);
+			Code.erase(0, strlen("#include \"pch.h\"") + 1);
 
-			std::string SavePath = SaveDir.PathToPlusFileName("MessageConverter.cpp");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			Code.replace(Code.find("#include \"ServerSerializer.h\"\n")
+				, strlen("#include \"ServerSerializer.h\"\n")
+				, "#include \"ClientPackets/ServerSerializer.h\"\n");
+
+			Code.replace(Code.find("#include \"Packets.h\"\n")
+				, strlen("#include \"Packets.h\"\n")
+				, "#include \"ClientPackets/Packets.h\"\n");
+
+			std::string SavePath = SaveDir.PathToPlusFileName("PacketConvertor.cpp");
+			vecSaveFile.push_back({ SavePath , Code });
+
 		}
 
 		{
-			///DisFile CREATE////////////////////////////////////////////////////////////////////////////
-			std::string DisText;
+			std::string Code;
+			Code += "#pragma once									\n";
 
-			DisText += "#pragma once																									  \n";
-			DisText += "#include \"CoreMinimal.h\"																						  \n";
-			DisText += "#include <functional>																							 \n";
-			DisText += "																												  \n";
 			for (size_t i = 0; i < ServerMessage.size(); i++)
 			{
-				DisText += "#include \"ThreadHandler" + ServerMessage[i].Name + "Message.h\"\n";
+				Code += "#include \"" + ServerMessage[i].Name + "PacketHandler.h\"\n";
 			}
 
 			for (size_t i = 0; i < ServerClientMessage.size(); i++)
 			{
-				DisText += "#include \"ThreadHandler" + ServerClientMessage[i].Name + "Message.h\"\n";
+				Code += "#include \"" + ServerClientMessage[i].Name + "PacketHandler.h\"\n";
 			}
-			DisText += "																												  \n";
-			DisText += "template<typename MessageHandler, typename MessageType>															  \n";
-			DisText += "void OnMessageProcess(std::shared_ptr<GameServerMessage> _Message, UClientGameInstance* _Inst, UWorld* _World)	  \n";
-			DisText += "{																												  \n";
-			DisText += "	std::shared_ptr<MessageType> ConvertMessage = std::static_pointer_cast<MessageType>(_Message);				  \n";
-			DisText += "	if (nullptr == ConvertMessage)																				  \n";
-			DisText += "	{																											  \n";
-			DisText += "		return;																									  \n";
-			DisText += "	}																											  \n";
-			DisText += "																												  \n";
-			DisText += "	MessageHandler Cmd = MessageHandler(ConvertMessage);														  \n";
-			DisText += "	Cmd.Init(_Inst, _World);																					  \n";
-			DisText += "	Cmd.Start();																								  \n";
-			DisText += "}																												  \n";
-			DisText += "																												  \n";
-			DisText += "void CheckHandler(Dispatcher& Dis, class UClientGameInstance* Inst, UWorld* World)								  \n";
-			DisText += "{														\n";
+
+			std::string SavePath = SaveDir.PathToPlusFileName("PacketHandler\\PacketHandlerHeader.h");
+			vecSaveFile.push_back({ SavePath , Code });
+		}
+
+		{
+			/// Regist Packet Handelr ////////////////////////////////////////////////////////////////////////////
+			std::string Code;
+
+			Code += "void UPacketComponent::RegistPacketHandler()							\n";		
+			Code += "{																		\n";
+
+			Code += "	m_pGameInst = Cast<UCGameInstance>(GetOwner()->GetGameInstance());	\n";
+			Code += "	UWorld* world = GetWorld();											\n";
+
 			for (size_t i = 0; i < ServerMessage.size(); i++)
 			{
-				DisText += "	Dis.AddHandler(MessageId::" + ServerMessage[i].Name + ", std::bind(&OnMessageProcess<ThreadHandler" + ServerMessage[i].Name + "Message, " + ServerMessage[i].Name + "Message>, std::placeholders::_1, Inst, World));	\n";
+				Code += "	m_handlerContainer.Add(PacketType::" + ServerMessage[i].Name
+					+ ", std::bind(&ProcessHandler<" + ServerMessage[i].Name + "PacketHandler, "
+					+ ServerMessage[i].Name + "Packet>, std::placeholders::_1, m_pGameInst, world));	\n";
 			}
 
 			for (size_t i = 0; i < ServerClientMessage.size(); i++)
 			{
-				DisText += "	Dis.AddHandler(MessageId::" + ServerClientMessage[i].Name + ", std::bind(&OnMessageProcess<ThreadHandler" + ServerClientMessage[i].Name + "Message, " + ServerClientMessage[i].Name + "Message>, std::placeholders::_1, Inst, World));	\n";
+				Code += "	m_handlerContainer.Add(PacketType::" + ServerClientMessage[i].Name
+					+ ", std::bind(&ProcessHandler<" + ServerClientMessage[i].Name + "PacketHandler, "
+					+ ServerClientMessage[i].Name + "Packet>, std::placeholders::_1, m_pGameInst, world));	\n";
 			}
-			DisText += "}																																													\n";
 
-			std::string SavePath = SaveDir.PathToPlusFileName("Handler\\HandlerHeader.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(DisText.c_str(), DisText.size());
+			Code += "}\n";
+
+			std::string SavePath = SaveDir.PathToPlusFileName("RegistPacketHandler.h");
+			vecSaveFile.push_back({ SavePath , Code });
+			
 		}
 	}
 
-	//if (어떠한 사소한 문제라도 있었다면)
-	//{
-	//	return 1;
-	//}
-	// 
+	for (size_t i = 0; i < vecSaveFile.size(); i++)
+	{
+		GameServerFile SaveFile = GameServerFile{ vecSaveFile[i].savePath, "wt"};
+		SaveFile.Write(vecSaveFile[i].code.c_str(), vecSaveFile[i].code.size());
+	}
 
 	return 0;
 }

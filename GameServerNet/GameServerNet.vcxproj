@@ -212,6 +212,7 @@
     <ClInclude Include="PacketConvertor.h" />
     <ClInclude Include="PacketDispatcher.h" />
     <ClInclude Include="PacketHandlerHeader.h" />
+    <ClInclude Include="Packets.h" />
     <ClInclude Include="PacketType.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RecvOverlapped.h">
@@ -306,7 +307,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ServerPacketBase.cpp" />
     <ClCompile Include="ServerSerializer.cpp" />
     <ClCompile Include="SocketAddress.cpp">
       <SubType>

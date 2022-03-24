@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 
-#include "../Packets/ClientPackets/ClientPacketBase.h"
+#include "../Packets/ClientPackets/ServerPacketBase.h"
 #include "UnrealThread.h"
 #include "CGameInstance.generated.h"
 
@@ -24,23 +24,23 @@ class UNREALCLIENT_API UCGameInstance : public UGameInstance
 
 private:
 	// Socket
-	TQueue<std::shared_ptr<ClientPacketBase>> m_packetQueue;
+	TQueue<std::shared_ptr<ServerPacketBase>> m_packetQueue;
 
-	UnrealThread*		m_recvThread;
-	FRunnableThread*	m_runnableThread;
+	UnrealThread* m_recvThread;
+	FRunnableThread* m_runnableThread;
 
-	ISocketSubsystem*	m_socketSystem;
-	FSocket*			m_socket;
+	ISocketSubsystem* m_socketSystem;
+	FSocket* m_socket;
 
 	// Chatting
 	FString				m_userID;
-	UCChatWindow*	m_chatWindow;
+	UCChatWindow* m_chatWindow;
 
 public:
 	UCGameInstance();
 	virtual ~UCGameInstance();
 
-// Socket
+	// Socket
 private:
 	void CloseSocket();
 
@@ -57,7 +57,7 @@ public:
 	//    전송시 utf8로 변환하여 전송, 수신시 utf8을 변환하여 수신
 	bool SendFString(const FString& _fstr);
 
-	TQueue<std::shared_ptr<ClientPacketBase>>& GetPacketQueue() { return m_packetQueue; }
+	TQueue<std::shared_ptr<ServerPacketBase>>& GetPacketQueue() { return m_packetQueue; }
 
 // Chatting
 public:

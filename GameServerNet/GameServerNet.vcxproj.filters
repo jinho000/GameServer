@@ -88,6 +88,9 @@
     <ClInclude Include="RegistHandlerToDispatcher.h">
       <Filter>Packet</Filter>
     </ClInclude>
+    <ClInclude Include="Packets.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -140,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="LoginPacketHandler.cpp">
       <Filter>Packet\ThreadHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerPacketBase.cpp">
-      <Filter>Packet\ServerPackets</Filter>
     </ClCompile>
     <ClCompile Include="ChatMessagePacketHandler.cpp">
       <Filter>Packet\ThreadHandler</Filter>

@@ -1,47 +1,28 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "PacketConvertor.h"
-#include "ClientSerializer.h"
-#include "ClientPackets/ServerAndClient.h"
-#include "ClientPackets/ServerToClient.h"
-#include "ClientPackets/ClientToServer.h"
+#include "ClientPackets/ServerSerializer.h"
+#include "ClientPackets/Packets.h"
 
-PacketConvertor::PacketConvertor(const std::vector<uint8_t>& _buffer)
+PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	: m_packet(nullptr)
 {
-	ClientSerializer sr(_buffer);
+	ServerSerializer sr(_buffer);
 
 	PacketType type;
 	memcpy_s(&type, sizeof(PacketType), _buffer.data(), sizeof(PacketType));
 	switch (type)
 	{
-	case PacketType::LOGIN:
-	{
+	case PacketType::Login:
 		m_packet = std::make_shared<LoginPacket>();
-		*m_packet << sr;
 		break;
-	}
-	case PacketType::LOGIN_RESULT:
-	{
+	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
-		*m_packet << sr;
 		break;
-	}
-	case PacketType::CHAT_MESSAGE:
-	{
+	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();
-		*m_packet << sr;
 		break;
-	}
 	default:
-		// 패킷 타입 처리 필요
-		check(false);
-		break;
+		return;
 	}
-}
 
-PacketConvertor::~PacketConvertor()
-{
+	*m_packet << sr;
 }
-

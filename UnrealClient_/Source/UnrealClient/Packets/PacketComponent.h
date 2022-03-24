@@ -8,10 +8,10 @@
 
 #include "../Global/CGameInstance.h"
 #include "Components/ActorComponent.h"
-#include "ClientPackets/ClientPacketBase.h"
+#include "ClientPackets/ServerPacketBase.h"
 #include "PacketComponent.generated.h"
 
-using ClientPacketHandler = std::function<void(std::shared_ptr<ClientPacketBase>)>;
+using ClientPacketHandler = std::function<void(std::shared_ptr<ServerPacketBase>)>;
 
 //패킷을 메시지 컴포넌트에서 매프레임마다 틱을 돌며 큐에있는 패킷을 처리
 //게임모드에 메시지컴포넌트를 추가
@@ -36,7 +36,22 @@ public:
 	UPacketComponent();
 
 private:
-	//const PacketHandler& GetHandler(PacketType _type);
+	template<class HandlerClass, class PacketClass>
+	static void ProcessHandler(std::shared_ptr<ServerPacketBase> _packet, UCGameInstance* _instance, UWorld* _world)
+	{
+		std::shared_ptr<PacketClass> packet = std::static_pointer_cast<PacketClass>(_packet);
+		if (nullptr == packet)
+		{
+			UE_LOG(LogTemp, Error, TEXT("packet nullptr"));
+			return;
+		}
+
+		HandlerClass handler(packet);
+		handler.Init(_instance, _world);
+		handler.Start();
+	}
+
+	void RegistPacketHandler();
 
 protected:
 	// Called when the game starts

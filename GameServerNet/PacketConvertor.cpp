@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "PacketConvertor.h"
 #include "ServerSerializer.h"
-#include "ServerAndClient.h"
-#include "ServerToClient.h"
-#include "ClientToServer.h"
+#include "Packets.h"
 
 PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	: m_packet(nullptr)
@@ -24,7 +22,6 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 		m_packet = std::make_shared<ChatMessagePacket>();
 		break;
 	default:
-		assert(nullptr);
 		return;
 	}
 

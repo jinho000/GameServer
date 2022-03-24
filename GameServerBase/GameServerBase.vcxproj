@@ -189,6 +189,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerMath.h" />
+    <ClInclude Include="ServerMathStruct.h" />
     <ClInclude Include="ServerNameBase.h">
       <SubType>
       </SubType>

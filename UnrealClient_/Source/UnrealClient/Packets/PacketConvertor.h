@@ -1,24 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
-#include "CoreMinimal.h"
-#include "ClientPackets/ClientPacketBase.h"
+#include "ClientPackets/ServerPacketBase.h"
 #include <memory>
 #include <vector>
-/**
- * 
- */
-// 패킷 변환기
+
+// 직렬화되어 전달된 데이터를 패킷으로 변환
 class PacketConvertor
 {
 private: // member var
-	std::shared_ptr<ClientPacketBase> m_packet;
+	std::shared_ptr<ServerPacketBase> m_packet;
 
 public: // default
 	PacketConvertor() = delete;
 	PacketConvertor(const std::vector<uint8_t>& _buffer);
-	~PacketConvertor();
+	~PacketConvertor() = default;
 
 	PacketConvertor(const PacketConvertor& _other) = delete;
 	PacketConvertor(PacketConvertor&& _other) = delete;
@@ -30,11 +24,11 @@ protected:
 private:
 
 public: // member Func
-	const std::shared_ptr<ClientPacketBase>& GetPacket() { return m_packet; }
+	std::shared_ptr<ServerPacketBase> GetPacket() { return m_packet; }
 
 	template<class PacketType>
 	std::shared_ptr<PacketType> GetPacket()
-	{
+	{ 
 		std::shared_ptr<PacketType> packet = std::dynamic_pointer_cast<PacketType>(m_packet);
 		assert(nullptr != packet);
 
@@ -43,3 +37,4 @@ public: // member Func
 
 	PacketType GetPacketType() { return m_packet->GetPacketType(); }
 };
+

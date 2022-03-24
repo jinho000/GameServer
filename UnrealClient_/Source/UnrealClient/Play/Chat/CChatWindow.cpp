@@ -9,7 +9,6 @@
 #include "../../Packets/ClientPackets/ClientToServer.h"
 #include "../../Packets/ClientPackets/ServerToClient.h"
 #include "../../Packets/ClientPackets/ServerAndClient.h"
-#include "../../Packets/ClientSerializer.h"
 #include "../../Global/CGameInstance.h"
 
 void UCChatWindow::NativeConstruct()

@@ -1,5 +1,7 @@
 #pragma once
 #include "ServerPacketBase.h"
+#include <memory>
+#include <vector>
 
 // 직렬화되어 전달된 데이터를 패킷으로 변환
 class PacketConvertor

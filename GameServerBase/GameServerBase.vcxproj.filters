@@ -52,6 +52,12 @@
     <ClInclude Include="GameServerPath.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="ServerMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerMathStruct.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -130,6 +136,9 @@
     </Filter>
     <Filter Include="IO">
       <UniqueIdentifier>{e3e7a599-7b95-4949-9163-c5f00dc3083c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{9f5b1c0d-e48f-4890-96e2-0df73a566051}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

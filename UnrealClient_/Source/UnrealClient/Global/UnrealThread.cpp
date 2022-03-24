@@ -3,7 +3,7 @@
 #include <Sockets.h>
 #include "../Packets/PacketConvertor.h"
 
-UnrealThread::UnrealThread(FSocket* _socket, TQueue<std::shared_ptr<ClientPacketBase>>* _recvQueue)
+UnrealThread::UnrealThread(FSocket* _socket, TQueue<std::shared_ptr<ServerPacketBase>>* _recvQueue)
 	: m_recvSocket(_socket)
 	, m_pRecvQueue(_recvQueue)
 {

@@ -1,59 +1,42 @@
 #pragma once
-#include "ClientPacketBase.h"
-#include "CoreMinimal.h"
+#include "ServerPacketBase.h"
 
-// 채팅 패킷
-// 패킷 구성: [패킷타입] [m_userID] [m_ChatMessage]
-class ChatMessagePacket : public ClientPacketBase
-{
-public: // member var
-	std::string m_userID;
-	std::string m_chatMessage;
+class ChatMessagePacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::string ID;
+	std::string Message;
+                                                                
+public:                                                         
+    ChatMessagePacket()                                               
+        : ServerPacketBase(PacketType::ChatMessage)                    
+        , ID()
+        , Message()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~ChatMessagePacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ID) + DataSizeCheck(Message);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << ID;
+        _Serializer << Message;
 
-public: // default
-	ChatMessagePacket()
-	: ClientPacketBase(PacketType::CHAT_MESSAGE)
-	{
-	}
+    }                                                           
+                                                                
+    void DeSerialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> ID;
+        _Serializer >> Message;
 
-	ChatMessagePacket(const FString& _userID, const FString& _ChatMessage)
-		: ClientPacketBase(PacketType::CHAT_MESSAGE)
-		, m_userID(FTCHARToUTF8(*_userID).Get())
-		, m_chatMessage(FTCHARToUTF8(*_ChatMessage).Get())
-	{
-	}
+    }                                                           
+};                                                              
 
-	~ChatMessagePacket() = default;
-
-	ChatMessagePacket(const ChatMessagePacket& _other) = delete;
-	ChatMessagePacket(ChatMessagePacket&& _other) = delete;
-
-protected:
-	ChatMessagePacket& operator=(const ChatMessagePacket& _other) = delete;
-	ChatMessagePacket& operator=(const ChatMessagePacket&& _other) = delete;
-
-private:
-
-public: // member Func
-	
-	virtual int SizeCheck() override
-	{
-		return DataSizeCheck(m_userID) + DataSizeCheck(m_chatMessage);
-	}
-
-	virtual void Serialize(ClientSerializer& _serializer) override
-	{
-		//ClientPacketBase::Serialize(_serializer);
-		_serializer << m_userID;
-		_serializer << m_chatMessage;
-	}
-
-	virtual void Deserialize(ClientSerializer& _serializer) override
-	{
-		ClientPacketBase::Deserialize(_serializer);
-		_serializer >> m_userID;
-		_serializer >> m_chatMessage;
-	}
-
-
-};
