@@ -43,15 +43,15 @@ void LoginPacketHandler::ResultSend()
 
 void LoginPacketHandler::Start()
 {
-	ServerDebug::LogInfo("ID: " + m_packet->ID);
-	ServerDebug::LogInfo("PW: " + m_packet->PW);
+	//ServerDebug::LogInfo("ID: " + m_packet->ID);
+	//ServerDebug::LogInfo("PW: " + m_packet->PW);
 
 	// DB에 처리 요청
 	// 이함수안에서 모두 처리하려면 DB접근 후 결과가 올떄까지 기다려야함 
 	// DB에서 결과가 오면 처리하도록 JobQueue를 만들어서 처리(DBQueue)
 	// 
 	// 핸들러에서 이함수를 실행 후 종료되면, 핸들러 객체가 사라지기때문에 shared_from_this 사용
-	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, shared_from_this()));
+	//DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, shared_from_this()));
 
 
 	// 결과검증 후 콜백함수

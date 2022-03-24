@@ -15,7 +15,7 @@ void ServerApp::Start()
 {
 	ServerDebug::Initialize();
 
-	TCPListener listener("localhost", 30000, [](PtrSTCPSession _tcpSession) {
+	TCPListener listener("localhost", 30001, [](PtrSTCPSession _tcpSession) {
 		ServerDebug::LogInfo("접속자가 있습니다");
 		_tcpSession->SetCallBack([](PtrSTCPSession _tcpSession, const std::vector<uint8_t>& _buffer) {
 
