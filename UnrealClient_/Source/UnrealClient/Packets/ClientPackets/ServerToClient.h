@@ -28,7 +28,7 @@ public:
 
     }                                                           
                                                                 
-    void DeSerialize(ServerSerializer& _Serializer)         
+    void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
         _Serializer.ReadEnum(LoginResultCode);

@@ -6,6 +6,8 @@
 enum class EResultCode
 {
 	NONE = -1,
+	ID_ERROR,
+	PW_ERROR,
 	OK,
 	PACKET_ERROR,
 	MAX

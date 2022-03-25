@@ -50,4 +50,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
 	bool Login();
+
+	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
+	bool Join();
 };

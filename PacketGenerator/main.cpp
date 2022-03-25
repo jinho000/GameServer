@@ -146,7 +146,7 @@ void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::strin
 		MessageText += "\n";
 		MessageText += "    }                                                           \n";
 		MessageText += "                                                                \n";
-		MessageText += "    void DeSerialize(ServerSerializer& _Serializer)         \n";
+		MessageText += "    void Deserialize(ServerSerializer& _Serializer)         \n";
 		MessageText += "    {                                                           \n";
 		MessageText += "        ServerPacketBase::Deserialize(_Serializer);            \n";
 		for (size_t m = 0; m < MemberList.size(); m++)

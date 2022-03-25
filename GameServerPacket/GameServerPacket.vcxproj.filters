@@ -39,6 +39,9 @@
     <ClInclude Include="UserTable.h">
       <Filter>ThreadHandler\DB</Filter>
     </ClInclude>
+    <ClInclude Include="JoinPacketHandler.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -58,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="UserTable.cpp">
       <Filter>ThreadHandler\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="JoinPacketHandler.cpp">
+      <Filter>ThreadHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

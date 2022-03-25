@@ -36,31 +36,40 @@ void LoginPacketHandler::DBThreadCheckDB()
 	//   
 	//DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
 
-	// 데이터 확인
+	LoginResultPacket resultPacket;
+	ServerSerializer sr;
 
+	// 데이터 확인
 	// ID로 유저정보 가져오기
 	UserTable_SelectIDToUserInfo SelectQuery(m_packet->ID);
-	std::string userID = m_packet->ID;
-	SelectQuery.DoQuery();
-	std::shared_ptr<UserRow> data = SelectQuery.RowData;
 
-	// 전체 데이터 가져오기
-	UserTable_AllUserInfo queryAllUserInfo;
-	queryAllUserInfo.DoQuery();
-	std::vector<std::shared_ptr<UserRow>> datas = queryAllUserInfo.RowDatas;
-
-
-	// 결과검증 후 콜백함수
+	if (false == SelectQuery.DoQuery())
 	{
-		// 결과 검증 후 확인 패킷 전달
-		LoginResultPacket resultPacket;
-		resultPacket.LoginResultCode = EResultCode::OK;
-
-		ServerSerializer sr;
+		// 유저 아이디가 없음
+		resultPacket.LoginResultCode = EResultCode::ID_ERROR;
 		resultPacket >> sr;
-
 		m_TCPSession->Send(sr.GetBuffer());
+
+		return;
 	}
+	
+	
+	std::shared_ptr<UserRow> userData = SelectQuery.RowData;
+	if (m_packet->PW != userData->Pw)
+	{
+		// 비밀번호가 일치하지 않음
+		resultPacket.LoginResultCode = EResultCode::PW_ERROR;
+		resultPacket >> sr;
+		m_TCPSession->Send(sr.GetBuffer());
+
+		return;
+	}
+	
+
+	// 결과 검증 후 확인 패킷 전달
+	resultPacket.LoginResultCode = EResultCode::OK;
+	resultPacket >> sr;
+	m_TCPSession->Send(sr.GetBuffer());
 }
 
 void LoginPacketHandler::ResultSend()

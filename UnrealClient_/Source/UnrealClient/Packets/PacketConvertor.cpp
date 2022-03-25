@@ -14,6 +14,9 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::Login:
 		m_packet = std::make_shared<LoginPacket>();
 		break;
+	case PacketType::Join:
+		m_packet = std::make_shared<JoinPacket>();
+		break;
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
 		break;
