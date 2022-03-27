@@ -15,8 +15,17 @@ JoinPacketHandler::~JoinPacketHandler()
 
 void JoinPacketHandler::DBThreadRequestJoin()
 {
+	UserTable_SelectIDToUserInfo selectQuery(m_packet->ID);
+	if (false == selectQuery.DoQuery())
+	{
+
+	}
+
 	UserTable_InsertUserInfo query(m_packet->ID, m_packet->PW);
-	query.DoQuery();
+	if (false == query.DoQuery())
+	{
+
+	}
 
 
 }

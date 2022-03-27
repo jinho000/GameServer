@@ -1,2 +1,5 @@
 |LoginResult-
 EResultCode LoginResultCode;
+
+|JoginResult-
+EResultCode JoginResultCode;

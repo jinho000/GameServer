@@ -20,6 +20,9 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
 		break;
+	case PacketType::JoginResult:
+		m_packet = std::make_shared<JoginResultPacket>();
+		break;
 	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();
 		break;

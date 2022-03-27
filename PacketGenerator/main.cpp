@@ -22,6 +22,16 @@ public:
 	std::vector<MemberInfo> Member;
 };
 
+enum class CodeType
+{
+	PacketType,
+	PacketConverter,
+	ClientToServer,
+	ServerToClient,
+	ServerAndClient,
+	SIZE
+};
+
 struct CodeSave
 {
 	std::string savePath;
@@ -82,7 +92,7 @@ void DeSerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	}
 }
 
-void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::string Path, std::vector<CodeSave>& _vecSave)
+void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::string Path, std::vector<CodeSave>& _vecSave, int _pos)
 {
 	std::string MessageText;
 
@@ -159,7 +169,9 @@ void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::strin
 		MessageText += "\n";
 	}
 
-	_vecSave.push_back({ Path , MessageText });
+
+	//_vecSave.push_back({ Path , MessageText });
+	_vecSave[_pos] = {Path , MessageText};
 
 }
 
@@ -226,7 +238,7 @@ int main()
 	std::vector<MessageInfo> ServerMessage;
 	std::vector<MessageInfo> ServerClientMessage;
 	std::vector<CodeSave>	 vecSaveFile;
-
+	vecSaveFile.resize((int)CodeType::SIZE);
 
 	// 만들고 나면 다 단순복사가 됩니다 ok?
 	{
@@ -296,7 +308,8 @@ int main()
 			EnumFileText += "};";
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketType.h");
-			vecSaveFile.push_back({ SavePath, EnumFileText });
+			vecSaveFile[(int)CodeType::PacketType] = { SavePath, EnumFileText };
+			//vecSaveFile.push_back({ SavePath, EnumFileText });
 		}
 
 		///CONVERT FILE CREATE////////////////////////////////////////////////////////////////////////////
@@ -333,8 +346,8 @@ int main()
 			ConvertFileText += "\t*m_packet << sr;\n}\n";
 
 			std::string SavePath = FileDir.PathToPlusFileName("PacketConvertor.cpp");
-
-			vecSaveFile.push_back({ SavePath, ConvertFileText });
+			vecSaveFile[(int)CodeType::PacketConverter] = { SavePath, ConvertFileText };
+			//vecSaveFile.push_back({ SavePath, ConvertFileText });
 		}
 
 		///Message Header////////////////////////////////////////////////////////////////////////////
@@ -343,9 +356,9 @@ int main()
 			FileDir.MoveParent("Project");
 			FileDir.MoveChild("GameServerPacket");
 
-			MessageHeaderCreate(ClientMessage, FileDir.PathToPlusFileName("ClientToServer.h"), vecSaveFile);
-			MessageHeaderCreate(ServerMessage, FileDir.PathToPlusFileName("ServerToClient.h"), vecSaveFile);
-			MessageHeaderCreate(ServerClientMessage, FileDir.PathToPlusFileName("ServerAndClient.h"), vecSaveFile);
+			MessageHeaderCreate(ClientMessage, FileDir.PathToPlusFileName("ClientToServer.h"), vecSaveFile, (int)CodeType::ClientToServer);
+			MessageHeaderCreate(ServerMessage, FileDir.PathToPlusFileName("ServerToClient.h"), vecSaveFile, (int)CodeType::ServerToClient);
+			MessageHeaderCreate(ServerClientMessage, FileDir.PathToPlusFileName("ServerAndClient.h"), vecSaveFile, (int)CodeType::ServerAndClient);
 
 		}
 
@@ -443,41 +456,9 @@ int main()
 			vecSaveFile.push_back({ SavePath , Code });
 		}
 
-
 		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerToClient.h"), "rt" };
-			std::string Code = LoadFile.GetString();
-			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerToClient.h");
-			vecSaveFile.push_back({ SavePath , Code });
-		}
-
-		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ClientToServer.h"), "rt" };
-			std::string Code = LoadFile.GetString();
-			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ClientToServer.h");
-			vecSaveFile.push_back({ SavePath , Code });
-		}
-
-		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerAndClient.h"), "rt" };
-			std::string Code = LoadFile.GetString();
-			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerAndClient.h");
-			vecSaveFile.push_back({ SavePath , Code });
-		}
-
-
-		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("Packets.h"), "rt" };
-			std::string Code = LoadFile.GetString();
-
-			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\Packets.h");
-			vecSaveFile.push_back({ SavePath , Code });
-		}
-
-
-		{
-			GameServerFile LoadFile = { FileDir.PathToPlusFileName("PacketType.h"), "rt" };
-			std::string Code = LoadFile.GetString();
+			//GameServerFile LoadFile = { FileDir.PathToPlusFileName("PacketType.h"), "rt" };
+			std::string Code = vecSaveFile[(int)CodeType::PacketType].code;
 
 			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\PacketType.h");
 			vecSaveFile.push_back({ SavePath , Code });
@@ -498,7 +479,8 @@ int main()
 
 		{
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("PacketConvertor.cpp"), "rt" };
-			std::string Code = LoadFile.GetString();
+			//std::string Code = LoadFile.GetString();
+			std::string Code = vecSaveFile[(int)CodeType::PacketConverter].code;
 
 			Code.erase(0, strlen("#include \"pch.h\"") + 1);
 
@@ -513,6 +495,30 @@ int main()
 			std::string SavePath = SaveDir.PathToPlusFileName("PacketConvertor.cpp");
 			vecSaveFile.push_back({ SavePath , Code });
 
+		}
+
+		{
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerToClient.h"), "rt" };
+			//std::string Code = LoadFile.GetString();
+			std::string Code = vecSaveFile[(int)CodeType::ServerToClient].code;
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerToClient.h");
+			vecSaveFile.push_back({ SavePath , Code });
+		}
+
+		{
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ClientToServer.h"), "rt" };
+			//std::string Code = LoadFile.GetString();
+			std::string Code = vecSaveFile[(int)CodeType::ClientToServer].code;
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ClientToServer.h");
+			vecSaveFile.push_back({ SavePath , Code });
+		}
+
+		{
+			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerAndClient.h"), "rt" };
+			//std::string Code = LoadFile.GetString();
+			std::string Code = vecSaveFile[(int)CodeType::ServerAndClient].code;
+			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerAndClient.h");
+			vecSaveFile.push_back({ SavePath , Code });
 		}
 
 		{
