@@ -7,8 +7,8 @@
 class JoinPacketHandler : public std::enable_shared_from_this<JoinPacketHandler>
 {
 private: // member var
-	PtrSTCPSession				m_TCPSession;
-	std::shared_ptr<JoinPacket> m_packet;
+	PtrSTCPSession						m_TCPSession;
+	std::shared_ptr<JoinPacket>			m_packet;
 
 public: // default
 	JoinPacketHandler() = delete;;

@@ -42,7 +42,7 @@ bool UCLoginUI::Login()
 bool UCLoginUI::Join()
 {
 	UE_LOG(LogTemp, Log, TEXT("Join"));
-	UE_LOG(LogTemp, Log, TEXT("Login user id: %s"), *ID);
+	UE_LOG(LogTemp, Log, TEXT("user id: %s"), *ID);
 
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 
