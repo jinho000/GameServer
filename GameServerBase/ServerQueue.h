@@ -10,6 +10,30 @@ class ServerQueue : public ServerNameBase
 private:
 	static void QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQueue* _this, const std::string& _threadName);
 
+	// thread local용 
+	template<typename LocalDataType>
+	static void QueueFunctionLocalData(std::shared_ptr<ServerIOCPWorker> _Work, ServerQueue* _this, const std::string& _Name, std::function<void(LocalDataType*)> _initLocal)
+	{
+		if (nullptr == _this)
+		{
+			ServerDebug::AssertDebugMsg("큐 쓰레드 생성에 실패했습니다.");
+		}
+
+		// 스레드 이름 설정
+		ServerThread::SetThreadName(_Name + " " + std::to_string(_Work->GetIndex()));
+
+		// thread local 영역에 필요한 데이터 생성
+		LocalDataType* threadLocalData = ServerThread::CreateThreadLocalData<LocalDataType>();
+
+		// init local data
+		if (nullptr != _initLocal)
+		{
+			_initLocal(threadLocalData);
+		}
+
+		_this->Run(_Work);
+	}
+
 public: // type
 	enum class WORK_TYPE : char
 	{
@@ -66,29 +90,6 @@ public: // thread local 사용
 	void InitializeLocalData(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName, std::function<void(LocalDataType*)> _initLocal = nullptr)
 	{
 		m_Iocp.InitializeLocalData<LocalDataType>(std::bind(ServerQueue::QueueFunctionLocalData<LocalDataType>, std::placeholders::_1, this, _ThreadName, _initLocal), INFINITE, threadCount);
-	}
-
-	template<typename LocalDataType>
-	static void QueueFunctionLocalData(std::shared_ptr<ServerIOCPWorker> _Work, ServerQueue* _this, const std::string& _Name, std::function<void(LocalDataType*)> _initLocal)
-	{
-		if (nullptr == _this)
-		{
-			ServerDebug::AssertDebugMsg("큐 쓰레드 생성에 실패했습니다.");
-		}
-
-		// 스레드 이름 설정
-		ServerThread::SetThreadName(_Name + " " + std::to_string(_Work->GetIndex()));
-
-		// thread local 영역에 필요한 데이터 생성
-		LocalDataType* threadLocalData = ServerThread::CreateThreadLocalData<LocalDataType>();
-
-		// init local data
-		if (nullptr != _initLocal)
-		{
-			_initLocal(threadLocalData);
-		}
-
-		_this->Run(_Work);
 	}
 
 };

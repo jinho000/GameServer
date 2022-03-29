@@ -28,7 +28,7 @@ public: // default
 	TCPListener() = delete;
 	TCPListener(const IPEndPoint& _EndPoint, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
 	TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
-	~TCPListener() = default;
+	~TCPListener();
 
 	TCPListener(const TCPListener& _other) = delete;
 	TCPListener(TCPListener&& _other) = delete;

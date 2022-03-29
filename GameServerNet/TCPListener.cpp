@@ -20,11 +20,15 @@ TCPListener::TCPListener(const std::string& _ip, int _port, const std::function<
 {
 }
 
+TCPListener::~TCPListener()
+{
+	//CloseSocket();
+	//ServerHelper::DestroySocketLib();
+}
+
 
 void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 {
-	// 소켓 라이브러리 초기화
-	ServerHelper::InitSocketLib();
 
 	m_listenerSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO::IPPROTO_TCP, NULL, NULL, WSA_FLAG_OVERLAPPED);
 	if (INVALID_SOCKET == m_listenerSocket)
@@ -69,7 +73,7 @@ void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 	m_pJobQueue.NetworkAyncBind(m_listenerSocket, std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 	// Start Accept
-	StartAccept(10);
+	//StartAccept(10);
 }
 
 void TCPListener::StartAccept(UINT _backLog)
