@@ -17,7 +17,7 @@ TCPListener::TCPListener(const std::string& _ip, int _port, const std::function<
 	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
 	Initialize();
-	StartAccept(1);
+	StartAccept(10);
 }
 
 TCPListener::~TCPListener()
@@ -111,10 +111,10 @@ void TCPListener::CreateAcceptSession()
 			m_acceptPool.pop_front();
 			newSession->SetReuse();
 
-			std::string log = "Reuse ";
-			log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
-			log += " Socket";
-			ServerDebug::LogInfo(log);
+			//std::string log = "Reuse ";
+			//log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
+			//log += " Socket";
+			//ServerDebug::LogInfo(log);
 		}
 
 		m_acceptPoolLock.unlock();
@@ -146,10 +146,6 @@ void TCPListener::CreateAcceptSession()
 
 void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped)
 {
-	// 접속자가 들어와 세션이 생긴경우
-	// 대기소켓을 하나더 생성
-	CreateAcceptSession();
-
 	if (nullptr == _overlapped)
 	{
 		ServerDebug::LogWarning("OnAccept overlapped가 없음");
@@ -175,7 +171,6 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	acceptExOver->Excute(_result, _byteSize);
 
 	// 클라와 연결된 세션에 IOCP 연결후 리시브 요청
-	
 	std::shared_ptr<TCPSession> session = acceptExOver->GetTCPSession();
 	session->BindQueue(m_listenQueue);
 	session->RequestRecv();
@@ -184,14 +179,20 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	m_connectionPoolLock.lock();
 	m_connectionPool.insert(std::make_pair(session->GetSessionID(), session));
 
+	m_connectionPoolLock.unlock();
+
+	ServerDebug::LogInfo("Client request connection");
 	std::string log = std::to_string(static_cast<int>(session->GetSessionSocket()));
 	log += " Socket Connected";
 	ServerDebug::LogInfo(log);
 
-	m_connectionPoolLock.unlock();
-
 	// callback 함수 실행
 	m_acceptCallback(session);
+
+
+	// 접속자가 들어와 세션이 생긴경우
+	// 대기소켓을 하나더 생성
+	CreateAcceptSession();
 }
 
 void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
@@ -208,6 +209,11 @@ void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
 	{
 		std::lock_guard<std::mutex> lock(m_acceptPoolLock);
 		m_acceptPool.push_back(_tcpSession);
+
+		std::string log = "Reuse ";
+		log += std::to_string(static_cast<int>(_tcpSession->GetSessionSocket()));
+		log += " Socket";
+		ServerDebug::LogInfo(log);
 	}
 }
 

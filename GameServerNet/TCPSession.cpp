@@ -98,6 +98,9 @@ void TCPSession::CloseSession(bool _forceClose)
 		// 강제 종료인 경우
 		CloseSocket();
 	}
+
+	// 새로운 데이터를 받기위해 Overlapped 정리
+	m_acceptExOverlapped->ResetOverlapped();
 }
 
 void TCPSession::CloseSocket()
