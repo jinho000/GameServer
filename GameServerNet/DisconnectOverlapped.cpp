@@ -19,6 +19,7 @@ void DisconnectOverlapped::Excute(BOOL _result, DWORD _byteSize)
 {
 	if (nullptr != m_tcpSession)
 	{
+		//m_tcpSession->C
 		m_tcpSession->UnregisterSession();
 	}
 }

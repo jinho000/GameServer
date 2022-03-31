@@ -39,14 +39,20 @@ public: // default
 
 private:
 	void Initialize();
+	void CloseSocket(); // listen 소켓 종료
+
 	void StartAccept(UINT _backLog);
+
+	// session을 만들고 accept함수 실행
+	// 재활용할 세션이 있는경우 재활용할 세션 사용
 	void CreateAcceptSession();
+
+
+	// 클라이언트 접속 요청 이벤트 발생시 호출함수
 	void OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped);
 
+	// 클라에 접속된 세션 종료하기
 	void CloseSession(PtrSTCPSession _tcpSession);
-
-	// listen 소켓 종료
-	void CloseSocket();
 
 public: // member Func
 	void BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession);

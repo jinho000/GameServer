@@ -20,13 +20,13 @@ void RecvOverlapped::Clear()
 	m_wsaBuffer.buf = m_Buffer;
 }
 
-void RecvOverlapped::Excute(BOOL Result, DWORD _ByteSize)
+void RecvOverlapped::Excute(BOOL _Result, DWORD _ByteSize)
 {
 	// 클라와 접속이 끊김
 	// 클라와 접속을 종료해야함
-	if (0 == _ByteSize)
+	if (0 == _ByteSize && false == _Result)
 	{
-		m_tcpSession->Close();
+		m_tcpSession->CloseSession();
 		return;
 	}
 
@@ -43,7 +43,7 @@ LPWSABUF RecvOverlapped::GetWSABuffer()
 	return &m_wsaBuffer;
 }
 
-TCPSession* RecvOverlapped::GetTCPSession()
+PtrSTCPSession RecvOverlapped::GetTCPSession()
 {
-	return m_tcpSession;
+	return std::dynamic_pointer_cast<TCPSession>(m_tcpSession->shared_from_this());
 }

@@ -42,12 +42,12 @@ int ConnectServer()
 	}
 
 	std::string IP = "127.0.0.1";
-	int port = 30000;
+	int port = 30001;
 	std::cout << "서버 접속 IP: " << IP << "Port: " << port << std::endl;
 
 	SOCKADDR_IN Add = { 0, };
 	Add.sin_family = AF_INET;
-	Add.sin_port = htons(30000);
+	Add.sin_port = htons(port);
 	if (SOCKET_ERROR == inet_pton(AF_INET, IP.c_str(), &Add.sin_addr))
 	{
 		return 0;

@@ -24,7 +24,7 @@ private:
 public: // member Func
 	void Excute(BOOL _result, DWORD _byteSize);
 	void* GetBuffer();
-	TCPSession* GetTCPSession() const;
+	PtrSTCPSession GetTCPSession();
 
 };
 

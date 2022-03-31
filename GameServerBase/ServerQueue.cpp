@@ -43,18 +43,11 @@ void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
 		BOOL waitResult = _worker->Wait(INFINITE);
 
 		// 스레드 일 시작
-		IocpWaitReturnType checkType = IocpWaitReturnType::RETURN_OK;
 		if (0 == waitResult)
 		{
 			if (WAIT_TIMEOUT == GetLastError())
 			{
-				checkType = IocpWaitReturnType::RETURN_TIMEOUT;
 				ServerDebug::LogInfo("work wait return timeout");
-			}
-			else
-			{
-				checkType = IocpWaitReturnType::RETURN_ERROR;
-				ServerDebug::LogInfo("work wait return 0");
 			}
 		}
 

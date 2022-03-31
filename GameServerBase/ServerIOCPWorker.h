@@ -1,13 +1,6 @@
 #pragma once
 #include "ServerBaseObject.h"
 
-enum class IocpWaitReturnType
-{
-	RETURN_ERROR,
-	RETURN_TIMEOUT,
-	RETURN_OK,
-};
-
 class ServerIOCPWorker : public ServerBaseObject
 {
 private: // member var

@@ -17,6 +17,7 @@ private:
 	// friend class
 	friend class TCPListener;
 	friend class RecvOverlapped;
+	friend class AcceptExOverlapped;
 	friend class DisconnectOverlapped;
 	friend class SendOverlapped;
 
@@ -32,6 +33,9 @@ private: // member var
 	DisconnectOverlapped*	m_disconOverlapped;
 
 	// callback
+	using IOCallback = std::function<void(BOOL, DWORD, LPOVERLAPPED)>;
+	IOCallback				m_IOCallback; // 세션소켓 IO이벤트 발생시 호출함수 함수객체
+
 	using RecvCallBack = std::function<void(PtrSTCPSession, const std::vector<uint8_t>&)>;
 	RecvCallBack			m_recvCallBack;
 
@@ -53,25 +57,28 @@ public: // default
 	TCPSession& operator=(const TCPSession&& _other) = delete;
 
 private:
-	// friend class 접근함수
+	// friend class 접근
 	void Initialize();
 	SOCKET GetSessionSocket() const;
 	AcceptExOverlapped* GetAcceptExOverlapped() { return m_acceptExOverlapped; }
 
 private:
-	static void OnCallback(PtrWTCPSession _weakSession, BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped);
+	// 세션소켓에 IO이벤트 발생시 호출함수
+	void OnCallback(BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped);
+
+	// workQueue에 세션소켓 연결(등록)
+	bool BindQueue(const ServerQueue& _workQueue);
 
 	void SetReuse();
-	bool BindQueue(const ServerQueue& _jobQueue);
 	
 	void RequestRecv();
 	void OnRecv(const char* _data, DWORD _byteSize);
 
 	void OnSendComplete(SendOverlapped* _sendOverlapped);
 
-	void Close(bool _forceClose = false);
+	void CloseSession(bool _forceClose = false);
+	
 	void CloseSocket();
-	void DisconnectSocket();
 	void UnregisterSession();
 
 public: // member Func

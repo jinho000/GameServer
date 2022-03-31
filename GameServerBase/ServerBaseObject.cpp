@@ -35,7 +35,6 @@ void ServerBaseObject::SetParent(ServerBaseObject* _parent)
 
 	// 한번에 처리
 	m_parent = _parent;
-	m_parent->SetLink(this);
 }
 
 void ServerBaseObject::SetLink(ServerBaseObject* _link)
@@ -57,7 +56,6 @@ void ServerBaseObject::SetLink(ServerBaseObject* _link)
 
 	// 한번에 처리
 	m_linkObject.push_back(_link);
-	_link->SetParent(this);
 }
 
 const std::vector<ServerBaseObject*>& ServerBaseObject::GetAllLink() const

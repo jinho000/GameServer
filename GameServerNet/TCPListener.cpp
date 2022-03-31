@@ -17,7 +17,7 @@ TCPListener::TCPListener(const std::string& _ip, int _port, const std::function<
 	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
 	Initialize();
-	StartAccept(10);
+	StartAccept(1);
 }
 
 TCPListener::~TCPListener()
@@ -148,7 +148,6 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 {
 	// 접속자가 들어와 세션이 생긴경우
 	// 대기소켓을 하나더 생성
-	// 재활용 소켓이 있는경우 재활용소켓 사용
 	CreateAcceptSession();
 
 	if (nullptr == _overlapped)
@@ -176,7 +175,8 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	acceptExOver->Excute(_result, _byteSize);
 
 	// 클라와 연결된 세션에 IOCP 연결후 리시브 요청
-	std::shared_ptr<TCPSession> session(acceptExOver->GetTCPSession());
+	
+	std::shared_ptr<TCPSession> session = acceptExOver->GetTCPSession();
 	session->BindQueue(m_listenQueue);
 	session->RequestRecv();
 
@@ -226,18 +226,18 @@ void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession 
 
 	std::lock_guard<std::mutex> lockGuard(m_connectionPoolLock);
 
-	auto iter = m_connectionPool.begin();
-	while (iter != m_connectionPool.end())
-	{
-		// 패킷요청한 세션을 무시하고 전달하는 경우
-		if (iter->second == _requestSession)
-		{
-			continue;
-		}
+	//auto iter = m_connectionPool.begin();
+	//while (iter != m_connectionPool.end())
+	//{
+	//	// 패킷요청한 세션을 무시하고 전달하는 경우
+	//	if (iter->second == _requestSession)
+	//	{
+	//		continue;
+	//	}
 
-		iter->second->Send(_buffer);
-		++iter;
-	}
+	//	iter->second->Send(_buffer);
+	//	++iter;
+	//}
 }
 
 void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer)

@@ -29,6 +29,6 @@ public: // member Func
 	void Excute(BOOL Result, DWORD _ByteSize) override;
 	void* GetBuffer();
 	LPWSABUF GetWSABuffer();
-	TCPSession* GetTCPSession();
+	PtrSTCPSession GetTCPSession();
 };
 
