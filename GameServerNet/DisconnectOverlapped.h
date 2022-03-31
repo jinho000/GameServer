@@ -7,10 +7,10 @@
 class DisconnectOverlapped : public Overlapped
 {
 private: // member var
-	PtrSTCPSession m_tcpSession;
+	TCPSession* m_tcpSession;
 
 public: // default
-	DisconnectOverlapped(PtrSTCPSession _tcpSession);
+	DisconnectOverlapped(TCPSession* _tcpSession);
 	~DisconnectOverlapped();
 
 	DisconnectOverlapped(const DisconnectOverlapped& _other) = delete;

@@ -2,7 +2,7 @@
 #include "RecvOverlapped.h"
 #include "TCPSession.h"
 
-RecvOverlapped::RecvOverlapped(PtrSTCPSession _tcpSession)
+RecvOverlapped::RecvOverlapped(TCPSession* _tcpSession)
 	: m_Buffer{}
 	, m_wsaBuffer{}
 	, m_tcpSession(_tcpSession)
@@ -43,7 +43,7 @@ LPWSABUF RecvOverlapped::GetWSABuffer()
 	return &m_wsaBuffer;
 }
 
-PtrSTCPSession RecvOverlapped::GetTCPSession()
+TCPSession* RecvOverlapped::GetTCPSession()
 {
 	return m_tcpSession;
 }

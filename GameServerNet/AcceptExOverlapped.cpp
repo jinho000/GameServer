@@ -2,7 +2,7 @@
 #include "AcceptExOverlapped.h"
 #include <GameServerBase/ServerDebug.h>
 
-AcceptExOverlapped::AcceptExOverlapped(std::shared_ptr<TCPSession> _tcpSession)
+AcceptExOverlapped::AcceptExOverlapped(TCPSession* _tcpSession)
 	: m_buffer{}
 	, m_tcpSession(_tcpSession)
 {
@@ -24,7 +24,7 @@ void* AcceptExOverlapped::GetBuffer()
 }
 
 
-PtrSTCPSession AcceptExOverlapped::GetTCPSession() const
+TCPSession* AcceptExOverlapped::GetTCPSession() const
 {
 	return m_tcpSession;
 }

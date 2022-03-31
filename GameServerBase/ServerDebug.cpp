@@ -32,7 +32,7 @@ void ServerDebug::LogThread(std::shared_ptr<ServerIOCPWorker> _IOCPworker)
 
 		++LogCount;
 
-		std::unique_ptr<LogJob> receiveLog(_IOCPworker->GetCompletionKey<LogJob*>());
+		std::unique_ptr<LogJob> receiveLog(_IOCPworker->GetCompletionKeyType<LogJob*>());
 		std::cout << TypeText[static_cast<int>(receiveLog->logType)] << receiveLog.get()->logText << std::endl;
 
 	}

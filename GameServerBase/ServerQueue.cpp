@@ -2,18 +2,13 @@
 #include "ServerQueue.h"
 #include "ServerDebug.h"
 
-void ServerQueue::QueueFunction(std::shared_ptr<ServerIOCPWorker> _work, ServerQueue* _this, const std::string& _threadName)
+void ServerQueue::WorkThread(std::shared_ptr<ServerIOCPWorker> _work, const std::string& _threadName)
 {
-	if (nullptr == _this)
-	{
-		ServerDebug::AssertDebugMsg("큐 쓰레드 생성에 실패");
-	}
-
 	// 스레드 이름 설정
 	ServerThread::SetThreadName(_threadName + " " + std::to_string(_work->GetIndex()));
 
 	// thread 작업 실행
-	_this->Run(_work);
+	this->RunThread(_work);
 }
 
 ServerQueue::ServerQueue()
@@ -24,7 +19,7 @@ ServerQueue::ServerQueue()
 
 ServerQueue::ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName)
 	: ServerNameBase("serverQueue")
-	, m_Iocp(std::bind(ServerQueue::QueueFunction, std::placeholders::_1, this, _threadName), _threadCount)
+	, m_Iocp(std::bind(&ServerQueue::WorkThread, this, std::placeholders::_1, _threadName), _threadCount)
 {
 	
 }
@@ -40,12 +35,12 @@ ServerQueue::~ServerQueue()
 	}
 }
 
-void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
+void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
 {
 	while (true)
 	{
 		// 스레드 대기
-		BOOL waitResult = _work->Wait(INFINITE);
+		BOOL waitResult = _worker->Wait(INFINITE);
 
 		// 스레드 일 시작
 		IocpWaitReturnType checkType = IocpWaitReturnType::RETURN_OK;
@@ -64,7 +59,7 @@ void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
 		}
 
 		bool isExit = false;
-		DWORD MsgType = _work->GetNumberOfBytes();
+		DWORD MsgType = _worker->GetNumberOfBytes();
 
 		switch (MsgType)
 		{
@@ -73,32 +68,30 @@ void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
 			isExit = true;
 			break;
 		}
-		case (DWORD)ServerQueue::WORK_MSG::POST_JOB:
+		case (DWORD)ServerQueue::WORK_MSG::PostWork:
 		{
-			std::unique_ptr<PostJob> jobTesk = std::unique_ptr<PostJob>(_work->GetCompletionKey<PostJob*>());
-			if (nullptr != jobTesk)
+			if (0 != _worker->GetCompletionKey())
 			{
-				jobTesk->task();
+				std::unique_ptr<PostWork> postJob = std::unique_ptr<PostWork>(_worker->GetCompletionKeyType<PostWork*>());
+				postJob->work();
 			}
 			else
 			{
-				ServerDebug::LogError("PostJob Is Null");
+				ServerDebug::AssertDebugMsg("PostWork Is Null");
 			}
 			break;
 		}
 		default: // post job이 아닌 비동기 통신 작업일 경우
 		{
-			OverlappedJob* jobTesk = _work->GetCompletionKey<OverlappedJob*>();
-			if (nullptr != jobTesk)
+			if (0 != _worker->GetCompletionKey())
 			{
-				// 이것도 처리해야 합니다.
-				jobTesk->task(waitResult, _work->GetNumberOfBytes(), _work->GetOverlappedPtr());
+				std::function<void(BOOL, DWORD, LPOVERLAPPED)>* pJob = _worker->GetCompletionKeyType<std::function<void(BOOL, DWORD, LPOVERLAPPED)>*>();
+				(*pJob)(waitResult, _worker->GetNumberOfBytes(), _worker->GetOverlappedPtr());
 			}
 			else
 			{
-				ServerDebug::LogError("OverJob Is Null");
+				ServerDebug::AssertDebugMsg("IOCallbackWork Is Null");
 			}
-
 			break;
 		}
 		}
@@ -110,28 +103,54 @@ void ServerQueue::Run(std::shared_ptr<ServerIOCPWorker> _work)
 	}
 }
 
-void ServerQueue::Enqueue(const std::function<void()> _callback)
+void ServerQueue::Enqueue(const std::function<void()>& _work)
 {
-	std::unique_ptr<PostJob> postJob = std::make_unique<PostJob>();
-	postJob->task = _callback;
-	m_Iocp.PostQueued((DWORD)WORK_MSG::POST_JOB, reinterpret_cast<ULONG_PTR>(postJob.get()));
-	postJob.release();
+	if (nullptr == _work)
+	{
+		ServerDebug::AssertDebugMsg("work is nullptr");
+		return;
+	}
+
+	std::unique_ptr<PostWork> PostJobPtr = std::make_unique<PostWork>();
+	PostJobPtr->work = _work;
+	m_Iocp.PostQueued(static_cast<DWORD>(WORK_MSG::PostWork), reinterpret_cast<ULONG_PTR>(PostJobPtr.get()));
+
+	PostJobPtr.release();
 }
 
-bool ServerQueue::NetworkAyncBind(SOCKET _socket, std::function<void(BOOL, DWORD, LPOVERLAPPED)> _callback) const
+bool ServerQueue::RegistSocket(SOCKET _socket, const std::function<void(BOOL, DWORD, LPOVERLAPPED)>* _onIOCallback) const
 {
-	// socket과 completionkey는 연결되어있음
-	// 비동기로 요청이 올때마다 completionkey가 전달됨
-	// unique_ptr로 할 경우 전달받아 포인터를 삭제하므로 문제가 됨
-	std::unique_ptr<OverlappedJob> overJobPtr = std::make_unique<OverlappedJob>();
-	overJobPtr->task = _callback;
-	if (false == m_Iocp.AsyncBind(reinterpret_cast<HANDLE>(_socket), reinterpret_cast<ULONG_PTR>(overJobPtr.get())))
+	if (nullptr == _onIOCallback)
 	{
-		ServerDebug::GetLastErrorPrint();
+		ServerDebug::AssertDebugMsg("_onIOCallback is nullptr");
 		return false;
 	}
 
-	overJobPtr.release();
+	if (false == m_Iocp.BindHandle(reinterpret_cast<HANDLE>(_socket), reinterpret_cast<ULONG_PTR>(_onIOCallback)))
+	{
+		return false;
+	}
 
 	return true;
 }
+
+//bool ServerQueue::RegistSocket(SOCKET _socket, const OverlappedJob* _callback) const
+//{
+//	if (false == m_Iocp.BindHandle(reinterpret_cast<HANDLE>(_socket), reinterpret_cast<ULONG_PTR>(_callback)))
+//	{
+//		return false;
+//	}
+//
+//	return true;
+//}
+
+
+//bool ServerQueue::NetworkAyncBind(SOCKET _socket, const std::function<void(BOOL, DWORD, LPOVERLAPPED)>* _callback) const
+//{
+//	 workthread에서 맞지 않음
+//	if (false == m_Iocp.BindSocket(_socket, reinterpret_cast<ULONG_PTR>(_callback)))
+//	{
+//		return false;
+//	}
+//	return true;
+//}

@@ -4,12 +4,12 @@
 #include "GameServerBase/ServerQueue.h"
 #include "GameServerBase/ServerObjectPool.h"
 #include "SendOverlapped.h"
+#include "AcceptExOverlapped.h"
 #include "TCPListener.h"
 
-// 용도 : 서버와 클라의 연결
-// 분류 :
-// 첨언 : 
+// 클라이언트와 연결할 세션
 class RecvOverlapped;
+class AcceptExOverlapped;
 class DisconnectOverlapped;
 class TCPSession : public ServerBaseObject
 {
@@ -21,14 +21,17 @@ private:
 	friend class SendOverlapped;
 
 private: // member var
-	__int64			m_conectId;
-	SOCKET			m_sessionSocket;
-	//IPEndPoint	m_localAddr;
-	//IPEndPoint	m_remoteAddr;
+	__int64		m_conectId;
+	SOCKET		m_sessionSocket;
+	IPEndPoint	m_localAddr;
+	IPEndPoint	m_remoteAddr;
 
+	// overlapped
+	AcceptExOverlapped*		m_acceptExOverlapped;
 	RecvOverlapped*			m_recvOverlapped;
 	DisconnectOverlapped*	m_disconOverlapped;
 
+	// callback
 	using RecvCallBack = std::function<void(PtrSTCPSession, const std::vector<uint8_t>&)>;
 	RecvCallBack			m_recvCallBack;
 
@@ -46,10 +49,14 @@ public: // default
 
 	TCPSession(const TCPSession& _other) = delete;
 	TCPSession(TCPSession&& _other) = delete;
-
-protected:
 	TCPSession& operator=(const TCPSession& _other) = delete;
 	TCPSession& operator=(const TCPSession&& _other) = delete;
+
+private:
+	// friend class 접근함수
+	void Initialize();
+	SOCKET GetSessionSocket() const;
+	AcceptExOverlapped* GetAcceptExOverlapped() { return m_acceptExOverlapped; }
 
 private:
 	static void OnCallback(PtrWTCPSession _weakSession, BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped);
@@ -67,13 +74,8 @@ private:
 	void DisconnectSocket();
 	void UnregisterSession();
 
-private:
-	// friend class 접근함수
-	SOCKET GetSessionSocket() const;
-	void Initialize();
-
 public: // member Func
-	__int64 GetSessionID() const;
+	__int64 GetSessionID() const { return m_conectId; };
 	void SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack);
 	void Send(const std::vector<uint8_t>& _buffer);
 

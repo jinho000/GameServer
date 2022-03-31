@@ -13,7 +13,7 @@ private: // member var
 	int			m_port;
 
 public: // default
-	IPEndPoint() = delete;
+	IPEndPoint();
 	
 	IPEndPoint(const IPAddress& _ipAddress, int _port);
 	IPEndPoint(const std::string& _ip, int _port);

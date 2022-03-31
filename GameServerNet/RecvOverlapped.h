@@ -7,12 +7,12 @@
 class RecvOverlapped : public Overlapped
 {
 private: // member var
-	char m_Buffer[1024]; // 전달받을 데이터
-	WSABUF m_wsaBuffer;
-	PtrSTCPSession m_tcpSession;
+	char		m_Buffer[1024]; // 전달받을 데이터
+	WSABUF		m_wsaBuffer;
+	TCPSession* m_tcpSession;
 
 public: // default
-	RecvOverlapped(PtrSTCPSession _tcpSession);
+	RecvOverlapped(TCPSession* _tcpSession);
 	~RecvOverlapped();
 
 	RecvOverlapped(const RecvOverlapped& _other) = delete;
@@ -29,6 +29,6 @@ public: // member Func
 	void Excute(BOOL Result, DWORD _ByteSize) override;
 	void* GetBuffer();
 	LPWSABUF GetWSABuffer();
-	PtrSTCPSession GetTCPSession();
+	TCPSession* GetTCPSession();
 };
 

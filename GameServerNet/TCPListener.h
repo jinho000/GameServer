@@ -3,44 +3,44 @@
 #include "IPEndPoint.h"
 #include "GameServerBase/ServerQueue.h"
 
-// 용도 : 소켓에 대한 클라의 접속을 받아들이는 클래스
-// 분류 :
-// 첨언 : 접속 확인은 비동기로 처리
+// 리슨소켓을 만들고 클라이언트 접속을 처리하는 클래스
+// 세션을 미리 만들어두고 클라이언트의 접속을 기다린다
+// 클라이언트의 접속이 오면 세션과 연결시킨다
+// 클라와연결된 세션정보들을 가지고 브로드캐스팅을 처리한다
 class ServerQueue;
 class TCPSession;
 class TCPListener : public ServerBaseObject
 {
 	friend class TCPSession;
+	static UINT listenThreadCount;
 
 private: // member var
 	SOCKET												m_listenerSocket;
 	IPEndPoint											m_ipEndPoint;
-	ServerQueue											m_pJobQueue;
-	std::function<void(std::shared_ptr<TCPSession>)>	m_acceptCallback;
+	ServerQueue											m_listenQueue;
+	std::function<void(std::shared_ptr<TCPSession>)>	m_acceptCallback; // 클라이언트접속 완료 후 호출될 함수
+	std::function<void(BOOL, DWORD, LPOVERLAPPED)>		m_listenCallback; // 클라이언트가 접속했을떄 호출되는 함수
 	
-	std::deque<std::shared_ptr<TCPSession>>				m_connectionPool;
-	std::mutex											m_connectPoolLock;
+	std::vector<std::shared_ptr<TCPSession>>			m_sessionPool;	  // 전체 세션을 가진 풀
+	std::deque<std::shared_ptr<TCPSession>>				m_acceptPool;
+	std::mutex											m_acceptPoolLock;
 
-	std::unordered_map<__int64, std::shared_ptr<TCPSession>>	m_connections;
-	std::mutex													m_connecsLock;
+	std::unordered_map<__int64, std::shared_ptr<TCPSession>>	m_connectionPool;
+	std::mutex													m_connectionPoolLock;
 
 public: // default
-	TCPListener() = delete;
-	TCPListener(const IPEndPoint& _EndPoint, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
 	TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
 	~TCPListener();
 
 	TCPListener(const TCPListener& _other) = delete;
 	TCPListener(TCPListener&& _other) = delete;
-
-protected:
 	TCPListener& operator=(const TCPListener& _other) = delete;
 	TCPListener& operator=(const TCPListener&& _other) = delete;
 
 private:
-	void Initialize(const IPEndPoint& _EndPoint);
+	void Initialize();
 	void StartAccept(UINT _backLog);
-	void AsyncAccept();
+	void CreateAcceptSession();
 	void OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped);
 
 	void CloseSession(PtrSTCPSession _tcpSession);

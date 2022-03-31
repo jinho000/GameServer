@@ -9,13 +9,11 @@ protected: // member var
 	WSAOVERLAPPED m_overlapped;
 
 public: // default
-	Overlapped() = default;
+	Overlapped();
 	virtual ~Overlapped() = 0 {};
 
 	Overlapped(const Overlapped& _other) = delete;
 	Overlapped(Overlapped&& _other) = delete;
-
-protected:
 	Overlapped& operator=(const Overlapped& _other) = delete;
 	Overlapped& operator=(const Overlapped&& _other) = delete;
 

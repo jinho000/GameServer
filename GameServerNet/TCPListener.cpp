@@ -6,30 +6,27 @@
 #include "TCPSession.h"
 #include "GameServerBase/ServerDebug.h"
 
-TCPListener::TCPListener(const IPEndPoint& _EndPoint, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
-	: m_listenerSocket(NULL)
-	, m_ipEndPoint(_EndPoint)
-	, m_pJobQueue(ServerQueue::WORK_TYPE::Default, 4)
-	, m_acceptCallback(_acceptCallback)
-{
-	Initialize(_EndPoint);
-}
+UINT TCPListener::listenThreadCount = 4;
 
 TCPListener::TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
-	: TCPListener(IPEndPoint(_ip, _port), _acceptCallback)
+	//: TCPListener(IPEndPoint(_ip, _port), _acceptCallback)
+	: m_listenerSocket(NULL)
+	, m_ipEndPoint(IPEndPoint(_ip, _port))
+	, m_listenQueue(ServerQueue::WORK_TYPE::Default, listenThreadCount)
+	, m_acceptCallback(_acceptCallback)
+	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
+	Initialize();
+	StartAccept(10);
 }
 
 TCPListener::~TCPListener()
 {
-	//CloseSocket();
-	//ServerHelper::DestroySocketLib();
 }
 
 
-void TCPListener::Initialize(const IPEndPoint& _EndPoint)
+void TCPListener::Initialize()
 {
-
 	m_listenerSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO::IPPROTO_TCP, NULL, NULL, WSA_FLAG_OVERLAPPED);
 	if (INVALID_SOCKET == m_listenerSocket)
 	{
@@ -38,14 +35,13 @@ void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 	}
 
 
-	// IP4, IP6 구분?
-	SocketAddress addrSerial = (_EndPoint.Serialize());
+	SocketAddress addrSerial = (m_ipEndPoint.Serialize());
 	int ErrorCode = ::bind(m_listenerSocket, reinterpret_cast<const sockaddr*>(addrSerial.GetBuffer()), (int)addrSerial.GetBufferLength());
 	if (SOCKET_ERROR == ErrorCode)
 	{
 		CloseSocket();
+		ServerDebug::LogError("bind error");
 		ServerDebug::GetLastErrorPrint();
-		//ServerDebug::LogError("bind error");
 		return;
 	}
 
@@ -70,10 +66,8 @@ void TCPListener::Initialize(const IPEndPoint& _EndPoint)
 	// Bind queue
 	// 리스너 소켓과 접속을 받아들이는 함수 연결
 	// 비동기 처리
-	m_pJobQueue.NetworkAyncBind(m_listenerSocket, std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-
-	// Start Accept
-	//StartAccept(10);
+	//m_listenQueue.RegistSocket(m_listenerSocket, std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	m_listenQueue.RegistSocket(m_listenerSocket, &m_listenCallback);
 }
 
 void TCPListener::StartAccept(UINT _backLog)
@@ -85,49 +79,60 @@ void TCPListener::StartAccept(UINT _backLog)
 		_backLog = sysInfo.dwNumberOfProcessors;
 	}
 
-	// backlog 개수만큼 미리 소켓을 만들어 놓음
+	// backlog 개수만큼 미리 세션을 만들어 놓음
 	for (UINT i = 0; i < _backLog; i++)
 	{
-		AsyncAccept();
+		CreateAcceptSession();
 	}
 }
 
-void TCPListener::AsyncAccept()
+void TCPListener::CreateAcceptSession()
 {
 	PtrSTCPSession newSession = nullptr;
 	{
-		m_connectPoolLock.lock();
+		m_acceptPoolLock.lock();
 
-		if (m_connectionPool.empty())
+		if (m_acceptPool.empty())
 		{
 			newSession = std::make_shared<TCPSession>();
 			newSession->Initialize();
 			newSession->SetParent(this);
+			m_sessionPool.push_back(newSession);
+			
+			std::string log = "Create ";
+			log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
+			log += " Socket";
+			ServerDebug::LogInfo(log);
 		}
 		else
 		{
 			// 커넥션 풀에 세션이 있을경우 재활용
-			newSession = m_connectionPool.front();
-			m_connectionPool.pop_front();
+			newSession = m_acceptPool.front();
+			m_acceptPool.pop_front();
 			newSession->SetReuse();
+
+			std::string log = "Reuse ";
+			log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
+			log += " Socket";
+			ServerDebug::LogInfo(log);
 		}
 
-		m_connectPoolLock.unlock();
+		m_acceptPoolLock.unlock();
 	}
 
 	// 접속 완료 후 전달할 overlapped
-	std::unique_ptr<AcceptExOverlapped> acceptExOver = std::make_unique<AcceptExOverlapped>(newSession);
+	AcceptExOverlapped* pAccetExOver = newSession->GetAcceptExOverlapped();
 
 	// AcceptEx 함수 호출
 	DWORD dwByte = 0;
 	BOOL result = AcceptEx(m_listenerSocket
 		, newSession->GetSessionSocket()
-		, acceptExOver->GetBuffer()
+		, pAccetExOver->GetBuffer()
 		, 0
 		, sizeof(sockaddr_in) + 16
 		, sizeof(sockaddr_in) + 16
 		, &dwByte
-		, acceptExOver->GetLPOverlapped());
+		, pAccetExOver->GetLPOverlapped());
 
 	if (FALSE == result)
 	{
@@ -137,16 +142,14 @@ void TCPListener::AsyncAccept()
 			return;
 		}
 	}
-
-	// unique 포인터 소유권 포기
-	acceptExOver.release();
 }
 
 void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped)
 {
 	// 접속자가 들어와 세션이 생긴경우
 	// 대기소켓을 하나더 생성
-	AsyncAccept();
+	// 재활용 소켓이 있는경우 재활용소켓 사용
+	CreateAcceptSession();
 
 	if (nullptr == _overlapped)
 	{
@@ -167,23 +170,28 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	}
 
 	// overlapped 객체 가져오기
-	std::unique_ptr<AcceptExOverlapped> acceptExOver = std::unique_ptr<AcceptExOverlapped>(reinterpret_cast<AcceptExOverlapped*>(reinterpret_cast<char*>(_overlapped) - sizeof(void*)));
-	
+	AcceptExOverlapped* acceptExOver = reinterpret_cast<AcceptExOverlapped*>(reinterpret_cast<char*>(_overlapped) - sizeof(void*));
+
 	// acceptExOver 객체에 리모트, 로컬 주소값을 채워넣음
 	acceptExOver->Excute(_result, _byteSize);
 
 	// 클라와 연결된 세션에 IOCP 연결후 리시브 요청
-	PtrSTCPSession session = acceptExOver->GetTCPSession();
-	session->BindQueue(m_pJobQueue);
+	std::shared_ptr<TCPSession> session(acceptExOver->GetTCPSession());
+	session->BindQueue(m_listenQueue);
 	session->RequestRecv();
-	
+
 	// 세션 저장하기
-	m_connecsLock.lock();
-	m_connections.insert(std::make_pair(session->GetSessionID(), session));
-	m_connecsLock.unlock();
+	m_connectionPoolLock.lock();
+	m_connectionPool.insert(std::make_pair(session->GetSessionID(), session));
+
+	std::string log = std::to_string(static_cast<int>(session->GetSessionSocket()));
+	log += " Socket Connected";
+	ServerDebug::LogInfo(log);
+
+	m_connectionPoolLock.unlock();
 
 	// callback 함수 실행
-	m_acceptCallback(acceptExOver->GetTCPSession());
+	m_acceptCallback(session);
 }
 
 void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
@@ -192,14 +200,14 @@ void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
 
 	// 관리 맵에서 삭제
 	{
-		std::lock_guard<std::mutex> lock(m_connecsLock);
-		m_connections.erase(_tcpSession->GetSessionID());
+		std::lock_guard<std::mutex> lock(m_connectionPoolLock);
+		m_connectionPool.erase(_tcpSession->GetSessionID());
 	}
 
 	// 재활용하기 위해 connection 풀에 추가
 	{
-		std::lock_guard<std::mutex> lock(m_connectPoolLock);
-		m_connectionPool.push_back(_tcpSession);
+		std::lock_guard<std::mutex> lock(m_acceptPoolLock);
+		m_acceptPool.push_back(_tcpSession);
 	}
 }
 
@@ -216,10 +224,10 @@ void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession 
 {
 	ServerDebug::LogInfo("BroadCast");
 
-	std::lock_guard<std::mutex> lockGuard(m_connecsLock);
+	std::lock_guard<std::mutex> lockGuard(m_connectionPoolLock);
 
-	auto iter = m_connections.begin();
-	while (iter != m_connections.end())
+	auto iter = m_connectionPool.begin();
+	while (iter != m_connectionPool.end())
 	{
 		// 패킷요청한 세션을 무시하고 전달하는 경우
 		if (iter->second == _requestSession)

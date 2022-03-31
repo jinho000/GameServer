@@ -33,7 +33,7 @@ public: // member Func
 	size_t GetThreadCount() const;
 
 	void PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey) const;
-	bool AsyncBind(HANDLE _handle, ULONG_PTR _dwCompletionKey) const;
+	bool BindHandle(HANDLE _handle, ULONG_PTR _dwCompletionKey) const;
 
 
 public: // thread local »ç¿ë

@@ -2,7 +2,7 @@
 #include "DisconnectOverlapped.h"
 #include "TCPSession.h"
 
-DisconnectOverlapped::DisconnectOverlapped(PtrSTCPSession _tcpSession)
+DisconnectOverlapped::DisconnectOverlapped(TCPSession* _tcpSession)
 	: m_tcpSession(_tcpSession)
 {
 }

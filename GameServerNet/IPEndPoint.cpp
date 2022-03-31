@@ -8,6 +8,12 @@ IPEndPoint::IPEndPoint(const std::string& _ip, int _port)
 {
 }
 
+IPEndPoint::IPEndPoint()
+	: m_ipAddress("localhost")
+	, m_port(30000)
+{
+}
+
 IPEndPoint::IPEndPoint(const IPAddress& _ipAddress, int _port)
 	: m_ipAddress(_ipAddress)
 	, m_port(_port)

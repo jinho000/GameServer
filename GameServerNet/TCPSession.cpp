@@ -5,10 +5,12 @@
 #include "RecvOverlapped.h"
 #include "DisconnectOverlapped.h"
 #include "SendOverlapped.h"
+#include "AcceptExOverlapped.h"
 
 TCPSession::TCPSession()
 	: m_conectId(ServerUnique::GetNextUniqueId())
 	, m_sessionSocket(NULL)
+	, m_acceptExOverlapped(nullptr)
 	, m_recvOverlapped(nullptr)
 	, m_disconOverlapped(nullptr)
 	, m_recvCallBack(nullptr)
@@ -24,6 +26,18 @@ TCPSession::~TCPSession()
 	{
 		delete m_recvOverlapped;
 		m_recvOverlapped = nullptr;
+	}
+
+	if (nullptr != m_acceptExOverlapped)
+	{
+		delete m_acceptExOverlapped;
+		m_acceptExOverlapped = nullptr;
+	}
+
+	if (nullptr != m_disconOverlapped)
+	{
+		delete m_disconOverlapped;
+		m_disconOverlapped = nullptr;
 	}
 }
 
@@ -71,7 +85,6 @@ void TCPSession::CloseSocket()
 	}
 }
 
-//#include <mswsock.h>
 void TCPSession::DisconnectSocket()
 {
 	if (INVALID_SOCKET == m_sessionSocket)
@@ -126,8 +139,9 @@ bool TCPSession::BindQueue(const ServerQueue& _jobQueue)
 {
 	if (m_bReuseSocket) return true;
 
-	PtrWTCPSession ptrThis = std::dynamic_pointer_cast<TCPSession>(shared_from_this());
-	return _jobQueue.NetworkAyncBind(m_sessionSocket, std::bind(&TCPSession::OnCallback, ptrThis, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	return true;
+	//PtrWTCPSession ptrThis = std::dynamic_pointer_cast<TCPSession>(shared_from_this());
+	//return _jobQueue.RegistSocket(m_sessionSocket, std::bind(&TCPSession::OnCallback, ptrThis, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 void TCPSession::RequestRecv()
@@ -189,7 +203,7 @@ void TCPSession::Send(const std::vector<uint8_t>& _buffer)
 	DWORD flag     = 0;
 
 	SendOverlapped* sendOverlapped = m_sendPool.Pop();
-	sendOverlapped->SetTCPSession(std::dynamic_pointer_cast<TCPSession>(shared_from_this()));
+	sendOverlapped->SetTCPSession(this);
 	sendOverlapped->CopyFrom(_buffer);
 
 	int sockError = WSASend(m_sessionSocket
@@ -240,7 +254,9 @@ void TCPSession::Initialize()
 
 	int errorCode = 0;
 
+	//////////////////////
 	// 옵션설정
+	//////////////////////
 
 	// 네이글 알고리즘 끄기
 	{
@@ -300,14 +316,11 @@ void TCPSession::Initialize()
 		}
 	}
 
-	m_recvOverlapped = new RecvOverlapped(std::dynamic_pointer_cast<TCPSession>(shared_from_this()));
-	m_disconOverlapped = new DisconnectOverlapped(std::dynamic_pointer_cast<TCPSession>(shared_from_this()));
+	 m_recvOverlapped = new RecvOverlapped(this);
+	 m_disconOverlapped = new DisconnectOverlapped(this);
+	 m_acceptExOverlapped = new AcceptExOverlapped(this);
 }
 
-__int64 TCPSession::GetSessionID() const
-{
-	return m_conectId;
-}
 
 void TCPSession::SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack)
 {

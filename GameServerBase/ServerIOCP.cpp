@@ -83,7 +83,7 @@ void ServerIOCP::PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwComp
 	PostQueuedCompletionStatus(m_IOCPHandle, _dwNumberOfBytesTransferred, _dwCompletionKey, nullptr);
 }
 
-bool ServerIOCP::AsyncBind(HANDLE _handle, ULONG_PTR _dwCompletionKey) const
+bool ServerIOCP::BindHandle(HANDLE _handle, ULONG_PTR _dwCompletionKey) const
 {
 	if (nullptr == m_IOCPHandle)
 	{

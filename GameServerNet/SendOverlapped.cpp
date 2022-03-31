@@ -14,7 +14,7 @@ SendOverlapped::~SendOverlapped()
 {
 }
 
-void SendOverlapped::SetTCPSession(PtrSTCPSession _tcpSession)
+void SendOverlapped::SetTCPSession(TCPSession* _tcpSession)
 {
 	m_tcpSession = _tcpSession;
 }

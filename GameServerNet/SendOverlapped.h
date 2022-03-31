@@ -8,7 +8,7 @@ class SendOverlapped : public Overlapped
 private: // member var
 	std::vector<char>	m_buffer;
 	WSABUF				m_wsaBuff;
-	PtrSTCPSession		m_tcpSession;
+	TCPSession*			m_tcpSession;
 
 public: // default
 	SendOverlapped();
@@ -24,7 +24,7 @@ protected:
 private:
 
 public: // member Func
-	void SetTCPSession(PtrSTCPSession _tcpSession);
+	void SetTCPSession(TCPSession* _tcpSession);
 
 	void Excute(BOOL _result, DWORD _byteSize) override;
 	

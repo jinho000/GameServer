@@ -38,8 +38,13 @@ public: // member Func
 		return m_lpNumberOfBytesTransferred;
 	}
 
+	ULONG_PTR GetCompletionKey()
+	{
+		return m_lpCompletionKey;
+	}
+
 	template<typename type>
-	type GetCompletionKey()
+	type GetCompletionKeyType()
 	{
 		return reinterpret_cast<type>(m_lpCompletionKey);
 	}
