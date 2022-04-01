@@ -8,25 +8,34 @@
 
 UINT TCPListener::listenThreadCount = 4;
 
+TCPListener::TCPListener()
+	: m_listenerSocket(NULL)
+	, m_ipEndPoint()
+	, m_listenQueue(ServerQueue::WORK_TYPE::Default, listenThreadCount)
+	, m_acceptCallback()
+	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
+{
+}
+
 TCPListener::TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
 	//: TCPListener(IPEndPoint(_ip, _port), _acceptCallback)
 	: m_listenerSocket(NULL)
-	, m_ipEndPoint(IPEndPoint(_ip, _port))
+	, m_ipEndPoint()
 	, m_listenQueue(ServerQueue::WORK_TYPE::Default, listenThreadCount)
 	, m_acceptCallback(_acceptCallback)
 	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
-	Initialize();
-	StartAccept(10);
+	Initialize(_ip, _port, _acceptCallback);	
 }
 
 TCPListener::~TCPListener()
 {
 }
 
-
-void TCPListener::Initialize()
+void TCPListener::Initialize(const std::string _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
 {
+	m_ipEndPoint = IPEndPoint(_ip, _port);
+
 	m_listenerSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO::IPPROTO_TCP, NULL, NULL, WSA_FLAG_OVERLAPPED);
 	if (INVALID_SOCKET == m_listenerSocket)
 	{
@@ -66,7 +75,6 @@ void TCPListener::Initialize()
 	// Bind queue
 	// 리스너 소켓과 접속을 받아들이는 함수 연결
 	// 비동기 처리
-	//m_listenQueue.RegistSocket(m_listenerSocket, std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	m_listenQueue.RegistSocket(m_listenerSocket, &m_listenCallback);
 }
 
@@ -146,6 +154,8 @@ void TCPListener::CreateAcceptSession()
 
 void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped)
 {
+	ServerDebug::LogInfo("Client request connection");
+
 	if (nullptr == _overlapped)
 	{
 		ServerDebug::LogWarning("OnAccept overlapped가 없음");
@@ -180,11 +190,6 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	m_connectionPool.insert(std::make_pair(session->GetSessionID(), session));
 
 	m_connectionPoolLock.unlock();
-
-	ServerDebug::LogInfo("Client request connection");
-	std::string log = std::to_string(static_cast<int>(session->GetSessionSocket()));
-	log += " Socket Connected";
-	ServerDebug::LogInfo(log);
 
 	// callback 함수 실행
 	m_acceptCallback(session);

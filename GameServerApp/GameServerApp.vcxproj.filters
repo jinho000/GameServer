@@ -3,4 +3,14 @@
   <ItemGroup>
     <ClCompile Include="GameServerApp.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Config">
+      <UniqueIdentifier>{4c04218e-2704-46bc-a7bc-0fc2d8397138}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\ServerConfig.xml">
+      <Filter>Config</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>

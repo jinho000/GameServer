@@ -59,7 +59,6 @@ public: // default
 private:
 	// friend class Á¢±Ù
 	void Initialize();
-	SOCKET GetSessionSocket() const;
 	AcceptExOverlapped* GetAcceptExOverlapped() { return m_acceptExOverlapped; }
 
 private:
@@ -82,6 +81,7 @@ private:
 	void UnregisterSession();
 
 public: // member Func
+	SOCKET GetSessionSocket() const;
 	__int64 GetSessionID() const { return m_conectId; };
 	void SetCallBack(RecvCallBack _recvCallBack, CloseCallBack _closeCallBack);
 	void Send(const std::vector<uint8_t>& _buffer);

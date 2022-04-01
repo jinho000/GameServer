@@ -4,11 +4,13 @@
     <ClInclude Include="pch.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="ContentCore.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
     </ClCompile>
+    <ClCompile Include="ContentCore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">

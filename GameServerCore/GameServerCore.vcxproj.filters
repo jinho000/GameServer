@@ -4,15 +4,20 @@
     <ClInclude Include="pch.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="ServerCore.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
     </ClCompile>
+    <ClCompile Include="ServerCore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
       <UniqueIdentifier>{9187dec3-1682-4147-9601-58d82513fc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WorkQueue">
+      <UniqueIdentifier>{483b2a37-f11a-48c8-9149-9d390267c23b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -78,6 +78,12 @@ void ServerDebug::LogWarning(const std::string& _log)
 	Log(LOG_TYPE::TYPE_WARNING, _log);
 }
 
+void ServerDebug::LogErrorAssert(const std::string& _Text)
+{
+	Log(LOG_TYPE::TYPE_LASTERROR, _Text);
+	AssertDebugMsg(_Text);
+}
+
 void ServerDebug::GetLastErrorPrint()
 {
 	DWORD error = WSAGetLastError();

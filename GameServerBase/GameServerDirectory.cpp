@@ -54,8 +54,15 @@ bool GameServerDirectory::MoveParent(const std::string& _DirName)
 
 	while (false == IsRoot())
 	{
+		const std::string path = path_.filename().string();
 		if (path_.filename().string() == _DirName)
 		{
+			return true;
+		}
+
+		if (path_.filename().string().empty())
+		{
+			ServerDebug::LogWarning("move C:\\");
 			return true;
 		}
 

@@ -4,9 +4,10 @@
 
 enum class LOG_TYPE
 {
-	TYPE_WARNING,
 	TYPE_ERROR,
+	TYPE_WARNING,
 	TYPE_INFO,
+	TYPE_LASTERROR,
 	SIZE
 };
 
@@ -57,9 +58,11 @@ public: // member Func
 	static void AssertDebugMsg(const std::string& _msg);
 
 	static void Log(LOG_TYPE _type, const std::string& _log);
+
 	static void LogError(const std::string& _log);
 	static void LogInfo(const std::string& _log);
 	static void LogWarning(const std::string& _log);
+	static void LogErrorAssert(const std::string& _Text);
 
 	static void GetLastErrorPrint();
 

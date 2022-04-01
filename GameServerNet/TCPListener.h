@@ -29,6 +29,7 @@ private: // member var
 	std::mutex													m_connectionPoolLock;
 
 public: // default
+	TCPListener();
 	TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
 	~TCPListener();
 
@@ -38,15 +39,11 @@ public: // default
 	TCPListener& operator=(const TCPListener&& _other) = delete;
 
 private:
-	void Initialize();
 	void CloseSocket(); // listen 소켓 종료
-
-	void StartAccept(UINT _backLog);
 
 	// session을 만들고 accept함수 실행
 	// 재활용할 세션이 있는경우 재활용할 세션 사용
 	void CreateAcceptSession();
-
 
 	// 클라이언트 접속 요청 이벤트 발생시 호출함수
 	void OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapped);
@@ -55,6 +52,9 @@ private:
 	void CloseSession(PtrSTCPSession _tcpSession);
 
 public: // member Func
+	void Initialize(const std::string _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
+	void StartAccept(UINT _backLog);
+
 	void BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession);
 	void BroadCast(const std::vector<uint8_t>& _buffer);
 
