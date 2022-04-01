@@ -11,6 +11,7 @@ DBConnecter::DBConnecter()
 
 DBConnecter::~DBConnecter()
 {
+	mysql_close(m_mysqlPtr);
 }
 
 bool DBConnecter::Connect(const std::string _Host, const std::string _Id, const std::string _Pw, const std::string _Schema, unsigned int _Port)
@@ -30,24 +31,24 @@ bool DBConnecter::Connect(const std::string _Host, const std::string _Id, const 
 		return false;
 	}
 
-	mysql_options(m_mysqlPtr, MYSQL_SET_CHARSET_NAME, "utf8");
+	//mysql_options(m_mysqlPtr, MYSQL_SET_CHARSET_NAME, "utf8");
 
-	// 동시에 여러개의 SELECT정보를 받아볼수 있게 처리해줍니다.
-	MYSQL* Handle = mysql_real_connect(m_mysqlPtr, _Host.c_str(), _Id.c_str(), _Pw.c_str(), _Schema.c_str(), 3306, nullptr, CLIENT_MULTI_RESULTS);
+	//// 동시에 여러개의 SELECT정보를 받아볼수 있게 처리해줍니다.
+	//MYSQL* Handle = mysql_real_connect(m_mysqlPtr, _Host.c_str(), _Id.c_str(), _Pw.c_str(), _Schema.c_str(), 3306, nullptr, CLIENT_MULTI_RESULTS);
 
-	if (m_mysqlPtr != Handle)
-	{
-		// 실패했을때 왜 실패했는지 알려줍니다.
-		const char* Error = mysql_error(m_mysqlPtr);
-		ServerDebug::AssertDebugMsg(std::string("Mysql connect Error =>") + Error);
-		return false;
-	}
+	//if (m_mysqlPtr != Handle)
+	//{
+	//	// 실패했을때 왜 실패했는지 알려줍니다.
+	//	const char* Error = mysql_error(m_mysqlPtr);
+	//	ServerDebug::AssertDebugMsg(std::string("Mysql connect Error =>") + Error);
+	//	return false;
+	//}
 
 	// 만약 DB와의 연결이 끊어지면
 	// 자동옵션으로 핸들 내부에서 알아서 연결을 복구한다.
-	bool reconnect = true;
+	//bool reconnect = true;
 	// 시간 1분정도 DB가 
-	mysql_options(m_mysqlPtr, MYSQL_OPT_RECONNECT, &reconnect);
+	//mysql_options(m_mysqlPtr, MYSQL_OPT_RECONNECT, &reconnect);
 	// 내가 직접해도 되죠?
 
 	 //이 헤더안의 구현내용이 알아서 쿼리 앞뒤에 mysql 서버에 보내는 프로토콜을 만들어서 

@@ -4,7 +4,8 @@
 thread_local std::string ServerThread::THREAD_NAME;
 thread_local unsigned int ServerThread::THREAD_OREDER;
 thread_local const std::type_info* ServerThread::LOCAL_DATA_TYPE = nullptr;
-thread_local std::vector<char> ServerThread::LOCAL_DATA;
+//thread_local std::vector<char> ServerThread::LOCAL_DATA;
+thread_local void* ServerThread::LOCAL_DATA = nullptr;
 
 
 ServerThread::~ServerThread()

@@ -33,14 +33,14 @@
       <Filter>ThreadHandler</Filter>
     </ClInclude>
     <ClInclude Include="RegistHandlerToDispatcher.h" />
-    <ClInclude Include="DBQueue.h">
-      <Filter>ThreadHandler\DB</Filter>
-    </ClInclude>
     <ClInclude Include="UserTable.h">
       <Filter>ThreadHandler\DB</Filter>
     </ClInclude>
     <ClInclude Include="JoinPacketHandler.h">
       <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="DBQueue.h">
+      <Filter>ThreadHandler\DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,14 +56,14 @@
     <ClCompile Include="LoginPacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
-    <ClCompile Include="DBQueue.cpp">
-      <Filter>ThreadHandler\DB</Filter>
-    </ClCompile>
     <ClCompile Include="UserTable.cpp">
       <Filter>ThreadHandler\DB</Filter>
     </ClCompile>
     <ClCompile Include="JoinPacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="DBQueue.cpp">
+      <Filter>ThreadHandler\DB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

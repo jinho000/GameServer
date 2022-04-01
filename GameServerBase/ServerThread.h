@@ -15,7 +15,7 @@ private:
 	static thread_local std::string THREAD_NAME;
 	static thread_local unsigned int THREAD_OREDER;
 	static thread_local const std::type_info* LOCAL_DATA_TYPE;
-	static thread_local std::vector<char> LOCAL_DATA;
+	static thread_local void* LOCAL_DATA;
 
 private: // member var
 	std::thread m_thread;
@@ -79,13 +79,9 @@ public:
 
 		// RTTI를 통해 타입체크
 		LOCAL_DATA_TYPE = &typeid(LocalDataType);
+		LOCAL_DATA = new LocalDataType;
 
-		// 메모리 할당
-		LOCAL_DATA.resize(sizeof(LocalDataType));
-
-		// place new
-		// LOCAL_DATA 벡터에 LocalDataType 객체 데이터 추가
-		return new (&LOCAL_DATA[0]) LocalDataType();
+		return reinterpret_cast<LocalDataType*>(LOCAL_DATA);
 	}
 
 	template<typename LocalDataType>
@@ -109,7 +105,13 @@ public:
 			return nullptr;
 		}
 
-		return (LocalDataType*)&LOCAL_DATA[0];
+		return reinterpret_cast<LocalDataType*>(LOCAL_DATA);
+	}
+
+	template<typename LocalDataType>
+	static void DeleteThreadLocalData()
+	{
+		delete reinterpret_cast<LocalDataType*>(LOCAL_DATA);
 	}
 };
 

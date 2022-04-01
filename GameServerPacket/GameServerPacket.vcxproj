@@ -177,10 +177,7 @@
   <ItemGroup>
     <ClInclude Include="ChatMessagePacketHandler.h" />
     <ClInclude Include="ClientToServer.h" />
-    <ClInclude Include="DBQueue.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="DBQueue.h" />
     <ClInclude Include="JoinPacketHandler.h">
       <SubType>
       </SubType>
@@ -204,10 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatMessagePacketHandler.cpp" />
-    <ClCompile Include="DBQueue.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="DBQueue.cpp" />
     <ClCompile Include="JoinPacketHandler.cpp">
       <SubType>
       </SubType>

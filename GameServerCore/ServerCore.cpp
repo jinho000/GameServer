@@ -6,14 +6,11 @@
 #include <GameServerBase/GameServerDirectory.h>
 #include <GameServerNet/ServerHelper.h>
 
+#include "NetQueue.h"
+#include "DBQueue1.h"
 
-std::string ServerCore::ServerIP;
-int			ServerCore::ServerPort;
-std::string ServerCore::DBHost;
-int			ServerCore::DBPort;
-std::string ServerCore::DBName;
-std::string ServerCore::DBUser;
-std::string ServerCore::DBPW;
+DBInfo	ServerCore::DBConfig = {};
+int		ServerCore::ServerPort = 0;
 
 TCPListener ServerCore::ServerListener;
 std::function<void(PtrSTCPSession)> ServerCore::AcceptCallBack;
@@ -61,43 +58,39 @@ bool ServerCore::CoreInit()
 	}
 
 	// Server Config에서 서버 IP, Port 정보 가져오기
+	ServerDebug::LogInfo("Server Config Info");
 	{
 		tinyxml2::XMLElement* ServerStart = Root->FirstChildElement("ServerStart");
 		ServerPort = nullptr != ServerStart->FindAttribute("Port") ? std::stoi(ServerStart->FindAttribute("Port")->Value()) : -1;
-		ServerIP = nullptr != ServerStart->FindAttribute("IP") ? ServerStart->FindAttribute("IP")->Value() : "";
-
-		ServerDebug::LogInfo("Server Config Info");
-		ServerDebug::LogInfo(std::string("ServerIP : " + ServerIP));
+		
 		ServerDebug::LogInfo(std::string("ServerPort : " + std::to_string(ServerPort)));
-
-		ServerDebug::LogInfo("Server Config OK");
 	}
 
 	// Server Config에서 DB정보 가져오기
 	{
 		// <DataBase Host = "127.0.0.1" Port = "3306" Name = "userver2" User = "root" PW = "1234" / >
 		tinyxml2::XMLElement* ServerStart = Root->FirstChildElement("DataBase");
-		DBHost = nullptr != ServerStart->FindAttribute("Host") ? ServerStart->FindAttribute("Host")->Value() : "";
-		DBUser = nullptr != ServerStart->FindAttribute("User")->Value() ? ServerStart->FindAttribute("User")->Value() : "";
-		DBPW = nullptr != ServerStart->FindAttribute("PW")->Value() ? ServerStart->FindAttribute("PW")->Value() : "";
-		DBName = nullptr != ServerStart->FindAttribute("Name")->Value() ? ServerStart->FindAttribute("Name")->Value() : "";
-		DBPort = nullptr != ServerStart->FindAttribute("Port")->Value() ? std::stoi(ServerStart->FindAttribute("Port")->Value()) : -1;
+		DBConfig.DBHost = nullptr != ServerStart->FindAttribute("Host") ? ServerStart->FindAttribute("Host")->Value() : "";
+		DBConfig.DBUser = nullptr != ServerStart->FindAttribute("User")->Value() ? ServerStart->FindAttribute("User")->Value() : "";
+		DBConfig.DBPW = nullptr != ServerStart->FindAttribute("PW")->Value() ? ServerStart->FindAttribute("PW")->Value() : "";
+		DBConfig.DBName = nullptr != ServerStart->FindAttribute("Name")->Value() ? ServerStart->FindAttribute("Name")->Value() : "";
+		DBConfig.DBPort = nullptr != ServerStart->FindAttribute("Port")->Value() ? std::stoi(ServerStart->FindAttribute("Port")->Value()) : -1;
 
 		ServerDebug::LogInfo("DB Config Info");
-		ServerDebug::LogInfo(std::string("DBHost : " + DBHost));
-		ServerDebug::LogInfo(std::string("DBUser : " + DBUser));
-		ServerDebug::LogInfo(std::string("DBPW : " + DBPW));
-		ServerDebug::LogInfo(std::string("DBName : " + DBName));
-		ServerDebug::LogInfo(std::string("DBPort : " + std::to_string(DBPort)));
-		ServerDebug::LogInfo("DB Config OK");
+		ServerDebug::LogInfo(std::string("DBHost : " + DBConfig.DBHost));
+		ServerDebug::LogInfo(std::string("DBUser : " + DBConfig.DBUser));
+		ServerDebug::LogInfo(std::string("DBPW : " + DBConfig.DBPW));
+		ServerDebug::LogInfo(std::string("DBName : " + DBConfig.DBName));
+		ServerDebug::LogInfo(std::string("DBPort : " + std::to_string(DBConfig.DBPort)));
 	}
 
+	ServerDebug::LogInfo("Server Config OK");
 
-	//DBQueue::Init();
-	//ServerDebug::LogInfo("DB Thread Init OK");
+	DBQueue1::Init();
+	ServerDebug::LogInfo("DB Thread Init OK");
 
-	//NetQueue::Init();
-	//ServerDebug::LogInfo("Net Thread Init OK");
+	NetQueue::Init();
+	ServerDebug::LogInfo("Net Thread Init OK");
 
 	ServerHelper::InitSocketLib();
 	ServerDebug::LogInfo("ServerHelper And ServerDebug Init OK");
@@ -114,8 +107,8 @@ bool ServerCore::CoreRun()
 		return false;
 	}
 
-	ServerListener.Initialize(ServerIP, ServerPort, AcceptCallBack);
-	//ServerListener.BindQueue(NetQueue::GetQueue());
+	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
+	ServerListener.BindNetQueue(NetQueue::GetQueue());
 	ServerListener.StartAccept(10);
 
 
@@ -131,5 +124,8 @@ bool ServerCore::CoreRun()
 bool ServerCore::CoreEnd()
 {
 	ServerDebug::Destroy();
-    return false;
+	NetQueue::Destroy();
+	DBQueue1::Destroy();
+
+    return true;
 }

@@ -11,21 +11,10 @@ UINT TCPListener::listenThreadCount = 4;
 TCPListener::TCPListener()
 	: m_listenerSocket(NULL)
 	, m_ipEndPoint()
-	, m_listenQueue(ServerQueue::WORK_TYPE::Default, listenThreadCount)
-	, m_acceptCallback()
+	, m_pNetQueue(nullptr)
+	, m_acceptCallback(nullptr)
 	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
-}
-
-TCPListener::TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
-	//: TCPListener(IPEndPoint(_ip, _port), _acceptCallback)
-	: m_listenerSocket(NULL)
-	, m_ipEndPoint()
-	, m_listenQueue(ServerQueue::WORK_TYPE::Default, listenThreadCount)
-	, m_acceptCallback(_acceptCallback)
-	, m_listenCallback(std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
-{
-	Initialize(_ip, _port, _acceptCallback);	
 }
 
 TCPListener::~TCPListener()
@@ -34,6 +23,7 @@ TCPListener::~TCPListener()
 
 void TCPListener::Initialize(const std::string _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback)
 {
+	m_acceptCallback = _acceptCallback;
 	m_ipEndPoint = IPEndPoint(_ip, _port);
 
 	m_listenerSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO::IPPROTO_TCP, NULL, NULL, WSA_FLAG_OVERLAPPED);
@@ -71,11 +61,6 @@ void TCPListener::Initialize(const std::string _ip, int _port, const std::functi
 		ServerDebug::LogError("listen error");
 		return;
 	}
-
-	// Bind queue
-	// 리스너 소켓과 접속을 받아들이는 함수 연결
-	// 비동기 처리
-	m_listenQueue.RegistSocket(m_listenerSocket, &m_listenCallback);
 }
 
 void TCPListener::StartAccept(UINT _backLog)
@@ -92,6 +77,24 @@ void TCPListener::StartAccept(UINT _backLog)
 	{
 		CreateAcceptSession();
 	}
+}
+
+void TCPListener::BindNetQueue(const ServerQueue& _workQueue)
+{
+	static bool once = false;
+	if (once == true)
+	{
+		ServerDebug::AssertDebugMsg("Bind NetQueue twice");
+		return;
+	}
+	once = true;
+
+
+	// Bind queue
+	// 리스너 소켓과 접속을 받아들이는 함수 연결
+	// 비동기 처리
+	m_pNetQueue = &_workQueue;
+	m_pNetQueue->RegistSocket(m_listenerSocket, &m_listenCallback);
 }
 
 void TCPListener::CreateAcceptSession()
@@ -182,7 +185,7 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 
 	// 클라와 연결된 세션에 IOCP 연결후 리시브 요청
 	std::shared_ptr<TCPSession> session = acceptExOver->GetTCPSession();
-	session->BindQueue(m_listenQueue);
+	session->BindQueue(*m_pNetQueue);
 	session->RequestRecv();
 
 	// 세션 저장하기

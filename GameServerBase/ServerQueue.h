@@ -68,6 +68,9 @@ private:
 		}
 
 		this->RunThread(_worker);
+
+		// thread local 데이터 삭제
+		ServerThread::DeleteThreadLocalData<LocalDataType>();
 	}
 
 public: // type
@@ -88,8 +91,6 @@ private: // member var
 
 public: // default
 	ServerQueue();
-	ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName = "thread queue");
-
 	~ServerQueue();
 
 	ServerQueue(const ServerQueue& _other) = delete;
@@ -101,12 +102,9 @@ private:
 	void RunThread(std::shared_ptr<ServerIOCPWorker> _worker);
 
 public: // member Func
-	void Enqueue(const std::function<void()>& _callback);
 
-	// _socket: 등록할 소켓
-	// _onIOCallback: 소켓에 IO이벤트가 일어날경우 호출될 함수
-	bool RegistSocket(SOCKET _socket, const std::function<void(BOOL, DWORD, LPOVERLAPPED)>* _onIOCallback) const;
-	
+	// queue 초기화
+	void Initialize(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName = "WorkThread");
 
 	// thread local 사용
 	template<typename LocalDataType>
@@ -114,6 +112,17 @@ public: // member Func
 	{
 		m_Iocp.InitializeLocalData<LocalDataType>(std::bind(&ServerQueue::WorkThreadLocal<LocalDataType>, this, std::placeholders::_1, _ThreadName, _initLocal), INFINITE, threadCount);
 	}
+
+	// 스레드 종료
+	void Destroy();
+
+	// queue에 작업 추가
+	void Enqueue(const std::function<void()>& _work);
+
+
+	// _socket: 등록할 소켓
+	// _onIOCallback: 소켓에 IO이벤트가 일어날경우 호출될 함수
+	bool RegistSocket(SOCKET _socket, const std::function<void(BOOL, DWORD, LPOVERLAPPED)>* _onIOCallback) const;
 
 };
 

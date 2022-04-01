@@ -5,12 +5,24 @@
       <Filter>pch</Filter>
     </ClInclude>
     <ClInclude Include="ServerCore.h" />
+    <ClInclude Include="DBQueue1.h">
+      <Filter>WorkQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="NetQueue.h">
+      <Filter>WorkQueue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
     </ClCompile>
     <ClCompile Include="ServerCore.cpp" />
+    <ClCompile Include="DBQueue1.cpp">
+      <Filter>WorkQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="NetQueue.cpp">
+      <Filter>WorkQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">

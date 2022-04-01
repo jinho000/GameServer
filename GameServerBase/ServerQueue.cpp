@@ -17,22 +17,8 @@ ServerQueue::ServerQueue()
 {
 }
 
-ServerQueue::ServerQueue(WORK_TYPE _workType, UINT _threadCount, const std::string& _threadName)
-	: ServerNameBase("serverQueue")
-	, m_Iocp(std::bind(&ServerQueue::WorkThread, this, std::placeholders::_1, _threadName), _threadCount)
-{
-	
-}
-
-
 ServerQueue::~ServerQueue()
 {
-	// IOCP 스레드 종료코드
-	for (int i = 0; i < m_Iocp.GetThreadCount(); ++i)
-	{
-		m_Iocp.PostQueued((DWORD)ServerQueue::WORK_MSG::WORK_DESTROY, 0);
-		Sleep(1);
-	}
 }
 
 void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
@@ -127,23 +113,18 @@ bool ServerQueue::RegistSocket(SOCKET _socket, const std::function<void(BOOL, DW
 	return true;
 }
 
-//bool ServerQueue::RegistSocket(SOCKET _socket, const OverlappedJob* _callback) const
-//{
-//	if (false == m_Iocp.BindHandle(reinterpret_cast<HANDLE>(_socket), reinterpret_cast<ULONG_PTR>(_callback)))
-//	{
-//		return false;
-//	}
-//
-//	return true;
-//}
+void ServerQueue::Initialize(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName)
+{
+	m_Iocp.Initialize(std::bind(&ServerQueue::WorkThread, this, std::placeholders::_1, _ThreadName), threadCount);
+}
 
+void ServerQueue::Destroy()
+{
+	// IOCP 스레드 종료코드
+	for (int i = 0; i < m_Iocp.GetThreadCount(); ++i)
+	{
+		m_Iocp.PostQueued((DWORD)ServerQueue::WORK_MSG::WORK_DESTROY, 0);
+		Sleep(1);
+	}
+}
 
-//bool ServerQueue::NetworkAyncBind(SOCKET _socket, const std::function<void(BOOL, DWORD, LPOVERLAPPED)>* _callback) const
-//{
-//	 workthread에서 맞지 않음
-//	if (false == m_Iocp.BindSocket(_socket, reinterpret_cast<ULONG_PTR>(_callback)))
-//	{
-//		return false;
-//	}
-//	return true;
-//}

@@ -26,7 +26,7 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="ServerHelper.h">
-      <Filter>Base</Filter>
+      <Filter>NetHelper</Filter>
     </ClInclude>
     <ClInclude Include="Overlapped.h">
       <Filter>IO\Overlapped</Filter>
@@ -79,7 +79,7 @@
       <Filter>NetObject</Filter>
     </ClCompile>
     <ClCompile Include="ServerHelper.cpp">
-      <Filter>Base</Filter>
+      <Filter>NetHelper</Filter>
     </ClCompile>
     <ClCompile Include="Overlapped.cpp">
       <Filter>IO\Overlapped</Filter>
@@ -125,9 +125,6 @@
     <Filter Include="IO">
       <UniqueIdentifier>{1045721c-ef06-4559-817f-9b914105e6d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{0bbdf82c-c393-4b67-b11f-916ee51ec856}</UniqueIdentifier>
-    </Filter>
     <Filter Include="NetObject">
       <UniqueIdentifier>{d8b30b00-e960-495e-98b8-7489b4eaf24c}</UniqueIdentifier>
     </Filter>
@@ -136,6 +133,9 @@
     </Filter>
     <Filter Include="DB">
       <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetHelper">
+      <UniqueIdentifier>{0bbdf82c-c393-4b67-b11f-916ee51ec856}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

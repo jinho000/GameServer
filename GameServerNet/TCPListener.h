@@ -17,7 +17,7 @@ class TCPListener : public ServerBaseObject
 private: // member var
 	SOCKET												m_listenerSocket;
 	IPEndPoint											m_ipEndPoint;
-	ServerQueue											m_listenQueue;
+	const ServerQueue*									m_pNetQueue;
 	std::function<void(std::shared_ptr<TCPSession>)>	m_acceptCallback; // 클라이언트접속 완료 후 호출될 함수
 	std::function<void(BOOL, DWORD, LPOVERLAPPED)>		m_listenCallback; // 클라이언트가 접속했을떄 호출되는 함수
 	
@@ -30,7 +30,6 @@ private: // member var
 
 public: // default
 	TCPListener();
-	TCPListener(const std::string& _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
 	~TCPListener();
 
 	TCPListener(const TCPListener& _other) = delete;
@@ -54,6 +53,8 @@ private:
 public: // member Func
 	void Initialize(const std::string _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
 	void StartAccept(UINT _backLog);
+
+	void BindNetQueue(const ServerQueue& _workQueue);
 
 	void BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession);
 	void BroadCast(const std::vector<uint8_t>& _buffer);

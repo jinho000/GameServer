@@ -47,5 +47,5 @@ void DBQueue::EnQueue(const std::function<void()>& _work)
 
 void DBQueue::Destroy()
 {
-	//JobQueue.();
+
 }

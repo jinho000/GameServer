@@ -1,6 +1,15 @@
 #pragma once
 #include <GameServerNet/TCPListener.h>
 
+struct DBInfo
+{
+	std::string	DBHost;
+	int			DBPort;
+	std::string	DBName;
+	std::string	DBUser;
+	std::string	DBPW;
+};
+
 // 서버 실행을 도와주는 클래스
 class ServerCore
 {
@@ -9,19 +18,12 @@ private: // member var
 	static std::function<void(PtrSTCPSession)> AcceptCallBack;
 
 protected:
-	static int			ServerPort;
-	static std::string	ServerIP;
-
-	static std::string	DBHost;
-	static int			DBPort;
-	static std::string	DBName;
-	static std::string	DBUser;
-	static std::string	DBPW;
+	static int		ServerPort;
+	static DBInfo	DBConfig;
 
 protected:
 	ServerCore();
 	~ServerCore();
-	
 	ServerCore(const ServerCore& _other) = delete;
 	ServerCore(ServerCore&& _other) = delete;
 	ServerCore& operator=(const ServerCore& _other) = delete;
@@ -50,9 +52,6 @@ public:
 		CoreEnd();
 	}
 
-private:
-
-public: // member Func
-
+	static const DBInfo& GetDBInfo() { return DBConfig; }
 };
 
