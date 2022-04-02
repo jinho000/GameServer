@@ -5,12 +5,8 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include <string>
+#include "../Packets/ClientPackets/ContentStruct.h"
 #include "CharacterSelectItemObj.generated.h"
-
-struct FCharacterInfo
-{
-	std::string nickName;
-};
 
 UCLASS()
 class UNREALCLIENT_API UCharacterSelectItemObj : public UObject

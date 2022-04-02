@@ -37,6 +37,22 @@ void DBStatement::ParamBindString(std::string_view _Value)
 
 void DBStatement::ParamBindInt(const int _Value)
 {
+	m_paramLengthBuffer.emplace_back();
+	m_paramIsNullBuffer.emplace_back();
+	size_t Size = m_paramBindBuffer.size();
+	m_paramBindBuffer.resize(m_paramBindBuffer.size() + sizeof(int));
+
+	// 선확장 후보고
+	MYSQL_BIND& Bind = m_parambinds.emplace_back();
+	Bind.buffer_type = MYSQL_TYPE_LONG;
+	Bind.buffer = &m_paramBindBuffer[Size];
+	memset(Bind.buffer, 0x00, sizeof(int));
+	memcpy_s(Bind.buffer, sizeof(int), &_Value, sizeof(int));
+	Bind.buffer_length = static_cast<unsigned long>(sizeof(int));
+	Bind.is_null = reinterpret_cast<bool*>(&m_paramIsNullBuffer[m_paramIsNullBuffer.size() - 1]);
+	*Bind.is_null = false;
+	Bind.length = &m_paramLengthBuffer[m_paramLengthBuffer.size() - 1];
+	*Bind.length = Bind.buffer_length;
 }
 
 void DBStatement::ParamBindFloat(const float _Value)
@@ -112,6 +128,19 @@ std::unique_ptr<DBStatementResult> DBStatement::Execute()
 				// ResultBind.buffer = new char[sizeof(int)];
 				ResultBind.buffer_length = sizeof(int);
 				memset(ResultBind.buffer, 0x00, sizeof(int));
+				ResultBind.is_null = reinterpret_cast<bool*>(&Result->m_resultIsNullBuffer[Result->m_resultIsNullBuffer.size() - 1]);
+				*ResultBind.is_null = false;
+				ResultBind.length = &Result->m_resultLengthBuffer[Result->m_resultLengthBuffer.size() - 1];
+				break;
+			}
+			case enum_field_types::MYSQL_TYPE_FLOAT:
+			{
+				Result->m_resultBindBuffer.resize(Result->m_resultBindBuffer.size() + sizeof(float));
+				ResultBind.buffer_type = enum_field_types::MYSQL_TYPE_FLOAT;
+				ResultBind.buffer = &Result->m_resultBindBuffer[BufferStart];
+				// ResultBind.buffer = new char[sizeof(int)];
+				ResultBind.buffer_length = sizeof(float);
+				memset(ResultBind.buffer, 0x00, sizeof(float));
 				ResultBind.is_null = reinterpret_cast<bool*>(&Result->m_resultIsNullBuffer[Result->m_resultIsNullBuffer.size() - 1]);
 				*ResultBind.is_null = false;
 				ResultBind.length = &Result->m_resultLengthBuffer[Result->m_resultLengthBuffer.size() - 1];

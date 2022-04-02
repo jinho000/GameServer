@@ -8,8 +8,12 @@
 #include "GameServerNet/TCPSession.h"
 
 #include <GameServerCore/DBQueue.h>
+#include <GameServerCore/NetQueue.h>
 
 #include "UserTable.h"
+#include "CharacterTable.h"
+#include "ContentUserData.h"
+#include "ContentHeader.h"
 
 LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<LoginPacket> _packet)
 	: PacketHandlerBase(_TCPSession, _packet)
@@ -21,7 +25,7 @@ LoginPacketHandler::~LoginPacketHandler()
 {
 }
 
-void LoginPacketHandler::DBThreadCheckDB()
+void LoginPacketHandler::DBThreadCheckLogin()
 {
 	// 
 	// DB에 접근 데이터 처리 요청
@@ -37,7 +41,6 @@ void LoginPacketHandler::DBThreadCheckDB()
 	// 쿼리문 클래스에서 스레드 로컬의 디비커넥터객체를 가져와 사용한다
 	// DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
 
-	LoginResultPacket resultPacket;
 	ServerSerializer sr;
 
 	// 데이터 확인
@@ -49,32 +52,92 @@ void LoginPacketHandler::DBThreadCheckDB()
 		ServerDebug::LogInfo("ID is not exist");
 
 		// 유저 아이디가 없음
-		resultPacket.LoginResultCode = EResultCode::ID_ERROR;
-		resultPacket >> sr;
+		m_loginResultPacket.LoginResultCode = EResultCode::ID_ERROR;
+		m_loginResultPacket >> sr;
 		m_TCPSession->Send(sr.GetBuffer());
 		return;
 	}
-	
-	
+
+
 	std::shared_ptr<UserRow> userData = SelectQuery.RowData;
 	if (m_packet->PW != userData->Pw)
 	{
 		ServerDebug::LogInfo("Mismatch of passwords");
 
 		// 비밀번호가 일치하지 않음
-		resultPacket.LoginResultCode = EResultCode::PW_ERROR;
-		resultPacket >> sr;
+		m_loginResultPacket.LoginResultCode = EResultCode::PW_ERROR;
+		m_loginResultPacket >> sr;
 		m_TCPSession->Send(sr.GetBuffer());
 
 		return;
 	}
-	
+
+	m_userData = userData;
+
+	// NetQueue를 통해 결과값 전달
+	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+}
+
+void LoginPacketHandler::NetThreadSendLoginResult()
+{
 	ServerDebug::LogInfo("Login OK");
 
-	// 결과 검증 후 확인 패킷 전달
-	resultPacket.LoginResultCode = EResultCode::OK;
-	resultPacket >> sr;
+	// 확인 패킷 전달
+	ServerSerializer sr;
+	m_loginResultPacket.LoginResultCode = EResultCode::OK;
+	m_loginResultPacket >> sr;
 	m_TCPSession->Send(sr.GetBuffer());
+
+
+	// 유저의 캐릭터 정보를 받기위해 세션에 정보 저장
+	ServerDebug::LogInfo("Save user info to session");
+	ServerDebug::LogInfo(std::string("user Index : ") + std::to_string(m_userData->Index));
+	
+	std::shared_ptr<ContentUserData> Ptr = std::make_shared<ContentUserData>();
+	Ptr->userData = m_userData;
+	m_TCPSession->SetLink(EDataIndex::USERDATA, Ptr);
+
+	// 유저의 캐릭터 정보 가져오기
+	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckCharList, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+}
+
+void LoginPacketHandler::DBThreadCheckCharList()
+{
+	ServerDebug::LogInfo("Get User Character List");
+	CharacterTable_SelectUserCharacters SelectQuery(m_userData->Index);
+	if (false == SelectQuery.DoQuery())
+	{
+		ServerDebug::AssertDebugMsg("Fail Select Query");
+		return;
+	}
+
+	// 패킷에 데이터 채워넣기
+	m_CharacterListPacket.CharacterList.resize(SelectQuery.RowDatas.size());
+	ServerDebug::LogInfo("Character List Count : " + std::to_string(SelectQuery.RowDatas.size()));
+	for (size_t i = 0; i < SelectQuery.RowDatas.size(); i++)
+	{
+		m_CharacterListPacket.CharacterList[i].Index = SelectQuery.RowDatas[i]->Index;
+		m_CharacterListPacket.CharacterList[i].NickName = SelectQuery.RowDatas[i]->NickName;
+		m_CharacterListPacket.CharacterList[i].UserIndex = SelectQuery.RowDatas[i]->UserIndex;
+		m_CharacterListPacket.CharacterList[i].Att = SelectQuery.RowDatas[i]->Att;
+		m_CharacterListPacket.CharacterList[i].Hp = SelectQuery.RowDatas[i]->Hp;
+		m_CharacterListPacket.CharacterList[i].LastRoomID = SelectQuery.RowDatas[i]->LastRoomID;
+		m_CharacterListPacket.CharacterList[i].RoomX = SelectQuery.RowDatas[i]->RoomX;
+		m_CharacterListPacket.CharacterList[i].RoomY = SelectQuery.RowDatas[i]->RoomY;
+		m_CharacterListPacket.CharacterList[i].RoomZ = SelectQuery.RowDatas[i]->RoomZ;
+	}
+
+	// 캐릭터정보를 넷스레드를 통해 전달
+	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendCharList, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+}
+
+void LoginPacketHandler::NetThreadSendCharList()
+{
+	ServerSerializer sr;
+	m_CharacterListPacket >> sr;
+	m_TCPSession->Send(sr.GetBuffer());
+
+	ServerDebug::LogInfo("Send Character List");
 }
 
 
@@ -92,5 +155,7 @@ void LoginPacketHandler::Start()
 	// DB에 관한일은 DB큐에서 처리한다
 	// 
 	// 핸들러에서 이함수를 실행 후 종료되면, 핸들러 객체가 사라지기때문에 shared_from_this 사용
-	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+
+	m_loginResultPacket.LoginResultCode = EResultCode::FAIL;
+	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckLogin, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 }

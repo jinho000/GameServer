@@ -14,6 +14,7 @@ UCGameInstance::UCGameInstance()
 	, m_runnableThread(nullptr)
 	, m_socketSystem(nullptr)
 	, m_socket(nullptr)
+	, LoginProcess(false)
 {
 	int a = 0;
 }
@@ -95,7 +96,7 @@ bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
 		return false;
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("GameInstance - Send Data"));
+	UE_LOG(LogTemp, Log, TEXT("Send Packet"));
 
 	int dataSendSize = 0;
 	return m_socket->Send(_bytes.data(), _bytes.size(), dataSendSize);

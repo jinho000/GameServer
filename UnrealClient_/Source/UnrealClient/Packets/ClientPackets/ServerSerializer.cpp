@@ -48,6 +48,11 @@ void ServerSerializer::operator<<(UINT _value)
 	Write(&_value, sizeof(UINT));
 }
 
+void ServerSerializer::operator<<(float _value)
+{
+	Write(&_value, sizeof(float));
+}
+
 void ServerSerializer::operator<<(const std::string& _value)
 {
 	size_t size = _value.size();
@@ -75,6 +80,11 @@ void ServerSerializer::operator>>(int& _value)
 void ServerSerializer::operator>>(UINT& _value)
 {
 	Read(&_value, sizeof(UINT));
+}
+
+void ServerSerializer::operator>>(float& _value)
+{
+	Read(&_value, sizeof(float));
 }
 
 void ServerSerializer::operator>>(std::string& _value)

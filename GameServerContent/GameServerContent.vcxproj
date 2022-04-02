@@ -169,9 +169,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterTable.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ChatMessagePacketHandler.h" />
     <ClInclude Include="ClientToServer.h" />
     <ClInclude Include="ContentCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentHeader.h" />
+    <ClInclude Include="ContentStruct.h" />
+    <ClInclude Include="ContentUserData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CreateCharacterPacketHandler.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -195,8 +209,20 @@
     <ClInclude Include="UserTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterTable.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ChatMessagePacketHandler.cpp" />
     <ClCompile Include="ContentCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentUserData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CreateCharacterPacketHandler.cpp">
       <SubType>
       </SubType>
     </ClCompile>

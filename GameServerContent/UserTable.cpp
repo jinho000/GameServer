@@ -5,7 +5,7 @@
 #include <GameServerNet/DBStatement.h>
 #include <GameServerNet/DBStatementResult.h>
 
-std::string	UserTable::TableName = "user";
+std::string	UserTable::TableName = "userinfo";
 
 UserTable::UserTable()
 {
@@ -18,7 +18,7 @@ UserTable::~UserTable()
 //////////////////////////////////////////////////////////////////// 
 
 UserTable_SelectIDToUserInfo::UserTable_SelectIDToUserInfo(std::string _ID)
-	: DBQuery("SELECT Idx, ID, PW FROM gameserver.user WHERE ID = ? LIMIT 1")
+	: DBQuery("SELECT Idx, ID, PW FROM userver2.userinfo WHERE ID = ? LIMIT 1")
 	// : DBQuery("SELECT Idx, ID, PW FROM gameserver.user")
 	, ID(_ID)
 	, RowData(nullptr)
@@ -56,7 +56,7 @@ bool UserTable_SelectIDToUserInfo::DoQuery()
 
 UserTable_AllUserInfo::UserTable_AllUserInfo()
 // : DBQuery("SELECT Idx, ID, PW FROM gameserver.user")
-	: DBQuery("SELECT * FROM gameserver.user")
+	: DBQuery("SELECT * FROM userver2.userinfo")
 
 {
 }
@@ -82,7 +82,7 @@ bool UserTable_AllUserInfo::DoQuery()
 //////////////////////////////////////////////////////////////////// 
 
 UserTable_InsertUserInfo::UserTable_InsertUserInfo(std::string _ID, std::string _PW)
-	: DBQuery("INSERT INTO gameserver.user (ID, PW) VALUES (?, ?)")
+	: DBQuery("INSERT INTO userver2.userinfo (ID, PW) VALUES (?, ?)")
 	, ID(_ID)
 	, PW(_PW)
 {

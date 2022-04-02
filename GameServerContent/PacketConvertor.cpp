@@ -18,11 +18,20 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::Join:
 		m_packet = std::make_shared<JoinPacket>();
 		break;
+	case PacketType::CreateCharacter:
+		m_packet = std::make_shared<CreateCharacterPacket>();
+		break;
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
 		break;
 	case PacketType::JoginResult:
 		m_packet = std::make_shared<JoginResultPacket>();
+		break;
+	case PacketType::CharacterList:
+		m_packet = std::make_shared<CharacterListPacket>();
+		break;
+	case PacketType::CreateCharacterResult:
+		m_packet = std::make_shared<CreateCharacterResultPacket>();
 		break;
 	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();

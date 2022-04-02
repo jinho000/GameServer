@@ -73,12 +73,13 @@ private:
 	void RequestRecv();
 	void OnRecv(const char* _data, DWORD _byteSize);
 
-	void OnSendComplete(SendOverlapped* _sendOverlapped);
 
 	void CloseSession(bool _forceClose = false);
-	
 	void CloseSocket();
 	void UnregisterSession();
+
+
+	void OnSendComplete(SendOverlapped* _sendOverlapped);
 
 public: // member Func
 	SOCKET GetSessionSocket() const;

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include <functional>
 #include <memory>
+#include <map>
 
 #include "../Global/CGameInstance.h"
 #include "Components/ActorComponent.h"
@@ -28,7 +29,7 @@ class UNREALCLIENT_API UPacketComponent : public UActorComponent
 	GENERATED_BODY()
 
 private:
-	TMap<PacketType, ClientPacketHandler> m_handlerContainer;
+	std::map<PacketType, ClientPacketHandler> m_handlerContainer;
 	UCGameInstance* m_pGameInst;
 	
 public:	

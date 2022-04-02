@@ -71,3 +71,77 @@ public:
     }                                                           
 };                                                              
 
+class CharacterListPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::vector<FCharacterInfo> CharacterList;
+                                                                
+public:                                                         
+    CharacterListPacket()                                               
+        : ServerPacketBase(PacketType::CharacterList)                    
+        , CharacterList()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~CharacterListPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(CharacterList);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteVector( CharacterList);
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadVector( CharacterList);
+
+    }                                                           
+};                                                              
+
+class CreateCharacterResultPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	FCharacterInfo CharacterInfo;
+	EResultCode ResultCode;
+                                                                
+public:                                                         
+    CreateCharacterResultPacket()                                               
+        : ServerPacketBase(PacketType::CreateCharacterResult)                    
+        , CharacterInfo()
+        , ResultCode()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~CreateCharacterResultPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(CharacterInfo) + DataSizeCheck(ResultCode);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        CharacterInfo.Serialize(_Serializer);
+        _Serializer.WriteEnum(ResultCode);
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        CharacterInfo.Deserialize(_Serializer);
+        _Serializer.ReadEnum(ResultCode);
+
+    }                                                           
+};                                                              
+

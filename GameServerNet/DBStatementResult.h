@@ -24,7 +24,6 @@ private: // member var
 	MYSQL_STMT*					m_stmtPtr;
 
 public:
-	DBStatementResult() = delete;
 	DBStatementResult(DBConnecter* _DBConneterPtr, MYSQL_STMT* _mysqlStmt, std::string_view _query);
 
 	~DBStatementResult() = default;
@@ -33,13 +32,14 @@ public:
 	DBStatementResult(DBStatementResult&& _other) = delete;
 	DBStatementResult& operator=(const DBStatementResult& _other) = delete;
 	DBStatementResult& operator=(const DBStatementResult&& _other) = delete;
-public:
 
+public:
 	bool Next();
+	inline uint64_t AffectedRows() { return mysql_stmt_affected_rows(m_stmtPtr); };
 
 	std::string GetString(const int _index);
 	int GetInt(const int _index);
+	float GetFloat(const int _index);
 
-	inline uint64_t AffectedRows() { return mysql_stmt_affected_rows(m_stmtPtr); };
 };
 

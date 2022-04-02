@@ -52,11 +52,19 @@ void SerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	{
 		_Text += "        _Serializer << " + _MemberInfo.Name + ";\n";
 	}
+	else if (std::string::npos != _MemberInfo.Type.find("std::vector<"))
+	{
+		_Text += "        _Serializer.WriteVector( " + _MemberInfo.Name + ");\n";
+	}
 	else
 	{
 		if (_MemberInfo.Type[0] == 'E')
 		{
 			_Text += "        _Serializer.WriteEnum(" + _MemberInfo.Name + ");\n";
+		}
+		else if (_MemberInfo.Type[0] == 'F')
+		{
+			_Text += "        " + _MemberInfo.Name + ".Serialize(_Serializer);\n";
 		}
 		else
 		{
@@ -79,11 +87,19 @@ void DeSerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	{
 		_Text += "        _Serializer >> " + _MemberInfo.Name + ";\n";
 	}
+	else if (std::string::npos != _MemberInfo.Type.find("std::vector<"))
+	{
+		_Text += "        _Serializer.ReadVector( " + _MemberInfo.Name + ");\n";
+	}
 	else
 	{
 		if (_MemberInfo.Type[0] == 'E')
 		{
 			_Text += "        _Serializer.ReadEnum(" + _MemberInfo.Name + ");\n";
+		}
+		else if (_MemberInfo.Type[0] == 'F')
+		{
+			_Text += "        " + _MemberInfo.Name + ".Deserialize(_Serializer);\n";
 		}
 		else
 		{
@@ -551,16 +567,16 @@ int main()
 
 			for (size_t i = 0; i < ServerMessage.size(); i++)
 			{
-				Code += "	m_handlerContainer.Add(PacketType::" + ServerMessage[i].Name
+				Code += "	m_handlerContainer.insert(std::make_pair(PacketType::" + ServerMessage[i].Name
 					+ ", std::bind(&ProcessHandler<" + ServerMessage[i].Name + "PacketHandler, "
-					+ ServerMessage[i].Name + "Packet>, std::placeholders::_1, m_pGameInst, world));	\n";
+					+ ServerMessage[i].Name + "Packet>, std::placeholders::_1, m_pGameInst, world)));	\n";
 			}
 
 			for (size_t i = 0; i < ServerClientMessage.size(); i++)
 			{
-				Code += "	m_handlerContainer.Add(PacketType::" + ServerClientMessage[i].Name
+				Code += "	m_handlerContainer.insert(std::make_pair(PacketType::" + ServerClientMessage[i].Name
 					+ ", std::bind(&ProcessHandler<" + ServerClientMessage[i].Name + "PacketHandler, "
-					+ ServerClientMessage[i].Name + "Packet>, std::placeholders::_1, m_pGameInst, world));	\n";
+					+ ServerClientMessage[i].Name + "Packet>, std::placeholders::_1, m_pGameInst, world)));	\n";
 			}
 
 			Code += "}\n";

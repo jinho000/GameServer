@@ -28,30 +28,55 @@ protected:
 	ServerSerializer& operator=(const ServerSerializer& _other) = delete;
 	ServerSerializer& operator=(const ServerSerializer&& _other) = delete;
 
-private:
-
 public: // member Func
 	// Write
+
 	void Write(const void* _data, int size);
 	void operator<<(int _value);
 	void operator<<(UINT _value);
+	void operator<<(float _value);
 	void operator<<(const std::string& _value);
+
 	template<typename T>
 	void WriteEnum(const T _Value)
 	{
 		Write(reinterpret_cast<const void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
 	}
 
+	template<typename T>
+	void WriteVector(std::vector<T>& _Value)
+	{
+		operator<<(static_cast<int>(_Value.size()));
+		for (size_t i = 0; i < _Value.size(); i++)
+		{
+			_Value[i].Serialize(*this);
+		}
+	}
+
 	// read
+
 	void Read(void* _data, int size);
 	void operator>>(int& _value);
 	void operator>>(UINT& _value);
+	void operator>>(float& _value);
 	void operator>>(std::string& _value);
 
 	template<typename T>
 	void ReadEnum(T& _Value)
 	{
 		Read(reinterpret_cast<void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+	}
+
+	template<typename T>
+	void ReadVector(std::vector<T>& _Value)
+	{
+		int Size;
+		operator>>(Size);
+		_Value.resize(Size);
+		for (size_t i = 0; i < _Value.size(); i++)
+		{
+			_Value[i].Deserialize(*this);
+		}
 	}
 
 public:

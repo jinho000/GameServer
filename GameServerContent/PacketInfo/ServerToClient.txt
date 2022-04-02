@@ -3,3 +3,10 @@ EResultCode LoginResultCode;
 
 |JoginResult-
 EResultCode JoginResultCode;
+
+|CharacterList-
+std::vector<FCharacterInfo> CharacterList;
+
+|CreateCharacterResult-
+FCharacterInfo CharacterInfo;
+EResultCode ResultCode;

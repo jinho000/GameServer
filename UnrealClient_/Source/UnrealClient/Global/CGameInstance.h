@@ -33,8 +33,18 @@ private:
 	FSocket* m_socket;
 
 	// Chatting
-	FString				m_userID;
-	UCChatWindow* m_chatWindow;
+	FString			m_userID;
+	UCChatWindow*	m_chatWindow;
+
+public:
+	// Login
+	TAtomic<bool> LoginProcess;
+
+	// User
+	std::vector<FCharacterInfo> UserCharacterList;
+
+	// Chracter Select UI
+	class UListView* CharacterSelectUIListView;
 
 public:
 	UCGameInstance();

@@ -1,6 +1,7 @@
 #pragma once
 #include "ServerSerializer.h"
 #include "PacketType.h"
+#include "ContentStruct.h"
 
 // 패킷의 enum 이름은 항상 E로 시작해야함
 enum class EResultCode
@@ -9,7 +10,7 @@ enum class EResultCode
 	ID_ERROR,
 	PW_ERROR,
 	OK,
-	PACKET_ERROR,
+	FAIL,
 	MAX
 };
 
@@ -22,7 +23,6 @@ protected: // member var
 	UINT		m_size;
 
 public: // default
-	ServerPacketBase() = delete;
 	ServerPacketBase(PacketType _packetType)
 		: m_packetType(_packetType)
 		, m_size(-1)
@@ -41,6 +41,9 @@ protected:
 private:
 
 public: // member Func
+
+	// size 
+
 	virtual int SizeCheck() = 0;
 
 	unsigned int DataSizeCheck(const std::string& _Value)
@@ -55,6 +58,19 @@ public: // member Func
 		return sizeof(_Value);
 	}
 
+	template<typename Type>
+	unsigned int DataSizeCheck(std::vector<Type>& _Value)
+	{
+		int Size = 0;
+		for (size_t i = 0; i < _Value.size(); i++)
+		{
+			Size += _Value[i].GetDataSize();
+		}
+		return Size;
+	}
+
+	// Serialize
+
 	virtual void Serialize(ServerSerializer& _Serializer)
 	{
 		_Serializer.WriteEnum<PacketType>(m_packetType);
@@ -65,6 +81,8 @@ public: // member Func
 		Serialize(_serializer);
 	}
 
+	
+	// Deserialize
 
 	virtual void Deserialize(ServerSerializer& _Serializer)
 	{

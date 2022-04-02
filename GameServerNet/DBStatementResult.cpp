@@ -26,3 +26,8 @@ int DBStatementResult::GetInt(const int _index)
 {
 	return *reinterpret_cast<int32_t*>(m_resultBinds[_index].buffer);
 }
+
+float DBStatementResult::GetFloat(const int _index)
+{
+	return *reinterpret_cast<float*>(m_resultBinds[_index].buffer);
+}

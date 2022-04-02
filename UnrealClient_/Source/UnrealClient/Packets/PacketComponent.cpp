@@ -41,7 +41,8 @@ void UPacketComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		std::shared_ptr<ServerPacketBase> packet;
 		packetQueue.Dequeue(packet);
 		PacketType type = packet->GetPacketType();
-		ClientPacketHandler* handler = m_handlerContainer.Find(packet->GetPacketType());
+		auto iter = m_handlerContainer.find(type);
+		ClientPacketHandler handler = iter->second;
 		
 		if (nullptr == handler)
 		{
@@ -50,7 +51,7 @@ void UPacketComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		}
 
 		UE_LOG(LogTemp, Log, TEXT("start packet handler"));
-		(*handler)(packet);
+		(handler)(packet);
 	}
 }
 

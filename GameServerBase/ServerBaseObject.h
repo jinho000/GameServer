@@ -8,8 +8,8 @@
 class ServerBaseObject : public std::enable_shared_from_this<ServerBaseObject>
 {
 private: // member var
-	ServerBaseObject*				m_parent;		// 부모 오브젝트
-	std::vector<ServerBaseObject*>	m_linkObject;	// 오브젝트에 연결된 다른 오브젝트
+	ServerBaseObject*								m_parent;		// 부모 오브젝트
+	std::vector<std::shared_ptr<ServerBaseObject>>	m_linkObject;	// 오브젝트에 연결된 다른 오브젝트
 
 public: // default
 	ServerBaseObject();
@@ -26,6 +26,12 @@ private:
 
 public: // member Func
 	bool IsLowLevelValid();
+	void ClearLinkObject();
+
+
+	///////////
+	// Parent 
+	///////////
 
 	void SetParent(ServerBaseObject* _parent);
 
@@ -36,15 +42,43 @@ public: // member Func
 		return dynamic_cast<ParentType*>(m_parent);
 	}
 
-	void SetLink(ServerBaseObject* _link);
 
-	// 타입이 잘못된 경우 nullptr
-	template<typename LinkObjectType>
-	const ServerBaseObject* GetLink(UINT _idx) const
+	///////////
+	// SetLink
+	///////////
+
+	template<typename EnumData>
+	void SetLink(EnumData _Index, std::shared_ptr<ServerBaseObject> _Ptr)
 	{
-		return dynamic_cast<LinkObjectType*>(m_linkObject[_idx]);
+		SetLink(static_cast<size_t>(_Index), _Ptr);
 	}
 
-	const std::vector<ServerBaseObject*>& GetAllLink() const;
+	void SetLink(size_t _index, std::shared_ptr<ServerBaseObject> _ptr);
+
+
+	///////////
+	// Link Get
+	///////////
+
+	template<typename DataType>
+	std::shared_ptr<DataType> GetLink(size_t _Index)
+	{
+		if (m_linkObject.size() <= _Index)
+		{
+			return nullptr;
+		}
+
+		return std::dynamic_pointer_cast<DataType>(m_linkObject[_Index]);
+	}
+
+	template<typename DataType, typename EnumType>
+	std::shared_ptr<DataType> GetLink(EnumType _Index)
+	{
+		return GetLink<DataType>(static_cast<size_t>(_Index));
+	}
+
+
+	const std::vector<std::shared_ptr<ServerBaseObject>>& GetAllLink() const;
+
 };
 

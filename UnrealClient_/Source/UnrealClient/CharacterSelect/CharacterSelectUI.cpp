@@ -7,31 +7,30 @@
 #include "CharacterSelectItemObj.h"
 #include "CharacterListItem.h"
 #include "../Global/CBlueprintFunctionLibrary.h"
+#include "../Global/CGameInstance.h"
+#include "../Packets/ClientPackets/Packets.h"
+#include "../Global/CGameInstance.h"
 
 void UCharacterSelectUI::NativeConstruct()
 {
-	UE_LOG(LogTemp, Log, TEXT("Create Character Select UI"));
+	UE_LOG(LogTemp, Log, TEXT("CharacterSelectUI NativeContruct"));
 
+	UCGameInstance* Inst = Cast<UCGameInstance>(GetGameInstance());
+
+	// UI에서 캐릭터리스트뷰 가져오기
 	CharacterListView = Cast<UListView>(GetWidgetFromName(TEXT("CharacterList")));
-	//Inst->CharacterListView_ = CharacterListView_;
-	FString testName = TEXT("TestNickName");
-	std::string testNameUTF8;
-	UCBlueprintFunctionLibrary::FStringToUTF8(testName, testNameUTF8);
+	Inst->CharacterSelectUIListView = CharacterListView;
 
-	//for (size_t i = 0; i < Inst->Characters_.size(); i++)
-	for (size_t i = 0; i < 5; i++)
+	// 캐릭터리스트를 UI 캐릭터 리스트뷰에 추가
+	const std::vector<FCharacterInfo>& userCharacterList = Inst->UserCharacterList;
+	UE_LOG(LogTemp, Log, TEXT("Get User CharacterList, list count: %d"), userCharacterList.size());
+
+	for (size_t i = 0; i < userCharacterList.size(); i++)
 	{
-		//NewCharacterObject->Info = Inst->Characters_[i];
-		//UClientBlueprintFunctionLibrary::UTF8ToFString(NewCharacterObject->Info.NickName, NewCharacterObject->ConvertNickName);
-		//CharacterListView_->AddItem(NewCharacterObject);
-		//CharacterListView_->SetScrollOffset(CharacterListView_->GetNumItems() * 50.0f);
-
-		UCharacterSelectItemObj* itemInfoObj = NewObject<UCharacterSelectItemObj>();
-		itemInfoObj->CharacterInfo.nickName = testNameUTF8;
-		CharacterListView->AddItem(itemInfoObj);
+		UCharacterSelectItemObj* newItemInfoObj = NewObject<UCharacterSelectItemObj>();
+		newItemInfoObj->CharacterInfo = userCharacterList[i];
+		CharacterListView->AddItem(newItemInfoObj);
 		CharacterListView->SetScrollOffset(CharacterListView->GetNumItems() * 50.0f);
-
-		UE_LOG(LogTemp, Log, TEXT("Add item to Character listView"));
 	}
 }
 
@@ -39,6 +38,16 @@ void UCharacterSelectUI::CreateCharacter()
 {
 	UE_LOG(LogTemp, Log, TEXT("Create Character"));
 	UE_LOG(LogTemp, Log, TEXT("Nick Name: %s"), *NickName);
+
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+
+	CreateCharacterPacket packet;
+	UCBlueprintFunctionLibrary::FStringToUTF8(NickName, packet.NickName);
+	
+	ServerSerializer sr;
+	packet >> sr;
+
+	gameInst->SendBytes(sr.GetBuffer());
 }
 
 void UCharacterSelectUI::AddItemToListEvent(UObject* _object, UUserWidget* _widget)
@@ -57,7 +66,7 @@ void UCharacterSelectUI::AddItemToListEvent(UObject* _object, UUserWidget* _widg
 	}
 
 	FString nickNameFStr;
-	UCBlueprintFunctionLibrary::UTF8ToFString(characterInfo->CharacterInfo.nickName, nickNameFStr);
+	UCBlueprintFunctionLibrary::UTF8ToFString(characterInfo->CharacterInfo.NickName, nickNameFStr);
 	listItemWidget->NickName = nickNameFStr;
 
 	UE_LOG(LogTemp, Log, TEXT("Complete AddItem NickName: %s"), *nickNameFStr);

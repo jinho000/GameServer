@@ -79,3 +79,38 @@ public:
     }                                                           
 };                                                              
 
+class CreateCharacterPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::string NickName;
+                                                                
+public:                                                         
+    CreateCharacterPacket()                                               
+        : ServerPacketBase(PacketType::CreateCharacter)                    
+        , NickName()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~CreateCharacterPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(NickName);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << NickName;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> NickName;
+
+    }                                                           
+};                                                              
+

@@ -55,6 +55,21 @@
     <ClInclude Include="PacketHandlerBase.h">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
     </ClInclude>
+    <ClInclude Include="CreateCharacterPacketHandler.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUserData.h">
+      <Filter>ThreadHandler\ContentData</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentHeader.h">
+      <Filter>ThreadHandler\ContentData</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentStruct.h">
+      <Filter>Packet\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterTable.h">
+      <Filter>DBTable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -87,6 +102,15 @@
     <ClCompile Include="PacketHandlerBase.cpp">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
     </ClCompile>
+    <ClCompile Include="CreateCharacterPacketHandler.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUserData.cpp">
+      <Filter>ThreadHandler\ContentData</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterTable.cpp">
+      <Filter>DBTable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -115,6 +139,9 @@
     </Filter>
     <Filter Include="ThreadHandler\PacketHandlerBase">
       <UniqueIdentifier>{194aabc5-cfff-4c87-a105-ba228727f4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\ContentData">
+      <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
