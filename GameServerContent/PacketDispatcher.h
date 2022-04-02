@@ -1,8 +1,7 @@
 #pragma once
 #include "ServerPacketBase.h"
-#include "ServerToClient.h"
-#include "ClientToServer.h"
-#include "ServerAndClient.h"
+#include "PacketHeader.h"
+#include "PacketConvertor.h"
 #include "PacketHandlerHeader.h"
 
 template <class Session>
@@ -13,6 +12,7 @@ using PacketHandler = std::function<void(std::shared_ptr<Session>, std::shared_p
 // 여러 패킷 처리에 대한 핸들러를 하나로 모아 정리 시켜줌
 //
 
+// Handler dispacher
 template <class Session>
 class PacketDispatcher
 {
@@ -25,12 +25,8 @@ public: // default
 
 	PacketDispatcher(const PacketDispatcher& _other) = delete;
 	PacketDispatcher(PacketDispatcher&& _other) = delete;
-
-protected:
 	PacketDispatcher& operator=(const PacketDispatcher& _other) = delete;
 	PacketDispatcher& operator=(const PacketDispatcher&& _other) = delete;
-
-private:
 
 public: // member Func
 	void AddHandler(PacketType _packetType, const PacketHandler<Session>& _handler)
@@ -48,15 +44,22 @@ public: // member Func
 		return iter->second;
 	}
 
+	void Dispatch(const std::vector<unsigned char>& _recBuffer, PtrSTCPSession _TCPSession)
+	{
+		PacketConvertor convert(_recBuffer);
+		const PacketHandler<TCPSession>& handler = GetHandler(convert.GetPacketType());
+		handler(_TCPSession, convert.GetPacket());
+	}
+
 	template<class PacketType, class PacketHandler>
-	static void ProcessHandler(PtrSTCPSession _s, PtrSPacketBase _packet)
+	static void ProcessHandler(PtrSTCPSession _session, std::shared_ptr<ServerPacketBase> _packet)
 	{
 		// 패킷 변환
 		std::shared_ptr<PacketType> packet = std::dynamic_pointer_cast<PacketType> (_packet);
 		assert(nullptr != packet);
 
 		// handler 처리 시작
-		std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>(_s, packet);
+		std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>(_session, packet);
 		handler->Start();
 	}
 };

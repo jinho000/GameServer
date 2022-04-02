@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "ContentCore.h"
 #include <GameServerNet/TCPSession.h>
-#include <GameServerPacket/PacketConvertor.h>
-#include <GameServerPacket/PacketDispatcher.h>
+
+#include "PacketDispatcher.h"
 
 ContentCore::ContentCore()
 {
@@ -25,11 +25,10 @@ void ContentCore::AcceptEvent(std::shared_ptr<TCPSession> _tcpSession)
 
 PacketDispatcher<TCPSession> dispatcher;
 
-void ContentCore::RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recBuffer)
+void ContentCore::RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recvBuffer)
 {
-	PacketConvertor convertor(_recBuffer);
-	const PacketHandler<TCPSession>& handler = dispatcher.GetHandler(convertor.GetPacketType());
-	handler(_tcpSession, convertor.GetPacket());
+	//dispatcher.Dispatch(_recvBuffer, _tcpSession);
+
 }
 
 void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)

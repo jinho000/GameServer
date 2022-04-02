@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "JoinPacketHandler.h"
-#include "DBQueue.h"
+
+#include <GameServerNet/TCPSession.h>
+#include <GameServerCore/DBQueue.h>
+
 #include "UserTable.h"
 
-#include "GameServerNet/TCPSession.h"
-
 JoinPacketHandler::JoinPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<JoinPacket> _packet)
-	: m_TCPSession(_TCPSession)
-	, m_packet(_packet)
+	: PacketHandlerBase(_TCPSession, _packet)
 {
 }
 
@@ -47,5 +47,5 @@ void JoinPacketHandler::DBThreadRequestJoin()
 
 void JoinPacketHandler::Start()
 {
-	DBQueue::EnQueue(std::bind(&JoinPacketHandler::DBThreadRequestJoin, shared_from_this()));
+	DBQueue::EnQueue(std::bind(&JoinPacketHandler::DBThreadRequestJoin, std::dynamic_pointer_cast<JoinPacketHandler>(shared_from_this())));
 }

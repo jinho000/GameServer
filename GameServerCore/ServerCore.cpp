@@ -7,7 +7,7 @@
 #include <GameServerNet/ServerHelper.h>
 
 #include "NetQueue.h"
-#include "DBQueue1.h"
+#include "DBQueue.h"
 
 DBInfo	ServerCore::DBConfig = {};
 int		ServerCore::ServerPort = 0;
@@ -62,7 +62,7 @@ bool ServerCore::CoreInit()
 	{
 		tinyxml2::XMLElement* ServerStart = Root->FirstChildElement("ServerStart");
 		ServerPort = nullptr != ServerStart->FindAttribute("Port") ? std::stoi(ServerStart->FindAttribute("Port")->Value()) : -1;
-		
+
 		ServerDebug::LogInfo(std::string("ServerPort : " + std::to_string(ServerPort)));
 	}
 
@@ -86,7 +86,7 @@ bool ServerCore::CoreInit()
 
 	ServerDebug::LogInfo("Server Config OK");
 
-	DBQueue1::Init();
+	DBQueue::Init();
 	ServerDebug::LogInfo("DB Thread Init OK");
 
 	NetQueue::Init();
@@ -125,7 +125,7 @@ bool ServerCore::CoreEnd()
 {
 	ServerDebug::Destroy();
 	NetQueue::Destroy();
-	DBQueue1::Destroy();
+	DBQueue::Destroy();
 
     return true;
 }

@@ -6,13 +6,12 @@
 #include "GameServerNet/DBConnecter.h"
 #include "GameServerNet/TCPSession.h"
 
-#include <GameServerPacket/DBQueue.h>
+#include <GameServerCore/DBQueue.h>
 
 #include "UserTable.h"
 
-LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, PtrSLoginPacket _packet)
-	: m_TCPSession(_TCPSession)
-	, m_packet(_packet)
+LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<LoginPacket> _packet)
+	: PacketHandlerBase(_TCPSession, _packet)
 {
 
 }
@@ -34,7 +33,8 @@ void LoginPacketHandler::DBThreadCheckDB()
 	// 3 Thread local로 스레드마다 디비커넥터를 스레드의 로컬메모리로 만들어 두고 꺼내 사용
 	//   -> ServerThread::GetLocalData<DBConnecter>();
 	//   
-	//DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
+	// 쿼리문 클래스에서 스레드 로컬의 디비커넥터객체를 가져와 사용한다
+	// DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
 
 	LoginResultPacket resultPacket;
 	ServerSerializer sr;
@@ -72,19 +72,12 @@ void LoginPacketHandler::DBThreadCheckDB()
 	m_TCPSession->Send(sr.GetBuffer());
 }
 
-void LoginPacketHandler::ResultSend()
-{
-}
 
 void LoginPacketHandler::Start()
 {
-	//ServerDebug::LogInfo("ID: " + m_packet->ID);
-	//ServerDebug::LogInfo("PW: " + m_packet->PW);
-
 	// DB에 처리 요청
-	// 이함수안에서 모두 처리하려면 DB접근 후 결과가 올떄까지 기다려야함 
-	// DB에서 결과가 오면 처리하도록 JobQueue를 만들어서 처리(DBQueue)
+	// DB에 관한일은 DB큐에서 처리한다
 	// 
 	// 핸들러에서 이함수를 실행 후 종료되면, 핸들러 객체가 사라지기때문에 shared_from_this 사용
-	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, shared_from_this()));
+	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckDB, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 }

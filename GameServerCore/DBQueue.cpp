@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "DBQueue1.h"
+#include "DBQueue.h"
 #include <GameServerNet/DBConnecter.h>
 #include "ServerCore.h"
 
-ServerQueue DBQueue1::WorkQueue;
-std::mutex DBQueue1::ConnectionRock;
+ServerQueue DBQueue::WorkQueue;
+std::mutex DBQueue::ConnectionRock;
 
-void DBQueue1::InitDBConnecter(DBConnecter* _DBConnecter)
+void DBQueue::InitDBConnecter(DBConnecter* _DBConnecter)
 {
 	std::lock_guard<std::mutex> lockGuard(ConnectionRock);
 
@@ -34,17 +34,17 @@ void DBQueue1::InitDBConnecter(DBConnecter* _DBConnecter)
 
 }
 
-void DBQueue1::Init()
+void DBQueue::Init()
 {
 	WorkQueue.InitializeLocalData<DBConnecter>(ServerQueue::WORK_TYPE::Default, 10, "DBThread", InitDBConnecter);
 }
 
-void DBQueue1::EnQueue(const std::function<void()>& _work)
+void DBQueue::EnQueue(const std::function<void()>& _work)
 {
 	WorkQueue.Enqueue(_work);
 }
 
-void DBQueue1::Destroy()
+void DBQueue::Destroy()
 {
 	WorkQueue.Destroy();
 }

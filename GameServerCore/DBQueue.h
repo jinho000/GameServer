@@ -4,15 +4,15 @@
 
 // DB관련 작업을 처리
 class DBConnecter;
-class DBQueue1
+class DBQueue
 {
 private: // member var
-	DBQueue1() = default;
-	~DBQueue1() = default;
-	DBQueue1(const DBQueue1& _other) = delete;
-	DBQueue1(DBQueue1&& _other) = delete;
-	DBQueue1& operator=(const DBQueue1& _other) = delete;
-	DBQueue1& operator=(const DBQueue1&& _other) = delete;
+	DBQueue() = default;
+	~DBQueue() = default;
+	DBQueue(const DBQueue& _other) = delete;
+	DBQueue(DBQueue&& _other) = delete;
+	DBQueue& operator=(const DBQueue& _other) = delete;
+	DBQueue& operator=(const DBQueue&& _other) = delete;
 
 private: // mem var
 	static ServerQueue WorkQueue;

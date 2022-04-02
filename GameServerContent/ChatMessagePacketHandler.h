@@ -1,23 +1,14 @@
 #pragma once
-#include "ServerToClient.h"
-#include "ClientToServer.h"
-#include "ServerAndClient.h"
+#include "PacketHandlerBase.h"
 
-class ChatMessagePacketHandler
+class ChatMessagePacketHandler : public PacketHandlerBase<ChatMessagePacket>
 {
-private: // member var
-	PtrSTCPSession		m_TCPSession;
-	PtrSChatMsgPacket	m_packet;
-
 public: // default
-	ChatMessagePacketHandler() = delete;
-	ChatMessagePacketHandler(PtrSTCPSession _TCPSession, PtrSChatMsgPacket _packet);
+	ChatMessagePacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<ChatMessagePacket> _packet);
 	~ChatMessagePacketHandler();
 
 	ChatMessagePacketHandler(const ChatMessagePacketHandler& _other) = delete;
 	ChatMessagePacketHandler(ChatMessagePacketHandler&& _other) = delete;
-
-protected:
 	ChatMessagePacketHandler& operator=(const ChatMessagePacketHandler& _other) = delete;
 	ChatMessagePacketHandler& operator=(const ChatMessagePacketHandler&& _other) = delete;
 

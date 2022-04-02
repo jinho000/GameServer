@@ -3,7 +3,6 @@
 #include <GameServerContent/pch.h>
 #include <GameServerContent/ContentCore.h>
 
-#include <GameServerCore/DBQueue1.h>
 
 int main()
 {

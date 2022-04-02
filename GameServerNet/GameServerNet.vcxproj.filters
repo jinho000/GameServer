@@ -47,16 +47,16 @@
       <Filter>IO\Overlapped</Filter>
     </ClInclude>
     <ClInclude Include="DBConnecter.h">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClInclude>
     <ClInclude Include="DBStatement.h">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClInclude>
     <ClInclude Include="DBStatementResult.h">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClInclude>
     <ClInclude Include="DBQuery.h">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -100,16 +100,16 @@
       <Filter>IO\Overlapped</Filter>
     </ClCompile>
     <ClCompile Include="DBConnecter.cpp">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClCompile>
     <ClCompile Include="DBStatement.cpp">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClCompile>
     <ClCompile Include="DBStatementResult.cpp">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClCompile>
     <ClCompile Include="DBQuery.cpp">
-      <Filter>DB</Filter>
+      <Filter>DBBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +131,11 @@
     <Filter Include="IO\Overlapped">
       <UniqueIdentifier>{40392f50-d27b-464d-9258-0582c21214c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DB">
-      <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="NetHelper">
       <UniqueIdentifier>{0bbdf82c-c393-4b67-b11f-916ee51ec856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DBBase">
+      <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

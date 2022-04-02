@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PacketConvertor.h"
 #include "ServerSerializer.h"
-#include "Packets.h"
+#include "PacketHeader.h"
 
 PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	: m_packet(nullptr)

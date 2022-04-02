@@ -174,9 +174,6 @@
     <ProjectReference Include="..\GameServerNet\GameServerNet.vcxproj">
       <Project>{12646427-a883-4a1e-9648-be9170f00b09}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\GameServerPacket\GameServerPacket.vcxproj">
-      <Project>{400232fd-6df0-40c8-847d-1031268cf5d6}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\ServerConfig.xml" />

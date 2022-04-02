@@ -169,7 +169,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DBQueue1.h">
+    <ClInclude Include="DBQueue.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -184,7 +184,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DBQueue1.cpp">
+    <ClCompile Include="DBQueue.cpp">
       <SubType>
       </SubType>
     </ClCompile>

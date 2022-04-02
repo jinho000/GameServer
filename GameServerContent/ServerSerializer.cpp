@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "ServerSerializer.h"
-#include <cassert>
 
 ServerSerializer::ServerSerializer(int _bufferSizeByte)
 	: m_offset{}
