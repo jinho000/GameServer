@@ -1,4 +1,7 @@
 #pragma once
+// 언리얼에서 사용하기 위한 헤더
+#include <vector>
+#include <string>
 
 // 데이터 직렬화 처리
 class ServerSerializer

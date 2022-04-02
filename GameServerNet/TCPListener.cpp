@@ -240,18 +240,17 @@ void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession 
 
 	std::lock_guard<std::mutex> lockGuard(m_connectionPoolLock);
 
-	//auto iter = m_connectionPool.begin();
-	//while (iter != m_connectionPool.end())
-	//{
-	//	// 패킷요청한 세션을 무시하고 전달하는 경우
-	//	if (iter->second == _requestSession)
-	//	{
-	//		continue;
-	//	}
-
-	//	iter->second->Send(_buffer);
-	//	++iter;
-	//}
+	auto iter = m_connectionPool.begin();
+	while (iter != m_connectionPool.end())
+	{
+		// 패킷요청한 세션을 무시하고 전달하는 경우
+		if (iter->second == _requestSession)
+		{
+			continue;
+		}
+		iter->second->Send(_buffer);
+		++iter;
+	}
 }
 
 void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer)

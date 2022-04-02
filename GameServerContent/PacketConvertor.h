@@ -1,6 +1,10 @@
 #pragma once
 #include "ServerPacketBase.h"
 
+// 언리얼에서 사용하기 위한 헤더
+#include <memory>
+#include <vector>
+
 // 직렬화되어 전달된 데이터를 패킷으로 변환
 class PacketConvertor
 {

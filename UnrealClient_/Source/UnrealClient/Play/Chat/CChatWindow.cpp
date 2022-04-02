@@ -9,6 +9,7 @@
 #include "../../Packets/ClientPackets/ClientToServer.h"
 #include "../../Packets/ClientPackets/ServerToClient.h"
 #include "../../Packets/ClientPackets/ServerAndClient.h"
+#include "../../Packets/ClientPackets/ServerSerializer.h"
 #include "../../Global/CGameInstance.h"
 
 void UCChatWindow::NativeConstruct()
@@ -51,19 +52,17 @@ void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::
 
 	UE_LOG(LogTemp, Log, TEXT("OnChatMsgCommitted"));
 	
-	//UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	//ChatMessagePacket packet(gameInst->GetUserID(), _chatMessage);
-	//ClientSerializer sr;
-	//packet >> sr;
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	ChatMessagePacket packet;
+	packet.ID = FTCHARToUTF8(*gameInst->GetUserID()).Get();
+	packet.Message = FTCHARToUTF8(*_chatMessage).Get();
 
-	//UE_LOG(LogTemp, Log, TEXT("Send id: %s"), *gameInst->GetUserID());
-	//UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
-	//gameInst->SendBytes(sr.GetBuffer());
+	ServerSerializer sr;
+	packet >> sr;
 
-	//UCChatMessage* pChatMessage = NewObject<UCChatMessage>();
-	//pChatMessage->Init(gameInst->GetUserID(), _text);
-	//MessageList->AddItem(pChatMessage);
-
+	UE_LOG(LogTemp, Log, TEXT("Send id: %s"), *gameInst->GetUserID());
+	UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
+	gameInst->SendBytes(sr.GetBuffer());
 
 	// 입력 비우기
 	InputText.Empty();

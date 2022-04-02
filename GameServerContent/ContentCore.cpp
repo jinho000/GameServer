@@ -27,7 +27,7 @@ PacketDispatcher<TCPSession> dispatcher;
 
 void ContentCore::RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recvBuffer)
 {
-	//dispatcher.Dispatch(_recvBuffer, _tcpSession);
+	dispatcher.Dispatch(_recvBuffer, _tcpSession);
 
 }
 

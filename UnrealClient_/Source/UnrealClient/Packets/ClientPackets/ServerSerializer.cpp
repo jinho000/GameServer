@@ -1,5 +1,8 @@
 #include "ServerSerializer.h"
 
+// 언리얼에서 사용하기위한 헤더
+#include <cassert>
+
 ServerSerializer::ServerSerializer(int _bufferSizeByte)
 	: m_offset{}
 	, m_readOnly(false)
