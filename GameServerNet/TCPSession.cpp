@@ -172,6 +172,8 @@ void TCPSession::RequestRecv()
 
 void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 {
+	ServerDebug::LogInfo("Session Recv Packet");
+
 	std::vector<uint8_t> outBuffer = std::vector<uint8_t>(_byteSize);
 	memcpy_s(&outBuffer[0], _byteSize, _data, _byteSize);
 	
@@ -220,6 +222,7 @@ void TCPSession::Send(const std::vector<uint8_t>& _buffer)
 		}
 	}
 
+	ServerDebug::LogInfo("Send Packet");
 }
 
 void TCPSession::OnSendComplete(SendOverlapped* _sendOverlapped)

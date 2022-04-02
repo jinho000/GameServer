@@ -16,6 +16,8 @@ ChatMessagePacketHandler::~ChatMessagePacketHandler()
 
 void ChatMessagePacketHandler::Start()
 {
+	ServerDebug::LogInfo("ChatMessage Packet");
+
 	std::string userID;
 	std::string message;
 	ServerString::UTF8ToANSI(m_packet->ID, userID);

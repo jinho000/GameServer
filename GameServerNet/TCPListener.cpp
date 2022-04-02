@@ -234,7 +234,7 @@ void TCPListener::CloseSocket()
 	}
 }
 
-void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession)
+void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _exceptSession)
 {
 	ServerDebug::LogInfo("BroadCast");
 
@@ -244,7 +244,7 @@ void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession 
 	while (iter != m_connectionPool.end())
 	{
 		// 패킷요청한 세션을 무시하고 전달하는 경우
-		if (iter->second == _requestSession)
+		if (iter->second == _exceptSession)
 		{
 			continue;
 		}

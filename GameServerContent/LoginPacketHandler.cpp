@@ -3,6 +3,7 @@
 #include "ServerSerializer.h"
 #include "GameServerBase/ServerDebug.h"
 #include "GameServerBase/ServerThread.h"
+#include "GameServerBase/ServerString.h"
 #include "GameServerNet/DBConnecter.h"
 #include "GameServerNet/TCPSession.h"
 
@@ -45,11 +46,12 @@ void LoginPacketHandler::DBThreadCheckDB()
 
 	if (false == SelectQuery.DoQuery())
 	{
+		ServerDebug::LogInfo("ID is not exist");
+
 		// 유저 아이디가 없음
 		resultPacket.LoginResultCode = EResultCode::ID_ERROR;
 		resultPacket >> sr;
 		m_TCPSession->Send(sr.GetBuffer());
-
 		return;
 	}
 	
@@ -57,6 +59,8 @@ void LoginPacketHandler::DBThreadCheckDB()
 	std::shared_ptr<UserRow> userData = SelectQuery.RowData;
 	if (m_packet->PW != userData->Pw)
 	{
+		ServerDebug::LogInfo("Mismatch of passwords");
+
 		// 비밀번호가 일치하지 않음
 		resultPacket.LoginResultCode = EResultCode::PW_ERROR;
 		resultPacket >> sr;
@@ -65,6 +69,7 @@ void LoginPacketHandler::DBThreadCheckDB()
 		return;
 	}
 	
+	ServerDebug::LogInfo("Login OK");
 
 	// 결과 검증 후 확인 패킷 전달
 	resultPacket.LoginResultCode = EResultCode::OK;
@@ -75,6 +80,14 @@ void LoginPacketHandler::DBThreadCheckDB()
 
 void LoginPacketHandler::Start()
 {
+	ServerDebug::LogInfo("Login Request Packet");
+
+	std::string ID; ServerString::UTF8ToANSI(m_packet->ID, ID);
+	std::string PW; ServerString::UTF8ToANSI(m_packet->PW, PW);
+
+	ServerDebug::LogInfo("ID: " + ID);
+	ServerDebug::LogInfo("PW: " + PW);
+
 	// DB에 처리 요청
 	// DB에 관한일은 DB큐에서 처리한다
 	// 
