@@ -94,14 +94,14 @@ public:
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer.WriteVector( CharacterList);
+        _Serializer.WriteVector(CharacterList);
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer.ReadVector( CharacterList);
+        _Serializer.ReadVector(CharacterList);
 
     }                                                           
 };                                                              

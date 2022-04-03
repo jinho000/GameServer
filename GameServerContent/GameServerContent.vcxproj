@@ -179,6 +179,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentEnum.h" />
     <ClInclude Include="ContentHeader.h" />
     <ClInclude Include="ContentStruct.h" />
     <ClInclude Include="ContentUserData.h">

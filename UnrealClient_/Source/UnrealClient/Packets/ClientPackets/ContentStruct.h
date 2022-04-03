@@ -1,6 +1,8 @@
 #pragma once
-#include "ServerSerializer.h"
 #include <string>
+#include "ServerSerializer.h"
+
+// 컨텐츠의 구조체는 앞에 F를 붙인다
 
 struct FCharacterInfo
 {

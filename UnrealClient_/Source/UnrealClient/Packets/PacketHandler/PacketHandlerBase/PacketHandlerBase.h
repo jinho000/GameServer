@@ -12,6 +12,9 @@ protected: // member var
 	class UWorld*				m_pWorld;
 	std::shared_ptr<PacketType> m_packet;
 
+public:
+	virtual ~PacketHandlerBase() = default;
+
 public: // member Func
 	virtual void Start() = 0;
 	virtual void Init(UCGameInstance* _Inst, UWorld* _World, std::shared_ptr<PacketType> _packet)

@@ -2,17 +2,7 @@
 #include "ServerSerializer.h"
 #include "PacketType.h"
 #include "ContentStruct.h"
-
-// 패킷의 enum 이름은 항상 E로 시작해야함
-enum class EResultCode
-{
-	NONE = -1,
-	ID_ERROR,
-	PW_ERROR,
-	OK,
-	FAIL,
-	MAX
-};
+#include "ContentEnum.h"
 
 
 // 서버에서 사용할 패킷 베이스
@@ -33,12 +23,8 @@ public: // default
 
 	ServerPacketBase(const ServerPacketBase& _other) = delete;
 	ServerPacketBase(ServerPacketBase&& _other) = delete;
-
-protected:
 	ServerPacketBase& operator=(const ServerPacketBase& _other) = delete;
 	ServerPacketBase& operator=(const ServerPacketBase&& _other) = delete;
-
-private:
 
 public: // member Func
 

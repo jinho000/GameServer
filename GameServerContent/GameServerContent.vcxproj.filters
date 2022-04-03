@@ -4,28 +4,10 @@
     <ClInclude Include="pch.h">
       <Filter>pch</Filter>
     </ClInclude>
-    <ClInclude Include="PacketConvertor.h">
-      <Filter>Packet\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketDispatcher.h">
-      <Filter>Packet\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHeader.h">
-      <Filter>Packet\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistHandlerToDispatcher.h">
-      <Filter>Packet\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerSerializer.h">
-      <Filter>Packet\Base</Filter>
-    </ClInclude>
     <ClInclude Include="ClientToServer.h">
       <Filter>Packet\Content</Filter>
     </ClInclude>
     <ClInclude Include="ServerAndClient.h">
-      <Filter>Packet\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerPacketBase.h">
       <Filter>Packet\Content</Filter>
     </ClInclude>
     <ClInclude Include="ServerToClient.h">
@@ -49,9 +31,6 @@
     <ClInclude Include="UserTable.h">
       <Filter>DBTable</Filter>
     </ClInclude>
-    <ClInclude Include="PacketType.h">
-      <Filter>Packet\Content</Filter>
-    </ClInclude>
     <ClInclude Include="PacketHandlerBase.h">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
     </ClInclude>
@@ -64,25 +43,40 @@
     <ClInclude Include="ContentHeader.h">
       <Filter>ThreadHandler\ContentData</Filter>
     </ClInclude>
-    <ClInclude Include="ContentStruct.h">
-      <Filter>Packet\Content</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterTable.h">
       <Filter>DBTable</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketDispatcher.h">
+      <Filter>Packet\Base\Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistHandlerToDispatcher.h">
+      <Filter>Packet\Base\Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketConvertor.h">
+      <Filter>Packet\Base\PacketConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSerializer.h">
+      <Filter>Packet\Base\PacketSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketBase.h">
+      <Filter>Packet\Base\PacketBase</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketType.h">
+      <Filter>Packet\Base\PacketBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentStruct.h">
+      <Filter>Packet\Base\PacketBase</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHeader.h">
+      <Filter>Packet\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentEnum.h">
+      <Filter>Packet\Base\PacketBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketConvertor.cpp">
-      <Filter>Packet\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketDispatcher.cpp">
-      <Filter>Packet\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerSerializer.cpp">
-      <Filter>Packet\Base</Filter>
     </ClCompile>
     <ClCompile Include="LoginPacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
@@ -110,6 +104,15 @@
     </ClCompile>
     <ClCompile Include="CharacterTable.cpp">
       <Filter>DBTable</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketDispatcher.cpp">
+      <Filter>Packet\Base\Dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketConvertor.cpp">
+      <Filter>Packet\Base\PacketConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSerializer.cpp">
+      <Filter>Packet\Base\PacketSerializer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +145,18 @@
     </Filter>
     <Filter Include="ThreadHandler\ContentData">
       <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Base\Dispatcher">
+      <UniqueIdentifier>{36742f35-a925-4093-9cda-ecce7c4b2caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Base\PacketConverter">
+      <UniqueIdentifier>{0e763ab9-23f2-4e42-8d1e-c40652d4e683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Base\PacketSerializer">
+      <UniqueIdentifier>{81049bdf-348d-4257-b01f-9223e46e24f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Base\PacketBase">
+      <UniqueIdentifier>{c64c78ce-32cc-4d31-9a83-1074c51cef81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
