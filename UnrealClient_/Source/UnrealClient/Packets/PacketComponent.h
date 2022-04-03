@@ -37,19 +37,19 @@ public:
 	UPacketComponent();
 
 private:
-	template<class HandlerClass, class PacketClass>
+	template<class HandlerClass, class PacketType>
 	static void ProcessHandler(std::shared_ptr<ServerPacketBase> _packet, UCGameInstance* _instance, UWorld* _world)
 	{
-		std::shared_ptr<PacketClass> packet = std::static_pointer_cast<PacketClass>(_packet);
+		std::shared_ptr<PacketType> packet = std::static_pointer_cast<PacketType>(_packet);
 		if (nullptr == packet)
 		{
 			UE_LOG(LogTemp, Error, TEXT("packet nullptr"));
 			return;
 		}
 
-		HandlerClass handler(packet);
-		handler.Init(_instance, _world);
-		handler.Start();
+		//HandlerClass handler;
+		//handler.Init(_instance, _world, packet);
+		//handler.Start();
 	}
 
 	void RegistPacketHandler();

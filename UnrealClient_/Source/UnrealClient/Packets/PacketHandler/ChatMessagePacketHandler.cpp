@@ -4,15 +4,6 @@
 #include "../../Global/CGameInstance.h"
 #include "../../Play/Chat/CChatWindow.h"
 
-ChatMessagePacketHandler::ChatMessagePacketHandler(const std::shared_ptr<ChatMessagePacket>& _packet)
-	: m_packet(_packet)
-{
-}
-
-ChatMessagePacketHandler::~ChatMessagePacketHandler()
-{
-}
-
 void ChatMessagePacketHandler::Start()
 {
 	// 패킷 분석

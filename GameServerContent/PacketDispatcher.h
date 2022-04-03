@@ -19,14 +19,8 @@ class PacketDispatcher
 private: // member var
 	std::unordered_map<PacketType, PacketHandler<Session>> m_handlers;
 
-public: // default
+public:
 	PacketDispatcher();
-	~PacketDispatcher() = default;
-
-	PacketDispatcher(const PacketDispatcher& _other) = delete;
-	PacketDispatcher(PacketDispatcher&& _other) = delete;
-	PacketDispatcher& operator=(const PacketDispatcher& _other) = delete;
-	PacketDispatcher& operator=(const PacketDispatcher&& _other) = delete;
 
 public: // member Func
 	void AddHandler(PacketType _packetType, const PacketHandler<Session>& _handler)
@@ -59,7 +53,8 @@ public: // member Func
 		assert(nullptr != packet);
 
 		// handler 처리 시작
-		std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>(_session, packet);
+		std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>();
+		handler->Init(_session, packet);
 		handler->Start();
 	}
 };

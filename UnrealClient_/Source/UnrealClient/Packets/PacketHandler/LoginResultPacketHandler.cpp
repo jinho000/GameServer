@@ -2,14 +2,6 @@
 #include <Kismet/GameplayStatics.h>
 #include "../../Global/CGameInstance.h"
 
-LoginResultPacketHandler::LoginResultPacketHandler(const std::shared_ptr<LoginResultPacket>& _packet)
-	: m_packet(_packet)
-{
-}
-
-LoginResultPacketHandler::~LoginResultPacketHandler()
-{
-}
 
 void LoginResultPacketHandler::Start()
 {

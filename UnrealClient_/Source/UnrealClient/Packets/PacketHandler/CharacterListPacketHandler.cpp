@@ -3,15 +3,6 @@
 #include "../../Global/CGameInstance.h"
 
 
-CharacterListPacketHandler::CharacterListPacketHandler(const std::shared_ptr<CharacterListPacket>& _packet)
-	: m_packet(_packet)
-{
-}
-
-CharacterListPacketHandler::~CharacterListPacketHandler()
-{
-}
-
 void CharacterListPacketHandler::Start()
 {
 	UE_LOG(LogTemp, Log, TEXT("CharacterListPacketHandler"));

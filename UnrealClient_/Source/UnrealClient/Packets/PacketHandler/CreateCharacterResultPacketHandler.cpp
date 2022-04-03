@@ -4,14 +4,6 @@
 #include "../../Global/CBlueprintFunctionLibrary.h"
 #include "Components/ListView.h"
 
-CreateCharacterResultPacketHandler::CreateCharacterResultPacketHandler(const std::shared_ptr<CreateCharacterResultPacket>& _packet)
-	: m_packet(_packet)
-{
-}
-
-CreateCharacterResultPacketHandler::~CreateCharacterResultPacketHandler()
-{
-}
 
 void CreateCharacterResultPacketHandler::Start()
 {

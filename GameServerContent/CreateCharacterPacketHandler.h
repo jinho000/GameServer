@@ -9,15 +9,6 @@ class CreateCharacterPacketHandler : public PacketHandlerBase<CreateCharacterPac
 private: // member var
 	CreateCharacterResultPacket m_resultPacket;
 
-public: // default
-	CreateCharacterPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<CreateCharacterPacket> _packet);
-	~CreateCharacterPacketHandler();
-
-	CreateCharacterPacketHandler(const CreateCharacterPacketHandler& _other) = delete;
-	CreateCharacterPacketHandler(CreateCharacterPacketHandler&& _other) = delete;
-	CreateCharacterPacketHandler& operator=(const CreateCharacterPacketHandler& _other) = delete;
-	CreateCharacterPacketHandler& operator=(const CreateCharacterPacketHandler&& _other) = delete;
-
 private:
 	void DBThreadWork();
 	void NetThreadSendResult();

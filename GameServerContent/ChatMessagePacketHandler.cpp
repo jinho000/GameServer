@@ -5,15 +5,6 @@
 #include "GameServerNet/TCPSession.h"
 #include "GameServerNet/TCPListener.h"
 
-ChatMessagePacketHandler::ChatMessagePacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<ChatMessagePacket> _packet)
-	: PacketHandlerBase(_TCPSession, _packet)
-{
-}
-
-ChatMessagePacketHandler::~ChatMessagePacketHandler()
-{
-}
-
 void ChatMessagePacketHandler::Start()
 {
 	ServerDebug::LogInfo("ChatMessage Packet");

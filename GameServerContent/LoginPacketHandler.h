@@ -11,15 +11,6 @@ private:
 	CharacterListPacket			m_CharacterListPacket;
 	std::shared_ptr<UserRow>	m_userData;
 
-public: // default
-	LoginPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<LoginPacket> _packet);
-	~LoginPacketHandler();
-
-	LoginPacketHandler(const LoginPacketHandler& _other) = delete;
-	LoginPacketHandler(LoginPacketHandler&& _other) = delete;
-	LoginPacketHandler& operator=(const LoginPacketHandler& _other) = delete;
-	LoginPacketHandler& operator=(const LoginPacketHandler&& _other) = delete;
-
 private:
 	void DBThreadCheckLogin();  // 로그인 디비 체크
 	void NetThreadSendLoginResult(); // 로그인 결과 전송

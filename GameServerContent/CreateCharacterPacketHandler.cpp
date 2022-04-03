@@ -8,15 +8,6 @@
 #include "ContentHeader.h"
 #include "CharacterTable.h"
 
-CreateCharacterPacketHandler::CreateCharacterPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<CreateCharacterPacket> _packet)
-	: PacketHandlerBase(_TCPSession, _packet)
-{
-}
-
-CreateCharacterPacketHandler::~CreateCharacterPacketHandler()
-{
-}
-
 void CreateCharacterPacketHandler::DBThreadWork()
 {
 	ServerDebug::LogInfo("Check DB");

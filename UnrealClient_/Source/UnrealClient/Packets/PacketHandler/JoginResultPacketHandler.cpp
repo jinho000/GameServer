@@ -1,14 +1,6 @@
 #include "JoginResultPacketHandler.h"
 #include <Kismet/GameplayStatics.h>
 
-JoginResultPacketHandler::JoginResultPacketHandler(const std::shared_ptr<JoginResultPacket>& _packet)
-	: m_packet(_packet)
-{
-}
-
-JoginResultPacketHandler::~JoginResultPacketHandler()
-{
-}
 
 void JoginResultPacketHandler::Start()
 {

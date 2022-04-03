@@ -15,16 +15,6 @@
 #include "ContentUserData.h"
 #include "ContentHeader.h"
 
-LoginPacketHandler::LoginPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<LoginPacket> _packet)
-	: PacketHandlerBase(_TCPSession, _packet)
-{
-
-}
-
-LoginPacketHandler::~LoginPacketHandler()
-{
-}
-
 void LoginPacketHandler::DBThreadCheckLogin()
 {
 	// 

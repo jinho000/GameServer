@@ -7,15 +7,6 @@
 
 #include "UserTable.h"
 
-JoinPacketHandler::JoinPacketHandler(PtrSTCPSession _TCPSession, std::shared_ptr<JoinPacket> _packet)
-	: PacketHandlerBase(_TCPSession, _packet)
-{
-}
-
-JoinPacketHandler::~JoinPacketHandler()
-{
-}
-
 void JoinPacketHandler::DBThreadRequestJoin()
 {
 	JoginResultPacket resultPacket;
