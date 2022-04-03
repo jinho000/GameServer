@@ -37,36 +37,31 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	{
 		bBindingsAdded = true;
 
-		// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveForward", EKeys::W, 1.f));
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveForward", EKeys::S, -1.f));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::W));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::S));
 
-
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveRight", EKeys::D, 1.f));
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveRight", EKeys::A, -1.f));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
-
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Attack", EKeys::LeftMouseButton));
 	}
 
+	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
 	// 정의 내린 키가 입력되었을대 
 	PlayerInputComponent->BindAxis("DefaultPawn_MoveForward", this, &AClientPlayCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("ClientPlayer_MoveRight", this, &AClientPlayCharacter::MoveRight);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
-	PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
-
-	// 마우스 설정?
-	//FInputModeGameAndUI InputMode;
-	//GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
-	//GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+	// 마우스 설정
+	FInputModeGameAndUI InputMode;
+	GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
+	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
-void AClientPlayCharacter::LookZ(FVector _Dir, float _Ratio /*= 1.0f*/)
+float AClientPlayCharacter::LookZ(FVector _Dir, float _Ratio /*= 1.0f*/)
 {
 	// 캐릭터가 바라봐야하는 dir
 	FVector LookVector = _Dir.GetSafeNormal();
@@ -82,7 +77,7 @@ void AClientPlayCharacter::LookZ(FVector _Dir, float _Ratio /*= 1.0f*/)
 		ACos *= -1.0f;
 	}
 
-	AddControllerYawInput(FMath::RadiansToDegrees(ACos) * _Ratio);
+	return FMath::RadiansToDegrees(ACos) * _Ratio;
 }
 
 void AClientPlayCharacter::MoveRight(float _Rate)
@@ -97,7 +92,7 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 		return;
 	}
 
-	LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f);
+	AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 	AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
@@ -115,9 +110,11 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 		return;
 	}
 
-	LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f);
+	UE_LOG(ClientLog, Log, TEXT("Move Forward"));
 
+	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
+	
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 }
 
@@ -128,6 +125,7 @@ void AClientPlayCharacter::MoveStart()
 		return;
 	}
 
+	UE_LOG(ClientLog, Log, TEXT("Move Start"));
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 }
 
@@ -138,7 +136,7 @@ void AClientPlayCharacter::MoveEnd()
 		return;
 	}
 
-
+	UE_LOG(ClientLog, Log, TEXT("Move End"));
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 }
 
