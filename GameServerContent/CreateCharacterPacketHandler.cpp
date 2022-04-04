@@ -27,7 +27,9 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	CharacterTable_CreateCharacter InsertQuery = CharacterTable_CreateCharacter(m_packet->NickName, sessionUserDB->UserInfo->Index);
 	if (false == InsertQuery.DoQuery())
 	{
-		ServerDebug::AssertDebugMsg("Fail InsertQuery");
+		m_resultPacket.ResultCode = EResultCode::FAIL;
+		ServerDebug::LogInfo("Fail InsertQuery");
+		NetQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::NetThreadSendResult, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 		return;
 	}
 
@@ -35,9 +37,12 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	CharacterTable_SelectNickName CharInfoSelectQuery(m_packet->NickName);
 	if (false == CharInfoSelectQuery.DoQuery())
 	{
-		ServerDebug::AssertDebugMsg("Fail Select Query");
+		m_resultPacket.ResultCode = EResultCode::FAIL;
+		ServerDebug::LogInfo("Fail Select Query");
+		NetQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::NetThreadSendResult, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 		return;
 	}
+	ServerDebug::LogInfo("Check DB OK");
 
 	m_resultPacket.ResultCode = EResultCode::OK;
 	m_resultPacket.CharacterInfo.Index = CharInfoSelectQuery.RowData->Index;
@@ -50,7 +55,9 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	m_resultPacket.CharacterInfo.RoomY = CharInfoSelectQuery.RowData->RoomY;
 	m_resultPacket.CharacterInfo.RoomZ = CharInfoSelectQuery.RowData->RoomZ;
 
-	ServerDebug::LogInfo("Check DB OK");
+	
+	// 캐릭터 생성 완료 후 세션의 정보와 동기화
+	sessionUserDB->UserCharacterList.push_back(m_resultPacket.CharacterInfo);
 
 	NetQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::NetThreadSendResult, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 }

@@ -20,17 +20,16 @@ void UCharacterListItem::SelectCharacter()
 	SelectCharacterPacket packet;
 	packet.SelectCharNickName = nickNameUTF8;
 
-	//ServerSerializer sr;
-	//packet >> sr;
+	ServerSerializer sr;
+	packet >> sr;
+	if (false != Inst->SendBytes(sr.GetBuffer()))
+	{
+		int a = 0;
+	}
 
-	//if (false != Inst->SendBytes(sr.GetBuffer()))
-	//{
-	//	int a = 0;
-	//}
-
-	UE_LOG(LogTemp, Log, TEXT("Test Server Packet"));
-	std::shared_ptr<SelectCharacterResultPacket> serverPacket = std::make_shared<SelectCharacterResultPacket>();
-	serverPacket->ResultCode = EResultCode::OK;
-	serverPacket->SelectCharNickName = nickNameUTF8;
-	Inst->AddServerPacket(serverPacket);
+	//UE_LOG(LogTemp, Log, TEXT("Test Server Packet"));
+	//std::shared_ptr<SelectCharacterResultPacket> serverPacket = std::make_shared<SelectCharacterResultPacket>();
+	//serverPacket->ResultCode = EResultCode::OK;
+	//serverPacket->SelectCharNickName = nickNameUTF8;
+	//Inst->AddServerPacket(serverPacket);
 }

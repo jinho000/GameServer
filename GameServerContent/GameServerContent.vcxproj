@@ -169,7 +169,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CharacterSelectPacketHandler.h">
+    <ClInclude Include="SelectCharacterPacketHandler.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -214,7 +214,7 @@
     <ClInclude Include="UserTable.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CharacterSelectPacketHandler.cpp">
+    <ClCompile Include="SelectCharacterPacketHandler.cpp">
       <SubType>
       </SubType>
     </ClCompile>

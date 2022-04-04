@@ -29,7 +29,7 @@
       <Filter>ContentCore</Filter>
     </ClInclude>
     <ClInclude Include="UserTable.h">
-      <Filter>DBTable</Filter>
+      <Filter>ThreadHandler\DBTable</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandlerBase.h">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
@@ -44,7 +44,7 @@
       <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClInclude>
     <ClInclude Include="CharacterTable.h">
-      <Filter>DBTable</Filter>
+      <Filter>ThreadHandler\DBTable</Filter>
     </ClInclude>
     <ClInclude Include="PacketDispatcher.h">
       <Filter>Packet\Base\Dispatcher</Filter>
@@ -73,7 +73,7 @@
     <ClInclude Include="ContentEnum.h">
       <Filter>Packet\Base\PacketBase</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterSelectPacketHandler.h">
+    <ClInclude Include="SelectCharacterPacketHandler.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
   </ItemGroup>
@@ -94,7 +94,7 @@
       <Filter>ContentCore</Filter>
     </ClCompile>
     <ClCompile Include="UserTable.cpp">
-      <Filter>DBTable</Filter>
+      <Filter>ThreadHandler\DBTable</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandlerBase.cpp">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
@@ -106,7 +106,7 @@
       <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClCompile>
     <ClCompile Include="CharacterTable.cpp">
-      <Filter>DBTable</Filter>
+      <Filter>ThreadHandler\DBTable</Filter>
     </ClCompile>
     <ClCompile Include="PacketDispatcher.cpp">
       <Filter>Packet\Base\Dispatcher</Filter>
@@ -117,7 +117,7 @@
     <ClCompile Include="ServerSerializer.cpp">
       <Filter>Packet\Base\PacketSerializer</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterSelectPacketHandler.cpp">
+    <ClCompile Include="SelectCharacterPacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,9 +143,6 @@
     <Filter Include="ContentCore">
       <UniqueIdentifier>{e14a7a1e-7e23-4ba7-959e-633cbf10f4a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DBTable">
-      <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThreadHandler\PacketHandlerBase">
       <UniqueIdentifier>{194aabc5-cfff-4c87-a105-ba228727f4fd}</UniqueIdentifier>
     </Filter>
@@ -163,6 +160,9 @@
     </Filter>
     <Filter Include="ThreadHandler\SessionUserDBData">
       <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\DBTable">
+      <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

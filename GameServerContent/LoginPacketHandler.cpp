@@ -43,8 +43,7 @@ void LoginPacketHandler::DBThreadCheckLogin()
 
 		// 유저 아이디가 없음
 		m_loginResultPacket.LoginResultCode = EResultCode::ID_ERROR;
-		m_loginResultPacket >> sr;
-		m_TCPSession->Send(sr.GetBuffer());
+		NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 		return;
 	}
 
@@ -56,40 +55,32 @@ void LoginPacketHandler::DBThreadCheckLogin()
 
 		// 비밀번호가 일치하지 않음
 		m_loginResultPacket.LoginResultCode = EResultCode::PW_ERROR;
-		m_loginResultPacket >> sr;
-		m_TCPSession->Send(sr.GetBuffer());
-
+		NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 		return;
 	}
 	
+	
 	// 유저 데이터 저장
+	// 로그인 완료 후 유저의 정보를 세션에 저장
+	std::shared_ptr<SessionUserDBData> sessionUserDBData = std::make_shared<SessionUserDBData>();
+	sessionUserDBData->UserInfo = userData;
+	m_TCPSession->SetLink(EDBTable::USER, sessionUserDBData);
+
 	m_userData = userData;
 
-	// NetQueue를 통해 결과값 전달
+	
+	// 로그인 완료
+	ServerDebug::LogInfo("Login OK");
+	m_loginResultPacket.LoginResultCode = EResultCode::OK;
 	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 }
 
 void LoginPacketHandler::NetThreadSendLoginResult()
 {
-	ServerDebug::LogInfo("Login OK");
-
 	// 확인 패킷 전달
 	ServerSerializer sr;
-	m_loginResultPacket.LoginResultCode = EResultCode::OK;
 	m_loginResultPacket >> sr;
 	m_TCPSession->Send(sr.GetBuffer());
-
-
-	// 유저의 캐릭터 정보를 받기위해 세션에 정보 저장
-	// 세션에 유저 정보를 미리 받아놓는다
-	// (유저정보가 필요할때 디비에 갔다올필요가 없다)
-	// (서버의 정보와 디비의 정보를 계속 동기화시켜줘야한다)
-	ServerDebug::LogInfo("Save user info to session");
-	ServerDebug::LogInfo(std::string("user Index : ") + std::to_string(m_userData->Index));
-
-	std::shared_ptr<SessionUserDBData> sessionUserDB = std::make_shared<SessionUserDBData>();
-	sessionUserDB->UserInfo = m_userData;
-	m_TCPSession->SetLink(EDBTable::USER, sessionUserDB);
 
 
 	// 유저의 캐릭터 정보 가져오기
@@ -105,10 +96,11 @@ void LoginPacketHandler::DBThreadCheckCharList()
 		ServerDebug::AssertDebugMsg("Fail Select Query");
 		return;
 	}
+	ServerDebug::LogInfo("Character List Count : " + std::to_string(SelectQuery.RowDatas.size()));
+
 
 	// 패킷에 데이터 채워넣기
 	m_CharacterListPacket.CharacterList.resize(SelectQuery.RowDatas.size());
-	ServerDebug::LogInfo("Character List Count : " + std::to_string(SelectQuery.RowDatas.size()));
 	for (size_t i = 0; i < SelectQuery.RowDatas.size(); i++)
 	{
 		m_CharacterListPacket.CharacterList[i].Index = SelectQuery.RowDatas[i]->Index;
@@ -122,6 +114,10 @@ void LoginPacketHandler::DBThreadCheckCharList()
 		m_CharacterListPacket.CharacterList[i].RoomZ = SelectQuery.RowDatas[i]->RoomZ;
 	}
 
+	// 세션이 가지고있는 유저 정보에 유저의 캐릭터 리스트 저장
+	std::shared_ptr<SessionUserDBData> sessionUserDBData = m_TCPSession->GetLink<SessionUserDBData>(EDBTable::USER);
+	sessionUserDBData->UserCharacterList = m_CharacterListPacket.CharacterList;
+	
 	// 캐릭터정보를 넷스레드를 통해 전달
 	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendCharList, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 }
