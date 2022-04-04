@@ -102,20 +102,26 @@ bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
 	return m_socket->Send(_bytes.data(), _bytes.size(), dataSendSize);
 }
 
-bool UCGameInstance::SendFString(const FString& _fstr)
+void UCGameInstance::AddServerPacket(std::shared_ptr<ServerPacketBase> _serverPacket)
 {
-	// 언리얼 인코딩 헬퍼함수 사용
-	FTCHARToUTF8 convert(*_fstr);
-	std::vector<uint8> vecBytes;
-	
-	vecBytes.resize(convert.Length() + 1);
-
-	memcpy(vecBytes.data(), (ANSICHAR*)convert.Get(), convert.Length());
-	vecBytes[convert.Length()] = '\0';
-
-	// 역변환
-	//FUTF8ToTCHAR rConvert((ANSICHAR*)vecBytes.data());
-	//FString recv((TCHAR*)rConvert.Get());
-
-	return SendBytes(vecBytes);
+	m_packetQueue.Enqueue(_serverPacket);
 }
+
+
+//bool UCGameInstance::SendFString(const FString& _fstr)
+//{
+//	// 언리얼 인코딩 헬퍼함수 사용
+//	FTCHARToUTF8 convert(*_fstr);
+//	std::vector<uint8> vecBytes;
+//	
+//	vecBytes.resize(convert.Length() + 1);
+//
+//	memcpy(vecBytes.data(), (ANSICHAR*)convert.Get(), convert.Length());
+//	vecBytes[convert.Length()] = '\0';
+//
+//	// 역변환
+//	//FUTF8ToTCHAR rConvert((ANSICHAR*)vecBytes.data());
+//	//FString recv((TCHAR*)rConvert.Get());
+//
+//	return SendBytes(vecBytes);
+//}

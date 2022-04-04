@@ -114,3 +114,38 @@ public:
     }                                                           
 };                                                              
 
+class SelectCharacterPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::string SelectCharNickName;
+                                                                
+public:                                                         
+    SelectCharacterPacket()                                               
+        : ServerPacketBase(PacketType::SelectCharacter)                    
+        , SelectCharNickName()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~SelectCharacterPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(SelectCharNickName);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << SelectCharNickName;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> SelectCharNickName;
+
+    }                                                           
+};                                                              
+

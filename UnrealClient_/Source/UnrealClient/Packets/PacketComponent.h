@@ -47,9 +47,9 @@ private:
 			return;
 		}
 
-		//HandlerClass handler;
-		//handler.Init(_instance, _world, packet);
-		//handler.Start();
+		HandlerClass handler;
+		handler.Init(_instance, _world, packet);
+		handler.Start();
 	}
 
 	void RegistPacketHandler();

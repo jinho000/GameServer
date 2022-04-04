@@ -8,3 +8,7 @@ std::string PW;
 
 |CreateCharacter-
 std::string NickName;
+
+|SelectCharacter-
+std::string SelectCharNickName;
+

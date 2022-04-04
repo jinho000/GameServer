@@ -12,8 +12,8 @@
 
 #include "UserTable.h"
 #include "CharacterTable.h"
-#include "ContentUserData.h"
-#include "ContentHeader.h"
+#include "SessionUserDBData.h"
+#include "DBTableEHeader.h"
 
 void LoginPacketHandler::DBThreadCheckLogin()
 {
@@ -61,7 +61,8 @@ void LoginPacketHandler::DBThreadCheckLogin()
 
 		return;
 	}
-
+	
+	// 유저 데이터 저장
 	m_userData = userData;
 
 	// NetQueue를 통해 결과값 전달
@@ -80,12 +81,16 @@ void LoginPacketHandler::NetThreadSendLoginResult()
 
 
 	// 유저의 캐릭터 정보를 받기위해 세션에 정보 저장
+	// 세션에 유저 정보를 미리 받아놓는다
+	// (유저정보가 필요할때 디비에 갔다올필요가 없다)
+	// (서버의 정보와 디비의 정보를 계속 동기화시켜줘야한다)
 	ServerDebug::LogInfo("Save user info to session");
 	ServerDebug::LogInfo(std::string("user Index : ") + std::to_string(m_userData->Index));
-	
-	std::shared_ptr<ContentUserData> Ptr = std::make_shared<ContentUserData>();
-	Ptr->userData = m_userData;
-	m_TCPSession->SetLink(EDataIndex::USERDATA, Ptr);
+
+	std::shared_ptr<SessionUserDBData> sessionUserDB = std::make_shared<SessionUserDBData>();
+	sessionUserDB->UserInfo = m_userData;
+	m_TCPSession->SetLink(EDBTable::USER, sessionUserDB);
+
 
 	// 유저의 캐릭터 정보 가져오기
 	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckCharList, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));

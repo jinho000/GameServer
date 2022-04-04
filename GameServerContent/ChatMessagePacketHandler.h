@@ -4,6 +4,6 @@
 class ChatMessagePacketHandler : public PacketHandlerBase<ChatMessagePacket>
 {
 public: // member Func
-	void Start();
+	void Start() override;
 };
 

@@ -145,3 +145,77 @@ public:
     }                                                           
 };                                                              
 
+class SelectCharacterResultPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	EResultCode ResultCode;
+	std::string SelectCharNickName;
+                                                                
+public:                                                         
+    SelectCharacterResultPacket()                                               
+        : ServerPacketBase(PacketType::SelectCharacterResult)                    
+        , ResultCode()
+        , SelectCharNickName()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~SelectCharacterResultPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ResultCode) + DataSizeCheck(SelectCharNickName);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteEnum(ResultCode);
+        _Serializer << SelectCharNickName;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadEnum(ResultCode);
+        _Serializer >> SelectCharNickName;
+
+    }                                                           
+};                                                              
+
+class InsertSectionResultPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	EResultCode ResultCode;
+                                                                
+public:                                                         
+    InsertSectionResultPacket()                                               
+        : ServerPacketBase(PacketType::InsertSectionResult)                    
+        , ResultCode()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~InsertSectionResultPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ResultCode);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteEnum(ResultCode);
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadEnum(ResultCode);
+
+    }                                                           
+};                                                              
+

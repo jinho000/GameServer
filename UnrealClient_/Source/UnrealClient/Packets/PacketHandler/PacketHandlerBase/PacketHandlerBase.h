@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "../../ClientPackets/Packets.h"
+#include "../../../Global/CGameInstance.h"
 
 // PacketHandlerBase.cpp 파일 만들면 빌드 안됨
 

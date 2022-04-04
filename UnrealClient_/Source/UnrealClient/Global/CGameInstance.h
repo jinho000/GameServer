@@ -42,6 +42,7 @@ public:
 
 	// User
 	std::vector<FCharacterInfo> UserCharacterList;
+	FCharacterInfo				SelectCharacter;
 
 	// Chracter Select UI
 	class UListView* CharacterSelectUIListView;
@@ -55,19 +56,23 @@ private:
 	void CloseSocket();
 
 
+// Server
 public:
 	// 서버 연결 함수
 	bool ConnectServer(const FString& _IP, const FString& _port);
 
-	bool SendBytes(const std::vector<uint8>& _bytes);
+	bool SendBytes(const std::vector<uint8>& _packet);
 
 	// 연결된 서버에 데이터 전송 함수(언리얼의 문자열셋은 UTF16)
 	// 서버와 클라이언트의 문자열 세팅이 다르기 때문에 하나로 통일해야함
 	// -> UTF8 형식으로 통일
 	//    전송시 utf8로 변환하여 전송, 수신시 utf8을 변환하여 수신
-	bool SendFString(const FString& _fstr);
+	//bool SendFString(const FString& _fstr);
 
 	TQueue<std::shared_ptr<ServerPacketBase>>& GetPacketQueue() { return m_packetQueue; }
+
+	// Server Packet 테스트함수
+	void AddServerPacket(std::shared_ptr<ServerPacketBase> _serverPacket);
 
 // Chatting
 public:

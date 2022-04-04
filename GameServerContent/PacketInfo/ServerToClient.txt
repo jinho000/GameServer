@@ -10,3 +10,10 @@ std::vector<FCharacterInfo> CharacterList;
 |CreateCharacterResult-
 FCharacterInfo CharacterInfo;
 EResultCode ResultCode;
+
+|SelectCharacterResult-
+EResultCode ResultCode;
+std::string SelectCharNickName;
+
+|InsertSectionResult-
+EResultCode ResultCode;

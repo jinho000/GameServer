@@ -37,11 +37,11 @@
     <ClInclude Include="CreateCharacterPacketHandler.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
-    <ClInclude Include="ContentUserData.h">
-      <Filter>ThreadHandler\ContentData</Filter>
+    <ClInclude Include="SessionUserDBData.h">
+      <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClInclude>
-    <ClInclude Include="ContentHeader.h">
-      <Filter>ThreadHandler\ContentData</Filter>
+    <ClInclude Include="DBTableEHeader.h">
+      <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClInclude>
     <ClInclude Include="CharacterTable.h">
       <Filter>DBTable</Filter>
@@ -73,6 +73,9 @@
     <ClInclude Include="ContentEnum.h">
       <Filter>Packet\Base\PacketBase</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterSelectPacketHandler.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -99,8 +102,8 @@
     <ClCompile Include="CreateCharacterPacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
-    <ClCompile Include="ContentUserData.cpp">
-      <Filter>ThreadHandler\ContentData</Filter>
+    <ClCompile Include="SessionUserDBData.cpp">
+      <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClCompile>
     <ClCompile Include="CharacterTable.cpp">
       <Filter>DBTable</Filter>
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="ServerSerializer.cpp">
       <Filter>Packet\Base\PacketSerializer</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSelectPacketHandler.cpp">
+      <Filter>ThreadHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +149,6 @@
     <Filter Include="ThreadHandler\PacketHandlerBase">
       <UniqueIdentifier>{194aabc5-cfff-4c87-a105-ba228727f4fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThreadHandler\ContentData">
-      <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Packet\Base\Dispatcher">
       <UniqueIdentifier>{36742f35-a925-4093-9cda-ecce7c4b2caa}</UniqueIdentifier>
     </Filter>
@@ -157,6 +160,9 @@
     </Filter>
     <Filter Include="Packet\Base\PacketBase">
       <UniqueIdentifier>{c64c78ce-32cc-4d31-9a83-1074c51cef81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\SessionUserDBData">
+      <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

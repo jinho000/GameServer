@@ -169,6 +169,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterSelectPacketHandler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CharacterTable.h">
       <SubType>
       </SubType>
@@ -180,9 +184,9 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentEnum.h" />
-    <ClInclude Include="ContentHeader.h" />
+    <ClInclude Include="DBTableEHeader.h" />
     <ClInclude Include="ContentStruct.h" />
-    <ClInclude Include="ContentUserData.h">
+    <ClInclude Include="SessionUserDBData.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -210,6 +214,10 @@
     <ClInclude Include="UserTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterSelectPacketHandler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CharacterTable.cpp">
       <SubType>
       </SubType>
@@ -219,7 +227,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ContentUserData.cpp">
+    <ClCompile Include="SessionUserDBData.cpp">
       <SubType>
       </SubType>
     </ClCompile>

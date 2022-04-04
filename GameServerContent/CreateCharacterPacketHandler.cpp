@@ -4,8 +4,8 @@
 #include <GameServerNet/TCPSession.h>
 #include <GameServerCore/DBQueue.h>
 #include <GameServerCore/NetQueue.h>
-#include "ContentUserData.h"
-#include "ContentHeader.h"
+#include "SessionUserDBData.h"
+#include "DBTableEHeader.h"
 #include "CharacterTable.h"
 
 void CreateCharacterPacketHandler::DBThreadWork()
@@ -23,8 +23,8 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	}
 
 	// 디비에 캐릭터 생성 처리 요청
-	std::shared_ptr<ContentUserData> Ptr = m_TCPSession->GetLink<ContentUserData>(EDataIndex::USERDATA);
-	CharacterTable_CreateCharacter InsertQuery = CharacterTable_CreateCharacter(m_packet->NickName, Ptr->userData->Index);
+	std::shared_ptr<SessionUserDBData> sessionUserDB = m_TCPSession->GetLink<SessionUserDBData>(EDBTable::USER);
+	CharacterTable_CreateCharacter InsertQuery = CharacterTable_CreateCharacter(m_packet->NickName, sessionUserDB->UserInfo->Index);
 	if (false == InsertQuery.DoQuery())
 	{
 		ServerDebug::AssertDebugMsg("Fail InsertQuery");
