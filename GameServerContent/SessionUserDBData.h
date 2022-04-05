@@ -3,6 +3,8 @@
 #include <GameServerBase/ServerBaseObject.h>
 #include "ContentStruct.h"
 
+// SessionUserData
+
 // 세션이 들고있는 유저의 DB데이터
 // 유저의 캐릭터 정보를 받기위해 세션에 정보 저장
 // 세션에 유저 정보를 미리 받아놓는다

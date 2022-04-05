@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{15dd4c0a-522d-4b97-bd71-1375036d23b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{43224b81-c377-48d1-a864-dcdecab71c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pch">
+      <UniqueIdentifier>{e2b3b89f-281e-45e8-9415-84b2970d4b2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{5b731173-247c-4d8a-8700-a7f89913f338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UICore">
+      <UniqueIdentifier>{594ea036-af4c-4f69-8d0c-2e2d54546c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIManager">
+      <UniqueIdentifier>{44a8dec0-bb77-40ee-b9a3-21b9c79ce5cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIWindow">
+      <UniqueIdentifier>{b04e44ca-2ee9-4c82-ac8a-eeacdbceaaa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIWindow\UIWindowBase">
+      <UniqueIdentifier>{e641cfda-6ff2-4e59-a8ea-74fc7831066c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIWindow\ResourceMonitor">
+      <UniqueIdentifier>{8d337f2b-fb00-41cd-ad42-ae0e8b9f21e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerMonitor.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UICore.h">
+      <Filter>UICore</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UIWindowBase.h">
+      <Filter>UIWindow\UIWindowBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceMonitor.h">
+      <Filter>UIWindow\ResourceMonitor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Etc</Filter>
+    </Image>
+    <Image Include="ServerMonitor.ico">
+      <Filter>Etc</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UICore.cpp">
+      <Filter>UICore</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIWindowBase.cpp">
+      <Filter>UIWindow\UIWindowBase</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceMonitor.cpp">
+      <Filter>UIWindow\ResourceMonitor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ServerMonitor.rc">
+      <Filter>Etc</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="imgui.ini">
+      <Filter>imgui</Filter>
+    </None>
+  </ItemGroup>
+</Project>

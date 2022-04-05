@@ -82,8 +82,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         ImGui::ShowDemoWindow();
 
-
-
         ImGui::Render();
 
         const float clear_color_with_alpha[4] = { 0.45f, 0.55f, 0.60f, 1.00f };
@@ -301,7 +299,11 @@ void CleanupDeviceD3D()
 
 void CleanupRenderTarget()
 {
-    if (g_mainRenderTargetView) { g_mainRenderTargetView->Release(); g_mainRenderTargetView = NULL; }
+    if (g_mainRenderTargetView) 
+    { 
+        g_mainRenderTargetView->Release(); 
+        g_mainRenderTargetView = NULL; 
+    }
 }
 
 void CreateRenderTarget()
