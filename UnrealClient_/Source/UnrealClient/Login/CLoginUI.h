@@ -56,5 +56,5 @@ public:
 	bool Login();
 
 	UFUNCTION(BlueprintCallable, Category = "Login|Connect")
-	bool Join();
+	void PressJoinBtn();
 };

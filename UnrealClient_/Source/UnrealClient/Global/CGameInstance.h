@@ -41,6 +41,9 @@ public:
 	TAtomic<bool>		LoginProcess;
 	class UCLoginUI*	LoginUI;
 
+	// Join
+	class UJoinUI*		JoinUI;
+
 	// User
 	std::vector<FCharacterInfo> UserCharacterList;
 	FCharacterInfo				SelectCharacter;

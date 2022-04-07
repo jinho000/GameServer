@@ -8,6 +8,7 @@
 #include "../Packets/ClientPackets/ServerToClient.h"
 #include "../Packets/ClientPackets/ClientToServer.h"
 #include "../Packets/ClientPackets/ServerSerializer.h"
+#include "JoinUI.h"
 
 void UCLoginUI::NativeConstruct()
 {
@@ -47,20 +48,10 @@ bool UCLoginUI::Login()
 	return gameInst->SendBytes(sr.GetBuffer());
 }
 
-bool UCLoginUI::Join()
+void UCLoginUI::PressJoinBtn()
 {
-	UE_LOG(LogTemp, Log, TEXT("Join"));
-	UE_LOG(LogTemp, Log, TEXT("user id: %s"), *ID);
-
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-
-	// 서버에 유저 정보 전달
-	JoinPacket packet;
-	packet.ID = std::string(FTCHARToUTF8(*ID).Get());
-	packet.PW = std::string(FTCHARToUTF8(*Password).Get());
-
-	ServerSerializer sr;
-	packet >> sr;
-
-	return gameInst->SendBytes(sr.GetBuffer());
+	gameInst->JoinUI->JoinState = FString();
+	gameInst->JoinUI->ID = FString();
+	gameInst->JoinUI->Password = FString();
 }
