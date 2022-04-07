@@ -8,7 +8,7 @@ void LoginResultPacketHandler::Start()
 {
 	UE_LOG(LogTemp, Log, TEXT("LoginResultPacketHandler"));
 
-	// 서버로부터 로그인패킷 정상전달이 확인되면 다음 레벨로 이동
+	// 서버로부터 로그인패킷 정상전달이 확인
 	if (ELoginResultCode::OK == m_packet->LoginResultCode)
 	{
 		UE_LOG(LogTemp, Log, TEXT("Recv Login Result Packet"));

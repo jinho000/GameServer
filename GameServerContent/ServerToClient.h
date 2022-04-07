@@ -110,7 +110,7 @@ class CreateCharacterResultPacket : public ServerPacketBase
 {                                                               
 public:                                                         
 	FCharacterInfo CharacterInfo;
-	EResultCode ResultCode;
+	ECreateCharacterResultCode ResultCode;
                                                                 
 public:                                                         
     CreateCharacterResultPacket()                                               

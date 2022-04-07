@@ -17,6 +17,10 @@ public:
 	float		RoomY;
 	float		RoomZ;
 
+	FCharacterInfo()
+		: Index(-1)
+	{}
+
 	int GetDataSize()
 	{
 		// int, float 개수: 8, 문자열개수저장변수:4, 문자열개수

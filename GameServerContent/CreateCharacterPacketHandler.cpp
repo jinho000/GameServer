@@ -16,7 +16,7 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	CharacterTable_SelectNickName SelectQuery = CharacterTable_SelectNickName(m_packet->NickName);
 	if (true == SelectQuery.DoQuery())
 	{
-		m_resultPacket.ResultCode = EResultCode::FAIL;
+		m_resultPacket.ResultCode = ECreateCharacterResultCode::ID_DULE;
 		ServerDebug::LogInfo("NickName is already exist");
 		NetQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::NetThreadSendResult, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 		return;
@@ -27,7 +27,7 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	CharacterTable_CreateCharacter InsertQuery = CharacterTable_CreateCharacter(m_packet->NickName, sessionUserDB->UserInfo->Index);
 	if (false == InsertQuery.DoQuery())
 	{
-		m_resultPacket.ResultCode = EResultCode::FAIL;
+		m_resultPacket.ResultCode = ECreateCharacterResultCode::FAIL;
 		ServerDebug::LogInfo("Fail InsertQuery");
 		NetQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::NetThreadSendResult, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 		return;
@@ -37,14 +37,14 @@ void CreateCharacterPacketHandler::DBThreadWork()
 	CharacterTable_SelectNickName CharInfoSelectQuery(m_packet->NickName);
 	if (false == CharInfoSelectQuery.DoQuery())
 	{
-		m_resultPacket.ResultCode = EResultCode::FAIL;
+		m_resultPacket.ResultCode = ECreateCharacterResultCode::FAIL;
 		ServerDebug::LogInfo("Fail Select Query");
 		NetQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::NetThreadSendResult, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 		return;
 	}
 	ServerDebug::LogInfo("Check DB OK");
 
-	m_resultPacket.ResultCode = EResultCode::OK;
+	m_resultPacket.ResultCode = ECreateCharacterResultCode::OK;
 	m_resultPacket.CharacterInfo.Index = CharInfoSelectQuery.RowData->Index;
 	m_resultPacket.CharacterInfo.NickName = CharInfoSelectQuery.RowData->NickName;
 	m_resultPacket.CharacterInfo.UserIndex = CharInfoSelectQuery.RowData->UserIndex;
@@ -79,6 +79,6 @@ void CreateCharacterPacketHandler::Start()
 	ServerDebug::LogInfo(std::string("Character NickName: ") + nickName);
 	
 	// DB에 처리 요청
-	m_resultPacket.ResultCode = EResultCode::FAIL;
+	m_resultPacket.ResultCode = ECreateCharacterResultCode::FAIL;
 	DBQueue::EnQueue(std::bind(&CreateCharacterPacketHandler::DBThreadWork, std::dynamic_pointer_cast<CreateCharacterPacketHandler>(shared_from_this())));
 }

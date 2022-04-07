@@ -9,7 +9,7 @@ std::vector<FCharacterInfo> CharacterList;
 
 |CreateCharacterResult-
 FCharacterInfo CharacterInfo;
-EResultCode ResultCode;
+ECreateCharacterResultCode ResultCode;
 
 |SelectCharacterResult-
 EResultCode ResultCode;

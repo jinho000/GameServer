@@ -26,3 +26,11 @@ enum class EJoinResultCode
 	OK,
 	MAX
 };
+
+enum class ECreateCharacterResultCode
+{
+	FAIL,
+	ID_DULE,
+	OK,
+	MAX
+};

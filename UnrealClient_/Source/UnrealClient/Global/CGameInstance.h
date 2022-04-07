@@ -49,7 +49,8 @@ public:
 	FCharacterInfo				SelectCharacter;
 
 	// Chracter Select UI
-	class UListView*	CharacterSelectUIListView;
+	class UCharacterSelectUI*	CharacterSelectUI;
+	class UListView*			CharacterSelectUIListView;
 public:
 	UCGameInstance();
 	virtual ~UCGameInstance();

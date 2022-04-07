@@ -16,20 +16,19 @@ class UNREALCLIENT_API UCharacterSelectUI : public UUserWidget
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharaterSelectUI")
-	FString NickName;
+	class UListView* CharacterListView;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharaterSelectUI")
-	class UListView* CharacterListView;
+	FString State;
+
+	class UCharacterListItem* UpdateItem;
 
 public:
 	void NativeConstruct() override;
 
-public: // 블루프린트에서 사용할 함수
-
+public:
 	// UFUNCTION: 블루프린트에서 함수를 사용하기 위한 설정
 	UFUNCTION(BlueprintCallable, Category = "CharaterSelectUI")
-	void CreateCharacter();
-
-	UFUNCTION(BlueprintCallable, Category = "CharaterSelectUI")
 	void AddItemToListEvent(UObject* _Object, UUserWidget* _Widget);
+
 };
