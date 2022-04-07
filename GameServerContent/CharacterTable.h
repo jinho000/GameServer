@@ -77,3 +77,13 @@ public:
 	bool DoQuery() override;
 };
 
+// 인덱스로 해당 캐릭터 삭제하기
+class CharacterTable_DeleteCharacter : public DBQuery
+{
+public:
+	int	_characterIndex;
+
+public:
+	CharacterTable_DeleteCharacter(int _characterIndex);
+	bool DoQuery() override;
+};

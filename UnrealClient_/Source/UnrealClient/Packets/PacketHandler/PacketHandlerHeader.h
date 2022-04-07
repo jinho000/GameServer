@@ -3,6 +3,7 @@
 #include "JoginResultPacketHandler.h"
 #include "CharacterListPacketHandler.h"
 #include "CreateCharacterResultPacketHandler.h"
+#include "DeleteCharacterResultPacketHandler.h"
 #include "SelectCharacterResultPacketHandler.h"
 #include "InsertSectionResultPacketHandler.h"
 #include "ChatMessagePacketHandler.h"

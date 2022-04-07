@@ -145,6 +145,45 @@ public:
     }                                                           
 };                                                              
 
+class DeleteCharacterResultPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	EResultCode ResultCode;
+	std::string DeleteCharNickName;
+                                                                
+public:                                                         
+    DeleteCharacterResultPacket()                                               
+        : ServerPacketBase(PacketType::DeleteCharacterResult)                    
+        , ResultCode()
+        , DeleteCharNickName()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~DeleteCharacterResultPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ResultCode) + DataSizeCheck(DeleteCharNickName);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteEnum(ResultCode);
+        _Serializer << DeleteCharNickName;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadEnum(ResultCode);
+        _Serializer >> DeleteCharNickName;
+
+    }                                                           
+};                                                              
+
 class SelectCharacterResultPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         

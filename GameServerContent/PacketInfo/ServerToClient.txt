@@ -11,6 +11,10 @@ std::vector<FCharacterInfo> CharacterList;
 FCharacterInfo CharacterInfo;
 ECreateCharacterResultCode ResultCode;
 
+|DeleteCharacterResult-
+EResultCode ResultCode;
+std::string DeleteCharNickName;
+
 |SelectCharacterResult-
 EResultCode ResultCode;
 std::string SelectCharNickName;

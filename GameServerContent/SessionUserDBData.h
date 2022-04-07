@@ -26,5 +26,12 @@ public: // default
 	SessionUserDBData& operator=(const SessionUserDBData&& _other) = delete;
 
 public: // member Func
+
+	// 검증한 캐릭터의 인덱스반환
+	// 실패시 -1 반환
+	size_t CheckNickName(const std::string& _nickName);
+
+	// 세션이가지고있는 캐릭터리스트에서 삭제
+	void DeleteCharacter(const std::string& _nickName);
 };
 

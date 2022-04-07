@@ -38,4 +38,5 @@ void CreateCharacterResultPacketHandler::Start()
 
 	m_pGameInst->CharacterSelectUI->State = TEXT("Create Character OK");
 	m_pGameInst->CharacterSelectUI->UpdateItem->ShowItem();
+	m_pGameInst->CharacterSelectUI->UpdateItem = nullptr;
 }

@@ -12,3 +12,5 @@ std::string NickName;
 |SelectCharacter-
 std::string SelectCharNickName;
 
+|DeleteCharacter-
+std::string NickName;

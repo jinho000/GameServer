@@ -62,6 +62,19 @@ void UCharacterListItem::DeleteCharacter()
 {
 	UE_LOG(LogTemp, Log, TEXT("Delete Character"));
 	UE_LOG(LogTemp, Log, TEXT("Nick Name: %s"), *NickName);
+
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+
+	DeleteCharacterPacket packet;
+	UCBlueprintFunctionLibrary::FStringToUTF8(NickName, packet.NickName);
+
+	ServerSerializer sr;
+	packet >> sr;
+
+	gameInst->SendBytes(sr.GetBuffer());
+
+	// item update를 위해 저장
+	gameInst->CharacterSelectUI->UpdateItem = this;
 }
 
 void UCharacterListItem::Toggle(bool _hide)
@@ -84,6 +97,7 @@ void UCharacterListItem::Toggle(bool _hide)
 		selectBtn->SetVisibility(ESlateVisibility::Hidden);
 		deleteBtn->SetVisibility(ESlateVisibility::Hidden);
 		nickNameText->SetVisibility(ESlateVisibility::Hidden);
+		NickName = FString();
 
 		nickNameInputBox->SetVisibility(ESlateVisibility::Visible);
 		createBtn->SetVisibility(ESlateVisibility::Visible);

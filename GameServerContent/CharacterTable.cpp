@@ -115,3 +115,26 @@ bool CharacterTable_CreateCharacter::DoQuery()
 	return true;
 }
 
+CharacterTable_DeleteCharacter::CharacterTable_DeleteCharacter(int _characterIndex)
+	: DBQuery("DELETE FROM userver2.characterinfo WHERE Idx = ?;")
+	, _characterIndex(_characterIndex)
+{
+}
+
+bool CharacterTable_DeleteCharacter::DoQuery()
+{
+	std::unique_ptr<DBStatement> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->ParamBindInt(_characterIndex);
+
+	Stmt->Execute();
+
+	uint64_t Row = Stmt->AffectedRows();
+
+	if (0 == Row)
+	{
+		return false;
+	}
+
+	return true;
+}

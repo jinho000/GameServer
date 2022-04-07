@@ -24,6 +24,9 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::SelectCharacter:
 		m_packet = std::make_shared<SelectCharacterPacket>();
 		break;
+	case PacketType::DeleteCharacter:
+		m_packet = std::make_shared<DeleteCharacterPacket>();
+		break;
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
 		break;
@@ -35,6 +38,9 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 		break;
 	case PacketType::CreateCharacterResult:
 		m_packet = std::make_shared<CreateCharacterResultPacket>();
+		break;
+	case PacketType::DeleteCharacterResult:
+		m_packet = std::make_shared<DeleteCharacterResultPacket>();
 		break;
 	case PacketType::SelectCharacterResult:
 		m_packet = std::make_shared<SelectCharacterResultPacket>();

@@ -51,11 +51,13 @@ public:
 	// Chracter Select UI
 	class UCharacterSelectUI*	CharacterSelectUI;
 	class UListView*			CharacterSelectUIListView;
+
+// default
 public:
 	UCGameInstance();
 	virtual ~UCGameInstance();
 
-	// Socket
+// Socket
 private:
 	void CloseSocket();
 
@@ -90,4 +92,8 @@ public:
 	}
 
 	void SetChatWindow(UCChatWindow* _chatWindow) { m_chatWindow = _chatWindow; }
+
+// Characte
+public:
+	void DeleteCharacter(const std::string& _deleteNickName);
 };

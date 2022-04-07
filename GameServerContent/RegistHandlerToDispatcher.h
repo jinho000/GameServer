@@ -7,5 +7,6 @@ PacketDispatcher<Session>::PacketDispatcher()
 	AddHandler(PacketType::Join, std::bind(&ProcessHandler<JoinPacket, JoinPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::CreateCharacter, std::bind(&ProcessHandler<CreateCharacterPacket, CreateCharacterPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::SelectCharacter, std::bind(&ProcessHandler<SelectCharacterPacket, SelectCharacterPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
+	AddHandler(PacketType::DeleteCharacter, std::bind(&ProcessHandler<DeleteCharacterPacket, DeleteCharacterPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatMessagePacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 }			

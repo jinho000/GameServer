@@ -107,6 +107,22 @@ void UCGameInstance::AddServerPacket(std::shared_ptr<ServerPacketBase> _serverPa
 	m_packetQueue.Enqueue(_serverPacket);
 }
 
+void UCGameInstance::DeleteCharacter(const std::string& _deleteNickName)
+{
+	auto iter = UserCharacterList.begin();
+
+	while (iter != UserCharacterList.end())
+	{
+		if (iter->NickName == _deleteNickName)
+		{
+			UserCharacterList.erase(iter);
+			return;
+		}
+
+		++iter;
+	}
+}
+
 
 //bool UCGameInstance::SendFString(const FString& _fstr)
 //{

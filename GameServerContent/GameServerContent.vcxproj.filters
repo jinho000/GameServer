@@ -76,6 +76,9 @@
     <ClInclude Include="SelectCharacterPacketHandler.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
+    <ClInclude Include="DeleteCharacterPacketHandler.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -118,6 +121,9 @@
       <Filter>Packet\Base\PacketSerializer</Filter>
     </ClCompile>
     <ClCompile Include="SelectCharacterPacketHandler.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCharacterPacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
   </ItemGroup>
