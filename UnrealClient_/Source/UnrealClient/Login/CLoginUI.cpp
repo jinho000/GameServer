@@ -9,6 +9,14 @@
 #include "../Packets/ClientPackets/ClientToServer.h"
 #include "../Packets/ClientPackets/ServerSerializer.h"
 
+void UCLoginUI::NativeConstruct()
+{
+	UUserWidget::NativeConstruct();
+
+	UCGameInstance* Inst = Cast<UCGameInstance>(GetGameInstance());
+	Inst->LoginUI = this;
+}
+
 void UCLoginUI::ResetConnectInfo()
 {
 	IP = TEXT("127.0.0.1");

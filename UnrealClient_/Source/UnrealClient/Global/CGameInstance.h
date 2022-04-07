@@ -38,15 +38,15 @@ private:
 
 public:
 	// Login
-	TAtomic<bool> LoginProcess;
+	TAtomic<bool>		LoginProcess;
+	class UCLoginUI*	LoginUI;
 
 	// User
 	std::vector<FCharacterInfo> UserCharacterList;
 	FCharacterInfo				SelectCharacter;
 
 	// Chracter Select UI
-	class UListView* CharacterSelectUIListView;
-
+	class UListView*	CharacterSelectUIListView;
 public:
 	UCGameInstance();
 	virtual ~UCGameInstance();

@@ -42,7 +42,7 @@ void LoginPacketHandler::DBThreadCheckLogin()
 		ServerDebug::LogInfo("ID is not exist");
 
 		// 유저 아이디가 없음
-		m_loginResultPacket.LoginResultCode = EResultCode::ID_ERROR;
+		m_loginResultPacket.LoginResultCode = ELoginResultCode::ID_ERROR;
 		NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 		return;
 	}
@@ -54,7 +54,7 @@ void LoginPacketHandler::DBThreadCheckLogin()
 		ServerDebug::LogInfo("Mismatch of passwords");
 
 		// 비밀번호가 일치하지 않음
-		m_loginResultPacket.LoginResultCode = EResultCode::PW_ERROR;
+		m_loginResultPacket.LoginResultCode = ELoginResultCode::PW_ERROR;
 		NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 		return;
 	}
@@ -71,8 +71,9 @@ void LoginPacketHandler::DBThreadCheckLogin()
 	
 	// 로그인 완료
 	ServerDebug::LogInfo("Login OK");
-	m_loginResultPacket.LoginResultCode = EResultCode::OK;
+	m_loginResultPacket.LoginResultCode = ELoginResultCode::OK;
 	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+
 }
 
 void LoginPacketHandler::NetThreadSendLoginResult()
@@ -83,8 +84,12 @@ void LoginPacketHandler::NetThreadSendLoginResult()
 	m_TCPSession->Send(sr.GetBuffer());
 
 
-	// 유저의 캐릭터 정보 가져오기
-	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckCharList, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+	// 로그인이 완료된 경우에만 디비에서 캐릭터 정보 가져오기
+	if (ELoginResultCode::OK == m_loginResultPacket.LoginResultCode)
+	{
+		// 유저의 캐릭터 정보 가져오기
+		DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckCharList, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
+	}
 }
 
 void LoginPacketHandler::DBThreadCheckCharList()
@@ -147,6 +152,6 @@ void LoginPacketHandler::Start()
 	// 
 	// 핸들러에서 이함수를 실행 후 종료되면, 핸들러 객체가 사라지기때문에 shared_from_this 사용
 
-	m_loginResultPacket.LoginResultCode = EResultCode::FAIL;
+	m_loginResultPacket.LoginResultCode = ELoginResultCode::FAIL;
 	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckLogin, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 }

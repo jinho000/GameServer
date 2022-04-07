@@ -4,7 +4,7 @@
 class LoginResultPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	EResultCode LoginResultCode;
+	ELoginResultCode LoginResultCode;
                                                                 
 public:                                                         
     LoginResultPacket()                                               
@@ -39,7 +39,7 @@ public:
 class JoginResultPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	EResultCode JoginResultCode;
+	EJoinResultCode JoginResultCode;
                                                                 
 public:                                                         
     JoginResultPacket()                                               

@@ -1,8 +1,8 @@
 |LoginResult-
-EResultCode LoginResultCode;
+ELoginResultCode LoginResultCode;
 
 |JoginResult-
-EResultCode JoginResultCode;
+EJoinResultCode JoginResultCode;
 
 |CharacterList-
 std::vector<FCharacterInfo> CharacterList;

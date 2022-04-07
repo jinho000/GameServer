@@ -18,7 +18,7 @@ void JoinPacketHandler::DBThreadRequestJoin()
 		ServerDebug::LogInfo("ID is already exist");
 
 		// 만드려는 아이디가 이미 있음
-		resultPacket.JoginResultCode = EResultCode::ID_ERROR;
+		resultPacket.JoginResultCode = EJoinResultCode::ID_DUPLE;
 		resultPacket >> sr;
 		m_TCPSession->Send(sr.GetBuffer());
 		return;
@@ -35,7 +35,7 @@ void JoinPacketHandler::DBThreadRequestJoin()
 	ServerDebug::LogInfo("Insert OK");
 
 	// 삽입성공
-	resultPacket.JoginResultCode = EResultCode::OK;
+	resultPacket.JoginResultCode = EJoinResultCode::OK;
 	resultPacket >> sr;
 	m_TCPSession->Send(sr.GetBuffer());
 }
