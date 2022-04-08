@@ -32,9 +32,8 @@ bool UCLoginUI::ConnectServer()
 
 bool UCLoginUI::Login()
 {
-	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	gameInst->SetUserID(ID);
 	UE_LOG(LogTemp, Log, TEXT("Login user id: %s"), *ID);
+	UE_LOG(LogTemp, Log, TEXT("Login user pw: %s"), *Password);
 	
 
 	// 서버에 유저 정보 전달
@@ -45,6 +44,7 @@ bool UCLoginUI::Login()
 	ServerSerializer sr;
 	packet >> sr;
 	
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 	return gameInst->SendBytes(sr.GetBuffer());
 }
 

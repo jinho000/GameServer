@@ -31,12 +31,6 @@ void UCharacterListItem::SelectCharacter()
 	{
 		int a = 0;
 	}
-
-	//UE_LOG(LogTemp, Log, TEXT("Test Server Packet"));
-	//std::shared_ptr<SelectCharacterResultPacket> serverPacket = std::make_shared<SelectCharacterResultPacket>();
-	//serverPacket->ResultCode = EResultCode::OK;
-	//serverPacket->SelectCharNickName = nickNameUTF8;
-	//Inst->AddServerPacket(serverPacket);
 }
 
 void UCharacterListItem::CreateCharacter()

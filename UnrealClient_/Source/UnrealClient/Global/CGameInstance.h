@@ -33,7 +33,6 @@ private:
 	FSocket* m_socket;
 
 	// Chatting
-	FString			m_userID;
 	UCChatWindow*	m_chatWindow;
 
 public:
@@ -82,8 +81,6 @@ public:
 
 // Chatting
 public:
-	const FString& GetUserID() { return m_userID; }
-	void SetUserID(const FString& _id) { m_userID = _id; }
 
 	UCChatWindow* GetChatWindow() 
 	{

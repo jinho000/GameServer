@@ -9,6 +9,7 @@ void SelectCharacterResultPacketHandler::Start()
 
 	if (EResultCode::OK != m_packet->ResultCode)
 	{
+		m_pGameInst->LoginProcess = false;
 		UE_LOG(LogTemp, Log, TEXT("Result Code FAIL"));
 		return;
 	}
@@ -28,9 +29,13 @@ void SelectCharacterResultPacketHandler::Start()
 	{
 		if (characterList[i].NickName == m_packet->SelectCharNickName)
 		{
-			// 전달받은 패킷의 닉네임 검증
-			UE_LOG(LogTemp, Log, TEXT("Check NickName OK"));
+			// 전달받은 패킷의 닉네임 검증 완료
+			UE_LOG(LogTemp, Log, TEXT("Check NickName OK: %s"), *nickName);
 			m_pGameInst->SelectCharacter = characterList[i];
+			m_pGameInst->LoginProcess = true;
+
+			// 다음 레벨로 이동
+			UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));
 			return;
 		}
 	}

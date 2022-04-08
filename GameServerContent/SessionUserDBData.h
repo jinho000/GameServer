@@ -33,5 +33,7 @@ public: // member Func
 
 	// 세션이가지고있는 캐릭터리스트에서 삭제
 	void DeleteCharacter(const std::string& _nickName);
+
+	const FCharacterInfo& GetCharacter(const std::string& _nickName);
 };
 

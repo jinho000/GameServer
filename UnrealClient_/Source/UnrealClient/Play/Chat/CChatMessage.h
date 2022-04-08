@@ -18,6 +18,6 @@ private:
 	FString m_chatMessage;
 
 public:
-	void Init(const FString& _userID, const FString& _message);
+	void Init(const FString& _nickName, const FString& _message);
 	const FString& GetChatMessage() const;
 };

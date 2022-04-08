@@ -54,16 +54,18 @@ void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::
 	
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 	ChatMessagePacket packet;
-	packet.ID = FTCHARToUTF8(*gameInst->GetUserID()).Get();
+	FCharacterInfo currCharacter = gameInst->SelectCharacter;
+	packet.NickName = currCharacter.NickName;
 	packet.Message = FTCHARToUTF8(*_chatMessage).Get();
 
 	ServerSerializer sr;
 	packet >> sr;
-
-	UE_LOG(LogTemp, Log, TEXT("Send id: %s"), *gameInst->GetUserID());
-	UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
 	gameInst->SendBytes(sr.GetBuffer());
 
 	// 입력 비우기
 	InputText.Empty();
+
+	FString nickName = FUTF8ToTCHAR(packet.NickName.c_str()).Get();
+	UE_LOG(LogTemp, Log, TEXT("Send NickName: %s"), *nickName);
+	UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
 }

@@ -169,6 +169,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChattingTable.h" />
     <ClInclude Include="DeleteCharacterPacketHandler.h" />
     <ClInclude Include="SelectCharacterPacketHandler.h">
       <SubType>
@@ -215,6 +216,7 @@
     <ClInclude Include="UserTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChattingTable.cpp" />
     <ClCompile Include="DeleteCharacterPacketHandler.cpp" />
     <ClCompile Include="SelectCharacterPacketHandler.cpp">
       <SubType>

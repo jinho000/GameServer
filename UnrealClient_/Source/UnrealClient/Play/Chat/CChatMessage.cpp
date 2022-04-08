@@ -3,9 +3,9 @@
 
 #include "CChatMessage.h"
 
-void UCChatMessage::Init(const FString& _userID, const FString& _message)
+void UCChatMessage::Init(const FString& _nickName, const FString& _message)
 {
-	m_chatMessage = _userID + TEXT(": ") + _message;
+	m_chatMessage = _nickName + TEXT(": ") + _message;
 }
 
 const FString& UCChatMessage::GetChatMessage() const

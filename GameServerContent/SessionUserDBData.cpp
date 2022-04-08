@@ -37,3 +37,19 @@ void SessionUserDBData::DeleteCharacter(const std::string& _nickName)
 		++iter;
 	}
 }
+
+const FCharacterInfo& SessionUserDBData::GetCharacter(const std::string& _nickName)
+{
+	auto iter = UserCharacterList.begin();
+	while (iter != UserCharacterList.end())
+	{
+		if (iter->NickName == _nickName)
+		{
+			return *iter;
+		}
+
+		++iter;
+	}
+
+	ServerDebug::AssertDebugMsg("Get Character Fail");
+}

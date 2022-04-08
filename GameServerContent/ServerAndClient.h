@@ -4,13 +4,13 @@
 class ChatMessagePacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	std::string ID;
+	std::string NickName;
 	std::string Message;
                                                                 
 public:                                                         
     ChatMessagePacket()                                               
         : ServerPacketBase(PacketType::ChatMessage)                    
-        , ID()
+        , NickName()
         , Message()
     {                                                           
                                                                 
@@ -20,13 +20,13 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ID) + DataSizeCheck(Message);
+		return DataSizeCheck(NickName) + DataSizeCheck(Message);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << ID;
+        _Serializer << NickName;
         _Serializer << Message;
 
     }                                                           
@@ -34,7 +34,7 @@ public:
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> ID;
+        _Serializer >> NickName;
         _Serializer >> Message;
 
     }                                                           
