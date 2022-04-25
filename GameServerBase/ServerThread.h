@@ -4,6 +4,7 @@
 
 #include "ServerNameBase.h"
 #include "ServerDebug.h"
+#include "ServerTime.h"
 
 // 용도 :
 // 분류 :
@@ -17,10 +18,15 @@ private:
 	static thread_local const std::type_info* LOCAL_DATA_TYPE;
 	static thread_local void* LOCAL_DATA;
 
+protected:
+	static thread_local ServerTime Timer;
+
 private: // member var
 	std::thread m_thread;
 
 public: // default
+	ServerThread();
+
 	template <class _Fn, class... _Args, std::enable_if_t<!std::is_same_v<std::_Remove_cvref_t<_Fn>, std::thread>, int> = 0>
 	explicit ServerThread(std::string _name, _Fn&& _Fx, _Args&&... _Ax)
 	{
@@ -65,6 +71,11 @@ public: // inline
 public: // member Func
 	void Join();
 
+	template <class _Fn, class... _Args, std::enable_if_t<!std::is_same_v<std::_Remove_cvref_t<_Fn>, std::thread>, int> = 0>
+	void Start(_Fn&& _Fx, _Args&&... _Ax)
+	{
+		m_thread = std::thread(_Fx, _Ax...);
+	}
 
 public:
 	template<typename LocalDataType>

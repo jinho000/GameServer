@@ -97,3 +97,13 @@ bool ServerIOCP::BindHandle(HANDLE _handle, ULONG_PTR _dwCompletionKey) const
 
 	return true;
 }
+
+void ServerIOCP::InitHandle(UINT _count)
+{
+	m_IOCPHandle = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, /*스레드 개수*/ _count);
+}
+
+BOOL ServerIOCP::Execute(DWORD& NumberOfBytesTransferred, ULONG_PTR& CompletionKey, LPOVERLAPPED& lpOverlapped, DWORD _Time)
+{
+	return GetQueuedCompletionStatus(m_IOCPHandle, &NumberOfBytesTransferred, &CompletionKey, &lpOverlapped, _Time);
+}

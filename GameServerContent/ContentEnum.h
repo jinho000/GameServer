@@ -34,3 +34,14 @@ enum class ECreateCharacterResultCode
 	OK,
 	MAX
 };
+
+enum class ESectionType
+{
+	NONE,
+	NONEFIGHT,
+	FIGHTZONE1,
+	FIGHTZONE2,
+	FIGHTZONE3,
+	FIGHTZONE4,
+	MAX,
+};

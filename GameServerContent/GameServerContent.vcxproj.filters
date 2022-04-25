@@ -82,6 +82,9 @@
     <ClInclude Include="ChattingTable.h">
       <Filter>ThreadHandler\DBTable</Filter>
     </ClInclude>
+    <ClInclude Include="TestSection.h">
+      <Filter>Section</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -132,6 +135,9 @@
     <ClCompile Include="ChattingTable.cpp">
       <Filter>ThreadHandler\DBTable</Filter>
     </ClCompile>
+    <ClCompile Include="TestSection.cpp">
+      <Filter>Section</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -175,6 +181,9 @@
     </Filter>
     <Filter Include="ThreadHandler\DBTable">
       <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Section">
+      <UniqueIdentifier>{38ab4928-63f3-4be5-8efc-d238e85dcf12}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,12 @@
 #include "pch.h"
 #include "ContentCore.h"
 #include <GameServerNet/TCPSession.h>
+#include <GameServerCore/ServerSectionManager.h>
+#include <GameServerCore/ServerSection.h>
 
+#include "TestSection.h"
 #include "PacketDispatcher.h"
+#include "ContentEnum.h"
 
 ContentCore::ContentCore()
 {
@@ -39,5 +43,11 @@ void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)
 
 void ContentCore::UserStart()
 {
+	// rec 捞亥飘 贸府
 	SetAcceptCallBack(ContentCore::AcceptEvent);
+
+	// 冀记贸府
+	ServerSectionManager::GetInst()->Init(3);
+	ServerSectionManager::GetInst()->CreateSection<TestSection>(0, ESectionType::NONE);
+	
 }

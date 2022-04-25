@@ -182,6 +182,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerSection.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerSectionManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerSectionThread.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DBQueue.cpp">
@@ -199,6 +211,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ServerCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerSection.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerSectionManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerSectionThread.cpp">
       <SubType>
       </SubType>
     </ClCompile>

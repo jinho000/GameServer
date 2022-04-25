@@ -35,6 +35,11 @@ public: // member Func
 	void PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey) const;
 	bool BindHandle(HANDLE _handle, ULONG_PTR _dwCompletionKey) const;
 
+public:
+	// post work를 위한 IOCP
+	void InitHandle(UINT _count);
+	BOOL Execute(DWORD& NumberOfBytesTransferred, ULONG_PTR& CompletionKey, LPOVERLAPPED& lpOverlapped, DWORD _Time);
+
 
 public: // thread local 사용
 	template<typename LocalDataType>

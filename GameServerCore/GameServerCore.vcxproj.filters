@@ -11,6 +11,15 @@
     <ClInclude Include="NetQueue.h">
       <Filter>WorkQueue</Filter>
     </ClInclude>
+    <ClInclude Include="ServerSectionManager.h">
+      <Filter>SectionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSection.h">
+      <Filter>Section</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSectionThread.h">
+      <Filter>SectionThread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -23,6 +32,15 @@
     <ClCompile Include="NetQueue.cpp">
       <Filter>WorkQueue</Filter>
     </ClCompile>
+    <ClCompile Include="ServerSectionManager.cpp">
+      <Filter>SectionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSection.cpp">
+      <Filter>Section</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSectionThread.cpp">
+      <Filter>SectionThread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -30,6 +48,15 @@
     </Filter>
     <Filter Include="WorkQueue">
       <UniqueIdentifier>{483b2a37-f11a-48c8-9149-9d390267c23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SectionManager">
+      <UniqueIdentifier>{4c0207ef-0915-4ee9-b1c0-d8d7576d08e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Section">
+      <UniqueIdentifier>{7a6a40f7-5331-48fd-8b74-315c9a7a6c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SectionThread">
+      <UniqueIdentifier>{4e12a7c5-bc6f-4782-9f43-92b94af98c76}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

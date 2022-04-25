@@ -52,4 +52,6 @@ const FCharacterInfo& SessionUserDBData::GetCharacter(const std::string& _nickNa
 	}
 
 	ServerDebug::AssertDebugMsg("Get Character Fail");
+
+	return *iter;
 }
