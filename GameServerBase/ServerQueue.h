@@ -74,11 +74,11 @@ private:
 	}
 
 public: // type
-	enum class WORK_TYPE : char
-	{
-		Default,	// 포스트큐 사용 타입
-		Extension	// GetQueuedCompletionStatusEx로 여러개 사용 타입
-	};
+	//enum class WORK_TYPE : char
+	//{
+	//	Default,	// 포스트큐 사용 타입
+	//	Extension	// GetQueuedCompletionStatusEx로 여러개 사용 타입
+	//};
 
 	enum class WORK_MSG
 	{
@@ -104,11 +104,11 @@ private:
 public: // member Func
 
 	// queue 초기화
-	void Initialize(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName = "WorkThread");
+	void Initialize(int threadCount, const std::string& _ThreadName = "WorkThread");
 
 	// thread local 사용
 	template<typename LocalDataType>
-	void InitializeLocalData(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName, std::function<void(LocalDataType*)> _initLocal = nullptr)
+	void InitializeLocalData(int threadCount, const std::string& _ThreadName, std::function<void(LocalDataType*)> _initLocal = nullptr)
 	{
 		m_Iocp.InitializeLocalData<LocalDataType>(std::bind(&ServerQueue::WorkThreadLocal<LocalDataType>, this, std::placeholders::_1, _ThreadName, _initLocal), INFINITE, threadCount);
 	}

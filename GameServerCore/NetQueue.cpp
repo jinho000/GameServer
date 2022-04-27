@@ -5,7 +5,7 @@ ServerQueue NetQueue::WorkQueue;
 
 void NetQueue::Init()
 {
-	WorkQueue.Initialize(ServerQueue::WORK_TYPE::Default, 8, "NetQueue");
+	WorkQueue.Initialize(8, "NetQueue");
 }
 
 void NetQueue::Destroy()

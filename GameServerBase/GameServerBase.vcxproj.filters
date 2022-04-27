@@ -22,9 +22,6 @@
     <ClInclude Include="ServerIOCPWorker.h">
       <Filter>Thread</Filter>
     </ClInclude>
-    <ClInclude Include="ServerQueue.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
     <ClInclude Include="DateTime.h">
       <Filter>Time</Filter>
     </ClInclude>
@@ -61,6 +58,9 @@
     <ClInclude Include="ServerTime.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="ServerQueue.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -82,9 +82,6 @@
       <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="ServerIOCPWorker.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerQueue.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="DateTime.cpp">
@@ -116,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="ServerTime.cpp">
       <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerQueue.cpp">
+      <Filter>Thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

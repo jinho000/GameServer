@@ -116,7 +116,7 @@ bool ServerQueue::RegistSocket(SOCKET _socket, const std::function<void(BOOL, DW
 	return true;
 }
 
-void ServerQueue::Initialize(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName)
+void ServerQueue::Initialize(int threadCount, const std::string& _ThreadName)
 {
 	m_Iocp.Initialize(std::bind(&ServerQueue::WorkThread, this, std::placeholders::_1, _ThreadName), threadCount);
 }

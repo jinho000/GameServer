@@ -36,7 +36,7 @@ void DBQueue::InitDBConnecter(DBConnecter* _DBConnecter)
 
 void DBQueue::Init()
 {
-	WorkQueue.InitializeLocalData<DBConnecter>(ServerQueue::WORK_TYPE::Default, 10, "DBThread", InitDBConnecter);
+	WorkQueue.InitializeLocalData<DBConnecter>(10, "DBThread", InitDBConnecter);
 }
 
 void DBQueue::EnQueue(const std::function<void()>& _work)

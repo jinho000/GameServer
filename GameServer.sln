@@ -68,6 +68,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServerContent", "GameSe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerMonitor", "ServerMonitor\ServerMonitor.vcxproj", "{0B0780DD-9A4D-43C8-941D-98F38EF2C894}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestProject", "TestProject\TestProject.vcxproj", "{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -140,6 +142,14 @@ Global
 		{0B0780DD-9A4D-43C8-941D-98F38EF2C894}.Release|x64.Build.0 = Release|x64
 		{0B0780DD-9A4D-43C8-941D-98F38EF2C894}.Release|x86.ActiveCfg = Release|Win32
 		{0B0780DD-9A4D-43C8-941D-98F38EF2C894}.Release|x86.Build.0 = Release|Win32
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Debug|x64.ActiveCfg = Debug|x64
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Debug|x64.Build.0 = Debug|x64
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Debug|x86.ActiveCfg = Debug|Win32
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Debug|x86.Build.0 = Debug|Win32
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Release|x64.ActiveCfg = Release|x64
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Release|x64.Build.0 = Release|x64
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Release|x86.ActiveCfg = Release|Win32
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +163,7 @@ Global
 		{8B02CA1F-0331-46B4-BF95-E4B44EAB84DA} = {837ACD33-2BD3-4D0E-A3E4-1107AEE1B11B}
 		{5204C825-FDE1-4117-B002-68CE0C2E232F} = {7EA80EEC-F4BC-4A26-AC9D-8FF69271D5B0}
 		{0B0780DD-9A4D-43C8-941D-98F38EF2C894} = {DF1FD21C-4950-42E1-BDD0-20E78BD8C310}
+		{8C6EBB7F-4FD2-4CA4-BD59-4EBE11F970E1} = {7F2DCDA4-370B-40E4-9277-1114F937DD50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3C1DAFE-34C1-4351-840E-6624C734CFE1}

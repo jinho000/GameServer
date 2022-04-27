@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-//#include "ServerIOCP.h"
 
 enum class LOG_TYPE
 {
@@ -14,32 +13,18 @@ enum class LOG_TYPE
 // 용도 : 서버프레임워크 디버그, 로그 관련 클래스
 // 분류 :
 // 첨언 : 
-class ServerIOCP;
-class ServerIOCPWorker;
+class ServerQueue;
 class ServerDebug
 {
-private:
-	class LogJob
-	{
-	public:
-		LOG_TYPE logType;
-		std::string logText;
-
-		LogJob(LOG_TYPE _logType, std::string& _log)
-			: logType(_logType)
-			, logText(_log)
-		{}
-	};
-
 private: // member var
-	static const char* TypeText[static_cast<int>(LOG_TYPE::SIZE)];
-	static ServerIOCP*		LogIOCP;
-	static std::atomic<int> LogCount;
+	static const char*				TypeText[static_cast<int>(LOG_TYPE::SIZE)];
+	static ServerQueue*				LogQueue;
+	static std::atomic<int>			LogCount;
+	static std::function<void()>	LogWork;
 
 public: // default
 	ServerDebug() = delete;
 	~ServerDebug() = delete;
-
 	ServerDebug(const ServerDebug& _other) = delete;
 	ServerDebug(ServerDebug&& _other) = delete;
 
@@ -51,13 +36,12 @@ protected:
 	ServerDebug& operator=(const ServerDebug&& _other) = delete;
 
 private:
-	static void LogThread(std::shared_ptr<ServerIOCPWorker> _IOCPworker);
+	static void LogThread(LOG_TYPE _type, const std::string& _log);
+	static void EnqueueLogWork(LOG_TYPE _type, const std::string& _log);
 
 public: // member Func
 	static void AssertDebug();
 	static void AssertDebugMsg(const std::string& _msg);
-
-	static void Log(LOG_TYPE _type, const std::string& _log);
 
 	static void LogError(const std::string& _log);
 	static void LogInfo(const std::string& _log);
