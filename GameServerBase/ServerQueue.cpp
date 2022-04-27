@@ -29,11 +29,12 @@ void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
 		BOOL waitResult = _worker->Wait(INFINITE);
 
 		// 스레드 일 시작
-		if (0 == waitResult)
+		if (FALSE == waitResult)
 		{
 			if (WAIT_TIMEOUT == GetLastError())
 			{
-				ServerDebug::LogInfo("work wait return timeout");
+				ServerDebug::AssertDebugMsg("work wait return timeout");
+				return;
 			}
 		}
 
@@ -51,7 +52,8 @@ void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
 		{
 			if (0 != _worker->GetCompletionKey())
 			{
-				std::unique_ptr<PostWork> postJob = std::unique_ptr<PostWork>(_worker->GetCompletionKeyType<PostWork*>());
+				std::unique_ptr<PostWork> postJob 
+					= std::unique_ptr<PostWork>(_worker->GetCompletionKeyType<PostWork*>());
 				postJob->work();
 			}
 			else
@@ -64,7 +66,8 @@ void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
 		{
 			if (0 != _worker->GetCompletionKey())
 			{
-				std::function<void(BOOL, DWORD, LPOVERLAPPED)>* pJob = _worker->GetCompletionKeyType<std::function<void(BOOL, DWORD, LPOVERLAPPED)>*>();
+				std::function<void(BOOL, DWORD, LPOVERLAPPED)>* pJob 
+					= _worker->GetCompletionKeyType<std::function<void(BOOL, DWORD, LPOVERLAPPED)>*>();
 				(*pJob)(waitResult, _worker->GetNumberOfBytes(), _worker->GetOverlappedPtr());
 			}
 			else

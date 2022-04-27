@@ -27,7 +27,12 @@ ServerIOCPWorker::~ServerIOCPWorker()
 
 BOOL ServerIOCPWorker::Wait(DWORD _timeoutMillSecond)
 {
-	return GetQueuedCompletionStatus(m_IOCPHandle, &m_lpNumberOfBytesTransferred, &m_lpCompletionKey, &m_lpOverlapped, _timeoutMillSecond);
+	return GetQueuedCompletionStatus(m_IOCPHandle
+		, &m_lpNumberOfBytesTransferred
+		, &m_lpCompletionKey
+		, &m_lpOverlapped
+		, _timeoutMillSecond
+	);
 }
 
 

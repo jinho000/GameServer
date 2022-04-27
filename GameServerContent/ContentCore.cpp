@@ -4,7 +4,6 @@
 #include <GameServerCore/ServerSectionManager.h>
 #include <GameServerCore/ServerSection.h>
 
-#include "TestSection.h"
 #include "PacketDispatcher.h"
 #include "ContentEnum.h"
 
@@ -47,7 +46,7 @@ void ContentCore::UserStart()
 	SetAcceptCallBack(ContentCore::AcceptEvent);
 
 	// 섹션처리
-	ServerSectionManager::GetInst()->Init(3);
-	ServerSectionManager::GetInst()->CreateSection<TestSection>(0, ESectionType::NONE);
+	//ServerSectionManager::GetInst()->Init(3);
+	//ServerSectionManager::GetInst()->CreateSection<TestSection>(0, ESectionType::NONE);
 	
 }

@@ -213,10 +213,6 @@
     <ClInclude Include="ServerPacketBase.h" />
     <ClInclude Include="ServerSerializer.h" />
     <ClInclude Include="ServerToClient.h" />
-    <ClInclude Include="TestSection.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="UserTable.h" />
   </ItemGroup>
   <ItemGroup>
@@ -258,10 +254,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ServerSerializer.cpp" />
-    <ClCompile Include="TestSection.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="UserTable.cpp" />
   </ItemGroup>
   <ItemGroup>

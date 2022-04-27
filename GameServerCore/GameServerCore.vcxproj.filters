@@ -15,10 +15,10 @@
       <Filter>SectionManager</Filter>
     </ClInclude>
     <ClInclude Include="ServerSection.h">
-      <Filter>Section</Filter>
+      <Filter>SectionManager\Section</Filter>
     </ClInclude>
     <ClInclude Include="ServerSectionThread.h">
-      <Filter>SectionThread</Filter>
+      <Filter>SectionManager\SectionThread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,10 +36,10 @@
       <Filter>SectionManager</Filter>
     </ClCompile>
     <ClCompile Include="ServerSection.cpp">
-      <Filter>Section</Filter>
+      <Filter>SectionManager\Section</Filter>
     </ClCompile>
     <ClCompile Include="ServerSectionThread.cpp">
-      <Filter>SectionThread</Filter>
+      <Filter>SectionManager\SectionThread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,10 +52,10 @@
     <Filter Include="SectionManager">
       <UniqueIdentifier>{4c0207ef-0915-4ee9-b1c0-d8d7576d08e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Section">
+    <Filter Include="SectionManager\Section">
       <UniqueIdentifier>{7a6a40f7-5331-48fd-8b74-315c9a7a6c60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SectionThread">
+    <Filter Include="SectionManager\SectionThread">
       <UniqueIdentifier>{4e12a7c5-bc6f-4782-9f43-92b94af98c76}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
