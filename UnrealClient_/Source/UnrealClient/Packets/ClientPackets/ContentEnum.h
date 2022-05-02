@@ -45,3 +45,13 @@ enum class ESectionType
 	FIGHTZONE4,
 	MAX,
 };
+
+enum class EGameSession
+{
+	SESSION0,
+	SESSION1,
+	SESSION2,
+	SESSION3,
+	SESSION4,
+	COUNT
+};

@@ -2,10 +2,10 @@
 #include "SendOverlapped.h"
 #include "TCPSession.h"
 
-SendOverlapped::SendOverlapped()
+SendOverlapped::SendOverlapped(TCPSession* _tcpSession)
 	: m_buffer{}
 	, m_wsaBuff{}
-	, m_tcpSession(nullptr)
+	, m_tcpSession(_tcpSession)
 
 {
 }
@@ -14,14 +14,15 @@ SendOverlapped::~SendOverlapped()
 {
 }
 
-void SendOverlapped::SetTCPSession(TCPSession* _tcpSession)
+void SendOverlapped::Clear()
 {
-	m_tcpSession = _tcpSession;
+	m_buffer.clear();
+	m_wsaBuff.buf = m_buffer.data();
+	m_wsaBuff.len = static_cast<ULONG>(m_buffer.size());
 }
 
 void SendOverlapped::Excute(BOOL _result, DWORD _byteSize)
 {
-	m_tcpSession->OnSendComplete(this);
 }
 
 void SendOverlapped::New(size_t _maxBufferLength)

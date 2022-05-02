@@ -188,12 +188,14 @@ class SelectCharacterResultPacket : public ServerPacketBase
 {                                                               
 public:                                                         
 	EResultCode ResultCode;
+	EGameSession GameSessionType;
 	std::string SelectCharNickName;
                                                                 
 public:                                                         
     SelectCharacterResultPacket()                                               
         : ServerPacketBase(PacketType::SelectCharacterResult)                    
         , ResultCode()
+        , GameSessionType()
         , SelectCharNickName()
     {                                                           
                                                                 
@@ -203,13 +205,14 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ResultCode) + DataSizeCheck(SelectCharNickName);
+		return DataSizeCheck(ResultCode) + DataSizeCheck(GameSessionType) + DataSizeCheck(SelectCharNickName);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
         _Serializer.WriteEnum(ResultCode);
+        _Serializer.WriteEnum(GameSessionType);
         _Serializer << SelectCharNickName;
 
     }                                                           
@@ -218,6 +221,7 @@ public:
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
         _Serializer.ReadEnum(ResultCode);
+        _Serializer.ReadEnum(GameSessionType);
         _Serializer >> SelectCharNickName;
 
     }                                                           

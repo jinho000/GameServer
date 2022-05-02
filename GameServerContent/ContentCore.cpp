@@ -22,8 +22,6 @@ void ContentCore::AcceptEvent(std::shared_ptr<TCPSession> _tcpSession)
 	std::string log = std::to_string(static_cast<int>(_tcpSession->GetSessionSocket()));
 	log += " Socket Connected";
 	ServerDebug::LogInfo(log);
-
-	// FindSection("·Îºñ");
 }
 
 PacketDispatcher<TCPSession> dispatcher;
@@ -31,7 +29,6 @@ PacketDispatcher<TCPSession> dispatcher;
 void ContentCore::RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recvBuffer)
 {
 	dispatcher.Dispatch(_recvBuffer, _tcpSession);
-
 }
 
 void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)

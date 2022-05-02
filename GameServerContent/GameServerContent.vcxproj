@@ -171,6 +171,14 @@
   <ItemGroup>
     <ClInclude Include="ChattingTable.h" />
     <ClInclude Include="DeleteCharacterPacketHandler.h" />
+    <ClInclude Include="GameSession.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameSessionManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SelectCharacterPacketHandler.h">
       <SubType>
       </SubType>
@@ -218,6 +226,14 @@
   <ItemGroup>
     <ClCompile Include="ChattingTable.cpp" />
     <ClCompile Include="DeleteCharacterPacketHandler.cpp" />
+    <ClCompile Include="GameSession.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameSessionManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SelectCharacterPacketHandler.cpp">
       <SubType>
       </SubType>

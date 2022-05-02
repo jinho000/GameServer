@@ -5,6 +5,7 @@
 #include "CharacterTable.h"
 #include "SessionUserDBData.h"
 #include "DBTableEHeader.h"
+#include "GameSessionManager.h"
 
 void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 {
@@ -23,6 +24,7 @@ void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 
 				ServerSerializer sr;
 				m_resultPacket.SelectCharNickName = m_packet->SelectCharNickName;
+				m_resultPacket.GameSessionType = EGameSession::SESSION0;
 				m_resultPacket >> sr;
 				m_TCPSession->Send(sr.GetBuffer());
 
@@ -30,7 +32,7 @@ void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 				// 선택한 캐릭터 정보 저장
 				m_selectCharacter = UserDBData->UserCharacterList[i];
 
-				// 섹션에 유저 추가하기
+				// 세션에 유저 추가하기
 				InsertUserToSection();
 				return;
 			}
@@ -47,7 +49,8 @@ void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 
 void SelectCharacterPacketHandler::InsertUserToSection()
 {
-
+	// 세션에 유저 등록
+	GameSessionManager::GetInst()->InsertUser(EGameSession::SESSION0, m_TCPSession);
 }
 
 void SelectCharacterPacketHandler::DBThreadCheckSelectCharacter()

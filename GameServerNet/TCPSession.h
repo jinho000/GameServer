@@ -27,10 +27,12 @@ private: // member var
 	IPEndPoint	m_localAddr;
 	IPEndPoint	m_remoteAddr;
 
+	// 스레드 동기화에 안전한가?
 	// overlapped
 	AcceptExOverlapped*		m_acceptExOverlapped;
 	RecvOverlapped*			m_recvOverlapped;
 	DisconnectOverlapped*	m_disconOverlapped;
+	SendOverlapped*			m_sendOverlapped;
 
 	// callback
 	using IOCallback = std::function<void(BOOL, DWORD, LPOVERLAPPED)>;
@@ -42,7 +44,7 @@ private: // member var
 	using CloseCallBack = std::function<void(PtrSTCPSession)>;
 	CloseCallBack			m_closeCallBack;
 
-	ServerObjectPool<SendOverlapped> m_sendPool;
+	//ServerObjectPool<SendOverlapped> m_sendPool;
 
 	std::atomic_bool		m_callClose;
 	std::atomic_bool		m_bReuseSocket;
@@ -77,9 +79,6 @@ private:
 	void CloseSession(bool _forceClose = false);
 	void CloseSocket();
 	void UnregisterSession();
-
-
-	void OnSendComplete(SendOverlapped* _sendOverlapped);
 
 public: // member Func
 	SOCKET GetSessionSocket() const;

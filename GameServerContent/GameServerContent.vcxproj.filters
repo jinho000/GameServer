@@ -16,12 +16,6 @@
     <ClInclude Include="PacketHandlerHeader.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
-    <ClInclude Include="LoginPacketHandler.h">
-      <Filter>ThreadHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="JoinPacketHandler.h">
-      <Filter>ThreadHandler</Filter>
-    </ClInclude>
     <ClInclude Include="ChatMessagePacketHandler.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
@@ -33,9 +27,6 @@
     </ClInclude>
     <ClInclude Include="PacketHandlerBase.h">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateCharacterPacketHandler.h">
-      <Filter>ThreadHandler</Filter>
     </ClInclude>
     <ClInclude Include="SessionUserDBData.h">
       <Filter>ThreadHandler\SessionUserDBData</Filter>
@@ -73,25 +64,34 @@
     <ClInclude Include="ContentEnum.h">
       <Filter>Packet\Base\PacketBase</Filter>
     </ClInclude>
-    <ClInclude Include="SelectCharacterPacketHandler.h">
-      <Filter>ThreadHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteCharacterPacketHandler.h">
-      <Filter>ThreadHandler</Filter>
-    </ClInclude>
     <ClInclude Include="ChattingTable.h">
       <Filter>ThreadHandler\DBTable</Filter>
+    </ClInclude>
+    <ClInclude Include="JoinPacketHandler.h">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginPacketHandler.h">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterPacketHandler.h">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCharacterPacketHandler.h">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCharacterPacketHandler.h">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSessionManager.h">
+      <Filter>GameSessionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSession.h">
+      <Filter>GameSession</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginPacketHandler.cpp">
-      <Filter>ThreadHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="JoinPacketHandler.cpp">
-      <Filter>ThreadHandler</Filter>
     </ClCompile>
     <ClCompile Include="ChatMessagePacketHandler.cpp">
       <Filter>ThreadHandler</Filter>
@@ -104,9 +104,6 @@
     </ClCompile>
     <ClCompile Include="PacketHandlerBase.cpp">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateCharacterPacketHandler.cpp">
-      <Filter>ThreadHandler</Filter>
     </ClCompile>
     <ClCompile Include="SessionUserDBData.cpp">
       <Filter>ThreadHandler\SessionUserDBData</Filter>
@@ -123,14 +120,29 @@
     <ClCompile Include="ServerSerializer.cpp">
       <Filter>Packet\Base\PacketSerializer</Filter>
     </ClCompile>
-    <ClCompile Include="SelectCharacterPacketHandler.cpp">
-      <Filter>ThreadHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteCharacterPacketHandler.cpp">
-      <Filter>ThreadHandler</Filter>
-    </ClCompile>
     <ClCompile Include="ChattingTable.cpp">
       <Filter>ThreadHandler\DBTable</Filter>
+    </ClCompile>
+    <ClCompile Include="JoinPacketHandler.cpp">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPacketHandler.cpp">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterPacketHandler.cpp">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCharacterPacketHandler.cpp">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharacterPacketHandler.cpp">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSessionManager.cpp">
+      <Filter>GameSessionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>GameSession</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +187,15 @@
     </Filter>
     <Filter Include="ThreadHandler\DBTable">
       <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSession">
+      <UniqueIdentifier>{9898a9c5-e756-497f-bb3f-abccbbd5eb09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\Login">
+      <UniqueIdentifier>{8c074b15-64f5-4580-a340-ac6883e3593a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSessionManager">
+      <UniqueIdentifier>{625b755c-d41f-4c43-b6d8-611fd3377823}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

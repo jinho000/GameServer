@@ -17,6 +17,7 @@ std::string DeleteCharNickName;
 
 |SelectCharacterResult-
 EResultCode ResultCode;
+EGameSession GameSessionType;
 std::string SelectCharNickName;
 
 |InsertSectionResult-

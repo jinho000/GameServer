@@ -39,6 +39,12 @@ TCPSession::~TCPSession()
 		delete m_disconOverlapped;
 		m_disconOverlapped = nullptr;
 	}
+
+	if (nullptr != m_sendOverlapped)
+	{
+		delete m_sendOverlapped;
+		m_sendOverlapped = nullptr;
+	}
 }
 
 void TCPSession::OnCallback(BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped)
@@ -197,19 +203,19 @@ void TCPSession::Send(const std::vector<uint8_t>& _buffer)
 		return;
 	}
 
+	// Send 요청시 마다 클리어
+	m_sendOverlapped->Clear();
+
 	DWORD byteSize = 0;
 	DWORD flag     = 0;
-
-	SendOverlapped* sendOverlapped = m_sendPool.Pop();
-	sendOverlapped->SetTCPSession(this);
-	sendOverlapped->CopyFrom(_buffer);
+	m_sendOverlapped->CopyFrom(_buffer);
 
 	int sockError = WSASend(m_sessionSocket
-		, sendOverlapped->GetBuffer()
+		, m_sendOverlapped->GetBuffer()
 		, 1
 		, &byteSize
 		, flag
-		, sendOverlapped->GetLPOverlapped()
+		, m_sendOverlapped->GetLPOverlapped()
 		, nullptr
 	);
 
@@ -225,10 +231,6 @@ void TCPSession::Send(const std::vector<uint8_t>& _buffer)
 	ServerDebug::LogInfo("Send Packet");
 }
 
-void TCPSession::OnSendComplete(SendOverlapped* _sendOverlapped)
-{
-	m_sendPool.Push(_sendOverlapped);
-}
 
 SOCKET TCPSession::GetSessionSocket() const
 {
@@ -318,6 +320,7 @@ void TCPSession::Initialize()
 	 m_recvOverlapped = new RecvOverlapped(this);
 	 m_disconOverlapped = new DisconnectOverlapped(this);
 	 m_acceptExOverlapped = new AcceptExOverlapped(this);
+	 m_sendOverlapped = new SendOverlapped(this);
 
 	 m_IOCallback = std::bind(&TCPSession::OnCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 }
