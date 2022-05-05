@@ -28,6 +28,11 @@ public: // member Func
 	bool IsLowLevelValid();
 	void ClearLinkObject();
 
+	template<typename ConvertType>
+	std::shared_ptr<ConvertType> DynamicCast()
+	{
+		return std::dynamic_pointer_cast<ConvertType>(shared_from_this());
+	}
 
 	///////////
 	// Parent 

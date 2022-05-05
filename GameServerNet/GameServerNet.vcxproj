@@ -234,6 +234,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TypeDefine.h" />
+    <ClInclude Include="UDPRecvOverlapped.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UDPSession.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AcceptExOverlapped.cpp">
@@ -303,6 +311,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TCPSession.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UDPRecvOverlapped.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UDPSession.cpp">
       <SubType>
       </SubType>
     </ClCompile>

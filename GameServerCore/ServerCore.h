@@ -1,5 +1,6 @@
 #pragma once
 #include <GameServerNet/TCPListener.h>
+#include <GameServerNet/UDPSession.h>
 
 struct DBInfo
 {
@@ -14,12 +15,14 @@ struct DBInfo
 class ServerCore
 {
 private: // member var
-	static TCPListener ServerListener;
-	static std::function<void(PtrSTCPSession)> AcceptCallBack;
+	static TCPListener								ServerListener;
+	static std::function<void(PtrSTCPSession)>		AcceptCallBack;
+	static std::vector<std::shared_ptr<UDPSession>> AllUDPSession;
 
 protected:
-	static int		ServerPort;
-	static DBInfo	DBConfig;
+	static IPEndPoint	ServerEndPoint;
+	static int			ServerPort;
+	static DBInfo		DBConfig;
 
 protected:
 	ServerCore();
@@ -31,6 +34,8 @@ protected:
 
 protected:
 	void SetAcceptCallBack(const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallBack);
+	void SetUDPRecvCallBack(RecvCallBack _recvCallback);
+	void CreateUDPSession(int UDPCount);
 
 private:
 	static bool CoreInit();

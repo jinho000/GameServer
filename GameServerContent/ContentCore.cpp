@@ -37,13 +37,26 @@ void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)
 	ServerDebug::LogInfo(LogText + " Socket Disconnected");
 }
 
+void ContentCore::UDPRecvEvent(std::shared_ptr<UDPSession> _udpSession, const std::vector<unsigned char>& _recvBuffer, IPEndPoint& _clientEndPoint)
+{
+	int a = 0;
+}
+
 void ContentCore::UserStart()
 {
-	// rec 捞亥飘 贸府
+	// TCP Accept 捞亥飘 贸府
 	SetAcceptCallBack(ContentCore::AcceptEvent);
+
+	// UDP Session 积己
+	CreateUDPSession(4);
+
+	SetUDPRecvCallBack(ContentCore::UDPRecvEvent);
+
 
 	// 冀记贸府
 	//ServerSectionManager::GetInst()->Init(3);
 	//ServerSectionManager::GetInst()->CreateSection<TestSection>(0, ESectionType::NONE);
+
+
 	
 }

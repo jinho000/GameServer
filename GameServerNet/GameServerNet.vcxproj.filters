@@ -58,6 +58,12 @@
     <ClInclude Include="DBQuery.h">
       <Filter>DBBase</Filter>
     </ClInclude>
+    <ClInclude Include="UDPSession.h">
+      <Filter>NetObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPRecvOverlapped.h">
+      <Filter>IO\Overlapped</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -110,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="DBQuery.cpp">
       <Filter>DBBase</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSession.cpp">
+      <Filter>NetObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPRecvOverlapped.cpp">
+      <Filter>IO\Overlapped</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -9,11 +9,13 @@
 #include "NetQueue.h"
 #include "DBQueue.h"
 
-DBInfo	ServerCore::DBConfig = {};
-int		ServerCore::ServerPort = 0;
+IPEndPoint	ServerCore::ServerEndPoint;
+DBInfo		ServerCore::DBConfig = {};
+int			ServerCore::ServerPort = 0;
 
 TCPListener ServerCore::ServerListener;
 std::function<void(PtrSTCPSession)> ServerCore::AcceptCallBack;
+std::vector<std::shared_ptr<UDPSession>> ServerCore::AllUDPSession;
 
 ServerCore::ServerCore()
 {
@@ -26,6 +28,31 @@ ServerCore::~ServerCore()
 void ServerCore::SetAcceptCallBack(const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallBack)
 {
 	AcceptCallBack = _acceptCallBack;
+}
+
+void ServerCore::SetUDPRecvCallBack(RecvCallBack _recvCallback)
+{
+	for (auto udpSession : AllUDPSession)
+	{
+		udpSession->SetRecvCallBack(_recvCallback);
+	}
+}
+
+void ServerCore::CreateUDPSession(int UDPCount)
+{
+	for (int i = 0; i < UDPCount; ++i)
+	{
+		IPEndPoint UDPEndPoint(ServerEndPoint.GetIPAddress(), ServerEndPoint.GetPort() + i);
+		std::shared_ptr<UDPSession> UDPSessionPtr = std::make_shared<UDPSession>(UDPEndPoint);
+		if (false == UDPSessionPtr->BindQueue(NetQueue::GetQueue()))
+		{
+			ServerDebug::AssertDebugMsg("UDP BindQueue Error");
+			return;
+		}
+		
+		UDPSessionPtr->RequestRecv();
+		AllUDPSession.push_back(UDPSessionPtr);
+	}
 }
 
 bool ServerCore::CoreInit()
@@ -62,7 +89,7 @@ bool ServerCore::CoreInit()
 	{
 		tinyxml2::XMLElement* ServerStart = Root->FirstChildElement("ServerStart");
 		ServerPort = nullptr != ServerStart->FindAttribute("Port") ? std::stoi(ServerStart->FindAttribute("Port")->Value()) : -1;
-
+		ServerEndPoint = IPEndPoint("127.0.0.1", ServerPort);
 		ServerDebug::LogInfo(std::string("ServerPort : " + std::to_string(ServerPort)));
 	}
 

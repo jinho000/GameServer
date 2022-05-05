@@ -39,7 +39,7 @@ private: // member var
 	IOCallback				m_IOCallback; // 세션소켓 IO이벤트 발생시 호출함수 함수객체
 
 	using RecvCallBack = std::function<void(PtrSTCPSession, const std::vector<uint8_t>&)>;
-	RecvCallBack			m_recvCallBack;
+	RecvCallBack			m_recvCallBack; // 클라이언트의 리시브 데이터 처리함수
 
 	using CloseCallBack = std::function<void(PtrSTCPSession)>;
 	CloseCallBack			m_closeCallBack;
@@ -69,7 +69,6 @@ private:
 
 	// workQueue에 세션소켓 연결(등록)
 	bool BindQueue(const ServerQueue& _workQueue);
-
 	void SetReuse();
 	
 	void RequestRecv();

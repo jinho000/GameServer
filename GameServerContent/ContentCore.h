@@ -22,6 +22,7 @@ protected:
 	static void AcceptEvent(std::shared_ptr<TCPSession> _tcpSession);
 	static void RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recBuffer);
 	static void CloseEvent(std::shared_ptr<TCPSession> _tcpSession);
+	static void UDPRecvEvent(std::shared_ptr<UDPSession> _udpSession, const std::vector<unsigned char>& _recvBuffer, IPEndPoint& _clientEndPoint);
 
 public: // member Func
 	void UserStart();
