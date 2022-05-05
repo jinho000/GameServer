@@ -39,4 +39,7 @@ public:
 	{
 		return m_AnimationInst;
 	}
+
+
+	float LookZ(FVector _Dir, float _Ratio = 1.0f);
 };

@@ -40,6 +40,8 @@ public: // member Func
 
 	void Dispatch(const std::vector<unsigned char>& _recBuffer, PtrSTCPSession _TCPSession)
 	{
+		// TCP데이터 크기 확인 후 변환하기
+
 		PacketConvertor convert(_recBuffer);
 		const PacketHandler<TCPSession>& handler = GetHandler(convert.GetPacketType());
 		handler(_TCPSession, convert.GetPacket());

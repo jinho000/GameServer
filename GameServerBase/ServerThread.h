@@ -98,18 +98,6 @@ public:
 	template<typename LocalDataType>
 	static LocalDataType* GetLocalData()
 	{
-		// 0. 쓰레드마다 다른 데이터를 가져야해.
-		// 1. 다른 자료형으로 코드를 치는 사람들을 막아야 // RTTI
-		// DBConnecter할당했는데. NetworkManager를 달라고 하는 사람.
-		// 2. 일반적인 클래스도 할당할 수 있도록 생성자를 지연.
-		// 3. 이론 왜 언리얼이나 최근 메모리트랜드는 
-		//    list보다 vector에 가까운 메모리를 할당하는게 추천되고 있어요
-		//    내가 뭔가를 빠르게 하고 싶다
-		//    for 횟수를 줄이는게 아니라. 메모리를 최적화하면
-		//    속력도 는다.
-		// 
-		// 
-		// RTTI를 통해 생성한 자료형타입과 가져오는 타입이 같은지 확인
 		if (LOCAL_DATA_TYPE != &typeid(LocalDataType))
 		{
 			ServerDebug::AssertDebugMsg("Local Data Type Is Not Equal");

@@ -40,6 +40,5 @@ private:
 	void Attack();
 
 	// _Dir방향으로 캐릭터가 바라봄
-	float LookZ(FVector _Dir, float _Ratio = 1.0f);
 	FVector MouseVectorToWorldVector();
 };

@@ -31,7 +31,6 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	// 키, 함수 바인딩은 한번만 처리
 	static bool bBindingsAdded = false;
 	if (!bBindingsAdded)
 	{
@@ -42,10 +41,14 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::W));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::S));
 
+
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveRight", EKeys::D, 1.f));
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveRight", EKeys::A, -1.f));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Attack", EKeys::LeftMouseButton));
+
 	}
 
 	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
@@ -55,37 +58,18 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
-	// 마우스 설정
+	//PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
+	//PlayerInputComponent->BindAction("TestPacket0", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestPacketUpdate0);
+
 	FInputModeGameAndUI InputMode;
 	GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
-float AClientPlayCharacter::LookZ(FVector _Dir, float _Ratio /*= 1.0f*/)
-{
-	// 캐릭터가 바라봐야하는 dir
-	FVector LookVector = _Dir.GetSafeNormal();
-	FVector CurVector = FRotator(0.0f, GetControlRotation().Yaw, 0.0f).Vector().GetSafeNormal();
-
-	FVector CorssVector = FVector::CrossProduct(CurVector, LookVector);
-	float DotValue = FVector::DotProduct(CurVector, LookVector);
-
-	float ACos = FMath::Acos(DotValue);
-
-	if (CorssVector.Z < 0)
-	{
-		ACos *= -1.0f;
-	}
-
-	return FMath::RadiansToDegrees(ACos) * _Ratio;
-}
 
 void AClientPlayCharacter::MoveRight(float _Rate)
 {
-	if (false == GetClientAnimInstance()->IsCanMove())
-	{
-		return;
-	}
+	UE_LOG(ClientLog, Log, TEXT("Move Forward"));
 
 	if (0.0f == _Rate)
 	{
@@ -100,10 +84,7 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 
 void AClientPlayCharacter::MoveForward(float _Rate)
 {
-	if (false == GetClientAnimInstance()->IsCanMove())
-	{
-		return;
-	}
+	UE_LOG(ClientLog, Log, TEXT("Move Forward"));
 
 	if (0.0f == _Rate)
 	{
@@ -120,22 +101,12 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 
 void AClientPlayCharacter::MoveStart()
 {
-	if (false == GetClientAnimInstance()->IsCanMove())
-	{
-		return;
-	}
-
 	UE_LOG(ClientLog, Log, TEXT("Move Start"));
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 }
 
 void AClientPlayCharacter::MoveEnd()
 {
-	if (false == GetClientAnimInstance()->IsCanMove())
-	{
-		return;
-	}
-
 	UE_LOG(ClientLog, Log, TEXT("Move End"));
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 }
@@ -154,6 +125,11 @@ void AClientPlayCharacter::Attack()
 
 FVector AClientPlayCharacter::MouseVectorToWorldVector()
 {
+	//if (false == UDPReady)
+	//{
+	//	return FVector(TNumericLimits<float>::Max(), TNumericLimits<float>::Max(), TNumericLimits<float>::Max());
+	//}
+
 	APlayerController* PC = Cast<APlayerController>(GetController());
 
 	if (nullptr == PC && PC->IsValidLowLevel())
@@ -163,12 +139,12 @@ FVector AClientPlayCharacter::MouseVectorToWorldVector()
 		return FVector(TNumericLimits<float>::Max(), TNumericLimits<float>::Max(), TNumericLimits<float>::Max());
 	}
 
+
 	FHitResult TraceHitResult;
 
 	if (false == PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult))
 	{
 		//     월드 좌표이기 때문에
-		UE_LOG(ClientLog, Error, TEXT("%S(%u) > GetHitResultUnderCursor false"), __FUNCTION__, __LINE__);
 		return FVector(TNumericLimits<float>::Max(), TNumericLimits<float>::Max(), TNumericLimits<float>::Max());
 	}
 

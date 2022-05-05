@@ -23,7 +23,7 @@
       <Filter>ContentCore</Filter>
     </ClInclude>
     <ClInclude Include="UserTable.h">
-      <Filter>ThreadHandler\DBTable</Filter>
+      <Filter>DBTable</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandlerBase.h">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
@@ -35,7 +35,7 @@
       <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClInclude>
     <ClInclude Include="CharacterTable.h">
-      <Filter>ThreadHandler\DBTable</Filter>
+      <Filter>DBTable</Filter>
     </ClInclude>
     <ClInclude Include="PacketDispatcher.h">
       <Filter>Packet\Base\Dispatcher</Filter>
@@ -65,7 +65,7 @@
       <Filter>Packet\Base\PacketBase</Filter>
     </ClInclude>
     <ClInclude Include="ChattingTable.h">
-      <Filter>ThreadHandler\DBTable</Filter>
+      <Filter>DBTable</Filter>
     </ClInclude>
     <ClInclude Include="JoinPacketHandler.h">
       <Filter>ThreadHandler\Login</Filter>
@@ -100,7 +100,7 @@
       <Filter>ContentCore</Filter>
     </ClCompile>
     <ClCompile Include="UserTable.cpp">
-      <Filter>ThreadHandler\DBTable</Filter>
+      <Filter>DBTable</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandlerBase.cpp">
       <Filter>ThreadHandler\PacketHandlerBase</Filter>
@@ -109,7 +109,7 @@
       <Filter>ThreadHandler\SessionUserDBData</Filter>
     </ClCompile>
     <ClCompile Include="CharacterTable.cpp">
-      <Filter>ThreadHandler\DBTable</Filter>
+      <Filter>DBTable</Filter>
     </ClCompile>
     <ClCompile Include="PacketDispatcher.cpp">
       <Filter>Packet\Base\Dispatcher</Filter>
@@ -121,7 +121,7 @@
       <Filter>Packet\Base\PacketSerializer</Filter>
     </ClCompile>
     <ClCompile Include="ChattingTable.cpp">
-      <Filter>ThreadHandler\DBTable</Filter>
+      <Filter>DBTable</Filter>
     </ClCompile>
     <ClCompile Include="JoinPacketHandler.cpp">
       <Filter>ThreadHandler\Login</Filter>
@@ -185,9 +185,6 @@
     <Filter Include="ThreadHandler\SessionUserDBData">
       <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThreadHandler\DBTable">
-      <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameSession">
       <UniqueIdentifier>{9898a9c5-e756-497f-bb3f-abccbbd5eb09}</UniqueIdentifier>
     </Filter>
@@ -196,6 +193,9 @@
     </Filter>
     <Filter Include="GameSessionManager">
       <UniqueIdentifier>{625b755c-d41f-4c43-b6d8-611fd3377823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DBTable">
+      <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

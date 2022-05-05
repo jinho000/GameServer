@@ -57,7 +57,7 @@ bool ServerCore::CoreInit()
 		return false;
 	}
 
-	// Server Config에서 서버 IP, Port 정보 가져오기
+	// Server Config에서 서버 Port 정보 가져오기
 	ServerDebug::LogInfo("Server Config Info");
 	{
 		tinyxml2::XMLElement* ServerStart = Root->FirstChildElement("ServerStart");
@@ -86,14 +86,17 @@ bool ServerCore::CoreInit()
 
 	ServerDebug::LogInfo("Server Config OK");
 
+	ServerHelper::InitSocketLib();
+	ServerDebug::LogInfo("ServerHelper And ServerDebug Init OK");
+
 	DBQueue::Init();
 	ServerDebug::LogInfo("DB Thread Init OK");
 
 	NetQueue::Init();
 	ServerDebug::LogInfo("Net Thread Init OK");
 
-	ServerHelper::InitSocketLib();
-	ServerDebug::LogInfo("ServerHelper And ServerDebug Init OK");
+	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
+	ServerListener.BindNetQueue(NetQueue::GetQueue());
 
 	return true;
 }
@@ -107,8 +110,6 @@ bool ServerCore::CoreRun()
 		return false;
 	}
 
-	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
-	ServerListener.BindNetQueue(NetQueue::GetQueue());
 	ServerListener.StartAccept(10);
 
 

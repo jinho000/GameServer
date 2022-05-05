@@ -36,3 +36,22 @@ void AClientCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+float AClientCharacter::LookZ(FVector _Dir, float _Ratio)
+{
+	// 캐릭터가 바라봐야하는 dir
+	FVector LookVector = _Dir.GetSafeNormal();
+	FVector CurVector = FRotator(0.0f, GetControlRotation().Yaw, 0.0f).Vector().GetSafeNormal();
+
+	FVector CorssVector = FVector::CrossProduct(CurVector, LookVector);
+	float DotValue = FVector::DotProduct(CurVector, LookVector);
+
+	float ACos = FMath::Acos(DotValue);
+
+	if (CorssVector.Z < 0)
+	{
+		ACos *= -1.0f;
+	}
+
+	return FMath::RadiansToDegrees(ACos) * _Ratio;
+}
+
