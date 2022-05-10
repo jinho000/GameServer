@@ -39,7 +39,13 @@ void ServerDebug::AssertDebugMsg(const std::string& _msg)
 
 void ServerDebug::EnqueueLogWork(LOG_TYPE _type, const std::string& _log)
 {
-	LogWork = std::bind(&ServerDebug::LogThread, _type, _log);
+	//LogWork = std::bind(&ServerDebug::LogThread, _type, _log);
+	// 
+	// 람다캡쳐사용
+	LogWork = [_type, _log]() {
+		ServerDebug::LogThread(_type, _log);
+	};
+
 	LogQueue->Enqueue(LogWork);
 }
 

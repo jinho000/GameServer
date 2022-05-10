@@ -11,8 +11,8 @@ UDPSession::UDPSession(const IPEndPoint& _ipEndPoint)
 	, m_recvOveralpped(nullptr)
 	, m_remoteAddr({})
 
-	//, flag(0)
-
+	, flag(0)
+	, addrSize(0)
 {
 	m_sessionSocket = WSASocket(AF_INET, SOCK_DGRAM, IPPROTO::IPPROTO_UDP, NULL, NULL, WSA_FLAG_OVERLAPPED);
 
@@ -32,7 +32,7 @@ UDPSession::UDPSession(const IPEndPoint& _ipEndPoint)
 		ServerDebug::GetLastErrorPrint();
 	}
 
-	m_UDPIOCallback = std::bind(&UDPSession::OnIOCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_UDPIOCallback = std::bind(&UDPSession::OnIOCallBack, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
 	// recvOverlapped 
 	m_recvOveralpped = new UDPRecvOverlapped(this);
@@ -40,6 +40,8 @@ UDPSession::UDPSession(const IPEndPoint& _ipEndPoint)
 	// recvfrom error
 	//memset(&m_remoteAddr, 0x00, sizeof(m_remoteAddr));
 	//addrSize = static_cast<int>(sizeof(m_remoteAddr));
+	memset(&m_remoteAddr, 0x00, sizeof(m_remoteAddr));
+	addrSize = static_cast<int>(sizeof(m_remoteAddr));
 }
 
 UDPSession::~UDPSession()
@@ -67,11 +69,6 @@ bool UDPSession::BindQueue(const ServerQueue& _workQueue)
 
 void UDPSession::RequestRecv()
 {
-	DWORD flag = 0;
-	int addrSize = 0;
-	memset(&m_remoteAddr, 0x00, sizeof(m_remoteAddr));
-	addrSize = static_cast<int>(sizeof(m_remoteAddr));
-
 	// recv요청 후 받아올 데이터 넣기
 	// 클라이언트 데이터를 받을시 매개변수로 넣어준 변수에 값이 들어온다
 	int Result = WSARecvFrom(m_sessionSocket, m_recvOveralpped->GetWSABuffer(), 1, m_recvOveralpped->GetBufferLength()

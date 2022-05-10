@@ -24,8 +24,8 @@ private: // member var
 	UDPRecvOverlapped* m_recvOveralpped;
 
 	// WSARecvFrom err
-	//DWORD flag;
-	//int addrSize;
+	DWORD	flag;
+	int		addrSize;
 
 public: // default
 	UDPSession(const IPEndPoint& _ipEndPoint);
@@ -38,7 +38,7 @@ public: // default
 
 private:
 	// UPD IO 이벤트 발생시 호출될 함수
-	void OnIOCallBack(BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped);
+	static void OnIOCallBack(BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped);
 
 public: // member Func
 

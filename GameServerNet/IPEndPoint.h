@@ -14,8 +14,8 @@ private: // member var
 
 public: // default
 	IPEndPoint();
-	
 	IPEndPoint(const IPAddress& _ipAddress, int _port);
+	IPEndPoint(__int64 address, int port);
 	IPEndPoint(const std::string& _ip, int _port);
 	
 	IPEndPoint(const IPEndPoint& _other);

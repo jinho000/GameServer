@@ -27,7 +27,11 @@ void UCLoginUI::ResetConnectInfo()
 bool UCLoginUI::ConnectServer()
 {
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	return gameInst->ConnectServer(IP, Port);
+
+	gameInst->ConnectServer(IP, Port);
+	gameInst->ConnectUDPServer(30002);
+
+	return true;
 }
 
 bool UCLoginUI::Login()

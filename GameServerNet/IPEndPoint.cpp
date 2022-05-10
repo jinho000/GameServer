@@ -14,6 +14,12 @@ IPEndPoint::IPEndPoint()
 {
 }
 
+IPEndPoint::IPEndPoint(__int64 address, int port) 
+	: m_port(port)
+	, m_ipAddress(address)
+{
+}
+
 IPEndPoint::IPEndPoint(const IPAddress& _ipAddress, int _port)
 	: m_ipAddress(_ipAddress)
 	, m_port(_port)

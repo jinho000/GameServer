@@ -14,6 +14,11 @@ UCGameInstance::UCGameInstance()
 	, m_runnableThread(nullptr)
 	, m_socketSystem(nullptr)
 	, m_socket(nullptr)
+	, m_UDPsocket(nullptr)
+	, m_serverIP("127.0.0.1")
+	, m_TCPServerPort(-1)
+	, m_UDPServerPort(-1)
+	, m_unrealUDPPort(-1)
 	, LoginProcess(false)
 {
 	int a = 0;
@@ -26,13 +31,18 @@ UCGameInstance::~UCGameInstance()
 
 void UCGameInstance::CloseSocket()
 {
-	if (nullptr == m_socket)
+	// 소켓 종료
+	if (nullptr != m_socket)
 	{
-		return;
+		m_socket->Close();
+		m_socket = nullptr;
 	}
 
-	m_socket->Close();
-	m_socket = nullptr;
+	if (nullptr != m_UDPsocket)
+	{
+		m_UDPsocket->Close();
+		m_UDPsocket = nullptr;
+	}
 }
 
 bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
@@ -42,6 +52,11 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	{
 		return true;
 	}
+
+	m_serverIP = _IP;
+	m_TCPServerPort = static_cast<uint16>(FCString::Atoi(*_port));
+
+	
 
 	// 소켓 만들기
 	m_socketSystem = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM);
@@ -60,9 +75,10 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	// 소켓 연결
 	// 소켓 EndPoint 만들기
 	FIPv4Address connectAddr;
-	FIPv4Address::Parse(_IP, connectAddr);
-	uint16 port = static_cast<uint16>(FCString::Atoi(*_port));
-	FIPv4Endpoint endPoint(connectAddr, port);
+	FIPv4Address::Parse(m_serverIP, connectAddr);
+	FIPv4Endpoint endPoint(connectAddr, m_TCPServerPort);
+
+	return true;
 
 	if (false == m_socket->Connect(endPoint.ToInternetAddr().Get()))
 	{
@@ -79,6 +95,54 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	m_recvThread = new UnrealThread(m_socket, &m_packetQueue);
 	m_runnableThread = FRunnableThread::Create(m_recvThread, TEXT("Recv Thread"));
 	
+	return true;
+}
+
+bool UCGameInstance::ConnectUDPServer(uint64 _UDPserverPort)
+{
+	if (nullptr == m_socketSystem)
+	{
+		return false;
+	}
+
+	m_UDPServerPort = _UDPserverPort;
+
+	// udp server endpoint 만들기
+	// send 보내기위해 저장
+	FIPv4Address connectAddress;
+	FIPv4Address::Parse(m_serverIP, connectAddress);
+	m_serverUDPEndPoint = FIPv4Endpoint(connectAddress, m_UDPServerPort);
+
+	// 소켓 생성
+	m_UDPsocket = m_socketSystem->CreateSocket(NAME_DGram, TEXT("Unreal UDP Socket"));
+	if (nullptr == m_UDPsocket)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UDP Socket Create Error"));
+		return false;
+	}
+
+	// uneral udp endpoint 만들기
+	// 소켓 생성을 위한 endpoint
+	m_unrealUDPPort = 35000;
+	FIPv4Endpoint unrealUDPEndPoint = FIPv4Endpoint(connectAddress, m_unrealUDPPort);
+
+	// 소켓을 udp endpoint에 연결
+	while (false == m_UDPsocket->Bind(unrealUDPEndPoint.ToInternetAddr().Get()))
+	{
+		// 실패시 포트 번호를 바꿔 다시 시도
+		UE_LOG(LogTemp, Error, TEXT("socket bind fail"));
+		UE_LOG(LogTemp, Error, TEXT("change unrealUDPPort"));
+		unrealUDPEndPoint = FIPv4Endpoint(connectAddress, ++m_unrealUDPPort);
+	}
+
+	//UDPRecvThread_ = new UnrealUDPRecvThread(SocketSubSystem_, UDPSocket_, &MessageQueue_);
+	//UDPThreadRunalbe_ = FRunnableThread::Create(UDPRecvThread_, TEXT("Recv Thread"));
+
+
+	int32 Byte;
+	uint8 data[10] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+	m_UDPsocket->SendTo(data, 10, Byte, m_serverUDPEndPoint.ToInternetAddr().Get());
+
 	return true;
 }
 

@@ -39,7 +39,8 @@ void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)
 
 void ContentCore::UDPRecvEvent(std::shared_ptr<UDPSession> _udpSession, const std::vector<unsigned char>& _recvBuffer, IPEndPoint& _clientEndPoint)
 {
-	int a = 0;
+	std::string log((const char*)_recvBuffer.data());
+	ServerDebug::LogInfo(log);
 }
 
 void ContentCore::UserStart()
@@ -49,7 +50,6 @@ void ContentCore::UserStart()
 
 	// UDP Session »ý¼º
 	CreateUDPSession(4);
-
 	SetUDPRecvCallBack(ContentCore::UDPRecvEvent);
 
 

@@ -5,9 +5,15 @@
 UDPRecvOverlapped::UDPRecvOverlapped(UDPSession* _udpSession)
 	: m_buffer{}
 	, m_wsaBuffer{}
+	, m_numberofBytes()
 	, m_udpSession(_udpSession)
 {
+	memset(m_buffer, 0x00, sizeof(m_buffer));
+	m_wsaBuffer.buf = m_buffer;
+	m_wsaBuffer.len = static_cast<ULONG>(sizeof(m_buffer));
+	m_numberofBytes = 0;
 }
+
 
 UDPRecvOverlapped::~UDPRecvOverlapped()
 {

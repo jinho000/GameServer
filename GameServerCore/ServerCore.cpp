@@ -38,6 +38,8 @@ void ServerCore::SetUDPRecvCallBack(RecvCallBack _recvCallback)
 	}
 }
 
+
+
 void ServerCore::CreateUDPSession(int UDPCount)
 {
 	for (int i = 0; i < UDPCount; ++i)
@@ -122,9 +124,6 @@ bool ServerCore::CoreInit()
 	NetQueue::Init();
 	ServerDebug::LogInfo("Net Thread Init OK");
 
-	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
-	ServerListener.BindNetQueue(NetQueue::GetQueue());
-
 	return true;
 }
 
@@ -137,6 +136,8 @@ bool ServerCore::CoreRun()
 		return false;
 	}
 
+	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
+	ServerListener.BindNetQueue(NetQueue::GetQueue());
 	ServerListener.StartAccept(10);
 
 

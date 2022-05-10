@@ -32,6 +32,8 @@ private: // member var
 	AcceptExOverlapped*		m_acceptExOverlapped;
 	RecvOverlapped*			m_recvOverlapped;
 	DisconnectOverlapped*	m_disconOverlapped;
+
+	// send를 동시에 여러개 보낼수 있어야함 (Sendpool)
 	SendOverlapped*			m_sendOverlapped;
 
 	// callback

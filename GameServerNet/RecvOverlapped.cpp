@@ -24,7 +24,7 @@ void RecvOverlapped::Excute(BOOL _Result, DWORD _ByteSize)
 {
 	// 클라와 접속이 끊김
 	// 클라와 접속을 종료해야함
-	if (0 == _ByteSize && false == _Result)
+	if (0 == _ByteSize)
 	{
 		m_tcpSession->CloseSession();
 		return;

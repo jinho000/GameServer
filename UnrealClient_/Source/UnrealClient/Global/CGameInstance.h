@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <memory>
+#include <Interfaces/IPv4/IPv4Endpoint.h>
 
 #include "../Packets/ClientPackets/ServerPacketBase.h"
 #include "UnrealThread.h"
@@ -26,14 +27,24 @@ private:
 	// Socket
 	TQueue<std::shared_ptr<ServerPacketBase>> m_packetQueue;
 
-	UnrealThread* m_recvThread;
-	FRunnableThread* m_runnableThread;
+	UnrealThread*		m_recvThread;
+	FRunnableThread*	m_runnableThread;
 
-	ISocketSubsystem* m_socketSystem;
-	FSocket* m_socket;
+	ISocketSubsystem*	m_socketSystem;
+	FSocket*			m_socket;
+	FSocket*			m_UDPsocket;
+
+	// Server Info
+	FString				m_serverIP;			// TCP, UDP 같은서버 사용
+	uint16				m_TCPServerPort;
+
+	uint16				m_UDPServerPort;
+	uint16				m_unrealUDPPort;	
+
+	FIPv4Endpoint		m_serverUDPEndPoint;
 
 	// Chatting
-	UCChatWindow*	m_chatWindow;
+	UCChatWindow*		m_chatWindow;
 
 public:
 	// Login
@@ -65,6 +76,7 @@ private:
 public:
 	// 서버 연결 함수
 	bool ConnectServer(const FString& _IP, const FString& _port);
+	bool ConnectUDPServer(uint64 _serverUDPPort);
 
 	bool SendBytes(const std::vector<uint8>& _packet);
 
