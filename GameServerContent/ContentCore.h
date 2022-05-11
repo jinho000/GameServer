@@ -1,5 +1,7 @@
 #pragma once
 #include <GameServerCore/ServerCore.h>
+#include "PacketDispatcher.h"
+#include "UDPPacketDispatcher.h"
 
 // 용도 :
 // 분류 :
@@ -7,7 +9,9 @@
 class ContentCore : public ServerCore
 {
 private: // member var
-	
+	static PacketDispatcher<TCPSession> TcpDispatcher;
+	static UDPPacketDispatcher			UdpDispatcher;
+
 public:
 	ContentCore();
 	~ContentCore();

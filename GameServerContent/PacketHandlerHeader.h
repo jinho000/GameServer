@@ -4,4 +4,5 @@
 #include "CreateCharacterPacketHandler.h"
 #include "SelectCharacterPacketHandler.h"
 #include "DeleteCharacterPacketHandler.h"
+#include "PlayerUpdatePacketHandler.h"
 #include "ChatMessagePacketHandler.h"

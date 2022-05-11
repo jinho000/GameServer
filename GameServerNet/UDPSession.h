@@ -52,5 +52,7 @@ public: // member Func
 	void OnRecv(const char* _data, DWORD _byteSize);
 
 	void SetRecvCallBack(RecvCallBack _recvCallback);
+
+
 };
 

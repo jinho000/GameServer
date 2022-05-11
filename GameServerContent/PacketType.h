@@ -7,6 +7,7 @@ enum class PacketType
 	CreateCharacter,
 	SelectCharacter,
 	DeleteCharacter,
+	PlayerUpdate,
 	LoginResult,
 	JoginResult,
 	CharacterList,

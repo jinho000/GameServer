@@ -16,9 +16,6 @@
     <ClInclude Include="PacketHandlerHeader.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
-    <ClInclude Include="ChatMessagePacketHandler.h">
-      <Filter>ThreadHandler</Filter>
-    </ClInclude>
     <ClInclude Include="ContentCore.h">
       <Filter>ContentCore</Filter>
     </ClInclude>
@@ -88,13 +85,19 @@
     <ClInclude Include="GameSession.h">
       <Filter>GameSession</Filter>
     </ClInclude>
+    <ClInclude Include="UDPPacketDispatcher.h">
+      <Filter>Packet\Base\Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatMessagePacketHandler.h">
+      <Filter>ThreadHandler\Chatting</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpdatePacketHandler.h">
+      <Filter>ThreadHandler\UDP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>pch</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatMessagePacketHandler.cpp">
-      <Filter>ThreadHandler</Filter>
     </ClCompile>
     <ClCompile Include="ContentCore.cpp">
       <Filter>ContentCore</Filter>
@@ -143,6 +146,15 @@
     </ClCompile>
     <ClCompile Include="GameSession.cpp">
       <Filter>GameSession</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPPacketDispatcher.cpp">
+      <Filter>Packet\Base\Dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatMessagePacketHandler.cpp">
+      <Filter>ThreadHandler\Chatting</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpdatePacketHandler.cpp">
+      <Filter>ThreadHandler\UDP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +208,12 @@
     </Filter>
     <Filter Include="DBTable">
       <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\Chatting">
+      <UniqueIdentifier>{7e8d4484-edf0-416d-983c-8d7f16bae158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\UDP">
+      <UniqueIdentifier>{a25c48fd-12a6-4f14-879c-a2fd3fb3df96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

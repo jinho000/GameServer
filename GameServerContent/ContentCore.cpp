@@ -3,9 +3,10 @@
 #include <GameServerNet/TCPSession.h>
 #include <GameServerCore/ServerSectionManager.h>
 #include <GameServerCore/ServerSection.h>
-
-#include "PacketDispatcher.h"
 #include "ContentEnum.h"
+
+PacketDispatcher<TCPSession>	ContentCore::TcpDispatcher;
+UDPPacketDispatcher				ContentCore::UdpDispatcher;
 
 ContentCore::ContentCore()
 {
@@ -24,11 +25,10 @@ void ContentCore::AcceptEvent(std::shared_ptr<TCPSession> _tcpSession)
 	ServerDebug::LogInfo(log);
 }
 
-PacketDispatcher<TCPSession> dispatcher;
-
 void ContentCore::RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recvBuffer)
 {
-	dispatcher.Dispatch(_recvBuffer, _tcpSession);
+	// 스레드 동기화?
+	TcpDispatcher.Dispatch(_recvBuffer, _tcpSession);
 }
 
 void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)
@@ -39,8 +39,7 @@ void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)
 
 void ContentCore::UDPRecvEvent(std::shared_ptr<UDPSession> _udpSession, const std::vector<unsigned char>& _recvBuffer, IPEndPoint& _clientEndPoint)
 {
-	std::string log((const char*)_recvBuffer.data());
-	ServerDebug::LogInfo(log);
+	UdpDispatcher.Dispatch(_recvBuffer, _udpSession, _clientEndPoint);
 }
 
 void ContentCore::UserStart()
