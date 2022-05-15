@@ -37,7 +37,7 @@ void SelectCharacterResultPacketHandler::Start()
 			UE_LOG(LogTemp, Log, TEXT("GameSession Number %d"), (int)m_packet->GameSessionType);
 
 			// UDP연결 시작
-			// m_pGameInst->ConnectUDPServer(_UDPserverPort);
+			 m_pGameInst->ConnectUDPServer();
 
 			// 다음 레벨로 이동
 			UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));

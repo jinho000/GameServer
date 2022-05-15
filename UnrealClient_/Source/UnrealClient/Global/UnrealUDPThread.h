@@ -1,15 +1,19 @@
 #pragma once
+#include "CoreMinimal.h"
+#include <memory>
 
-// 용도 :
-// 분류 :
-// 첨언 :
-class UnrealUDPThread
+#include "../Packets/ClientPackets/ServerPacketBase.h"
+
+class UnrealUDPThread : public FRunnable
 {
 private: // member var
-	
+	ISocketSubsystem*	m_socketSubSystem;
+	TAtomic<bool>		m_bAppClose;
+	FSocket*			m_recvSocket;
+	TQueue<std::shared_ptr<ServerPacketBase>>* m_pRecvQueue;
 
 public: // default
-	UnrealUDPThread();
+	UnrealUDPThread(ISocketSubsystem* _socketSubSystem, FSocket* _socket, TQueue<std::shared_ptr<ServerPacketBase>>* _recvQueue);
 	~UnrealUDPThread();
 
 	UnrealUDPThread(const UnrealUDPThread& _other) = delete;
@@ -17,8 +21,8 @@ public: // default
 	UnrealUDPThread& operator=(const UnrealUDPThread& _other) = delete;
 	UnrealUDPThread& operator=(const UnrealUDPThread&& _other) = delete;
 
-private:
-
 public: // member Func
+	uint32 Run() override;
+	void Close();
 };
 

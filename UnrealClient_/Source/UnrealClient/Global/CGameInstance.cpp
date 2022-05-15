@@ -12,13 +12,15 @@
 UCGameInstance::UCGameInstance()
 	: m_recvThread(nullptr)
 	, m_runnableThread(nullptr)
+	, m_UDPRecvThread(nullptr)
+	, m_UDPrunnableThread(nullptr)
 	, m_socketSystem(nullptr)
 	, m_socket(nullptr)
 	, m_UDPsocket(nullptr)
 	, m_serverIP("127.0.0.1")
 	, m_TCPServerPort(-1)
 	, m_UDPServerPort(-1)
-	, m_unrealUDPPort(-1)
+	, m_unrealUDPPort(35000)
 	, LoginProcess(false)
 {
 	int a = 0;
@@ -119,7 +121,6 @@ bool UCGameInstance::ConnectUDPServer()
 
 	// uneral udp endpoint 父甸扁
 	// 家南 积己阑 困茄 endpoint
-	m_unrealUDPPort = 35000;
 	FIPv4Endpoint unrealUDPEndPoint = FIPv4Endpoint(connectAddress, m_unrealUDPPort);
 
 
@@ -132,13 +133,11 @@ bool UCGameInstance::ConnectUDPServer()
 		unrealUDPEndPoint = FIPv4Endpoint(connectAddress, ++m_unrealUDPPort);
 	}
 
-	//UDPRecvThread_ = new UnrealUDPRecvThread(SocketSubSystem_, UDPSocket_, &MessageQueue_);
-	//UDPThreadRunalbe_ = FRunnableThread::Create(UDPRecvThread_, TEXT("Recv Thread"));
+	// recv Thread 积己
+	m_UDPRecvThread = new UnrealUDPThread(m_socketSystem, m_UDPsocket, &m_packetQueue);
+	m_UDPrunnableThread = FRunnableThread::Create(m_UDPRecvThread, TEXT("UDP Recv Thread"));
 
-
-	//int32 Byte;
-	//uint8 data[10] = { 1, 1, 1, 1, 1, 1, 1, 1 };
-	//m_UDPsocket->SendTo(data, 10, Byte, m_serverUDPEndPoint.ToInternetAddr().Get());
+	UE_LOG(LogTemp, Error, TEXT("Request UDP Connect"));
 
 	return true;
 }
@@ -161,6 +160,23 @@ bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
 
 	int dataSendSize = 0;
 	return m_socket->Send(_bytes.data(), _bytes.size(), dataSendSize);
+}
+
+bool UCGameInstance::SendUDP(const std::vector<uint8>& _packet)
+{
+	if (nullptr == m_UDPsocket)
+	{
+		return false;
+	}
+
+	if (0 == _packet.size())
+	{
+		return false;
+	}
+
+	int32 DataSendSize = 0;
+
+	return m_UDPsocket->SendTo(&_packet[0], _packet.size(), DataSendSize, m_serverUDPEndPoint.ToInternetAddr().Get());
 }
 
 void UCGameInstance::AddServerPacket(std::shared_ptr<ServerPacketBase> _serverPacket)

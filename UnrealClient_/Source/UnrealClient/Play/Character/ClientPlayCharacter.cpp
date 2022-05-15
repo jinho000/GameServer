@@ -4,6 +4,10 @@
 #include "ClientPlayCharacter.h"
 #include <GameFramework/PlayerInput.h>
 #include "../../UnrealClient.h"
+#include "../../Global/CGameInstance.h"
+#include "../../Packets/ClientPackets/Packets.h"
+#include "../../Packets/ClientPackets/ServerSerializer.h"
+
 
 AClientPlayCharacter::AClientPlayCharacter()
 	: AClientCharacter()
@@ -23,6 +27,30 @@ void AClientPlayCharacter::BeginPlay()
 void AClientPlayCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// 프레임 체크
+	static float accTime = 0.f;
+	static int accframe = 0;
+	accTime += DeltaTime;
+	++accframe;
+
+	if (1.f < accTime)
+	{
+		accTime = 0.f;
+		accframe = 0;
+	}
+
+	// 10프레임마다 패킷 보내기
+	if (accframe % 10 == 0)
+	{
+		PlayerUpdatePacket packet;
+		ServerSerializer sr;
+		packet.playerData = "test";
+		packet >> sr;
+
+		UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+		gameInst->SendUDP(sr.GetBuffer());
+	}
 
 }
 
@@ -69,8 +97,6 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 void AClientPlayCharacter::MoveRight(float _Rate)
 {
-	UE_LOG(ClientLog, Log, TEXT("Move Forward"));
-
 	if (0.0f == _Rate)
 	{
 		return;
@@ -84,14 +110,10 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 
 void AClientPlayCharacter::MoveForward(float _Rate)
 {
-	UE_LOG(ClientLog, Log, TEXT("Move Forward"));
-
 	if (0.0f == _Rate)
 	{
 		return;
 	}
-
-	UE_LOG(ClientLog, Log, TEXT("Move Forward"));
 
 	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
@@ -101,13 +123,11 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 
 void AClientPlayCharacter::MoveStart()
 {
-	UE_LOG(ClientLog, Log, TEXT("Move Start"));
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 }
 
 void AClientPlayCharacter::MoveEnd()
 {
-	UE_LOG(ClientLog, Log, TEXT("Move End"));
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 }
 

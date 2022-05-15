@@ -11,4 +11,7 @@ void PlayerUpdatePacketHandler::InitUDP(PtrSUDPSession _UDPSession, std::shared_
 void PlayerUpdatePacketHandler::Start()
 {
 	int a = 0;
+	ServerDebug::LogInfo("recv UDP");
+
+
 }

@@ -6,6 +6,7 @@
 UnrealThread::UnrealThread(FSocket* _socket, TQueue<std::shared_ptr<ServerPacketBase>>* _recvQueue)
 	: m_recvSocket(_socket)
 	, m_pRecvQueue(_recvQueue)
+	, m_bAppClose(true)
 {
 	if (nullptr == m_recvSocket)
 	{
@@ -22,7 +23,7 @@ uint32 UnrealThread::Run()
 	// 리시브 처리 시작
 	UE_LOG(LogTemp, Log, TEXT("Recv Start"));
 
-	while (true)
+	while (m_bAppClose)
 	{
 		// Recv 동기 함수로 처리
 		std::vector<uint8_t> recvBuffer;
@@ -49,6 +50,7 @@ uint32 UnrealThread::Run()
 
 void UnrealThread::Stop()
 {
+	m_bAppClose = false;
 }
 
 void UnrealThread::Exit()

@@ -11,6 +11,7 @@
 
 #include "../Packets/ClientPackets/ServerPacketBase.h"
 #include "UnrealThread.h"
+#include "UnrealUDPThread.h"
 #include "CGameInstance.generated.h"
 
 class UCChatWindow;
@@ -30,16 +31,19 @@ private:
 	UnrealThread*		m_recvThread;
 	FRunnableThread*	m_runnableThread;
 
+	UnrealUDPThread*	m_UDPRecvThread;
+	FRunnableThread*	m_UDPrunnableThread;
+
 	ISocketSubsystem*	m_socketSystem;
 	FSocket*			m_socket;
 	FSocket*			m_UDPsocket;
 
 	// Server Info
 	FString				m_serverIP;			// TCP, UDP 같은서버 사용
-	uint16				m_TCPServerPort;
+	int					m_TCPServerPort;
 
-	uint16				m_UDPServerPort;
-	uint16				m_unrealUDPPort;	
+	int					m_UDPServerPort;
+	int					m_unrealUDPPort;	
 
 	FIPv4Endpoint		m_serverUDPEndPoint;
 
@@ -79,6 +83,7 @@ public:
 	bool ConnectUDPServer();
 
 	bool SendBytes(const std::vector<uint8>& _packet);
+	bool SendUDP(const std::vector<uint8>& _packet);
 
 	// 연결된 서버에 데이터 전송 함수(언리얼의 문자열셋은 UTF16)
 	// 서버와 클라이언트의 문자열 세팅이 다르기 때문에 하나로 통일해야함
