@@ -5,11 +5,13 @@ class LoginResultPacket : public ServerPacketBase
 {                                                               
 public:                                                         
 	ELoginResultCode LoginResultCode;
+	int UDPPort;
                                                                 
 public:                                                         
     LoginResultPacket()                                               
         : ServerPacketBase(PacketType::LoginResult)                    
         , LoginResultCode()
+        , UDPPort()
     {                                                           
                                                                 
     }                                                           
@@ -18,13 +20,14 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(LoginResultCode);
+		return DataSizeCheck(LoginResultCode) + DataSizeCheck(UDPPort);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
         _Serializer.WriteEnum(LoginResultCode);
+        _Serializer << UDPPort;
 
     }                                                           
                                                                 
@@ -32,6 +35,7 @@ public:
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
         _Serializer.ReadEnum(LoginResultCode);
+        _Serializer >> UDPPort;
 
     }                                                           
 };                                                              

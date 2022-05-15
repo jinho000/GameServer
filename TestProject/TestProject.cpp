@@ -43,34 +43,38 @@ void InitIOCP()
 
 }
 
+using namespace std;
+
 int main()
 {
-	ServerHelper::InitSocketLib();
-	ServerDebug::Initialize();
+	shared_ptr<int> a = std::make_shared<int>();
+	cout << sizeof(a) << endl;
+	//ServerHelper::InitSocketLib();
+	//ServerDebug::Initialize();
 
-	ServerQueue netQueue;
-	netQueue.Initialize(4);
+	//ServerQueue netQueue;
+	//netQueue.Initialize(4);
 
-	IPEndPoint udpEndPoint("127.0.0.1", 30002);
-	UDPSession udpSession(udpEndPoint);
-	udpSession.BindQueue(netQueue);
-	udpSession.SetRecvCallBack(IOCallback);
-	udpSession.RequestRecv();
-
-
-	while (true)
-	{
-		int value = 1;
-		std::cin >> value;
-		if (value == 0)
-		{
-			break;
-		}
-
-	}
+	//IPEndPoint udpEndPoint("127.0.0.1", 30002);
+	//UDPSession udpSession(udpEndPoint);
+	//udpSession.BindQueue(netQueue);
+	//udpSession.SetRecvCallBack(IOCallback);
+	//udpSession.RequestRecv();
 
 
-	ServerDebug::Destroy();
+	//while (true)
+	//{
+	//	int value = 1;
+	//	std::cin >> value;
+	//	if (value == 0)
+	//	{
+	//		break;
+	//	}
+
+	//}
+
+
+	//ServerDebug::Destroy();
 
 	return 0;
 }

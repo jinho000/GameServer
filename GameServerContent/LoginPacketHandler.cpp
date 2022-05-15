@@ -9,6 +9,7 @@
 
 #include <GameServerCore/DBQueue.h>
 #include <GameServerCore/NetQueue.h>
+#include <GameServerCore/ServerCore.h>
 
 #include "UserTable.h"
 #include "CharacterTable.h"
@@ -72,6 +73,10 @@ void LoginPacketHandler::DBThreadCheckLogin()
 	// 로그인 완료
 	ServerDebug::LogInfo("Login OK");
 	m_loginResultPacket.LoginResultCode = ELoginResultCode::OK;
+
+	// 로그인시 UDP포트도 같이 보내기
+	m_loginResultPacket.UDPPort = ServerCore::GetUDPSession(0)->GetEndPoint().GetPort();
+
 	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 
 }

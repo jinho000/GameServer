@@ -51,7 +51,7 @@ public:
 
 		// handler 처리 시작
 		std::shared_ptr<PacketHandler> handler = std::make_shared<PacketHandler>();
-		handler->Init(_session, packet);
+		handler->InitUDP(_session, packet);
 		handler->Start();
 	}
 };

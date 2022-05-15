@@ -58,5 +58,6 @@ public:
 	}
 
 	static const DBInfo& GetDBInfo() { return DBConfig; }
+	static const std::shared_ptr<UDPSession> GetUDPSession(UINT _idx) { return AllUDPSession[_idx]; }
 };
 

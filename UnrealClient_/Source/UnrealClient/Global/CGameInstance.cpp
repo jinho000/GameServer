@@ -78,8 +78,6 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	FIPv4Address::Parse(m_serverIP, connectAddr);
 	FIPv4Endpoint endPoint(connectAddr, m_TCPServerPort);
 
-	return true;
-
 	if (false == m_socket->Connect(endPoint.ToInternetAddr().Get()))
 	{
 		// 접속 실패
@@ -98,20 +96,17 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 	return true;
 }
 
-bool UCGameInstance::ConnectUDPServer(uint64 _UDPserverPort)
+bool UCGameInstance::ConnectUDPServer()
 {
 	if (nullptr == m_socketSystem)
 	{
 		return false;
 	}
 
-	m_UDPServerPort = _UDPserverPort;
-
 	// udp server endpoint 만들기
 	// send 보내기위해 저장
 	FIPv4Address connectAddress;
 	FIPv4Address::Parse(m_serverIP, connectAddress);
-	m_serverUDPEndPoint = FIPv4Endpoint(connectAddress, m_UDPServerPort);
 
 	// 소켓 생성
 	m_UDPsocket = m_socketSystem->CreateSocket(NAME_DGram, TEXT("Unreal UDP Socket"));
@@ -121,10 +116,12 @@ bool UCGameInstance::ConnectUDPServer(uint64 _UDPserverPort)
 		return false;
 	}
 
+
 	// uneral udp endpoint 만들기
 	// 소켓 생성을 위한 endpoint
 	m_unrealUDPPort = 35000;
 	FIPv4Endpoint unrealUDPEndPoint = FIPv4Endpoint(connectAddress, m_unrealUDPPort);
+
 
 	// 소켓을 udp endpoint에 연결
 	while (false == m_UDPsocket->Bind(unrealUDPEndPoint.ToInternetAddr().Get()))
@@ -139,9 +136,9 @@ bool UCGameInstance::ConnectUDPServer(uint64 _UDPserverPort)
 	//UDPThreadRunalbe_ = FRunnableThread::Create(UDPRecvThread_, TEXT("Recv Thread"));
 
 
-	int32 Byte;
-	uint8 data[10] = { 1, 1, 1, 1, 1, 1, 1, 1 };
-	m_UDPsocket->SendTo(data, 10, Byte, m_serverUDPEndPoint.ToInternetAddr().Get());
+	//int32 Byte;
+	//uint8 data[10] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+	//m_UDPsocket->SendTo(data, 10, Byte, m_serverUDPEndPoint.ToInternetAddr().Get());
 
 	return true;
 }
@@ -169,6 +166,17 @@ bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
 void UCGameInstance::AddServerPacket(std::shared_ptr<ServerPacketBase> _serverPacket)
 {
 	m_packetQueue.Enqueue(_serverPacket);
+}
+
+void UCGameInstance::SetUDPEndPoint(int serverUDPPort)
+{
+	m_UDPServerPort = serverUDPPort;
+
+	// udp server endpoint 만들기
+	// send 보내기위해 저장
+	FIPv4Address connectAddress;
+	FIPv4Address::Parse(m_serverIP, connectAddress);
+	m_serverUDPEndPoint = FIPv4Endpoint(connectAddress, m_UDPServerPort);
 }
 
 void UCGameInstance::DeleteCharacter(const std::string& _deleteNickName)

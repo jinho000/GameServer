@@ -76,7 +76,7 @@ private:
 public:
 	// 서버 연결 함수
 	bool ConnectServer(const FString& _IP, const FString& _port);
-	bool ConnectUDPServer(uint64 _serverUDPPort);
+	bool ConnectUDPServer();
 
 	bool SendBytes(const std::vector<uint8>& _packet);
 
@@ -90,6 +90,9 @@ public:
 
 	// Server Packet 테스트함수
 	void AddServerPacket(std::shared_ptr<ServerPacketBase> _serverPacket);
+
+	// 서버 UDP포트 세팅
+	void SetUDPEndPoint(int serverUDPPort);
 
 // Chatting
 public:

@@ -41,7 +41,7 @@ void DBQueue::Init()
 
 void DBQueue::EnQueue(const std::function<void()>& _work)
 {
-	//WorkQueue.Enqueue(_work);
+	WorkQueue.Enqueue(_work);
 }
 
 void DBQueue::Destroy()

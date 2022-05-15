@@ -37,7 +37,7 @@ void DeleteCharacterPacketHandler::DBThreadWork()
 	}
 
 	// 디비에 캐릭터 삭제 처리 요청
-	CharacterTable_DeleteCharacter deleteQuery = CharacterTable_DeleteCharacter(deleteCharIndex);
+	CharacterTable_DeleteCharacter deleteQuery = CharacterTable_DeleteCharacter((int)deleteCharIndex);
 	if (false == deleteQuery.DoQuery())
 	{
 		ServerDebug::LogInfo("Fail InsertQuery");

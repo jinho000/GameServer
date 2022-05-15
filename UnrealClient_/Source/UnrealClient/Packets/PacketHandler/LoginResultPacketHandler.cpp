@@ -14,6 +14,10 @@ void LoginResultPacketHandler::Start()
 		UE_LOG(LogTemp, Log, TEXT("Recv Login Result Packet"));
 		UE_LOG(LogTemp, Log, TEXT("Loading User Character List"));
 		m_pGameInst->LoginProcess = true;
+
+		// UDP포트 받아오기
+		m_pGameInst->SetUDPEndPoint(m_packet->UDPPort);
+
 		return;
 	}
 

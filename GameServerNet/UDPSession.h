@@ -53,6 +53,8 @@ public: // member Func
 
 	void SetRecvCallBack(RecvCallBack _recvCallback);
 
+	// EndPoint
+	const IPEndPoint& GetEndPoint() { return m_localAddr; }
 
 };
 

@@ -27,7 +27,7 @@ void ContentCore::AcceptEvent(std::shared_ptr<TCPSession> _tcpSession)
 
 void ContentCore::RecvEvent(std::shared_ptr<TCPSession> _tcpSession, const std::vector<unsigned char>& _recvBuffer)
 {
-	// 스레드 동기화?
+	// Dispatcher에서는 공유메모리에 쓰는 경우가 없으므로 동기화하지 않아도 된다
 	TcpDispatcher.Dispatch(_recvBuffer, _tcpSession);
 }
 
@@ -51,11 +51,8 @@ void ContentCore::UserStart()
 	CreateUDPSession(4);
 	SetUDPRecvCallBack(ContentCore::UDPRecvEvent);
 
-
-	// 섹션처리
-	//ServerSectionManager::GetInst()->Init(3);
-	//ServerSectionManager::GetInst()->CreateSection<TestSection>(0, ESectionType::NONE);
-
-
+	// 이동시 UDP로 패킷 받아오기 
 	
+	// 세션 만들기
+
 }

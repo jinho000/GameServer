@@ -1,5 +1,6 @@
 |LoginResult-
 ELoginResultCode LoginResultCode;
+int UDPPort;
 
 |JoginResult-
 EJoinResultCode JoginResultCode;
