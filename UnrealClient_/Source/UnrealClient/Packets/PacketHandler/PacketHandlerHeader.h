@@ -6,4 +6,6 @@
 #include "DeleteCharacterResultPacketHandler.h"
 #include "SelectCharacterResultPacketHandler.h"
 #include "InsertSectionResultPacketHandler.h"
+#include "UDPStartResultPacketHandler.h"
 #include "ChatMessagePacketHandler.h"
+#include "PlayerUpdatePacketHandler.h"

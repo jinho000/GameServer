@@ -42,12 +42,25 @@ UDPSession::UDPSession(const IPEndPoint& _ipEndPoint)
 	//addrSize = static_cast<int>(sizeof(m_remoteAddr));
 	memset(&m_remoteAddr, 0x00, sizeof(m_remoteAddr));
 	addrSize = static_cast<int>(sizeof(m_remoteAddr));
+
+	// send pool 초기화
+	for (int i = 0; i < 20; ++i)
+	{
+		m_sendPool.push(new UDPSendOverlapped(this));
+	}
 }
 
 UDPSession::~UDPSession()
 {
 	delete m_recvOveralpped;
 	m_recvOveralpped = nullptr;
+
+	for (int i = 0; i < m_sendPool.size(); ++i)
+	{
+		UDPSendOverlapped* pSendOverlapped = m_sendPool.front(); m_sendPool.pop();
+		delete pSendOverlapped;
+		pSendOverlapped = nullptr;
+	}
 }
 
 void UDPSession::OnIOCallBack(BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lpOverlapped)
@@ -109,4 +122,41 @@ void UDPSession::OnRecv(const char* _data, DWORD _byteSize)
 void UDPSession::SetRecvCallBack(RecvCallBack _recvCallback)
 {
 	m_recvCallBack = _recvCallback;
+}
+
+void UDPSession::Send(const std::vector<unsigned char>& _buffer, const IPEndPoint& _userEndPoint)
+{
+	UDPSendOverlapped* sendOverlapped = nullptr;
+	if (m_sendPool.empty())
+	{
+		sendOverlapped = new UDPSendOverlapped(this);
+	}
+	else
+	{
+		m_sendPoolMutex.lock();
+		sendOverlapped = m_sendPool.front(); m_sendPool.pop();
+		m_sendPoolMutex.unlock();
+	}
+
+	// 데이터 복사 후 전송
+	sendOverlapped->CopyFrom(_buffer);
+	SocketAddress sockaddress = _userEndPoint.Serialize();
+	int Result = WSASendTo(m_sessionSocket, sendOverlapped->GetBuffer(), 1, sendOverlapped->GetBufferLength()
+		, 0, reinterpret_cast<const sockaddr*>(sockaddress.GetBuffer()), static_cast<int>(sockaddress.GetBufferLength()), sendOverlapped->GetLPOverlapped(), nullptr);
+
+	if (SOCKET_ERROR == Result)
+	{
+		if (WSA_IO_PENDING != WSAGetLastError())
+		{
+			ServerDebug::GetLastErrorPrint();			
+		}
+	}
+
+}
+
+void UDPSession::OnSendComplete(UDPSendOverlapped* _sendOverlapped)
+{
+	m_sendPoolMutex.lock();
+	m_sendPool.push(_sendOverlapped);
+	m_sendPoolMutex.unlock();
 }

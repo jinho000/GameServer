@@ -266,3 +266,38 @@ public:
     }                                                           
 };                                                              
 
+class UDPStartResultPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::string dummy;
+                                                                
+public:                                                         
+    UDPStartResultPacket()                                               
+        : ServerPacketBase(PacketType::UDPStartResult)                    
+        , dummy()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~UDPStartResultPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(dummy);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << dummy;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> dummy;
+
+    }                                                           
+};                                                              
+

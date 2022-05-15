@@ -64,6 +64,9 @@
     <ClInclude Include="UDPRecvOverlapped.h">
       <Filter>IO\Overlapped</Filter>
     </ClInclude>
+    <ClInclude Include="UDPSendOverlapped.h">
+      <Filter>IO\Overlapped</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -121,6 +124,9 @@
       <Filter>NetObject</Filter>
     </ClCompile>
     <ClCompile Include="UDPRecvOverlapped.cpp">
+      <Filter>IO\Overlapped</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSendOverlapped.cpp">
       <Filter>IO\Overlapped</Filter>
     </ClCompile>
   </ItemGroup>

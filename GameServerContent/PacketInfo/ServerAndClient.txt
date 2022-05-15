@@ -1,3 +1,6 @@
 |ChatMessage-
 std::string NickName;
 std::string Message;
+
+|PlayerUpdate-
+std::string playerData;

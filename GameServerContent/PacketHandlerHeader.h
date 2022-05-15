@@ -4,5 +4,6 @@
 #include "CreateCharacterPacketHandler.h"
 #include "SelectCharacterPacketHandler.h"
 #include "DeleteCharacterPacketHandler.h"
-#include "PlayerUpdatePacketHandler.h"
+#include "UDPStartPacketHandler.h"
 #include "ChatMessagePacketHandler.h"
+#include "PlayerUpdatePacketHandler.h"

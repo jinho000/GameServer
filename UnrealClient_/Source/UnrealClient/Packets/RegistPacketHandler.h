@@ -9,5 +9,7 @@ void UPacketComponent::RegistPacketHandler()
 	m_handlerContainer.insert(std::make_pair(PacketType::DeleteCharacterResult, std::bind(&ProcessHandler<DeleteCharacterResultPacketHandler, DeleteCharacterResultPacket>, std::placeholders::_1, m_pGameInst, world)));	
 	m_handlerContainer.insert(std::make_pair(PacketType::SelectCharacterResult, std::bind(&ProcessHandler<SelectCharacterResultPacketHandler, SelectCharacterResultPacket>, std::placeholders::_1, m_pGameInst, world)));	
 	m_handlerContainer.insert(std::make_pair(PacketType::InsertSectionResult, std::bind(&ProcessHandler<InsertSectionResultPacketHandler, InsertSectionResultPacket>, std::placeholders::_1, m_pGameInst, world)));	
+	m_handlerContainer.insert(std::make_pair(PacketType::UDPStartResult, std::bind(&ProcessHandler<UDPStartResultPacketHandler, UDPStartResultPacket>, std::placeholders::_1, m_pGameInst, world)));	
 	m_handlerContainer.insert(std::make_pair(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacketHandler, ChatMessagePacket>, std::placeholders::_1, m_pGameInst, world)));	
+	m_handlerContainer.insert(std::make_pair(PacketType::PlayerUpdate, std::bind(&ProcessHandler<PlayerUpdatePacketHandler, PlayerUpdatePacket>, std::placeholders::_1, m_pGameInst, world)));	
 }

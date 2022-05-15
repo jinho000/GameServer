@@ -94,6 +94,9 @@
     <ClInclude Include="PlayerUpdatePacketHandler.h">
       <Filter>ThreadHandler\UDP</Filter>
     </ClInclude>
+    <ClInclude Include="UDPStartPacketHandler.h">
+      <Filter>ThreadHandler\UDP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -154,6 +157,9 @@
       <Filter>ThreadHandler\Chatting</Filter>
     </ClCompile>
     <ClCompile Include="PlayerUpdatePacketHandler.cpp">
+      <Filter>ThreadHandler\UDP</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPStartPacketHandler.cpp">
       <Filter>ThreadHandler\UDP</Filter>
     </ClCompile>
   </ItemGroup>

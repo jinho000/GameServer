@@ -2,6 +2,7 @@
 #include "IPEndPoint.h"
 #include <GameServerBase/ServerBaseObject.h>
 #include <GameServerBase/ServerQueue.h>
+#include "UDPSendOverlapped.h"
 
 class UDPSession;
 using RecvCallBack = std::function<void(std::shared_ptr<UDPSession>, const std::vector<unsigned char>&, IPEndPoint&)>;
@@ -22,6 +23,10 @@ private: // member var
 
 	// recvOverlapped 동기화처리?
 	UDPRecvOverlapped* m_recvOveralpped;
+
+	// 동시에 send를 하기위해 큐를 sendpool처럼 사용
+	std::queue<UDPSendOverlapped*> m_sendPool;
+	std::mutex m_sendPoolMutex;
 
 	// WSARecvFrom err
 	DWORD	flag;
@@ -56,5 +61,7 @@ public: // member Func
 	// EndPoint
 	const IPEndPoint& GetEndPoint() { return m_localAddr; }
 
+	// Send
+	void Send(const std::vector<unsigned char>& _buffer, const IPEndPoint& _userEndPoint);
+	void OnSendComplete(UDPSendOverlapped* _sendOverlapped);
 };
-

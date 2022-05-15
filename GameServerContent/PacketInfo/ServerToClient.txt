@@ -23,3 +23,6 @@ std::string SelectCharNickName;
 
 |InsertSectionResult-
 EResultCode ResultCode;
+
+|UDPStartResult-
+std::string dummy;

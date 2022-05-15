@@ -15,6 +15,5 @@ std::string SelectCharNickName;
 |DeleteCharacter-
 std::string NickName;
 
-|PlayerUpdate-
-std::string playerData;
-
+|UDPStart-
+std::string UdpStartDummy;

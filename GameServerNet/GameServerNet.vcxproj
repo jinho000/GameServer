@@ -238,6 +238,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UDPSendOverlapped.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UDPSession.h">
       <SubType>
       </SubType>
@@ -315,6 +319,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="UDPRecvOverlapped.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UDPSendOverlapped.cpp">
       <SubType>
       </SubType>
     </ClCompile>

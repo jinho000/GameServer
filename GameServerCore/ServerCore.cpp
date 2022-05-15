@@ -16,6 +16,7 @@ int			ServerCore::ServerPort = 0;
 TCPListener ServerCore::ServerListener;
 std::function<void(PtrSTCPSession)> ServerCore::AcceptCallBack;
 std::vector<std::shared_ptr<UDPSession>> ServerCore::AllUDPSession;
+std::vector<IPEndPoint> ServerCore::userEndPoint;
 
 ServerCore::ServerCore()
 {
@@ -157,4 +158,13 @@ bool ServerCore::CoreEnd()
 	DBQueue::Destroy();
 
     return true;
+}
+
+void ServerCore::SetUserEndPoint(const IPEndPoint& _userEndPoint)
+{
+	userEndPoint.push_back(_userEndPoint);
+}
+
+void ServerCore::BroadCastUDP()
+{
 }

@@ -18,6 +18,9 @@ private: // member var
 	static TCPListener								ServerListener;
 	static std::function<void(PtrSTCPSession)>		AcceptCallBack;
 	static std::vector<std::shared_ptr<UDPSession>> AllUDPSession;
+	
+	// 세션만들기 전까지 유저 앤드포인트를 서버코어가 가진다
+	static std::vector<IPEndPoint> userEndPoint;
 
 protected:
 	static IPEndPoint	ServerEndPoint;
@@ -59,5 +62,10 @@ public:
 
 	static const DBInfo& GetDBInfo() { return DBConfig; }
 	static const std::shared_ptr<UDPSession> GetUDPSession(UINT _idx) { return AllUDPSession[_idx]; }
+
+
+	static void SetUserEndPoint(const IPEndPoint& _userEndPoint);
+	static void BroadCastUDP();
+	static const std::vector<IPEndPoint>& GetAllUserEndPoint() { return userEndPoint; };
 };
 

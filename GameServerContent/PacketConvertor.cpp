@@ -27,8 +27,8 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::DeleteCharacter:
 		m_packet = std::make_shared<DeleteCharacterPacket>();
 		break;
-	case PacketType::PlayerUpdate:
-		m_packet = std::make_shared<PlayerUpdatePacket>();
+	case PacketType::UDPStart:
+		m_packet = std::make_shared<UDPStartPacket>();
 		break;
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
@@ -51,8 +51,14 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::InsertSectionResult:
 		m_packet = std::make_shared<InsertSectionResultPacket>();
 		break;
+	case PacketType::UDPStartResult:
+		m_packet = std::make_shared<UDPStartResultPacket>();
+		break;
 	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();
+		break;
+	case PacketType::PlayerUpdate:
+		m_packet = std::make_shared<PlayerUpdatePacket>();
 		break;
 	default:
 		return;

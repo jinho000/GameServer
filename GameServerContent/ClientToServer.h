@@ -184,37 +184,37 @@ public:
     }                                                           
 };                                                              
 
-class PlayerUpdatePacket : public ServerPacketBase                    
+class UDPStartPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	std::string playerData;
+	std::string UdpStartDummy;
                                                                 
 public:                                                         
-    PlayerUpdatePacket()                                               
-        : ServerPacketBase(PacketType::PlayerUpdate)                    
-        , playerData()
+    UDPStartPacket()                                               
+        : ServerPacketBase(PacketType::UDPStart)                    
+        , UdpStartDummy()
     {                                                           
                                                                 
     }                                                           
                                                                 
-    virtual ~PlayerUpdatePacket() {}             
+    virtual ~UDPStartPacket() {}             
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(playerData);
+		return DataSizeCheck(UdpStartDummy);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << playerData;
+        _Serializer << UdpStartDummy;
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> playerData;
+        _Serializer >> UdpStartDummy;
 
     }                                                           
 };                                                              

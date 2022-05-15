@@ -2,6 +2,7 @@
 #include <Kismet/GameplayStatics.h>
 #include "../../Global/CBlueprintFunctionLibrary.h"
 #include "../../Global/CGameInstance.h"
+#include "../../Packets/ClientPackets/Packets.h"
 
 void SelectCharacterResultPacketHandler::Start()
 {
@@ -37,10 +38,14 @@ void SelectCharacterResultPacketHandler::Start()
 			UE_LOG(LogTemp, Log, TEXT("GameSession Number %d"), (int)m_packet->GameSessionType);
 
 			// UDP연결 시작
-			 m_pGameInst->ConnectUDPServer();
+			m_pGameInst->ConnectUDPServer();
 
-			// 다음 레벨로 이동
-			UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));
+			// UDP시작패킷 보내기
+			UDPStartPacket packet;
+			ServerSerializer sr;
+			packet >> sr;
+
+			m_pGameInst->SendUDP(sr.GetBuffer());
 			return;
 		}
 	}

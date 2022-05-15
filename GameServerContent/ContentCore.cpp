@@ -40,6 +40,7 @@ void ContentCore::CloseEvent(std::shared_ptr<TCPSession> _tcpSession)
 void ContentCore::UDPRecvEvent(std::shared_ptr<UDPSession> _udpSession, const std::vector<unsigned char>& _recvBuffer, IPEndPoint& _clientEndPoint)
 {
 	UdpDispatcher.Dispatch(_recvBuffer, _udpSession, _clientEndPoint);
+
 }
 
 void ContentCore::UserStart()
