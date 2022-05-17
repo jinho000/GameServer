@@ -59,10 +59,7 @@ IPAddress::IPAddress(__int64 _NetworkByteOrderAddr)
 	, m_AddressFamily(AddressFamily::IPV4)
 {
 	m_bInvalidAddress = _NetworkByteOrderAddr < 0 || _NetworkByteOrderAddr>0x00000000FFFFFFFF;
-	if (m_bInvalidAddress)
-	{
-		m_Address = _NetworkByteOrderAddr;
-	}
+	m_Address = _NetworkByteOrderAddr;
 }
 
 

@@ -20,10 +20,7 @@ void UDPStartPacketHandler::Start()
 	ServerSerializer sr;
 	packet >> sr;
 	
-	// 방금 접속한 유저만 받도록 수정해야함
-	const std::vector<IPEndPoint>& allEndpoint = ServerCore::GetAllUserEndPoint();
-	for (const IPEndPoint& userEndPoint : allEndpoint)
-	{
-		m_UDPSession->Send(sr.GetBuffer(), userEndPoint);
-	}
+
+	m_UDPSession->Send(sr.GetBuffer(), m_clientEndPoint);
+
 }

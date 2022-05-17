@@ -105,11 +105,6 @@ bool UCGameInstance::ConnectUDPServer()
 		return false;
 	}
 
-	// udp server endpoint 만들기
-	// send 보내기위해 저장
-	FIPv4Address connectAddress;
-	FIPv4Address::Parse(m_serverIP, connectAddress);
-
 	// 소켓 생성
 	m_UDPsocket = m_socketSystem->CreateSocket(NAME_DGram, TEXT("Unreal UDP Socket"));
 	if (nullptr == m_UDPsocket)
@@ -118,11 +113,12 @@ bool UCGameInstance::ConnectUDPServer()
 		return false;
 	}
 
-
 	// uneral udp endpoint 만들기
 	// 소켓 생성을 위한 endpoint
+	// send 보내기위해 저장
+	FIPv4Address connectAddress;
+	FIPv4Address::Parse(m_serverIP, connectAddress);
 	FIPv4Endpoint unrealUDPEndPoint = FIPv4Endpoint(connectAddress, m_unrealUDPPort);
-
 
 	// 소켓을 udp endpoint에 연결
 	while (false == m_UDPsocket->Bind(unrealUDPEndPoint.ToInternetAddr().Get()))
@@ -132,6 +128,7 @@ bool UCGameInstance::ConnectUDPServer()
 		UE_LOG(LogTemp, Error, TEXT("change unrealUDPPort"));
 		unrealUDPEndPoint = FIPv4Endpoint(connectAddress, ++m_unrealUDPPort);
 	}
+
 
 	// recv Thread 생성
 	m_UDPRecvThread = new UnrealUDPThread(m_socketSystem, m_UDPsocket, &m_packetQueue);
