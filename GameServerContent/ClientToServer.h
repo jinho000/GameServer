@@ -187,12 +187,12 @@ public:
 class UDPStartPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	std::string UdpStartDummy;
+	int udpPort;
                                                                 
 public:                                                         
     UDPStartPacket()                                               
         : ServerPacketBase(PacketType::UDPStart)                    
-        , UdpStartDummy()
+        , udpPort()
     {                                                           
                                                                 
     }                                                           
@@ -201,20 +201,20 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(UdpStartDummy);
+		return DataSizeCheck(udpPort);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << UdpStartDummy;
+        _Serializer << udpPort;
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> UdpStartDummy;
+        _Serializer >> udpPort;
 
     }                                                           
 };                                                              

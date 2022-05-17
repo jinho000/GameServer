@@ -88,4 +88,5 @@ public: // member Func
 	void Send(const std::vector<uint8_t>& _buffer);
 
 	TCPListener* GetTCPListener() { return GetParent<TCPListener>(); }
+	const IPEndPoint& GetRemoteIPEndPoint() { return m_remoteAddr; }
 };

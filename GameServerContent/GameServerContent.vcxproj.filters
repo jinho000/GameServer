@@ -95,7 +95,7 @@
       <Filter>ThreadHandler\UDP</Filter>
     </ClInclude>
     <ClInclude Include="UDPStartPacketHandler.h">
-      <Filter>ThreadHandler\UDP</Filter>
+      <Filter>ThreadHandler\Login</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +160,7 @@
       <Filter>ThreadHandler\UDP</Filter>
     </ClCompile>
     <ClCompile Include="UDPStartPacketHandler.cpp">
-      <Filter>ThreadHandler\UDP</Filter>
+      <Filter>ThreadHandler\Login</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

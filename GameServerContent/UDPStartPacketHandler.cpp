@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "UDPStartPacketHandler.h"
+#include <GameServerNet/TCPSession.h>
 #include <GameServerCore/ServerCore.h>
 #include "PacketHeader.h"
 
@@ -12,15 +13,14 @@ void UDPStartPacketHandler::InitUDP(PtrSUDPSession _UDPSession, std::shared_ptr<
 
 void UDPStartPacketHandler::Start()
 {
-	// udp의 endpoint 저장
-	ServerCore::SetUserEndPoint(m_clientEndPoint);
+	// udp 통신을 위한 클라이언트 endpoint 저장
+	IPEndPoint clientEndPoint(m_TCPSession->GetRemoteIPEndPoint().GetIPAddress(), m_packet->udpPort);
+	ServerCore::SetUserEndPoint(clientEndPoint);
 
 	// UDP 시작 패킷 전송
 	UDPStartResultPacket packet;
 	ServerSerializer sr;
 	packet >> sr;
 	
-
-	m_UDPSession->Send(sr.GetBuffer(), m_clientEndPoint);
-
+	m_TCPSession->Send(sr.GetBuffer());
 }

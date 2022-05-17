@@ -40,12 +40,13 @@ void SelectCharacterResultPacketHandler::Start()
 			// UDP연결 시작
 			m_pGameInst->ConnectUDPServer();
 
-			// UDP시작패킷 보내기
+			// TCP로 UDP시작패킷 보내기
 			UDPStartPacket packet;
+			packet.udpPort = m_pGameInst->GetUnrealUDPPort();
 			ServerSerializer sr;
 			packet >> sr;
 
-			m_pGameInst->SendUDP(sr.GetBuffer());
+			m_pGameInst->SendBytes(sr.GetBuffer());
 			return;
 		}
 	}

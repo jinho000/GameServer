@@ -99,6 +99,9 @@ public:
 	// 서버 UDP포트 세팅
 	void SetUDPEndPoint(int serverUDPPort);
 
+	// 언리얼 UDP포트 
+	int GetUnrealUDPPort() { return m_unrealUDPPort; }
+
 // Chatting
 public:
 

@@ -14,8 +14,13 @@ void PlayerUpdatePacketHandler::Start()
 {
 	// echo test
 	
-	//ServerSerializer sr;
-	//*m_packet >> sr;
-	//m_UDPSession->Send(sr.GetBuffer(), );
+	const std::vector<IPEndPoint>& test =  ServerCore::GetAllUserEndPoint();
+
+	for (const IPEndPoint& userEndPoint : test)
+	{
+		ServerSerializer sr;
+		*m_packet >> sr;
+		m_UDPSession->Send(sr.GetBuffer(), userEndPoint);
+	}
 
 }

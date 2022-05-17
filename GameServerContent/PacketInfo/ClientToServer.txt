@@ -16,4 +16,4 @@ std::string SelectCharNickName;
 std::string NickName;
 
 |UDPStart-
-std::string UdpStartDummy;
+int udpPort;

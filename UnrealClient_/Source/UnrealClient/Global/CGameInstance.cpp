@@ -113,9 +113,7 @@ bool UCGameInstance::ConnectUDPServer()
 		return false;
 	}
 
-	// uneral udp endpoint 만들기
-	// 소켓 생성을 위한 endpoint
-	// send 보내기위해 저장
+	// 소켓 생성을 위해 endpoint생성
 	FIPv4Address connectAddress;
 	FIPv4Address::Parse(m_serverIP, connectAddress);
 	FIPv4Endpoint unrealUDPEndPoint = FIPv4Endpoint(connectAddress, m_unrealUDPPort);
