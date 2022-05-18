@@ -36,6 +36,7 @@ public: // member Func
 	void operator<<(UINT _value);
 	void operator<<(float _value);
 	void operator<<(const std::string& _value);
+	void operator<<(const FVector4& _Value);
 
 	template<typename T>
 	void WriteEnum(const T _Value)
@@ -60,6 +61,7 @@ public: // member Func
 	void operator>>(UINT& _value);
 	void operator>>(float& _value);
 	void operator>>(std::string& _value);
+	void operator>>(FVector4& _Value);
 
 	template<typename T>
 	void ReadEnum(T& _Value)

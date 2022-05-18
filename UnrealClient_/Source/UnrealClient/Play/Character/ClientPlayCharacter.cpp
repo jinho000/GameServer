@@ -29,27 +29,22 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// 프레임 체크
-	//static float accTime = 0.f;
-	//static int accframe = 0;
-	//accTime += DeltaTime;
-	//++accframe;
+	static int accframe = 0;
+	++accframe;
 
-	//if (1.f < accTime)
-	//{
-	//	accTime = 0.f;
-	//	accframe = 0;
-	//}
+	// 10프레임마다 패킷 보내기
+	if (accframe % 10 == 0)
+	{
+		PlayerUpdatePacket packet;
+		ServerSerializer sr;
+		packet.PlayerData = {};
+		packet.PlayerData.Pos = FVector4{1, 2, 3, 4};
+		packet >> sr;
+		UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+		gameInst->SendUDP(sr.GetBuffer());
 
-	//// 10프레임마다 패킷 보내기
-	//if (accframe % 10 == 0)
-	//{
-	//	PlayerUpdatePacket packet;
-	//	ServerSerializer sr;
-	//	packet.playerData = "test";
-	//	packet >> sr;
-	//	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	//	gameInst->SendUDP(sr.GetBuffer());
-	//}
+		accframe = 0;
+	}
 
 }
 

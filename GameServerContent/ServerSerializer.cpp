@@ -61,6 +61,11 @@ void ServerSerializer::operator<<(const std::string& _value)
 	Write(_value.c_str(), static_cast<int>(_value.size()));
 }
 
+void ServerSerializer::operator<<(const FVector4& _Value)
+{
+	Write(&_Value, sizeof(FVector4));
+}
+
 void ServerSerializer::Read(void* _data, int _size)
 {
 	// 쓰기전용인 경우 읽기 불가
@@ -94,4 +99,9 @@ void ServerSerializer::operator>>(std::string& _value)
 	Read(&size, sizeof(size_t));
 	_value.resize(size);
 	Read(&_value[0], static_cast<int>(size));
+}
+
+void ServerSerializer::operator>>(FVector4& _Value)
+{
+	Read(&_Value, sizeof(FVector4));
 }

@@ -53,7 +53,7 @@ void SerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	{
 		_Text += "        _Serializer << " + _MemberInfo.Name + ";\n";
 	}
-	else if (_MemberInfo.Type == "FVector")
+	else if (_MemberInfo.Type == "FVector4")
 	{
 		_Text += "        _Serializer << " + _MemberInfo.Name + ";\n";
 	}
@@ -88,7 +88,7 @@ void DeSerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	{
 		_Text += "        _Serializer >> " + _MemberInfo.Name + ";\n";
 	}
-	else if (_MemberInfo.Type == "FVector")
+	else if (_MemberInfo.Type == "FVector4")
 	{
 		_Text += "        _Serializer >> " + _MemberInfo.Name + ";\n";
 	}
@@ -120,7 +120,7 @@ void MessageHeaderCreate(std::vector<MessageInfo>& _Collection, const std::strin
 	MessageText += "#pragma once\n";
 	MessageText += "#include \"ServerPacketBase.h\"\n";
 	MessageText += "\n";
-
+		
 
 	for (size_t i = 0; i < _Collection.size(); i++)
 	{
@@ -454,6 +454,7 @@ int main()
 		{
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerSerializer.h"), "rt" };
 			std::string Code = LoadFile.GetString();
+			Code.erase(strlen("#pragma once\n"), strlen("#include <GameServerBase/ServerMathStruct.h>\n"));
 
 			std::string SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerSerializer.h");
 			vecSaveFile.push_back({ SavePath , Code});
@@ -461,8 +462,8 @@ int main()
 
 			GameServerFile LoadCPPFile = { FileDir.PathToPlusFileName("ServerSerializer.cpp"), "rt" };
 			Code = LoadCPPFile.GetString();
-
 			Code.erase(0, strlen("#include \"pch.h\"") + 1);
+
 			SavePath = SaveDir.PathToPlusFileName("ClientPackets\\ServerSerializer.cpp");
 			vecSaveFile.push_back({ SavePath , Code });
 		}

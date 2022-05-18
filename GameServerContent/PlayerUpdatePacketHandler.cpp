@@ -13,14 +13,14 @@ void PlayerUpdatePacketHandler::InitUDP(PtrSUDPSession _UDPSession, std::shared_
 void PlayerUpdatePacketHandler::Start()
 {
 	// echo test
-	
-	const std::vector<IPEndPoint>& test =  ServerCore::GetAllUserEndPoint();
+	//const std::vector<IPEndPoint>& test =  ServerCore::GetAllUserEndPoint();
+	//for (const IPEndPoint& userEndPoint : test)
+	//{
+	//	ServerSerializer sr;
+	//	*m_packet >> sr;
+	//	m_UDPSession->Send(sr.GetBuffer(), userEndPoint);
+	//}
 
-	for (const IPEndPoint& userEndPoint : test)
-	{
-		ServerSerializer sr;
-		*m_packet >> sr;
-		m_UDPSession->Send(sr.GetBuffer(), userEndPoint);
-	}
+	ServerDebug::LogInfo("player update packet");
 
 }

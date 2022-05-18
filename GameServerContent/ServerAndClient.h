@@ -43,12 +43,12 @@ public:
 class PlayerUpdatePacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	std::string playerData;
+	FPlayerUpdateData PlayerData;
                                                                 
 public:                                                         
     PlayerUpdatePacket()                                               
         : ServerPacketBase(PacketType::PlayerUpdate)                    
-        , playerData()
+        , PlayerData()
     {                                                           
                                                                 
     }                                                           
@@ -57,20 +57,20 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(playerData);
+		return DataSizeCheck(PlayerData);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << playerData;
+        PlayerData.Serialize(_Serializer);
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> playerData;
+        PlayerData.Deserialize(_Serializer);
 
     }                                                           
 };                                                              

@@ -1,4 +1,5 @@
 #pragma once
+#include <GameServerBase/ServerMathStruct.h>
 // 언리얼에서 사용하기 위한 헤더
 #include <vector>
 #include <string>
@@ -36,6 +37,7 @@ public: // member Func
 	void operator<<(UINT _value);
 	void operator<<(float _value);
 	void operator<<(const std::string& _value);
+	void operator<<(const FVector4& _Value);
 
 	template<typename T>
 	void WriteEnum(const T _Value)
@@ -60,6 +62,7 @@ public: // member Func
 	void operator>>(UINT& _value);
 	void operator>>(float& _value);
 	void operator>>(std::string& _value);
+	void operator>>(FVector4& _Value);
 
 	template<typename T>
 	void ReadEnum(T& _Value)

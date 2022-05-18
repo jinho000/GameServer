@@ -53,3 +53,60 @@ public:
 		_Ser >> RoomZ;
 	}
 };
+
+struct FPlayerUpdateData
+{
+	//uint64_t ObjectIndex;
+	//uint64_t ThreadIndex;
+	//uint64_t SectionIndex;
+	FVector4 Dir;
+	FVector4 Pos;
+	FVector4 Rot;
+	int State;
+
+	template<typename EnumType>
+	EnumType GetState()
+	{
+		return static_cast<EnumType>(State);
+	}
+
+	template<typename EnumType>
+	void SetState(EnumType _Type)
+	{
+		State = static_cast<int>(_Type);
+	}
+
+
+	int GetDataSize()
+	{
+		return sizeof(FPlayerUpdateData);
+	}
+
+	void Serialize(ServerSerializer& _Ser)
+	{
+		//_Ser << ObjectIndex;
+		//_Ser << ThreadIndex;
+		//_Ser << SectionIndex;
+		_Ser << Dir;
+		_Ser << Pos;
+		_Ser << Rot;
+		_Ser << State;
+	}
+
+	void Deserialize(ServerSerializer& _Ser)
+	{
+		//_Ser >> ObjectIndex;
+		//_Ser >> ThreadIndex;
+		//_Ser >> SectionIndex;
+		_Ser >> Dir;
+		_Ser >> Pos;
+		_Ser >> Rot;
+		_Ser >> State;
+	}
+
+
+	FPlayerUpdateData() {
+	}
+	~FPlayerUpdateData() {
+	}
+};
