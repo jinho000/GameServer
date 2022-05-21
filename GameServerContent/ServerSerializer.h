@@ -35,6 +35,7 @@ public: // member Func
 	void Write(const void* _data, int size);
 	void operator<<(int _value);
 	void operator<<(UINT _value);
+	void operator<<(uint64_t _value);
 	void operator<<(float _value);
 	void operator<<(const std::string& _value);
 	void operator<<(const FVector4& _Value);
@@ -60,6 +61,7 @@ public: // member Func
 	void Read(void* _data, int size);
 	void operator>>(int& _value);
 	void operator>>(UINT& _value);
+	void operator>>(uint64_t& _value);
 	void operator>>(float& _value);
 	void operator>>(std::string& _value);
 	void operator>>(FVector4& _Value);

@@ -7,7 +7,7 @@
 #include "../../Global/CGameInstance.h"
 #include "../../Packets/ClientPackets/Packets.h"
 #include "../../Packets/ClientPackets/ServerSerializer.h"
-
+#include "../../Packets/ClientPackets/Packets.h"
 
 AClientPlayCharacter::AClientPlayCharacter()
 	: AClientCharacter()
@@ -21,6 +21,15 @@ AClientPlayCharacter::AClientPlayCharacter()
 void AClientPlayCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	PlayerComeInPacket packet;
+	packet.PlayerData = {};
+	packet.PlayerData.PlayerID = gameInst->PlayerID;
+
+	ServerSerializer sr;
+	packet >> sr;
+	gameInst->SendBytes(sr.GetBuffer());
 }
 
 // Called every frame

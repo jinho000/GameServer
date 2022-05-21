@@ -269,12 +269,12 @@ public:
 class UDPStartResultPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	std::string dummy;
+	uint64_t PlayerID;
                                                                 
 public:                                                         
     UDPStartResultPacket()                                               
         : ServerPacketBase(PacketType::UDPStartResult)                    
-        , dummy()
+        , PlayerID()
     {                                                           
                                                                 
     }                                                           
@@ -283,20 +283,55 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(dummy);
+		return DataSizeCheck(PlayerID);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << dummy;
+        _Serializer << PlayerID;
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> dummy;
+        _Serializer >> PlayerID;
+
+    }                                                           
+};                                                              
+
+class AllPlayerInfoPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::vector<FPlayerUpdateData> AllPlayerInfo;
+                                                                
+public:                                                         
+    AllPlayerInfoPacket()                                               
+        : ServerPacketBase(PacketType::AllPlayerInfo)                    
+        , AllPlayerInfo()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~AllPlayerInfoPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(AllPlayerInfo);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteVector(AllPlayerInfo);
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadVector(AllPlayerInfo);
 
     }                                                           
 };                                                              

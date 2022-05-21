@@ -33,7 +33,7 @@ void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 				m_selectCharacter = UserDBData->UserCharacterList[i];
 
 				// 세션에 유저 추가하기
-				InsertUserToSection();
+				//InsertUserToSection();
 				return;
 			}
 		}
@@ -50,7 +50,7 @@ void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 void SelectCharacterPacketHandler::InsertUserToSection()
 {
 	// 세션에 유저 등록
-	GameSessionManager::GetInst()->InsertUser(EGameSession::SESSION0, m_TCPSession);
+	//GameSessionManager::GetInst()->InsertUser(EGameSession::SESSION0, m_TCPSession);
 }
 
 void SelectCharacterPacketHandler::DBThreadCheckSelectCharacter()

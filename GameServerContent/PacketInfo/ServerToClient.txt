@@ -25,4 +25,7 @@ std::string SelectCharNickName;
 EResultCode ResultCode;
 
 |UDPStartResult-
-std::string dummy;
+uint64_t PlayerID;
+
+|AllPlayerInfo-
+std::vector<FPlayerUpdateData> AllPlayerInfo;

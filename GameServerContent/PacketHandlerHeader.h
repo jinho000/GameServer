@@ -7,3 +7,4 @@
 #include "UDPStartPacketHandler.h"
 #include "ChatMessagePacketHandler.h"
 #include "PlayerUpdatePacketHandler.h"
+#include "PlayerComeInPacketHandler.h"

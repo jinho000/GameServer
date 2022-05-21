@@ -11,4 +11,5 @@ PacketDispatcher<Session>::PacketDispatcher()
 	AddHandler(PacketType::UDPStart, std::bind(&ProcessHandler<UDPStartPacket, UDPStartPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatMessagePacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::PlayerUpdate, std::bind(&ProcessHandler<PlayerUpdatePacket, PlayerUpdatePacketHandler>, std::placeholders::_1, std::placeholders::_2));	
+	AddHandler(PacketType::PlayerComeIn, std::bind(&ProcessHandler<PlayerComeInPacket, PlayerComeInPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 }			

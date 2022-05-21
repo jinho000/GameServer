@@ -29,6 +29,7 @@ void ServerThread::SetThreadName(const std::string& _Name)
 	std::wstring String;
 	String.assign(_Name.begin(), _Name.end());
 	HRESULT hr = SetThreadDescription(GetCurrentThread(), String.c_str());
+	
 }
 
 std::string ServerThread::GetName()

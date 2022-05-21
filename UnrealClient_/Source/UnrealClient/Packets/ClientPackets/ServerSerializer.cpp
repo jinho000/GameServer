@@ -48,6 +48,11 @@ void ServerSerializer::operator<<(UINT _value)
 	Write(&_value, sizeof(UINT));
 }
 
+void ServerSerializer::operator<<(uint64_t _value)
+{
+	Write(&_value, sizeof(uint64_t));
+}
+
 void ServerSerializer::operator<<(float _value)
 {
 	Write(&_value, sizeof(float));
@@ -85,6 +90,11 @@ void ServerSerializer::operator>>(int& _value)
 void ServerSerializer::operator>>(UINT& _value)
 {
 	Read(&_value, sizeof(UINT));
+}
+
+void ServerSerializer::operator>>(uint64_t& _value)
+{
+	Read(&_value, sizeof(uint64_t));
 }
 
 void ServerSerializer::operator>>(float& _value)

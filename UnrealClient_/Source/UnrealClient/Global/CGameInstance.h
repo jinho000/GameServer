@@ -66,6 +66,10 @@ public:
 	class UCharacterSelectUI*	CharacterSelectUI;
 	class UListView*			CharacterSelectUIListView;
 
+	// Play
+	uint64_t					PlayerID;
+
+
 // default
 public:
 	UCGameInstance();

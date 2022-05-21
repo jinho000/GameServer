@@ -170,12 +170,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ChattingTable.h" />
+    <ClInclude Include="ClientPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DeleteCharacterPacketHandler.h" />
     <ClInclude Include="GameSession.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GameSessionManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerComeInPacketHandler.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -234,12 +242,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChattingTable.cpp" />
+    <ClCompile Include="ClientPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DeleteCharacterPacketHandler.cpp" />
     <ClCompile Include="GameSession.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GameSessionManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerComeInPacketHandler.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -246,6 +246,7 @@ void TCPListener::BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession 
 		// 패킷요청한 세션을 무시하고 전달하는 경우
 		if (iter->second == _exceptSession)
 		{
+			++iter;
 			continue;
 		}
 		iter->second->Send(_buffer);

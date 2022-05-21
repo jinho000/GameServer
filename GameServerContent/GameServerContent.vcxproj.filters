@@ -97,6 +97,12 @@
     <ClInclude Include="UDPStartPacketHandler.h">
       <Filter>ThreadHandler\Login</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerComeInPacketHandler.h">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPlayer.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -162,6 +168,12 @@
     <ClCompile Include="UDPStartPacketHandler.cpp">
       <Filter>ThreadHandler\Login</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerComeInPacketHandler.cpp">
+      <Filter>ThreadHandler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPlayer.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -220,6 +232,9 @@
     </Filter>
     <Filter Include="ThreadHandler\UDP">
       <UniqueIdentifier>{a25c48fd-12a6-4f14-879c-a2fd3fb3df96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{ec8f6d2f-a8de-4655-88d6-be5a3e97daed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -56,7 +56,7 @@ public:
 
 struct FPlayerUpdateData
 {
-	//uint64_t ObjectIndex;
+	uint64_t PlayerID;
 	//uint64_t ThreadIndex;
 	//uint64_t SectionIndex;
 	FVector4 Dir;
@@ -84,7 +84,7 @@ struct FPlayerUpdateData
 
 	void Serialize(ServerSerializer& _Ser)
 	{
-		//_Ser << ObjectIndex;
+		_Ser << PlayerID;
 		//_Ser << ThreadIndex;
 		//_Ser << SectionIndex;
 		_Ser << Dir;
@@ -95,7 +95,7 @@ struct FPlayerUpdateData
 
 	void Deserialize(ServerSerializer& _Ser)
 	{
-		//_Ser >> ObjectIndex;
+		_Ser >> PlayerID;
 		//_Ser >> ThreadIndex;
 		//_Ser >> SectionIndex;
 		_Ser >> Dir;

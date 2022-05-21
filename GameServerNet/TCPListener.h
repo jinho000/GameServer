@@ -56,7 +56,7 @@ public: // member Func
 
 	void BindNetQueue(const ServerQueue& _workQueue);
 
-	void BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _requestSession);
+	void BroadCast(const std::vector<uint8_t>& _buffer, PtrSTCPSession _exceptSession);
 	void BroadCast(const std::vector<uint8_t>& _buffer);
 
 };

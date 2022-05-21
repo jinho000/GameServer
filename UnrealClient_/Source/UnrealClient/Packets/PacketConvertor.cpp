@@ -53,11 +53,17 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::UDPStartResult:
 		m_packet = std::make_shared<UDPStartResultPacket>();
 		break;
+	case PacketType::AllPlayerInfo:
+		m_packet = std::make_shared<AllPlayerInfoPacket>();
+		break;
 	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();
 		break;
 	case PacketType::PlayerUpdate:
 		m_packet = std::make_shared<PlayerUpdatePacket>();
+		break;
+	case PacketType::PlayerComeIn:
+		m_packet = std::make_shared<PlayerComeInPacket>();
 		break;
 	default:
 		return;

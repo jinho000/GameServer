@@ -53,6 +53,10 @@ void SerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 	{
 		_Text += "        _Serializer << " + _MemberInfo.Name + ";\n";
 	}
+	else if (_MemberInfo.Type == "uint64_t")
+	{
+		_Text += "        _Serializer << " + _MemberInfo.Name + ";\n";
+	}
 	else if (_MemberInfo.Type == "FVector4")
 	{
 		_Text += "        _Serializer << " + _MemberInfo.Name + ";\n";
@@ -85,6 +89,10 @@ void DeSerializerTypeCheck(std::string& _Text, MemberInfo& _MemberInfo)
 		_Text += "        _Serializer >> " + _MemberInfo.Name + ";\n";
 	}
 	else if (_MemberInfo.Type == "int")
+	{
+		_Text += "        _Serializer >> " + _MemberInfo.Name + ";\n";
+	}
+	else if (_MemberInfo.Type == "uint64_t")
 	{
 		_Text += "        _Serializer >> " + _MemberInfo.Name + ";\n";
 	}

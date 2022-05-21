@@ -16,7 +16,9 @@ enum class PacketType
 	SelectCharacterResult,
 	InsertSectionResult,
 	UDPStartResult,
+	AllPlayerInfo,
 	ChatMessage,
 	PlayerUpdate,
+	PlayerComeIn,
 	MAX
 };
