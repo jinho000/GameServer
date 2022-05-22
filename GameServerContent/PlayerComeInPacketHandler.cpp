@@ -13,23 +13,24 @@ void PlayerComeInPacketHandler::Start()
 	// 현재 접속한 유저는 제외하고 보내야한다
 	ServerSerializer sr;
 	*m_packet >> sr;
-	m_TCPSession->GetTCPListener()->BroadCast(sr.GetBuffer());
+	m_TCPSession->GetTCPListener()->BroadCast(sr.GetBuffer(), m_TCPSession);
 	
 	
-	// 접속해있는 다른 유저에 대한 정보 보내기
-	
+	// 방금 접속한 유저에게 접속해있는 다른 유저에 대한 정보 보내기
 	// 지금은 게임서버(나중에는 세션으로 바꾸기)
-	//const std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>& allPlayer = ContentCore::GetAllPlayer();
-	//AllPlayerInfoPacket packet;
-	//auto iter = allPlayer.begin();
-	//while (iter != allPlayer.end())
-	//{
-	//	packet.AllPlayerInfo.push_back(iter->second->GetPlayerData());
-	//	++iter;
-	//}
+	{
+		const std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>& allPlayer = ContentCore::GetAllPlayer();
+		AllPlayerInfoPacket packet;
+		auto iter = allPlayer.begin();
+		while (iter != allPlayer.end())
+		{
+			packet.AllPlayerInfo.push_back(iter->second->GetPlayerData());
+			++iter;
+		}
 
-	//ServerSerializer sr2;
-	//packet >> sr2;
-	//m_TCPSession->Send(sr2.GetBuffer());
+		ServerSerializer sr;
+		packet >> sr;
+		m_TCPSession->Send(sr.GetBuffer());
+	}
 	
 }

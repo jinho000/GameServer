@@ -16,7 +16,10 @@ class UNREALCLIENT_API AClientCharacter : public ACharacter
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
 	TMap <ClientAnimationType, class UAnimMontage* >	m_Animations;
+
 	UClientAnimInstance*								m_AnimationInst;
+
+	uint64_t											m_playerID;
 
 public:
 	// Sets default values for this character's properties
@@ -42,4 +45,11 @@ public:
 
 
 	float LookZ(FVector _Dir, float _Ratio = 1.0f);
+
+	void SetPlayerID(uint64_t _playerID)
+	{
+		m_playerID = _playerID;
+	}
+
+	uint64_t GetPlayerID() { return m_playerID; }
 };

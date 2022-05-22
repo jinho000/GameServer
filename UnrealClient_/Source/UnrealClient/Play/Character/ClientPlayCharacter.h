@@ -41,4 +41,7 @@ private:
 
 	// _Dir방향으로 캐릭터가 바라봄
 	FVector MouseVectorToWorldVector();
+
+	// 기능 테스트 함수
+	void TestFunction();
 };

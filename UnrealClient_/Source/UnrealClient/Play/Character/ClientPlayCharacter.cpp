@@ -3,11 +3,13 @@
 
 #include "ClientPlayCharacter.h"
 #include <GameFramework/PlayerInput.h>
+#include <Kismet/GameplayStatics.h>
 #include "../../UnrealClient.h"
 #include "../../Global/CGameInstance.h"
 #include "../../Packets/ClientPackets/Packets.h"
 #include "../../Packets/ClientPackets/ServerSerializer.h"
 #include "../../Packets/ClientPackets/Packets.h"
+#include "../../Play/PlayGameMode.h"
 
 AClientPlayCharacter::AClientPlayCharacter()
 	: AClientCharacter()
@@ -78,7 +80,8 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
 
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Attack", EKeys::LeftMouseButton));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestFunc", EKeys::NumPadZero));
+		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Attack", EKeys::LeftMouseButton));
 
 	}
 
@@ -90,7 +93,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
 	//PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
-	//PlayerInputComponent->BindAction("TestPacket0", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestPacketUpdate0);
+	PlayerInputComponent->BindAction("TestFunc", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestFunction);
 
 	FInputModeGameAndUI InputMode;
 	GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
@@ -172,4 +175,18 @@ FVector AClientPlayCharacter::MouseVectorToWorldVector()
 	}
 
 	return TraceHitResult.Location;
+}
+
+void AClientPlayCharacter::TestFunction()
+{
+	UWorld* pWorld = GetWorld();
+	APlayGameMode* PGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(pWorld));
+	TSubclassOf<AClientCharacter> OtherPlayerClass = PGameMode->GetOtherPlayerClass();
+
+	FTransform Transform = { };
+	Transform.SetLocation({ 0, 0, 400.f });
+	
+	AClientCharacter* NewCharacter = pWorld->SpawnActorDeferred<AClientCharacter>(OtherPlayerClass.Get(), Transform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	NewCharacter->FinishSpawning(Transform);
+
 }
