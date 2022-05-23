@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
 #include "Character/ClientCharacter.h"
+#include "../Packets/ClientPackets/ContentStruct.h"
 #include "PlayGameMode.generated.h"
+
 
 /**
  * 
@@ -30,6 +32,5 @@ public:
 		return OtherPlayerClass;
 	}
 
-	void SpawnNewOtherPlayer(uint64_t _playerID);
-
+	void SpawnOtherPlayer(const FPlayerUpdateData& _playerData);
 };

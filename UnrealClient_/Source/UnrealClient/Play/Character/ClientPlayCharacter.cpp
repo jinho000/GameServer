@@ -24,10 +24,20 @@ void AClientPlayCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// 세션시작시 플레이어 처음 위치를 서버에 전송
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 	PlayerComeInPacket packet;
-	packet.PlayerData = {};
-	packet.PlayerData.PlayerID = gameInst->PlayerID;
+	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
+	packet.PlayerData.Dir = GetActorForwardVector();
+	packet.PlayerData.Pos = GetActorLocation();
+
+	FQuat RotData = GetActorQuat();
+	packet.PlayerData.Rot = FVector4(RotData.X, RotData.Y, RotData.Z, RotData.W);
+	packet.PlayerData.State = static_cast<int>(GetClientAnimInstance()->GetAnimationType());
+
+	//UpdateMsg.Data.ObjectIndex = Inst->ObjectIndex;
+	//UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
+	//UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
 
 	ServerSerializer sr;
 	packet >> sr;
@@ -46,15 +56,15 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 	// 10프레임마다 패킷 보내기
 	if (accframe % 10 == 0)
 	{
-		PlayerUpdatePacket packet;
-		ServerSerializer sr;
-		packet.PlayerData = {};
-		packet.PlayerData.Pos = FVector4{1, 2, 3, 4};
-		packet >> sr;
-		UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-		gameInst->SendUDP(sr.GetBuffer());
+		//PlayerUpdatePacket packet;
+		//ServerSerializer sr;
+		//packet.PlayerData = {};
+		//packet.PlayerData.Pos = FVector4{1, 2, 3, 4};
+		//packet >> sr;
+		//UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+		//gameInst->SendUDP(sr.GetBuffer());
 
-		accframe = 0;
+		//accframe = 0;
 	}
 
 }

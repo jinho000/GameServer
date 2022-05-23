@@ -28,59 +28,60 @@ private:
 	// Socket
 	TQueue<std::shared_ptr<ServerPacketBase>> m_packetQueue;
 
-	UnrealThread*		m_recvThread;
-	FRunnableThread*	m_runnableThread;
+	UnrealThread* m_recvThread;
+	FRunnableThread* m_runnableThread;
 
-	UnrealUDPThread*	m_UDPRecvThread;
-	FRunnableThread*	m_UDPrunnableThread;
+	UnrealUDPThread* m_UDPRecvThread;
+	FRunnableThread* m_UDPrunnableThread;
 
-	ISocketSubsystem*	m_socketSystem;
-	FSocket*			m_socket;
-	FSocket*			m_UDPsocket;
+	ISocketSubsystem* m_socketSystem;
+	FSocket* m_socket;
+	FSocket* m_UDPsocket;
 
 	// Server Info
 	FString				m_serverIP;			// TCP, UDP 같은서버 사용
 	int					m_TCPServerPort;
 
 	int					m_UDPServerPort;
-	int					m_unrealUDPPort;	
+	int					m_unrealUDPPort;
 
 	FIPv4Endpoint		m_serverUDPEndPoint;
 
 	// Chatting
-	UCChatWindow*		m_chatWindow;
+	UCChatWindow* m_chatWindow;
+
+	// 다음 레벨까지 들고있어야하므로
+	// 서버로부터 playerID를 받아 저장
+	uint64_t			m_playerID;
 
 public:
 	// Login
 	TAtomic<bool>		LoginProcess;
-	class UCLoginUI*	LoginUI;
+	class UCLoginUI* LoginUI;
 
 	// Join
-	class UJoinUI*		JoinUI;
+	class UJoinUI* JoinUI;
 
 	// User
 	std::vector<FCharacterInfo> UserCharacterList;
 	FCharacterInfo				SelectCharacter;
 
 	// Chracter Select UI
-	class UCharacterSelectUI*	CharacterSelectUI;
-	class UListView*			CharacterSelectUIListView;
-
-	// Play
-	uint64_t					PlayerID;
+	class UCharacterSelectUI* CharacterSelectUI;
+	class UListView* CharacterSelectUIListView;
 
 
-// default
+	// default
 public:
 	UCGameInstance();
 	virtual ~UCGameInstance();
 
-// Socket
+	// Socket
 private:
 	void CloseSocket();
 
 
-// Server
+	// Server
 public:
 	// 서버 연결 함수
 	bool ConnectServer(const FString& _IP, const FString& _port);
@@ -106,18 +107,21 @@ public:
 	// 언리얼 UDP포트 
 	int GetUnrealUDPPort() { return m_unrealUDPPort; }
 
-// Chatting
+	// Chatting
 public:
 
-	UCChatWindow* GetChatWindow() 
+	UCChatWindow* GetChatWindow()
 	{
 		check(nullptr != m_chatWindow)
-		return m_chatWindow; 
+			return m_chatWindow;
 	}
 
 	void SetChatWindow(UCChatWindow* _chatWindow) { m_chatWindow = _chatWindow; }
 
-// Characte
+	// Characte
 public:
 	void DeleteCharacter(const std::string& _deleteNickName);
+
+	void SetPlayerID(uint64_t _playerID) { m_playerID = _playerID; }
+	uint64_t GetPlayerID() { return m_playerID; }
 };

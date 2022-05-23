@@ -7,5 +7,5 @@ void UDPStartResultPacketHandler::Start()
 	// 다음 레벨로 이동
 	UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));
 
-	m_pGameInst->PlayerID = m_packet->PlayerID;
+	m_pGameInst->SetPlayerID(m_packet->PlayerID);	
 }

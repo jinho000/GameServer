@@ -15,6 +15,14 @@ void PlayerComeInPacketHandler::Start()
 	*m_packet >> sr;
 	m_TCPSession->GetTCPListener()->BroadCast(sr.GetBuffer(), m_TCPSession);
 	
+
+	// 방금 들어온 유저의 데이터 정보 저장하기
+	// ContentCore에 저장하기
+	// 
+	// 서버에서 클라이언트 플레이어 객체 생성시점과 초기화시점이 같지 않음
+	std::shared_ptr<ClientPlayer> pClientPlayer = ContentCore::GetClientPlayer(m_packet->PlayerData.PlayerID);
+	pClientPlayer->SetPlayerData(m_packet->PlayerData);
+
 	
 	// 방금 접속한 유저에게 접속해있는 다른 유저에 대한 정보 보내기
 	// 지금은 게임서버(나중에는 세션으로 바꾸기)

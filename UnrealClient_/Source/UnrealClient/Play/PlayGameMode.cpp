@@ -2,9 +2,9 @@
 #include "PlayGameMode.h"
 #include <Kismet/GameplayStatics.h>
 
-void APlayGameMode::SpawnNewOtherPlayer(uint64_t _playerID)
+void APlayGameMode::SpawnOtherPlayer(const FPlayerUpdateData& _playerData)
 {
-	if (nullptr != m_allOtherCharacter.Find(_playerID))
+	if (nullptr != m_allOtherCharacter.Find(_playerData.PlayerID))
 	{
 		// 이미 스폰된 플레이어임
 		UE_LOG(LogTemp, Log, TEXT("Already Spawned Player"));
@@ -12,12 +12,17 @@ void APlayGameMode::SpawnNewOtherPlayer(uint64_t _playerID)
 	}
 
 	FTransform Transform = { };
-	Transform.SetLocation({ 0, 0, 400.f });
 
 	UWorld* pWorld = GetWorld();
 	AClientCharacter* otherCharacter = pWorld->SpawnActorDeferred<AClientCharacter>(OtherPlayerClass.Get(), Transform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 	otherCharacter->FinishSpawning(Transform);
-	otherCharacter->SetPlayerID(_playerID);
+	otherCharacter->SetPlayerID(_playerData.PlayerID);
 
-	m_allOtherCharacter.Add(_playerID, otherCharacter);
+	// spwan된 캐릭터 위치 설정
+	FVector4 Rot = _playerData.Rot;
+	FQuat RotData = FQuat(Rot.X, Rot.Y, Rot.Z, Rot.W);
+	otherCharacter->SetActorRotation(RotData);
+	otherCharacter->SetActorLocation(_playerData.Pos);
+
+	m_allOtherCharacter.Add(_playerData.PlayerID, otherCharacter);
 }
