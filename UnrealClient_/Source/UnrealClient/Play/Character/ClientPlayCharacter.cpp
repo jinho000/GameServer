@@ -56,17 +56,9 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 	// 10프레임마다 패킷 보내기
 	if (accframe % 10 == 0)
 	{
-		//PlayerUpdatePacket packet;
-		//ServerSerializer sr;
-		//packet.PlayerData = {};
-		//packet.PlayerData.Pos = FVector4{1, 2, 3, 4};
-		//packet >> sr;
-		//UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-		//gameInst->SendUDP(sr.GetBuffer());
-
-		//accframe = 0;
+		SendUDPPlayerData();
+		accframe = 0;
 	}
-
 }
 
 // Called to bind functionality to input
@@ -156,6 +148,27 @@ void AClientPlayCharacter::Attack()
 	LookZ(MouseVectorToWorldVector() - GetActorLocation());
 
 	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
+}
+
+void AClientPlayCharacter::SendUDPPlayerData()
+{
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	PlayerUpdatePacket packet;
+	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
+	packet.PlayerData.Dir = GetActorForwardVector();
+	packet.PlayerData.Pos = GetActorLocation();
+
+	FQuat RotData = GetActorQuat();
+	packet.PlayerData.Rot = FVector4(RotData.X, RotData.Y, RotData.Z, RotData.W);
+	packet.PlayerData.State = static_cast<int>(GetClientAnimInstance()->GetAnimationType());
+
+	//UpdateMsg.Data.ObjectIndex = Inst->ObjectIndex;
+	//UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
+	//UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
+
+	ServerSerializer sr;
+	packet >> sr;
+	gameInst->SendUDP(sr.GetBuffer());
 }
 
 

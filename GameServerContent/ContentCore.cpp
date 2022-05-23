@@ -57,6 +57,13 @@ void ContentCore::AddNewPlayer(const std::shared_ptr<ClientPlayer>& _clientPlaye
 	ClientPlayerLock.unlock();
 }
 
+void ContentCore::SetPlayerData(const FPlayerUpdateData& _playerUpdateData)
+{
+	ClientPlayerLock.lock();
+	AllClientPlayer.find(_playerUpdateData.PlayerID)->second->SetPlayerData(_playerUpdateData);
+	ClientPlayerLock.unlock();
+}
+
 const std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>& ContentCore::GetAllPlayer()
 {
 	return AllClientPlayer;

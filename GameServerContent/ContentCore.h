@@ -39,8 +39,9 @@ protected:
 public:
 	// 세션으로 옮기기
 	static void AddNewPlayer(const std::shared_ptr<ClientPlayer>& _clientPlayer);
+	static void SetPlayerData(const FPlayerUpdateData& _playerUpdateData);
+
 	static const std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>& GetAllPlayer();
-	static std::shared_ptr<ClientPlayer> GetClientPlayer(uint64_t _playerID) { return  AllClientPlayer.find(_playerID)->second; }
 
 	static void SetUserEndPoint(const IPEndPoint& _userEndPoint);
 	static const std::vector<IPEndPoint>& GetAllUserEndPoint() { return AllUserEndPoint; };

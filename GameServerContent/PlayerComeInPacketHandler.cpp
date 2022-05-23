@@ -20,8 +20,7 @@ void PlayerComeInPacketHandler::Start()
 	// ContentCore에 저장하기
 	// 
 	// 서버에서 클라이언트 플레이어 객체 생성시점과 초기화시점이 같지 않음
-	std::shared_ptr<ClientPlayer> pClientPlayer = ContentCore::GetClientPlayer(m_packet->PlayerData.PlayerID);
-	pClientPlayer->SetPlayerData(m_packet->PlayerData);
+	ContentCore::SetPlayerData(m_packet->PlayerData);
 
 	
 	// 방금 접속한 유저에게 접속해있는 다른 유저에 대한 정보 보내기

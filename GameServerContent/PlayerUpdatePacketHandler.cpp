@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PlayerUpdatePacketHandler.h"
-#include <GameServerCore/ServerCore.h>
+#include "ContentCore.h"
 
 void PlayerUpdatePacketHandler::InitUDP(PtrSUDPSession _UDPSession, std::shared_ptr<PlayerUpdatePacket> _packet, const IPEndPoint& _clientEndPoint)
 {
@@ -12,15 +12,9 @@ void PlayerUpdatePacketHandler::InitUDP(PtrSUDPSession _UDPSession, std::shared_
 // UDP에서 사용
 void PlayerUpdatePacketHandler::Start()
 {
-	// echo test
-	//const std::vector<IPEndPoint>& test =  ServerCore::GetAllUserEndPoint();
-	//for (const IPEndPoint& userEndPoint : test)
-	//{
-	//	ServerSerializer sr;
-	//	*m_packet >> sr;
-	//	m_UDPSession->Send(sr.GetBuffer(), userEndPoint);
-	//}
+	// 들어온 플레이어 데이터를 서버에 저장
+	ContentCore::SetPlayerData(m_packet->PlayerData);
 
-	ServerDebug::LogInfo("player update packet");
+	// 서버에 접속한 다른 플레이어들에게 패킷 전달
 
 }
