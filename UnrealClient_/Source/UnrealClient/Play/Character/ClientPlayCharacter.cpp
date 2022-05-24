@@ -14,6 +14,8 @@
 AClientPlayCharacter::AClientPlayCharacter()
 	: AClientCharacter()
 	, m_MoveVector()
+	, m_playerID(-1)
+	, m_bUDPStart(false)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -24,10 +26,19 @@ void AClientPlayCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// 세션시작시 플레이어 처음 위치를 서버에 전송
+	// PlayGameMode에 플레이어 등록
+	APlayGameMode* pPlayGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	pPlayGameMode->SetPlayer(this);
+
+	// 레벨 진입시, 플레이어 생성시 UDP소켓 생성 및 시작
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	PlayerComeInPacket packet;
-	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
+	gameInst->ConnectUDPServer();
+
+	// 플레이어 처음 위치와 포트를 서버에 TCP로 전송
+	UDPStartPacket packet;
+	packet.udpPort = gameInst->GetUnrealUDPPort();
+
+	//packet.PlayerData.PlayerID = gameInst->GetPlayerID();
 	packet.PlayerData.Dir = GetActorForwardVector();
 	packet.PlayerData.Pos = GetActorLocation();
 
@@ -49,16 +60,16 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// 프레임 체크
-	static int accframe = 0;
-	++accframe;
+	SendUDPPlayerData();
+	//// 프레임 체크
+	//static int accframe = 0;
+	//++accframe;
 
-	// 10프레임마다 패킷 보내기
-	if (accframe % 10 == 0)
-	{
-		SendUDPPlayerData();
-		accframe = 0;
-	}
+	//// 5프레임마다 패킷 보내기
+	//if (accframe % 5 == 0)
+	//{
+	//	accframe = 0;
+	//}
 }
 
 // Called to bind functionality to input
@@ -152,9 +163,15 @@ void AClientPlayCharacter::Attack()
 
 void AClientPlayCharacter::SendUDPPlayerData()
 {
+	// 서버로부터 playerID를 받을경우에만 시작
+	if (m_bUDPStart == false)
+	{
+		return;
+	}
+
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 	PlayerUpdatePacket packet;
-	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
+	packet.PlayerData.PlayerID = m_playerID;
 	packet.PlayerData.Dir = GetActorForwardVector();
 	packet.PlayerData.Pos = GetActorLocation();
 
@@ -202,14 +219,12 @@ FVector AClientPlayCharacter::MouseVectorToWorldVector()
 
 void AClientPlayCharacter::TestFunction()
 {
-	UWorld* pWorld = GetWorld();
-	APlayGameMode* PGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(pWorld));
-	TSubclassOf<AClientCharacter> OtherPlayerClass = PGameMode->GetOtherPlayerClass();
-
-	FTransform Transform = { };
-	Transform.SetLocation({ 0, 0, 400.f });
-	
-	AClientCharacter* NewCharacter = pWorld->SpawnActorDeferred<AClientCharacter>(OtherPlayerClass.Get(), Transform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-	NewCharacter->FinishSpawning(Transform);
-
+	SendUDPPlayerData();
 }
+
+void AClientPlayCharacter::SetPlayerID(uint64_t _playerID)
+{
+	m_playerID = _playerID;
+	m_bUDPStart = true;
+}
+

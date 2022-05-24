@@ -55,7 +55,7 @@ UDPSession::~UDPSession()
 	delete m_recvOveralpped;
 	m_recvOveralpped = nullptr;
 
-	for (int i = 0; i < m_sendPool.size(); ++i)
+	while (m_sendPool.empty() == false)
 	{
 		UDPSendOverlapped* pSendOverlapped = m_sendPool.front(); m_sendPool.pop();
 		delete pSendOverlapped;

@@ -4,6 +4,7 @@
 #include <GameServerCore/ServerSectionManager.h>
 #include <GameServerCore/ServerSection.h>
 #include "ContentEnum.h"
+#include <GameServerNet/UDPSession.h>
 
 PacketDispatcher<TCPSession>				ContentCore::TcpDispatcher;
 UDPPacketDispatcher							ContentCore::UdpDispatcher;
@@ -76,8 +77,40 @@ void ContentCore::SetUserEndPoint(const IPEndPoint& _userEndPoint)
 	UnserEndPointLock.unlock();
 }
 
-void ContentCore::BroadCastUDP()
+void ContentCore::BroadCastUDP(ServerPacketBase* _packet, UDPSession* _udpSession)
 {
+	UnserEndPointLock.lock();
+	for (const IPEndPoint& userEndPoint : AllUserEndPoint)
+	{
+		ServerSerializer sr;
+		*_packet >> sr;
+		_udpSession->Send(sr.GetBuffer(), userEndPoint);
+	}
+	UnserEndPointLock.unlock();
+}
+
+void ContentCore::BroadCastAllPlayerDataUDP(const std::shared_ptr<UDPSession>& _udpSession)
+{
+	// 모든 유저의 정보를 패킷에 저장
+	AllPlayerInfoPacket packet;
+	ClientPlayerLock.lock();
+	auto iter = AllClientPlayer.begin();
+	while (iter != AllClientPlayer.end())
+	{
+		packet.AllPlayerInfo.push_back(iter->second->GetPlayerData());
+		++iter;
+	}
+	ClientPlayerLock.unlock();
+
+	// 패킷을 브로드캐스팅
+	UnserEndPointLock.lock();
+	for (const IPEndPoint& userEndPoint : AllUserEndPoint)
+	{
+		ServerSerializer sr;
+		packet >> sr;
+		_udpSession->Send(sr.GetBuffer(), userEndPoint);
+	}
+	UnserEndPointLock.unlock();
 }
 
 void ContentCore::UserStart()

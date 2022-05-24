@@ -8,6 +8,7 @@ enum class PacketType
 	SelectCharacter,
 	DeleteCharacter,
 	UDPStart,
+	PlayerUpdate,
 	LoginResult,
 	JoginResult,
 	CharacterList,
@@ -17,8 +18,8 @@ enum class PacketType
 	InsertSectionResult,
 	UDPStartResult,
 	AllPlayerInfo,
+	SpawnOtherPlayer,
 	ChatMessage,
-	PlayerUpdate,
 	PlayerComeIn,
 	MAX
 };

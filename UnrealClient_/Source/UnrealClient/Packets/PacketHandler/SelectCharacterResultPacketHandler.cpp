@@ -37,16 +37,8 @@ void SelectCharacterResultPacketHandler::Start()
 
 			UE_LOG(LogTemp, Log, TEXT("GameSession Number %d"), (int)m_packet->GameSessionType);
 
-			// UDP연결 시작
-			m_pGameInst->ConnectUDPServer();
-
-			// TCP로 UDP시작패킷 보내기
-			UDPStartPacket packet;
-			packet.udpPort = m_pGameInst->GetUnrealUDPPort();
-			ServerSerializer sr;
-			packet >> sr;
-
-			m_pGameInst->SendBytes(sr.GetBuffer());
+			// 다음레벨 이동
+			UGameplayStatics::OpenLevel(m_pWorld, TEXT("PlayLevel"));
 			return;
 		}
 	}

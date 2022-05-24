@@ -1,6 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "PlayGameMode.h"
 #include <Kismet/GameplayStatics.h>
+#include "../Global/CGameInstance.h"
+#include "Character/ClientOtherCharacter.h"
+
+void APlayGameMode::StartPlay()
+{
+	Super::StartPlay();
+
+}
+
+void APlayGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// 여기서 UDP 소켓 초기화
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	gameInst->ConnectUDPServer();
+
+}
 
 void APlayGameMode::SpawnOtherPlayer(const FPlayerUpdateData& _playerData)
 {
@@ -26,3 +44,25 @@ void APlayGameMode::SpawnOtherPlayer(const FPlayerUpdateData& _playerData)
 
 	m_allOtherCharacter.Add(_playerData.PlayerID, otherCharacter);
 }
+
+void APlayGameMode::UpdateOtherPlayerInfo(const std::vector<FPlayerUpdateData>& _allPlayerInfo)
+{
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	for (const FPlayerUpdateData& playerData : _allPlayerInfo)
+	{
+		if (playerData.PlayerID == m_player->GetPlayerID())
+		{
+			continue;
+		}
+
+		AClientOtherCharacter* pOtherCharacter = Cast<AClientOtherCharacter>(*(m_allOtherCharacter.Find(playerData.PlayerID)));
+		
+		pOtherCharacter->GetClientAnimInstance()->ChangeAnimation(static_cast<ClientAnimationType>(playerData.State));
+
+		FVector4 Rot = playerData.Rot;
+		FQuat RotData = FQuat(Rot.X, Rot.Y, Rot.Z, Rot.W);
+		pOtherCharacter->SetActorRotation(RotData);
+		pOtherCharacter->SetActorLocation(playerData.Pos);
+	}
+}
+

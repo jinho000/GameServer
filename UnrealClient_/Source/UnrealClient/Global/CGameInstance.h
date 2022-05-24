@@ -50,10 +50,6 @@ private:
 	// Chatting
 	UCChatWindow* m_chatWindow;
 
-	// 다음 레벨까지 들고있어야하므로
-	// 서버로부터 playerID를 받아 저장
-	uint64_t			m_playerID;
-
 public:
 	// Login
 	TAtomic<bool>		LoginProcess;
@@ -122,6 +118,4 @@ public:
 public:
 	void DeleteCharacter(const std::string& _deleteNickName);
 
-	void SetPlayerID(uint64_t _playerID) { m_playerID = _playerID; }
-	uint64_t GetPlayerID() { return m_playerID; }
 };

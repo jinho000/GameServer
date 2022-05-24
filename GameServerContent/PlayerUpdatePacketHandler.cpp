@@ -16,5 +16,5 @@ void PlayerUpdatePacketHandler::Start()
 	ContentCore::SetPlayerData(m_packet->PlayerData);
 
 	// 서버에 접속한 다른 플레이어들에게 패킷 전달
-
+	ContentCore::BroadCastAllPlayerDataUDP(m_UDPSession);
 }

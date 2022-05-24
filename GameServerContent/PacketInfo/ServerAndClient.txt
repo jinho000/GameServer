@@ -2,8 +2,5 @@
 std::string NickName;
 std::string Message;
 
-|PlayerUpdate-
-FPlayerUpdateData PlayerData;
-
 |PlayerComeIn-
 FPlayerUpdateData PlayerData;

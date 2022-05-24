@@ -92,16 +92,16 @@
       <Filter>ThreadHandler\Chatting</Filter>
     </ClInclude>
     <ClInclude Include="PlayerUpdatePacketHandler.h">
-      <Filter>ThreadHandler\UDP</Filter>
-    </ClInclude>
-    <ClInclude Include="UDPStartPacketHandler.h">
-      <Filter>ThreadHandler\Login</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerComeInPacketHandler.h">
-      <Filter>ThreadHandler\Login</Filter>
+      <Filter>ThreadHandler\Play\UDP</Filter>
     </ClInclude>
     <ClInclude Include="ClientPlayer.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPStartPacketHandler.h">
+      <Filter>ThreadHandler\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComeInPacketHandler.h">
+      <Filter>ThreadHandler\Play</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,16 +163,16 @@
       <Filter>ThreadHandler\Chatting</Filter>
     </ClCompile>
     <ClCompile Include="PlayerUpdatePacketHandler.cpp">
-      <Filter>ThreadHandler\UDP</Filter>
-    </ClCompile>
-    <ClCompile Include="UDPStartPacketHandler.cpp">
-      <Filter>ThreadHandler\Login</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerComeInPacketHandler.cpp">
-      <Filter>ThreadHandler\Login</Filter>
+      <Filter>ThreadHandler\Play\UDP</Filter>
     </ClCompile>
     <ClCompile Include="ClientPlayer.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPStartPacketHandler.cpp">
+      <Filter>ThreadHandler\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerComeInPacketHandler.cpp">
+      <Filter>ThreadHandler\Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,11 +230,14 @@
     <Filter Include="ThreadHandler\Chatting">
       <UniqueIdentifier>{7e8d4484-edf0-416d-983c-8d7f16bae158}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThreadHandler\UDP">
-      <UniqueIdentifier>{a25c48fd-12a6-4f14-879c-a2fd3fb3df96}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor">
       <UniqueIdentifier>{ec8f6d2f-a8de-4655-88d6-be5a3e97daed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\Play">
+      <UniqueIdentifier>{f8942622-3b2e-4fb0-a835-2d81eb247bf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\Play\UDP">
+      <UniqueIdentifier>{a25c48fd-12a6-4f14-879c-a2fd3fb3df96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,9 @@ class UNREALCLIENT_API AClientPlayCharacter : public AClientCharacter
 	GENERATED_BODY()
 
 private:
-	FVector m_MoveVector;
+	FVector		m_MoveVector;
+	uint64_t	m_playerID;
+	bool		m_bUDPStart;
 
 public:
 	// Sets default values for this character's properties
@@ -46,4 +48,8 @@ private:
 
 	// 기능 테스트 함수
 	void TestFunction();
+
+public:
+	void SetPlayerID(uint64_t _playerID);
+	uint64_t GetPlayerID() { return m_playerID; }
 };

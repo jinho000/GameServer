@@ -6,6 +6,8 @@
 ServerQueue DBQueue::WorkQueue;
 std::mutex DBQueue::ConnectionRock;
 
+std::vector<DBConnecter*> vecDBConnecter;
+
 void DBQueue::InitDBConnecter(DBConnecter* _DBConnecter)
 {
 	std::lock_guard<std::mutex> lockGuard(ConnectionRock);
@@ -32,6 +34,7 @@ void DBQueue::InitDBConnecter(DBConnecter* _DBConnecter)
 
 	ServerDebug::LogInfo("DBConnect");
 
+	vecDBConnecter.push_back(_DBConnecter);
 }
 
 void DBQueue::Init()
@@ -46,5 +49,7 @@ void DBQueue::EnQueue(const std::function<void()>& _work)
 
 void DBQueue::Destroy()
 {
+	mysql_library_end();
+
 	WorkQueue.Destroy();
 }

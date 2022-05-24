@@ -3,6 +3,7 @@
 #include "PacketDispatcher.h"
 #include "UDPPacketDispatcher.h"
 #include "ClientPlayer.h"
+#include "ServerPacketBase.h"
 
 // 용도 :
 // 분류 :
@@ -46,7 +47,8 @@ public:
 	static void SetUserEndPoint(const IPEndPoint& _userEndPoint);
 	static const std::vector<IPEndPoint>& GetAllUserEndPoint() { return AllUserEndPoint; };
 
-	static void BroadCastUDP();
+	static void BroadCastUDP(ServerPacketBase* _packet, UDPSession* _udpSession);
+	static void BroadCastAllPlayerDataUDP(const std::shared_ptr<UDPSession>& _udpSession);
 
 public: // member Func
 	void UserStart();

@@ -27,7 +27,7 @@ void PlayerComeInPacketHandler::Start()
 	// 지금은 게임서버(나중에는 세션으로 바꾸기)
 	{
 		const std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>& allPlayer = ContentCore::GetAllPlayer();
-		AllPlayerInfoPacket packet;
+		SpawnOtherPlayerPacket packet;
 		auto iter = allPlayer.begin();
 		while (iter != allPlayer.end())
 		{

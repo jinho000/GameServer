@@ -40,41 +40,6 @@ public:
     }                                                           
 };                                                              
 
-class PlayerUpdatePacket : public ServerPacketBase                    
-{                                                               
-public:                                                         
-	FPlayerUpdateData PlayerData;
-                                                                
-public:                                                         
-    PlayerUpdatePacket()                                               
-        : ServerPacketBase(PacketType::PlayerUpdate)                    
-        , PlayerData()
-    {                                                           
-                                                                
-    }                                                           
-                                                                
-    virtual ~PlayerUpdatePacket() {}             
-                                                                
-    virtual int SizeCheck()                                     
-    {                                                           
-		return DataSizeCheck(PlayerData);
-    }                                                           
-                                                                
-    void Serialize(ServerSerializer& _Serializer)           
-    {                                                           
-        ServerPacketBase::Serialize(_Serializer);              
-        PlayerData.Serialize(_Serializer);
-
-    }                                                           
-                                                                
-    void Deserialize(ServerSerializer& _Serializer)         
-    {                                                           
-        ServerPacketBase::Deserialize(_Serializer);            
-        PlayerData.Deserialize(_Serializer);
-
-    }                                                           
-};                                                              
-
 class PlayerComeInPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         

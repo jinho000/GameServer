@@ -336,3 +336,38 @@ public:
     }                                                           
 };                                                              
 
+class SpawnOtherPlayerPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	std::vector<FPlayerUpdateData> AllPlayerInfo;
+                                                                
+public:                                                         
+    SpawnOtherPlayerPacket()                                               
+        : ServerPacketBase(PacketType::SpawnOtherPlayer)                    
+        , AllPlayerInfo()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~SpawnOtherPlayerPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(AllPlayerInfo);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer.WriteVector(AllPlayerInfo);
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer.ReadVector(AllPlayerInfo);
+
+    }                                                           
+};                                                              
+

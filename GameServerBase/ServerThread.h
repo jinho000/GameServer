@@ -110,6 +110,7 @@ public:
 	template<typename LocalDataType>
 	static void DeleteThreadLocalData()
 	{
+
 		delete reinterpret_cast<LocalDataType*>(LOCAL_DATA);
 	}
 };

@@ -12,6 +12,7 @@ DBConnecter::DBConnecter()
 DBConnecter::~DBConnecter()
 {
 	mysql_close(m_mysqlPtr);
+	mysql_thread_end();
 }
 
 bool DBConnecter::Connect(const std::string _Host, const std::string _Id, const std::string _Pw, const std::string _Schema, unsigned int _Port)
@@ -24,7 +25,7 @@ bool DBConnecter::Connect(const std::string _Host, const std::string _Id, const 
 
 	// 디폴트 init
 	m_mysqlPtr = mysql_init(nullptr);
-
+	
 	if (nullptr == m_mysqlPtr)
 	{
 		ServerDebug::AssertDebugMsg("Mysql Init Error");
@@ -56,6 +57,9 @@ bool DBConnecter::Connect(const std::string _Host, const std::string _Id, const 
 	 //날려줄거니까.
 	 //함수만 열심히 찾으면 됩니다.
 	 //mysql_query(Handle, "SELECT * FROM userver2.character");
+
+	//mysql_library_end();
+	//mysql_close(m_mysqlPtr);
 
 	return true;
 }
@@ -91,5 +95,4 @@ std::string DBConnecter::GetLastError()
 {
 	return mysql_error(m_mysqlPtr);
 }
-
 
