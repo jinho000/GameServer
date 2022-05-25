@@ -258,3 +258,38 @@ public:
     }                                                           
 };                                                              
 
+class RequestMathPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	uint64_t PlayerID;
+                                                                
+public:                                                         
+    RequestMathPacket()                                               
+        : ServerPacketBase(PacketType::RequestMath)                    
+        , PlayerID()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~RequestMathPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(PlayerID);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << PlayerID;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> PlayerID;
+
+    }                                                           
+};                                                              
+

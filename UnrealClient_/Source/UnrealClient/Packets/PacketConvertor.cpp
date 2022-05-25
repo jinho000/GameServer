@@ -32,6 +32,9 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::PlayerUpdate:
 		m_packet = std::make_shared<PlayerUpdatePacket>();
 		break;
+	case PacketType::RequestMath:
+		m_packet = std::make_shared<RequestMathPacket>();
+		break;
 	case PacketType::LoginResult:
 		m_packet = std::make_shared<LoginResultPacket>();
 		break;
@@ -62,11 +65,11 @@ PacketConvertor::PacketConvertor(const std::vector<unsigned char>&_buffer)
 	case PacketType::SpawnOtherPlayer:
 		m_packet = std::make_shared<SpawnOtherPlayerPacket>();
 		break;
+	case PacketType::GameMatch:
+		m_packet = std::make_shared<GameMatchPacket>();
+		break;
 	case PacketType::ChatMessage:
 		m_packet = std::make_shared<ChatMessagePacket>();
-		break;
-	case PacketType::PlayerComeIn:
-		m_packet = std::make_shared<PlayerComeInPacket>();
 		break;
 	default:
 		return;

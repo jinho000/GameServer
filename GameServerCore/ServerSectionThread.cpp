@@ -51,7 +51,7 @@ void ServerSectionThread::SectionThreadWork(UINT _threadOrder)
 				// 종료
 				isExit = true;
 				break;
-			case -2:
+			default:
 				if (0 != CompletionKey)
 				{
 					//PostJob* JobTesk = reinterpret_cast<PostJob*>(CompletionKey);
@@ -70,26 +70,34 @@ void ServerSectionThread::SectionThreadWork(UINT _threadOrder)
 		float DelataTime = Timer.Update();
 		for (size_t i = 0; i < m_allSection.size(); i++)
 		{
-			//if (false == Sections_[i]->IsUpdate())
-			//{
-			//	continue;
-			//}
-			
-			// 이게 한프레임인겁니다.
-			m_allSection[i]->AccTimeUpdate(DelataTime);
+			// 이게 한프레임
+			//m_allSection[i]->AccTimeUpdate(DelataTime);
 			m_allSection[i]->Update(DelataTime);
 			m_allSection[i]->Release();
+		}
+
+
+		if (m_insertSection.empty() == false)
+		{
+			// 스레드 실행중 다른 섹션이 추가되면 여기서 락을걸고 추가한다
+			std::lock_guard lock(m_insertLock);
+			for (const std::shared_ptr<ServerSection>& section : m_insertSection)
+			{
+				m_allSection.push_back(section);
+			}
+
+			m_insertSection.clear();
 		}
 
 		Sleep(1);
 	}
 }
 
-void ServerSectionThread::AddSection(std::shared_ptr<ServerSection> _Section)
+void ServerSectionThread::AddSection(const std::shared_ptr<ServerSection>& _section)
 {
-	m_allSection.push_back(_Section);
-	m_KeySections_.insert(std::make_pair(_Section->GetSectionIndex(), _Section));
-
+	// 스레드에서 몇번째 섹션인지 설정
+	_section->SetSectionIndex(static_cast<UINT>(m_allSection.size()));
+	m_insertSection.push_back(_section);
 }
 
 void ServerSectionThread::StartThread(UINT _threadOrder)

@@ -6,6 +6,7 @@
 #include <GameServerBase/GameServerDirectory.h>
 #include <GameServerNet/ServerHelper.h>
 
+#include "ServerSectionManager.h"
 #include "NetQueue.h"
 #include "DBQueue.h"
 
@@ -123,6 +124,8 @@ bool ServerCore::CoreInit()
 
 	NetQueue::Init();
 	ServerDebug::LogInfo("Net Thread Init OK");
+
+	//ServerSectionManager::GetInst()->Init(4);
 
 	return true;
 }

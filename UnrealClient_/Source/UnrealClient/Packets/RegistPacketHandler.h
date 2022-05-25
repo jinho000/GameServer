@@ -12,6 +12,6 @@ void UPacketComponent::RegistPacketHandler()
 	m_handlerContainer.insert(std::make_pair(PacketType::UDPStartResult, std::bind(&ProcessHandler<UDPStartResultPacketHandler, UDPStartResultPacket>, std::placeholders::_1, m_pGameInst, world)));	
 	m_handlerContainer.insert(std::make_pair(PacketType::AllPlayerInfo, std::bind(&ProcessHandler<AllPlayerInfoPacketHandler, AllPlayerInfoPacket>, std::placeholders::_1, m_pGameInst, world)));	
 	m_handlerContainer.insert(std::make_pair(PacketType::SpawnOtherPlayer, std::bind(&ProcessHandler<SpawnOtherPlayerPacketHandler, SpawnOtherPlayerPacket>, std::placeholders::_1, m_pGameInst, world)));	
+	m_handlerContainer.insert(std::make_pair(PacketType::GameMatch, std::bind(&ProcessHandler<GameMatchPacketHandler, GameMatchPacket>, std::placeholders::_1, m_pGameInst, world)));	
 	m_handlerContainer.insert(std::make_pair(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacketHandler, ChatMessagePacket>, std::placeholders::_1, m_pGameInst, world)));	
-	m_handlerContainer.insert(std::make_pair(PacketType::PlayerComeIn, std::bind(&ProcessHandler<PlayerComeInPacketHandler, PlayerComeInPacket>, std::placeholders::_1, m_pGameInst, world)));	
 }

@@ -181,15 +181,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameSessionManager.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PlayerComeInPacketHandler.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayerUpdatePacketHandler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="RequestMathPacketHandler.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -210,6 +206,15 @@
     <ClInclude Include="ContentEnum.h" />
     <ClInclude Include="DBTableEHeader.h" />
     <ClInclude Include="ContentStruct.h" />
+    <ClInclude Include="ContentManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentQueue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerStruct.h" />
     <ClInclude Include="SessionUserDBData.h">
       <SubType>
       </SubType>
@@ -253,15 +258,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameSessionManager.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PlayerComeInPacketHandler.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PlayerUpdatePacketHandler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="RequestMathPacketHandler.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -275,6 +276,14 @@
     </ClCompile>
     <ClCompile Include="ChatMessagePacketHandler.cpp" />
     <ClCompile Include="ContentCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentQueue.cpp">
       <SubType>
       </SubType>
     </ClCompile>

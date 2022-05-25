@@ -19,6 +19,8 @@ private:
 	uint64_t	m_playerID;
 	bool		m_bUDPStart;
 
+	float		m_pingTime; // ping 체크용 시간
+
 public:
 	// Sets default values for this character's properties
 	AClientPlayCharacter();
@@ -52,4 +54,7 @@ private:
 public:
 	void SetPlayerID(uint64_t _playerID);
 	uint64_t GetPlayerID() { return m_playerID; }
+
+	void PingStart();
+	void PingEnd();
 };

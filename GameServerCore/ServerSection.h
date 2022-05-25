@@ -19,15 +19,17 @@ public: // default
 
 public:
 	void SetSectionIndex(UINT _sectionIndex) { m_sectionIndex = _sectionIndex; }
-	UINT GetSectionIndex() { return m_sectionIndex; }
+	//UINT GetSectionIndex() { return m_sectionIndex; }
 
 	void SetThreadOrder(UINT _threadOrder) { m_threadOrder = _threadOrder; }
 	
 public: // member Func
-	virtual void Init();
-	void AccTimeUpdate(float _AccTime);
-	bool Update(float _time);
-	void Release();
+	virtual void Init() {};
+	//void AccTimeUpdate(float _AccTime);
+
+	virtual void Update(float _time) = 0;
+
+	virtual void Release() {};
 
 };
 

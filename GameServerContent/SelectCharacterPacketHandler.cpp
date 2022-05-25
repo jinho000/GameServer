@@ -5,7 +5,6 @@
 #include "CharacterTable.h"
 #include "SessionUserDBData.h"
 #include "DBTableEHeader.h"
-#include "GameSessionManager.h"
 
 void SelectCharacterPacketHandler::NetThreadSendSelectResult()
 {

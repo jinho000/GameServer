@@ -1,27 +1,38 @@
 #pragma once
+#include "ServerStruct.h"
 
-// 용도 :
-// 분류 :
-// 첨언 :
-class TCPSession;
+// 게임을 진행할 세션
 class ServerPacketBase;
 class GameSession
 {
+	friend class ContentManager;
 private: // member var
-	std::vector<PtrSTCPSession> m_userSessionArry;
+	std::mutex				m_userInfoLock;
+	std::vector<UserInfo>	m_userInfo;		// session이 들고있는 유저의 정보
+	size_t					m_sessionIdx;	// session의 인덱스 번호
 
 public: // default
-	GameSession();
+	GameSession(UINT userCount, size_t sessionIdx);
 	~GameSession();
 
-	GameSession(const GameSession& _other) = delete;
-	GameSession(GameSession&& _other) = delete;
-	GameSession& operator=(const GameSession& _other) = delete;
-	GameSession& operator=(const GameSession&& _other) = delete;
+	// 이동생성자 만들기(contentmanager vector)
+	GameSession(const GameSession& other);
+	GameSession(GameSession&& other) noexcept;
+	GameSession& operator=(const GameSession& other);
+	GameSession& operator=(GameSession&& other) noexcept;
 
+private:
+	// ContentManger에서 락을 걸고 실행하는 함수
+
+	// 유저 추가
+	void AddUser(const UserInfo& userInfo);
+	
+	// 클라이언트에게 matching packet 전달
+	void BroadCastMachingPacket();
 
 public: // member Func
-	void InsertUser(PtrSTCPSession _tcpSession);
-	void BroadCast(ServerPacketBase* _packet);
+	void BroadCastTCP(const std::shared_ptr<ServerPacketBase>& packet);
+	void BroadCastUDP(const std::shared_ptr<ServerPacketBase>& packet, const std::shared_ptr<UDPSession>& udpSession);
+
 };
 

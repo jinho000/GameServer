@@ -21,3 +21,6 @@ FPlayerUpdateData PlayerData;
 
 |PlayerUpdate-
 FPlayerUpdateData PlayerData;
+
+|RequestMath-
+uint64_t PlayerID;

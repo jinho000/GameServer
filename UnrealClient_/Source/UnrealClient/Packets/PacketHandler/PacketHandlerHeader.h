@@ -9,5 +9,5 @@
 #include "UDPStartResultPacketHandler.h"
 #include "AllPlayerInfoPacketHandler.h"
 #include "SpawnOtherPlayerPacketHandler.h"
+#include "GameMatchPacketHandler.h"
 #include "ChatMessagePacketHandler.h"
-#include "PlayerComeInPacketHandler.h"

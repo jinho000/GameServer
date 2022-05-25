@@ -3,8 +3,11 @@
 #include <GameServerNet/TCPSession.h>
 #include <GameServerCore/ServerSectionManager.h>
 #include <GameServerCore/ServerSection.h>
-#include "ContentEnum.h"
 #include <GameServerNet/UDPSession.h>
+#include "ContentEnum.h"
+#include "ContentManager.h"
+#include "ContentQueue.h"
+
 
 PacketDispatcher<TCPSession>				ContentCore::TcpDispatcher;
 UDPPacketDispatcher							ContentCore::UdpDispatcher;
@@ -122,8 +125,18 @@ void ContentCore::UserStart()
 	CreateUDPSession(4);
 	SetUDPRecvCallBack(ContentCore::UDPRecvEvent);
 
-	// 이동시 UDP로 패킷 받아오기 
-	
-	// 세션 만들기
+	// SessionQueue 만들기
+	ContentQueue::Init();
 
+	// ContentManager 처리
+	// 게임의 컨텐츠 관련 내용을 처리
+	ContentManager::Init();
+
+
+}
+
+void ContentCore::UserEnd()
+{
+	ContentManager::Destroy();
+	ContentQueue::Destroy();
 }

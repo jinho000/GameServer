@@ -6,5 +6,5 @@
 #include "DeleteCharacterPacketHandler.h"
 #include "UDPStartPacketHandler.h"
 #include "PlayerUpdatePacketHandler.h"
+#include "RequestMathPacketHandler.h"
 #include "ChatMessagePacketHandler.h"
-#include "PlayerComeInPacketHandler.h"

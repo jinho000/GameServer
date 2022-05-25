@@ -371,3 +371,42 @@ public:
     }                                                           
 };                                                              
 
+class GameMatchPacket : public ServerPacketBase                    
+{                                                               
+public:                                                         
+	int sessionIdx;
+	int userIdx;
+                                                                
+public:                                                         
+    GameMatchPacket()                                               
+        : ServerPacketBase(PacketType::GameMatch)                    
+        , sessionIdx()
+        , userIdx()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~GameMatchPacket() {}             
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(sessionIdx) + DataSizeCheck(userIdx);
+    }                                                           
+                                                                
+    void Serialize(ServerSerializer& _Serializer)           
+    {                                                           
+        ServerPacketBase::Serialize(_Serializer);              
+        _Serializer << sessionIdx;
+        _Serializer << userIdx;
+
+    }                                                           
+                                                                
+    void Deserialize(ServerSerializer& _Serializer)         
+    {                                                           
+        ServerPacketBase::Deserialize(_Serializer);            
+        _Serializer >> sessionIdx;
+        _Serializer >> userIdx;
+
+    }                                                           
+};                                                              
+

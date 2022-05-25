@@ -10,6 +10,6 @@ PacketDispatcher<Session>::PacketDispatcher()
 	AddHandler(PacketType::DeleteCharacter, std::bind(&ProcessHandler<DeleteCharacterPacket, DeleteCharacterPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::UDPStart, std::bind(&ProcessHandler<UDPStartPacket, UDPStartPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::PlayerUpdate, std::bind(&ProcessHandler<PlayerUpdatePacket, PlayerUpdatePacketHandler>, std::placeholders::_1, std::placeholders::_2));	
+	AddHandler(PacketType::RequestMath, std::bind(&ProcessHandler<RequestMathPacket, RequestMathPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 	AddHandler(PacketType::ChatMessage, std::bind(&ProcessHandler<ChatMessagePacket, ChatMessagePacketHandler>, std::placeholders::_1, std::placeholders::_2));	
-	AddHandler(PacketType::PlayerComeIn, std::bind(&ProcessHandler<PlayerComeInPacket, PlayerComeInPacketHandler>, std::placeholders::_1, std::placeholders::_2));	
 }			

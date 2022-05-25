@@ -61,6 +61,9 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	SendUDPPlayerData();
+
+	m_pingTime += DeltaTime;
+
 	//// 프레임 체크
 	//static int accframe = 0;
 	//++accframe;
@@ -186,6 +189,9 @@ void AClientPlayCharacter::SendUDPPlayerData()
 	ServerSerializer sr;
 	packet >> sr;
 	gameInst->SendUDP(sr.GetBuffer());
+
+	// 타임체크
+	//PingStart();
 }
 
 
@@ -226,5 +232,27 @@ void AClientPlayCharacter::SetPlayerID(uint64_t _playerID)
 {
 	m_playerID = _playerID;
 	m_bUDPStart = true;
+}
+
+
+float PingStartTime = 0.f;
+float PingEndTime = 0.f;
+
+void AClientPlayCharacter::PingStart()
+{
+	PingStartTime = m_pingTime;
+}
+
+void AClientPlayCharacter::PingEnd()
+{
+	// 패킷 리시브 스레드
+
+	PingEndTime = m_pingTime;
+
+	//float pingTime = PingEndTime - PingStartTime;
+	UE_LOG(LogTemp, Log, TEXT("ping: %f"), PingEndTime - PingStartTime);
+
+	PingStartTime = 0.f;
+	PingEndTime = 0.f;
 }
 

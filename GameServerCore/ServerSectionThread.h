@@ -7,17 +7,15 @@
 class ServerSectionThread : public ServerThread
 {
 private: // member var
-	std::map<uint64_t, std::shared_ptr<ServerSection>> m_KeySections_;
-	std::vector<std::shared_ptr<ServerSection>> m_allSection;
+	std::vector<std::shared_ptr<ServerSection>> m_allSection; // 스레드에서 관리하는 섹션
 	
 	ServerIOCP IOCP; // thread에 일을 받기 위한 IOCP
 
 	// insert
 	// 섹션 추가시에만 락을 걸음
 	// 처음에 섹션개수를 고정후 사용할 경우 필요없음
-	std::mutex InsertLock_;
-	std::atomic<size_t> InsertSectionSize_;
-	std::vector<std::shared_ptr<ServerSection>> InsertSections_;
+	std::mutex m_insertLock;
+	std::vector<std::shared_ptr<ServerSection>> m_insertSection;
 
 public: // default
 	ServerSectionThread();
@@ -32,8 +30,10 @@ private:
 	void SectionThreadWork(UINT _threadOrder);
 
 public: // member Func
-	void AddSection(std::shared_ptr<ServerSection> _Section);
+	void AddSection(const std::shared_ptr<ServerSection>& _section);
 	void StartThread(UINT _threadOrder);
 	void Destroy();
+
+	void Enqueue();
 };
 

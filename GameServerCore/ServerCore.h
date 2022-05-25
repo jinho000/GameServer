@@ -57,6 +57,7 @@ public:
 
 		CoreRun();
 
+		NewUserServer.UserEnd();
 		CoreEnd();
 	}
 

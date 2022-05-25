@@ -79,12 +79,6 @@
     <ClInclude Include="CreateCharacterPacketHandler.h">
       <Filter>ThreadHandler\Login</Filter>
     </ClInclude>
-    <ClInclude Include="GameSessionManager.h">
-      <Filter>GameSessionManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSession.h">
-      <Filter>GameSession</Filter>
-    </ClInclude>
     <ClInclude Include="UDPPacketDispatcher.h">
       <Filter>Packet\Base\Dispatcher</Filter>
     </ClInclude>
@@ -100,7 +94,19 @@
     <ClInclude Include="UDPStartPacketHandler.h">
       <Filter>ThreadHandler\Play</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerComeInPacketHandler.h">
+    <ClInclude Include="ContentQueue.h">
+      <Filter>ContentQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentManager.h">
+      <Filter>Content\ContentManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSession.h">
+      <Filter>Content\GameSession</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerStruct.h">
+      <Filter>Content\ServerStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestMathPacketHandler.h">
       <Filter>ThreadHandler\Play</Filter>
     </ClInclude>
   </ItemGroup>
@@ -150,12 +156,6 @@
     <ClCompile Include="CreateCharacterPacketHandler.cpp">
       <Filter>ThreadHandler\Login</Filter>
     </ClCompile>
-    <ClCompile Include="GameSessionManager.cpp">
-      <Filter>GameSessionManager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSession.cpp">
-      <Filter>GameSession</Filter>
-    </ClCompile>
     <ClCompile Include="UDPPacketDispatcher.cpp">
       <Filter>Packet\Base\Dispatcher</Filter>
     </ClCompile>
@@ -171,7 +171,16 @@
     <ClCompile Include="UDPStartPacketHandler.cpp">
       <Filter>ThreadHandler\Play</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerComeInPacketHandler.cpp">
+    <ClCompile Include="ContentQueue.cpp">
+      <Filter>ContentQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentManager.cpp">
+      <Filter>Content\ContentManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>Content\GameSession</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestMathPacketHandler.cpp">
       <Filter>ThreadHandler\Play</Filter>
     </ClCompile>
   </ItemGroup>
@@ -215,14 +224,8 @@
     <Filter Include="ThreadHandler\SessionUserDBData">
       <UniqueIdentifier>{5f034ab5-8837-4ca7-8c4a-cce649117d3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameSession">
-      <UniqueIdentifier>{9898a9c5-e756-497f-bb3f-abccbbd5eb09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThreadHandler\Login">
       <UniqueIdentifier>{8c074b15-64f5-4580-a340-ac6883e3593a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameSessionManager">
-      <UniqueIdentifier>{625b755c-d41f-4c43-b6d8-611fd3377823}</UniqueIdentifier>
     </Filter>
     <Filter Include="DBTable">
       <UniqueIdentifier>{474abc16-ea98-48b7-80d9-009212ec956a}</UniqueIdentifier>
@@ -238,6 +241,24 @@
     </Filter>
     <Filter Include="ThreadHandler\Play\UDP">
       <UniqueIdentifier>{a25c48fd-12a6-4f14-879c-a2fd3fb3df96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentQueue">
+      <UniqueIdentifier>{6c906a1c-89e9-4f43-9179-3ded8497f2a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler\Lobby">
+      <UniqueIdentifier>{6f451a9d-232c-4eab-b9da-b265ebc82513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{3114c281-111d-4d3d-a940-86113df61849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ContentManager">
+      <UniqueIdentifier>{6e43f35c-6f25-42e0-8cd3-7dbd363959c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GameSession">
+      <UniqueIdentifier>{eebe389d-933e-43be-ab02-428f1493a2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ServerStruct">
+      <UniqueIdentifier>{64e2276f-4e9d-4474-8cfe-4afeb17c9bea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

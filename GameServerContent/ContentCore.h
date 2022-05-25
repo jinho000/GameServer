@@ -52,6 +52,6 @@ public:
 
 public: // member Func
 	void UserStart();
-
+	void UserEnd();
 };
 
