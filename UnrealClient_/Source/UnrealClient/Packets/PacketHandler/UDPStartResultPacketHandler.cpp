@@ -1,7 +1,7 @@
 #include "UDPStartResultPacketHandler.h"	
 #include <Kismet/GameplayStatics.h>
-#include "../../Global/CGameInstance.h"
 #include "../../Lobby/LobbyGameMode.h"
+#include "../../Global/CGameInstance.h"
 
 void UDPStartResultPacketHandler::Start()
 {

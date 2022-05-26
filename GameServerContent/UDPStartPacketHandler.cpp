@@ -29,9 +29,9 @@ void UDPStartPacketHandler::Start()
 	UDPStartResultPacket packet;
 	packet.PlayerID = pClientPlayer->GetPlayerID();
 
-	//ServerSerializer sr;
-	//packet >> sr;
-	//m_TCPSession->Send(sr.GetBuffer());
+	ServerSerializer sr;
+	packet >> sr;
+	m_TCPSession->Send(sr.GetBuffer());
 
 	// 지금은 게임서버(나중에는 세션으로 바꾸기)	
 	// 캐릭터 생성패킷 전달

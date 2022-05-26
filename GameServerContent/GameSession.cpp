@@ -81,15 +81,15 @@ void GameSession::BroadCastUDP(const std::shared_ptr<ServerPacketBase>& packet, 
 void GameSession::BroadCastMachingPacket()
 {
 	// ContentManager에서 락을 걸어주므로 걸 필요없다
-	GameMatchPacket packet;
-	packet.sessionIdx = static_cast<int>(m_sessionIdx);
+	//GameMatchPacket packet;
+	//packet.sessionIdx = static_cast<int>(m_sessionIdx);
 
-	for (size_t i = 0; i < m_userInfo.size(); i++)
-	{
-		packet.userIdx = static_cast<int>(i);
+	//for (size_t i = 0; i < m_userInfo.size(); i++)
+	//{
+	//	packet.userIdx = static_cast<int>(i);
 
-		ServerSerializer sr;
-		packet >> sr;
-		m_userInfo[i].userTCPSession->Send(sr.GetBuffer());
-	}
+	//	ServerSerializer sr;
+	//	packet >> sr;
+	//	m_userInfo[i].userTCPSession->Send(sr.GetBuffer());
+	//}
 }

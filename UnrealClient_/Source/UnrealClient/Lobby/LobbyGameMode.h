@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
 #include "LobbyGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALCLIENT_API ALobbyGameMode : public AGameModeBase
+class UNREALCLIENT_API ALobbyGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
@@ -22,5 +22,5 @@ public:
 
 public:
 	void SetPlayerID(uint64_t playerID);
-	uint64_t GetPlayer();
+	uint64_t GetPlayerID();
 };

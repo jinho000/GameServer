@@ -107,7 +107,7 @@
       <Filter>Content\ServerStruct</Filter>
     </ClInclude>
     <ClInclude Include="RequestMathPacketHandler.h">
-      <Filter>ThreadHandler\Play</Filter>
+      <Filter>ThreadHandler\Lobby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +181,7 @@
       <Filter>Content\GameSession</Filter>
     </ClCompile>
     <ClCompile Include="RequestMathPacketHandler.cpp">
-      <Filter>ThreadHandler\Play</Filter>
+      <Filter>ThreadHandler\Lobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

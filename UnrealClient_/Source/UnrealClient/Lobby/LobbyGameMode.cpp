@@ -1,11 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+
 #include "LobbyGameMode.h"
+
 #include "../Global/CGameInstance.h"
 #include "../Packets/ClientPackets/Packets.h"
 
 void ALobbyGameMode::BeginPlay()
 {
+	Super::BeginPlay();
+
 	m_playerID = 0;
 
 	// 레벨 진입시, 플레이어 생성시 UDP소켓 생성 
@@ -27,7 +31,7 @@ void ALobbyGameMode::SetPlayerID(uint64_t playerID)
 	m_playerID = playerID;
 }
 
-uint64_t ALobbyGameMode::GetPlayer()
+uint64_t ALobbyGameMode::GetPlayerID()
 {
 	return m_playerID;
 }
