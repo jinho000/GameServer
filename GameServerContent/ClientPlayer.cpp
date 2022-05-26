@@ -29,6 +29,16 @@ void ClientPlayer::SetDir(const FVector4& _dir)
 	m_playerData.Dir = _dir;
 }
 
+void ClientPlayer::SetSessionIdx(uint64_t sessionIdx)
+{
+	m_playerData.SessionIdx = sessionIdx;
+}
+
+void ClientPlayer::SetPlayerIdx(uint64_t playerIdx)
+{
+	m_playerData.PlayerIdx = playerIdx;
+}
+
 void ClientPlayer::SetPlayerData(const FPlayerUpdateData& _playerUpdateData)
 {
 	m_playerData = _playerUpdateData;

@@ -20,10 +20,13 @@ public: // default
 	ClientPlayer& operator=(const ClientPlayer&& _other) = delete;
 
 public: // member Func
-	void SetPos(const FVector4& _pos);
-	void SetRotate(const FVector4& _rotate);
-	void SetDir(const FVector4& _dir);
-	void SetPlayerData(const FPlayerUpdateData& _playerUpdateData);
+	void SetPos(const FVector4& pos);
+	void SetRotate(const FVector4& rotate);
+	void SetDir(const FVector4& dir);
+	
+	void SetSessionIdx(uint64_t sessionIdx);
+	void SetPlayerIdx(uint64_t playerIdx);
+	void SetPlayerData(const FPlayerUpdateData& playerUpdateData);
 
 	uint64_t GetPlayerID() const { return m_playerData.PlayerID; }
 	const FPlayerUpdateData& GetPlayerData() { return m_playerData; }

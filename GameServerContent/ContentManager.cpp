@@ -10,7 +10,7 @@ void ContentManager::Init()
 }
 
 ContentManager::ContentManager()
-	: m_matchCount(4)
+	: m_matchCount(2)
 {
 }
 
@@ -56,6 +56,7 @@ void ContentManager::AddMatchQueue(uint64_t playerID)
 	}
 }
 
+
 void ContentManager::BroadCastTCPInSession(int sessionIdx, const std::shared_ptr<ServerPacketBase>& packet)
 {
 	m_gameSession[sessionIdx].BroadCastTCP(packet);
@@ -65,3 +66,10 @@ void ContentManager::BroadCastUDPInSession(int sessionIdx, const std::shared_ptr
 {
 	m_gameSession[sessionIdx].BroadCastUDP(packet, udpSession);
 }
+
+void ContentManager::BroadCastUDPPlayerData(const FPlayerUpdateData& playerData, const std::shared_ptr<UDPSession>& udpSession)
+{	
+	// 세션안에서 락을 걸어 처리
+	m_gameSession[playerData.SessionIdx].BroadCastUDPPlayerData(playerData, udpSession);
+}
+

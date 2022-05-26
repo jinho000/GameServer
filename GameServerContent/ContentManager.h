@@ -45,9 +45,6 @@ private: // default
 	ContentManager& operator=(const ContentManager& _other) = delete;
 	ContentManager& operator=(const ContentManager&& _other) = delete;
 
-private:
-
-
 public: // member Func
 
 	// 유저를 로비에 추가 및 저장
@@ -56,10 +53,13 @@ public: // member Func
 	// 유저의 매칭요청을 처리
 	// 게임이 매칭된경우 gameSession에 매칭된 유저 전달
 	void AddMatchQueue(uint64_t playerID);
+
 	
 	// 전달받은 세션번호로 패킷 브로드캐스팅
-	void BroadCastTCPInSession(int sessionIdx , const std::shared_ptr<ServerPacketBase>& packet);
-	void BroadCastUDPInSession(int sessionIdx , const std::shared_ptr<ServerPacketBase>& packet, const std::shared_ptr<UDPSession>& udpSession);
+	void BroadCastTCPInSession(int sessionIdx, const std::shared_ptr<ServerPacketBase>& packet);
+	void BroadCastUDPInSession(int sessionIdx, const std::shared_ptr<ServerPacketBase>& packet, const std::shared_ptr<UDPSession>& udpSession);
 
+	// 세션안의 플레이어 데이터 브로드캐스팅
+	void BroadCastUDPPlayerData(const FPlayerUpdateData& playerData, const std::shared_ptr<UDPSession>& udpSession);
 };
 

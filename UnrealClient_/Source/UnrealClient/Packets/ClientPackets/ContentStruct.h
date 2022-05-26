@@ -57,8 +57,8 @@ public:
 struct FPlayerUpdateData
 {
 	uint64_t PlayerID;
-	//uint64_t ThreadIndex;
-	//uint64_t SectionIndex;
+	uint64_t SessionIdx;
+	uint64_t PlayerIdx;
 	FVector4 Dir;
 	FVector4 Pos;
 	FVector4 Rot;
@@ -66,12 +66,16 @@ struct FPlayerUpdateData
 
 	FPlayerUpdateData(uint64_t playerID)
 		: PlayerID(playerID)
-		, State()
+		, SessionIdx(-1)
+		, PlayerIdx(-1)
+		, State(-1)
 	{}
 
 	FPlayerUpdateData()
 		: PlayerID()
-		, State()
+		, SessionIdx(-1)
+		, PlayerIdx(-1)
+		, State(-1)
 	{}
 
 	template<typename EnumType>
@@ -95,8 +99,8 @@ struct FPlayerUpdateData
 	void Serialize(ServerSerializer& _Ser)
 	{
 		_Ser << PlayerID;
-		//_Ser << ThreadIndex;
-		//_Ser << SectionIndex;
+		_Ser << SessionIdx;
+		_Ser << PlayerIdx;
 		_Ser << Dir;
 		_Ser << Pos;
 		_Ser << Rot;
@@ -106,8 +110,8 @@ struct FPlayerUpdateData
 	void Deserialize(ServerSerializer& _Ser)
 	{
 		_Ser >> PlayerID;
-		//_Ser >> ThreadIndex;
-		//_Ser >> SectionIndex;
+		_Ser >> SessionIdx;
+		_Ser >> PlayerIdx;
 		_Ser >> Dir;
 		_Ser >> Pos;
 		_Ser >> Rot;

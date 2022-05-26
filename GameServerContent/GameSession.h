@@ -30,9 +30,13 @@ private:
 	// 클라이언트에게 matching packet 전달
 	void BroadCastMachingPacket();
 
+	// 플레이어 데이터 저장
+	void SetPlayerData(const FPlayerUpdateData& playerData);
+
 public: // member Func
 	void BroadCastTCP(const std::shared_ptr<ServerPacketBase>& packet);
 	void BroadCastUDP(const std::shared_ptr<ServerPacketBase>& packet, const std::shared_ptr<UDPSession>& udpSession);
 
+	void BroadCastUDPPlayerData(const FPlayerUpdateData& playerData, const std::shared_ptr<UDPSession>& udpSession);
 };
 

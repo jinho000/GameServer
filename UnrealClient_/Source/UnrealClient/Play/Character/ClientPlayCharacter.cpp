@@ -51,7 +51,7 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//SendUDPPlayerData();
+	SendUDPPlayerData();
 
 	//m_pingTime += DeltaTime;
 
@@ -160,6 +160,9 @@ void AClientPlayCharacter::SendUDPPlayerData()
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 	PlayerUpdatePacket packet;
 	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
+	packet.PlayerData.SessionIdx = gameInst->GetSessionIdx();
+	packet.PlayerData.PlayerIdx = gameInst->GetPlayerIdx();
+
 	packet.PlayerData.Dir = GetActorForwardVector();
 	packet.PlayerData.Pos = GetActorLocation();
 
@@ -167,16 +170,9 @@ void AClientPlayCharacter::SendUDPPlayerData()
 	packet.PlayerData.Rot = FVector4(RotData.X, RotData.Y, RotData.Z, RotData.W);
 	packet.PlayerData.State = static_cast<int>(GetClientAnimInstance()->GetAnimationType());
 
-	//UpdateMsg.Data.ObjectIndex = Inst->ObjectIndex;
-	//UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
-	//UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
-
-	//ServerSerializer sr;
-	//packet >> sr;
-	//gameInst->SendUDP(sr.GetBuffer());
-
-	// 타임체크
-	//PingStart();
+	ServerSerializer sr;
+	packet >> sr;
+	gameInst->SendUDP(sr.GetBuffer());	
 }
 
 

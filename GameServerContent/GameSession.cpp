@@ -55,6 +55,9 @@ void GameSession::AddUser(const UserInfo& userInfo)
 {
 	// ContentManager에서 락을 걸어주므로 걸 필요없다
 	m_userInfo.push_back(userInfo);
+	
+	m_userInfo.back().userCharacterInfo->SetSessionIdx(m_sessionIdx);
+	m_userInfo.back().userCharacterInfo->SetPlayerIdx(m_userInfo.size() - 1);
 }
 
 void GameSession::BroadCastTCP(const std::shared_ptr<ServerPacketBase>& packet)
@@ -75,6 +78,32 @@ void GameSession::BroadCastUDP(const std::shared_ptr<ServerPacketBase>& packet, 
 	{
 		ServerSerializer sr;
 		*packet >> sr;
+		udpSession->Send(sr.GetBuffer(), userInfo.userEndPoint);
+	}
+}
+
+void GameSession::SetPlayerData(const FPlayerUpdateData& playerData)
+{
+	m_userInfo[playerData.PlayerIdx].userCharacterInfo->SetPlayerData(playerData);
+}
+
+void GameSession::BroadCastUDPPlayerData(const FPlayerUpdateData& playerData, const std::shared_ptr<UDPSession>& udpSession)
+{
+	std::lock_guard lock(m_userInfoLock);
+
+	// 플레이어 데이터 저장
+	SetPlayerData(playerData);
+
+	// 패킷 브로드 캐스팅
+	AllPlayerInfoPacket packet;
+	for (const UserInfo& userInfo : m_userInfo)
+	{
+		packet.AllPlayerInfo.push_back(userInfo.userCharacterInfo->GetPlayerData());
+	}
+	for (const UserInfo& userInfo : m_userInfo)
+	{
+		ServerSerializer sr;
+		packet >> sr;
 		udpSession->Send(sr.GetBuffer(), userInfo.userEndPoint);
 	}
 }
