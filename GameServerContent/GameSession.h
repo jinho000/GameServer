@@ -15,7 +15,7 @@ public: // default
 	GameSession(UINT userCount, size_t sessionIdx);
 	~GameSession();
 
-	// 이동생성자 만들기(contentmanager vector)
+	// (contentmanager vector)
 	GameSession(const GameSession& other);
 	GameSession(GameSession&& other) noexcept;
 	GameSession& operator=(const GameSession& other);
