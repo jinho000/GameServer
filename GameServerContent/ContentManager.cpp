@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "ContentManager.h"
+#include "PacketHeader.h"
+#include "ServerSerializer.h"
 
 ContentManager* ContentManager::Inst = new ContentManager;
 
@@ -48,7 +50,8 @@ void ContentManager::AddMatchQueue(uint64_t playerID)
 		// 매칭된 유저들에게 브로드캐스팅
 		// 게임이 매칭된 경우 매칭한 유저들에게 알림
 		// 열린 게임의 인덱스를 유저에게 전달
-		newSession.BroadCastMachingPacket();
+		std::shared_ptr<GameMatchPacket> packet = std::make_shared<GameMatchPacket>();
+		newSession.BroadCastTCP(packet);
 
 		m_gameSession.push_back(std::move(newSession));
 	}

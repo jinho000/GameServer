@@ -4,20 +4,10 @@
 #include "../Global/CGameInstance.h"
 #include "Character/ClientOtherCharacter.h"
 
-void APlayGameMode::StartPlay()
-{
-	Super::StartPlay();
-
-}
 
 void APlayGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// 여기서 UDP 소켓 초기화
-	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	gameInst->ConnectUDPServer();
-
 }
 
 void APlayGameMode::SpawnOtherPlayer(const FPlayerUpdateData& _playerData)

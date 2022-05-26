@@ -374,14 +374,12 @@ public:
 class GameMatchPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	int sessionIdx;
-	int userIdx;
+	int dummy;
                                                                 
 public:                                                         
     GameMatchPacket()                                               
         : ServerPacketBase(PacketType::GameMatch)                    
-        , sessionIdx()
-        , userIdx()
+        , dummy()
     {                                                           
                                                                 
     }                                                           
@@ -390,22 +388,20 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(sessionIdx) + DataSizeCheck(userIdx);
+		return DataSizeCheck(dummy);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << sessionIdx;
-        _Serializer << userIdx;
+        _Serializer << dummy;
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> sessionIdx;
-        _Serializer >> userIdx;
+        _Serializer >> dummy;
 
     }                                                           
 };                                                              

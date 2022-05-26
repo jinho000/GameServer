@@ -52,9 +52,9 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	SendUDPPlayerData();
+	//SendUDPPlayerData();
 
-	m_pingTime += DeltaTime;
+	//m_pingTime += DeltaTime;
 
 	//// 프레임 체크
 	//static int accframe = 0;

@@ -36,7 +36,6 @@ public:
 	}
 
 public:
-	virtual void StartPlay() override;
 	virtual void BeginPlay() override;
 
 
