@@ -14,8 +14,6 @@
 AClientPlayCharacter::AClientPlayCharacter()
 	: AClientCharacter()
 	, m_MoveVector()
-	, m_playerID(-1)
-	, m_bUDPStart(false)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -26,10 +24,11 @@ void AClientPlayCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// PlayGameMode에 플레이어 등록
-	APlayGameMode* pPlayGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	pPlayGameMode->SetPlayer(this);
-
+	// UDP 스레드 시작
+	// 플레이어 시작시부터 UDP패킷을 받는다
+	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	gameInst->StartUDPThread();
+	
 	//packet.PlayerData.PlayerID = gameInst->GetPlayerID();
 	//packet.PlayerData.Dir = GetActorForwardVector();
 	//packet.PlayerData.Pos = GetActorLocation();
@@ -158,15 +157,9 @@ void AClientPlayCharacter::Attack()
 
 void AClientPlayCharacter::SendUDPPlayerData()
 {
-	// 서버로부터 playerID를 받을경우에만 시작
-	if (m_bUDPStart == false)
-	{
-		return;
-	}
-
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
 	PlayerUpdatePacket packet;
-	packet.PlayerData.PlayerID = m_playerID;
+	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
 	packet.PlayerData.Dir = GetActorForwardVector();
 	packet.PlayerData.Pos = GetActorLocation();
 
@@ -178,9 +171,9 @@ void AClientPlayCharacter::SendUDPPlayerData()
 	//UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
 	//UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
 
-	ServerSerializer sr;
-	packet >> sr;
-	gameInst->SendUDP(sr.GetBuffer());
+	//ServerSerializer sr;
+	//packet >> sr;
+	//gameInst->SendUDP(sr.GetBuffer());
 
 	// 타임체크
 	//PingStart();
@@ -219,13 +212,6 @@ void AClientPlayCharacter::TestFunction()
 {
 	SendUDPPlayerData();
 }
-
-void AClientPlayCharacter::SetPlayerID(uint64_t _playerID)
-{
-	m_playerID = _playerID;
-	m_bUDPStart = true;
-}
-
 
 float PingStartTime = 0.f;
 float PingEndTime = 0.f;

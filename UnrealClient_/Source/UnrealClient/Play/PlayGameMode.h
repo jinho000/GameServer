@@ -27,8 +27,6 @@ private:
 	// OtherCharacter를 처리하기위한 컨테이너
 	TMap<uint64_t, AActor*> m_allOtherCharacter;
 
-	AClientPlayCharacter*	m_player;
-
 public:
 	FORCEINLINE TSubclassOf<AClientCharacter> GetOtherPlayerClass()
 	{
@@ -40,9 +38,6 @@ public:
 
 
 public:
-	void SetPlayer(AClientPlayCharacter* _player) { m_player = _player; }
-	AClientPlayCharacter* GetPlayer() { return m_player; }
-
-	void SpawnOtherPlayer(const FPlayerUpdateData& _playerData);
+	void SpawnOtherPlayer(const std::vector<uint64_t>& arryOtherPlayerID);
 	void UpdateOtherPlayerInfo(const std::vector<FPlayerUpdateData>& _allPlayerInfo);
 };

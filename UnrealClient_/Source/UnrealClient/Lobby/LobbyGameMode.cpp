@@ -10,8 +10,6 @@ void ALobbyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	m_playerID = 0;
-
 	// 레벨 진입시, 플레이어 생성시 UDP소켓 생성 
 	// UPD 통신 처리를 위한 스레드는 플레이모드에서 시작
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
@@ -26,12 +24,3 @@ void ALobbyGameMode::BeginPlay()
 	gameInst->SendBytes(sr.GetBuffer());
 }
 
-void ALobbyGameMode::SetPlayerID(uint64_t playerID)
-{
-	m_playerID = playerID;
-}
-
-uint64_t ALobbyGameMode::GetPlayerID()
-{
-	return m_playerID;
-}

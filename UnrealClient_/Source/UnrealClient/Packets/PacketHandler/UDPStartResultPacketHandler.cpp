@@ -6,6 +6,5 @@
 void UDPStartResultPacketHandler::Start()
 {
 	// 게임로비에서 보낸 UDP시작 패킷결과 받아 저장
-	ALobbyGameMode* pLobbyGameMode = Cast<ALobbyGameMode>(UGameplayStatics::GetGameMode(m_pWorld));
-	pLobbyGameMode->SetPlayerID(m_packet->PlayerID);
+	m_pGameInst->SetPlayerID(m_packet->PlayerID);
 }

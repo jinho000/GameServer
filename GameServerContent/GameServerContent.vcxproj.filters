@@ -91,9 +91,6 @@
     <ClInclude Include="ClientPlayer.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="UDPStartPacketHandler.h">
-      <Filter>ThreadHandler\Play</Filter>
-    </ClInclude>
     <ClInclude Include="ContentQueue.h">
       <Filter>ContentQueue</Filter>
     </ClInclude>
@@ -107,6 +104,9 @@
       <Filter>Content\ServerStruct</Filter>
     </ClInclude>
     <ClInclude Include="RequestMathPacketHandler.h">
+      <Filter>ThreadHandler\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPStartPacketHandler.h">
       <Filter>ThreadHandler\Lobby</Filter>
     </ClInclude>
   </ItemGroup>
@@ -168,9 +168,6 @@
     <ClCompile Include="ClientPlayer.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="UDPStartPacketHandler.cpp">
-      <Filter>ThreadHandler\Play</Filter>
-    </ClCompile>
     <ClCompile Include="ContentQueue.cpp">
       <Filter>ContentQueue</Filter>
     </ClCompile>
@@ -181,6 +178,9 @@
       <Filter>Content\GameSession</Filter>
     </ClCompile>
     <ClCompile Include="RequestMathPacketHandler.cpp">
+      <Filter>ThreadHandler\Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPStartPacketHandler.cpp">
       <Filter>ThreadHandler\Lobby</Filter>
     </ClCompile>
   </ItemGroup>

@@ -64,6 +64,11 @@ struct FPlayerUpdateData
 	FVector4 Rot;
 	int State;
 
+	FPlayerUpdateData(uint64_t playerID)
+		: PlayerID(playerID)
+		, State()
+	{}
+
 	FPlayerUpdateData()
 		: PlayerID()
 		, State()

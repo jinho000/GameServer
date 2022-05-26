@@ -9,11 +9,11 @@
 void ULobbyUI::RequestGameMatch()
 {
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	ALobbyGameMode* pLobbyGameMode = Cast<ALobbyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	
 	// 매칭 요청 패킷 보내기
 	RequestMathPacket packet;
-	packet.PlayerID = pLobbyGameMode->GetPlayerID();
+	packet.PlayerID = gameInst->GetPlayerID();
+
 	ServerSerializer sr;
 	packet >> sr;
 	gameInst->SendBytes(sr.GetBuffer());

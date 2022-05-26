@@ -374,12 +374,16 @@ public:
 class GameMatchPacket : public ServerPacketBase                    
 {                                                               
 public:                                                         
-	int dummy;
+	int sessionIdx;
+	int playerIdx;
+	std::vector<FPlayerUpdateData> AllPlayerInfo;
                                                                 
 public:                                                         
     GameMatchPacket()                                               
         : ServerPacketBase(PacketType::GameMatch)                    
-        , dummy()
+        , sessionIdx()
+        , playerIdx()
+        , AllPlayerInfo()
     {                                                           
                                                                 
     }                                                           
@@ -388,20 +392,24 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(dummy);
+		return DataSizeCheck(sessionIdx) + DataSizeCheck(playerIdx) + DataSizeCheck(AllPlayerInfo);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
-        _Serializer << dummy;
+        _Serializer << sessionIdx;
+        _Serializer << playerIdx;
+        _Serializer.WriteVector(AllPlayerInfo);
 
     }                                                           
                                                                 
     void Deserialize(ServerSerializer& _Serializer)         
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
-        _Serializer >> dummy;
+        _Serializer >> sessionIdx;
+        _Serializer >> playerIdx;
+        _Serializer.ReadVector(AllPlayerInfo);
 
     }                                                           
 };                                                              

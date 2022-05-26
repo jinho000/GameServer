@@ -16,8 +16,6 @@ class UNREALCLIENT_API AClientPlayCharacter : public AClientCharacter
 
 private:
 	FVector		m_MoveVector;
-	uint64_t	m_playerID;
-	bool		m_bUDPStart;
 
 	float		m_pingTime; // ping 체크용 시간
 
@@ -52,9 +50,6 @@ private:
 	void TestFunction();
 
 public:
-	void SetPlayerID(uint64_t _playerID);
-	uint64_t GetPlayerID() { return m_playerID; }
-
 	void PingStart();
 	void PingEnd();
 };

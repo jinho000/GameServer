@@ -22,13 +22,15 @@ UCGameInstance::UCGameInstance()
 	, m_UDPServerPort(-1)
 	, m_unrealUDPPort(35000)
 	, LoginProcess(false)
+	, m_sessionIdx(-1)
+	, m_playerIdx(-1)
+
 {
 	int a = 0;
 }
 
 UCGameInstance::~UCGameInstance()
 {
-	int a = 0;
 }
 
 void UCGameInstance::CloseSocket()
@@ -132,14 +134,19 @@ bool UCGameInstance::ConnectUDPServer()
 
 void UCGameInstance::StartUDPThread()
 {
-	// recv Thread 持失
-	m_UDPRecvThread = new UnrealUDPThread(m_socketSystem, m_UDPsocket, &m_packetQueue);
-	m_UDPrunnableThread = FRunnableThread::Create(m_UDPRecvThread, TEXT("UDP Recv Thread"));
-
+	if (nullptr == m_UDPRecvThread)
+	{
+		// recv Thread 持失
+		m_UDPRecvThread = new UnrealUDPThread(m_socketSystem, m_UDPsocket, &m_packetQueue);
+		m_UDPrunnableThread = FRunnableThread::Create(m_UDPRecvThread, TEXT("UDP Recv Thread"));
+	}
+	
+	m_UDPRecvThread->RunThread();
 }
 
 void UCGameInstance::EndUPDThread()
 {
+	m_UDPRecvThread->StopThread();
 }
 
 bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
@@ -209,6 +216,46 @@ void UCGameInstance::DeleteCharacter(const std::string& _deleteNickName)
 
 		++iter;
 	}
+}
+
+void UCGameInstance::SetPlayerID(uint64_t playerID)
+{
+	m_playerID = playerID;
+}
+
+void UCGameInstance::SetSessionIdx(int sessionIdx)
+{
+	m_sessionIdx = sessionIdx;
+}
+
+void UCGameInstance::SetPlayerIdx(int playerIdx)
+{
+	m_playerIdx = playerIdx;
+}
+
+void UCGameInstance::SetOtherPlayerID(const std::vector<uint64_t>& otherPlayerID)
+{
+	m_otherPlayerID = otherPlayerID;
+}
+
+uint64_t UCGameInstance::GetPlayerID()
+{
+	return m_playerID;
+}
+
+int UCGameInstance::GetSessionIdx()
+{
+	return m_sessionIdx;
+}
+
+int UCGameInstance::GetPlayerIdx()
+{
+	return m_playerIdx;
+}
+
+const std::vector<uint64_t>& UCGameInstance::GetOtherPlayerID()
+{
+	return m_otherPlayerID;
 }
 
 

@@ -49,9 +49,8 @@ void ContentManager::AddMatchQueue(uint64_t playerID)
 
 		// 매칭된 유저들에게 브로드캐스팅
 		// 게임이 매칭된 경우 매칭한 유저들에게 알림
-		// 열린 게임의 인덱스를 유저에게 전달
-		std::shared_ptr<GameMatchPacket> packet = std::make_shared<GameMatchPacket>();
-		newSession.BroadCastTCP(packet);
+		// 열린게임의 세션 인덱스, 현재 유저의 인덱스, 다른유저의 아이디 전달
+		newSession.BroadCastMachingPacket();
 
 		m_gameSession.push_back(std::move(newSession));
 	}

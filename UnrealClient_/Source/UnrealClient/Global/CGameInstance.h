@@ -50,6 +50,11 @@ private:
 	// Chatting
 	UCChatWindow* m_chatWindow;
 
+	// Play
+	uint64_t m_playerID;
+	int m_sessionIdx;
+	int m_playerIdx;
+	std::vector<uint64_t> m_otherPlayerID;
 public:
 	// Login
 	TAtomic<bool>		LoginProcess;
@@ -65,7 +70,6 @@ public:
 	// Chracter Select UI
 	class UCharacterSelectUI* CharacterSelectUI;
 	class UListView* CharacterSelectUIListView;
-
 
 	// default
 public:
@@ -120,4 +124,16 @@ public:
 public:
 	void DeleteCharacter(const std::string& _deleteNickName);
 
+
+	// Play
+public:
+	void SetPlayerID(uint64_t playerID);
+	void SetSessionIdx(int sessionIdx);
+	void SetPlayerIdx(int playerIdx);
+	void SetOtherPlayerID(const std::vector<uint64_t>& otherPlayerID);
+
+	uint64_t GetPlayerID();
+	int GetSessionIdx();
+	int GetPlayerIdx();
+	const std::vector<uint64_t>& GetOtherPlayerID();
 };

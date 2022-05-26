@@ -34,4 +34,7 @@ std::vector<FPlayerUpdateData> AllPlayerInfo;
 std::vector<FPlayerUpdateData> AllPlayerInfo;
 
 |GameMatch-
-int dummy;
+int sessionIdx;
+int playerIdx;
+std::vector<FPlayerUpdateData> AllPlayerInfo;
+
