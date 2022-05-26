@@ -30,29 +30,21 @@ void AClientPlayCharacter::BeginPlay()
 	APlayGameMode* pPlayGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	pPlayGameMode->SetPlayer(this);
 
-	// 레벨 진입시, 플레이어 생성시 UDP소켓 생성 및 시작
-	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
-	gameInst->ConnectUDPServer();
-
-	// 플레이어 처음 위치와 포트를 서버에 TCP로 전송
-	UDPStartPacket packet;
-	packet.udpPort = gameInst->GetUnrealUDPPort();
-
 	//packet.PlayerData.PlayerID = gameInst->GetPlayerID();
-	packet.PlayerData.Dir = GetActorForwardVector();
-	packet.PlayerData.Pos = GetActorLocation();
+	//packet.PlayerData.Dir = GetActorForwardVector();
+	//packet.PlayerData.Pos = GetActorLocation();
 
-	FQuat RotData = GetActorQuat();
-	packet.PlayerData.Rot = FVector4(RotData.X, RotData.Y, RotData.Z, RotData.W);
-	packet.PlayerData.State = static_cast<int>(GetClientAnimInstance()->GetAnimationType());
+	//FQuat RotData = GetActorQuat();
+	//packet.PlayerData.Rot = FVector4(RotData.X, RotData.Y, RotData.Z, RotData.W);
+	//packet.PlayerData.State = static_cast<int>(GetClientAnimInstance()->GetAnimationType());
 
 	//UpdateMsg.Data.ObjectIndex = Inst->ObjectIndex;
 	//UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
 	//UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
 
-	ServerSerializer sr;
-	packet >> sr;
-	gameInst->SendBytes(sr.GetBuffer());
+	//ServerSerializer sr;
+	//packet >> sr;
+	//gameInst->SendBytes(sr.GetBuffer());
 }
 
 // Called every frame

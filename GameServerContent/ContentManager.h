@@ -1,7 +1,7 @@
 #pragma once
 #include "GameSession.h"
 #include "ServerStruct.h"
-
+#include "ClientPlayer.h"
 
 // 로비 -> 참가요청(10) -> 세션1(10); <-> ::
 // 게임내의 컨텐츠를 관리하는 매니저
@@ -51,7 +51,7 @@ private:
 public: // member Func
 
 	// 유저를 로비에 추가 및 저장
-	void AddUserToLobby(uint64_t playerID, const IPEndPoint& userEndpoint, const std::shared_ptr<TCPSession>& tcpSession);
+	void AddUserToLobby(const std::shared_ptr<ClientPlayer>& playerCharacterInfo, const IPEndPoint& userEndpoint, const std::shared_ptr<TCPSession>& tcpSession);
 
 	// 유저의 매칭요청을 처리
 	// 게임이 매칭된경우 gameSession에 매칭된 유저 전달

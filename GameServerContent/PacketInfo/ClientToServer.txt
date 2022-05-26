@@ -17,7 +17,6 @@ std::string NickName;
 
 |UDPStart-
 int udpPort;
-FPlayerUpdateData PlayerData;
 
 |PlayerUpdate-
 FPlayerUpdateData PlayerData;

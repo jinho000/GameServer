@@ -8,6 +8,7 @@
 UnrealUDPThread::UnrealUDPThread(ISocketSubsystem* _socketSubSystem, FSocket* _socket, TQueue<std::shared_ptr<ServerPacketBase>>* _recvQueue)
 	: m_socketSubSystem(_socketSubSystem)
 	, m_bAppClose(true)
+	, m_bRun(true)
 	, m_recvSocket(_socket)
 	, m_pRecvQueue(_recvQueue)
 {
@@ -21,10 +22,14 @@ uint32 UnrealUDPThread::Run()
 {
 	// 리시브 처리 시작
 	UE_LOG(LogTemp, Log, TEXT("UDP Recv Start"));
-
-
+	
 	while (m_bAppClose)
 	{
+		if (false == m_bRun)
+		{
+			continue;
+		}
+
 		FIPv4Endpoint ConnectAddress_ = FIPv4Endpoint();
 		TSharedRef<FInternetAddr> Ref = ConnectAddress_.ToInternetAddr();
 		std::vector<uint8_t> recvBuffer;
@@ -55,7 +60,17 @@ uint32 UnrealUDPThread::Run()
 	return 0;
 }
 
-void UnrealUDPThread::Close()
+void UnrealUDPThread::Destroy()
 {
 	m_bAppClose = false;
+}
+
+void UnrealUDPThread::RunThread()
+{
+	m_bRun = true;
+}
+
+void UnrealUDPThread::StopThread()
+{
+	m_bRun = false;
 }

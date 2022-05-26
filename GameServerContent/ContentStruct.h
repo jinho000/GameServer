@@ -64,6 +64,11 @@ struct FPlayerUpdateData
 	FVector4 Rot;
 	int State;
 
+	FPlayerUpdateData()
+		: PlayerID()
+		, State()
+	{}
+
 	template<typename EnumType>
 	EnumType GetState()
 	{
@@ -105,8 +110,6 @@ struct FPlayerUpdateData
 	}
 
 
-	FPlayerUpdateData() {
-	}
 	~FPlayerUpdateData() {
 	}
 };

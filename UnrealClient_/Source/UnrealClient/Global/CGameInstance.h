@@ -82,6 +82,8 @@ public:
 	// 서버 연결 함수
 	bool ConnectServer(const FString& _IP, const FString& _port);
 	bool ConnectUDPServer();
+	void StartUDPThread(); 
+	void EndUPDThread();
 
 	bool SendBytes(const std::vector<uint8>& _packet);
 	bool SendUDP(const std::vector<uint8>& _packet);

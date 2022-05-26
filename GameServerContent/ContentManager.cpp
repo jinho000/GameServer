@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ContentManager.h"
 
-ContentManager* ContentManager::Inst;
+ContentManager* ContentManager::Inst = new ContentManager;
 
 void ContentManager::Init()
 {
@@ -16,10 +16,12 @@ ContentManager::~ContentManager()
 {
 }
 
-void ContentManager::AddUserToLobby(uint64_t playerID, const IPEndPoint& userEndpoint, const std::shared_ptr<TCPSession>& tcpSession)
+
+
+void ContentManager::AddUserToLobby(const std::shared_ptr<ClientPlayer>& playerCharacterInfo, const IPEndPoint& userEndpoint, const std::shared_ptr<TCPSession>& tcpSession)
 {
 	std::lock_guard lock(m_lobbyLock);
-	m_lobbyUserTable.insert(std::make_pair(playerID, UserInfo{ userEndpoint, tcpSession }));
+	m_lobbyUserTable.insert(std::make_pair(playerCharacterInfo->GetPlayerID(), UserInfo{ userEndpoint, tcpSession, playerCharacterInfo }));
 }
 
 void ContentManager::AddMatchQueue(uint64_t playerID)

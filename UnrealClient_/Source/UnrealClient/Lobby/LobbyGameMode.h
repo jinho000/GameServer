@@ -14,4 +14,13 @@ class UNREALCLIENT_API ALobbyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+private:
+	uint64_t m_playerID;
+
+public:
+	virtual void BeginPlay() override;
+
+public:
+	void SetPlayerID(uint64_t playerID);
+	uint64_t GetPlayer();
 };

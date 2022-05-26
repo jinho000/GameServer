@@ -188,13 +188,11 @@ class UDPStartPacket : public ServerPacketBase
 {                                                               
 public:                                                         
 	int udpPort;
-	FPlayerUpdateData PlayerData;
                                                                 
 public:                                                         
     UDPStartPacket()                                               
         : ServerPacketBase(PacketType::UDPStart)                    
         , udpPort()
-        , PlayerData()
     {                                                           
                                                                 
     }                                                           
@@ -203,14 +201,13 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(udpPort) + DataSizeCheck(PlayerData);
+		return DataSizeCheck(udpPort);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
     {                                                           
         ServerPacketBase::Serialize(_Serializer);              
         _Serializer << udpPort;
-        PlayerData.Serialize(_Serializer);
 
     }                                                           
                                                                 
@@ -218,7 +215,6 @@ public:
     {                                                           
         ServerPacketBase::Deserialize(_Serializer);            
         _Serializer >> udpPort;
-        PlayerData.Deserialize(_Serializer);
 
     }                                                           
 };                                                              

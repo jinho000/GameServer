@@ -9,6 +9,7 @@ class UnrealUDPThread : public FRunnable
 private: // member var
 	ISocketSubsystem*	m_socketSubSystem;
 	TAtomic<bool>		m_bAppClose;
+	TAtomic<bool>		m_bRun;
 	FSocket*			m_recvSocket;
 	TQueue<std::shared_ptr<ServerPacketBase>>* m_pRecvQueue;
 
@@ -23,6 +24,9 @@ public: // default
 
 public: // member Func
 	uint32 Run() override;
-	void Close();
+	void Destroy();
+
+	void RunThread();
+	void StopThread();
 };
 

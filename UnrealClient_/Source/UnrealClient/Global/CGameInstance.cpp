@@ -127,14 +127,19 @@ bool UCGameInstance::ConnectUDPServer()
 		unrealUDPEndPoint = FIPv4Endpoint(connectAddress, ++m_unrealUDPPort);
 	}
 
+	return true;
+}
 
+void UCGameInstance::StartUDPThread()
+{
 	// recv Thread »ý¼º
 	m_UDPRecvThread = new UnrealUDPThread(m_socketSystem, m_UDPsocket, &m_packetQueue);
 	m_UDPrunnableThread = FRunnableThread::Create(m_UDPRecvThread, TEXT("UDP Recv Thread"));
 
-	UE_LOG(LogTemp, Error, TEXT("Request UDP Connect"));
+}
 
-	return true;
+void UCGameInstance::EndUPDThread()
+{
 }
 
 bool UCGameInstance::SendBytes(const std::vector<uint8>& _bytes)
