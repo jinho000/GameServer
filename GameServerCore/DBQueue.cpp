@@ -49,7 +49,5 @@ void DBQueue::EnQueue(const std::function<void()>& _work)
 
 void DBQueue::Destroy()
 {
-	mysql_library_end();
-
 	WorkQueue.Destroy();
 }

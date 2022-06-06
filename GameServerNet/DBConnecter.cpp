@@ -9,6 +9,8 @@ DBConnecter::DBConnecter()
 {
 }
 
+
+
 DBConnecter::~DBConnecter()
 {
 	mysql_close(m_mysqlPtr);
@@ -58,9 +60,6 @@ bool DBConnecter::Connect(const std::string _Host, const std::string _Id, const 
 	 //함수만 열심히 찾으면 됩니다.
 	 //mysql_query(Handle, "SELECT * FROM userver2.character");
 
-	//mysql_library_end();
-	//mysql_close(m_mysqlPtr);
-
 	return true;
 }
 
@@ -95,4 +94,3 @@ std::string DBConnecter::GetLastError()
 {
 	return mysql_error(m_mysqlPtr);
 }
-

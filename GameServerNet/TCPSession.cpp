@@ -17,6 +17,7 @@ TCPSession::TCPSession()
 	, m_closeCallBack(nullptr)
 	, m_callClose(false)
 	, m_bReuseSocket(false)
+	, m_sendOverlapped(nullptr)
 {
 }
 

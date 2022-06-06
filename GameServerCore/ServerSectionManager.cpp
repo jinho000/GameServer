@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ServerSectionManager.h"
 
-ServerSectionManager* ServerSectionManager::Inst = new ServerSectionManager();
+//ServerSectionManager* ServerSectionManager::Inst = new ServerSectionManager();
 
 void ServerSectionManager::Init(UINT _threadCount)
 {

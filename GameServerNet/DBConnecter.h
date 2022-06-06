@@ -34,6 +34,5 @@ public: // member Func
 
 	std::unique_ptr<DBStatement> CreateStmt(std::string_view _Query);
 	std::string GetLastError();
-
 };
 
