@@ -9,23 +9,8 @@
 #include "ContentQueue.h"
 
 
-PacketDispatcher<TCPSession>				ContentCore::TcpDispatcher;
-UDPPacketDispatcher							ContentCore::UdpDispatcher;
-
-std::mutex									ContentCore::UnserEndPointLock;
-std::vector<IPEndPoint>						ContentCore::AllUserEndPoint;
-
-std::mutex									ContentCore::ClientPlayerLock;
-
-std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>	ContentCore::AllClientPlayer;
-
-ContentCore::ContentCore()
-{
-}
-
-ContentCore::~ContentCore()
-{
-}
+PacketDispatcher<TCPSession>	ContentCore::TcpDispatcher;
+UDPPacketDispatcher				ContentCore::UdpDispatcher;
 
 void ContentCore::AcceptEvent(std::shared_ptr<TCPSession> _tcpSession)
 {
@@ -53,68 +38,6 @@ void ContentCore::UDPRecvEvent(std::shared_ptr<UDPSession> _udpSession, const st
 	UdpDispatcher.Dispatch(_recvBuffer, _udpSession, _clientEndPoint);
 }
 
-
-void ContentCore::AddNewPlayer(const std::shared_ptr<ClientPlayer>& _clientPlayer)
-{
-	ClientPlayerLock.lock();
-	AllClientPlayer.insert(make_pair(_clientPlayer->GetPlayerID(), _clientPlayer));
-	ClientPlayerLock.unlock();
-}
-
-void ContentCore::SetPlayerData(const FPlayerUpdateData& _playerUpdateData)
-{
-	ClientPlayerLock.lock();
-	AllClientPlayer.find(_playerUpdateData.PlayerID)->second->SetPlayerData(_playerUpdateData);
-	ClientPlayerLock.unlock();
-}
-
-const std::unordered_map<uint64_t, std::shared_ptr<ClientPlayer>>& ContentCore::GetAllPlayer()
-{
-	return AllClientPlayer;
-}
-
-void ContentCore::SetUserEndPoint(const IPEndPoint& _userEndPoint)
-{
-	UnserEndPointLock.lock();
-	AllUserEndPoint.push_back(_userEndPoint);
-	UnserEndPointLock.unlock();
-}
-
-void ContentCore::BroadCastUDP(ServerPacketBase* _packet, UDPSession* _udpSession)
-{
-	UnserEndPointLock.lock();
-	for (const IPEndPoint& userEndPoint : AllUserEndPoint)
-	{
-		ServerSerializer sr;
-		*_packet >> sr;
-		_udpSession->Send(sr.GetBuffer(), userEndPoint);
-	}
-	UnserEndPointLock.unlock();
-}
-
-void ContentCore::BroadCastAllPlayerDataUDP(const std::shared_ptr<UDPSession>& _udpSession)
-{
-	// 모든 유저의 정보를 패킷에 저장
-	AllPlayerInfoPacket packet;
-	ClientPlayerLock.lock();
-	auto iter = AllClientPlayer.begin();
-	while (iter != AllClientPlayer.end())
-	{
-		packet.AllPlayerInfo.push_back(iter->second->GetPlayerData());
-		++iter;
-	}
-	ClientPlayerLock.unlock();
-
-	// 패킷을 브로드캐스팅
-	UnserEndPointLock.lock();
-	for (const IPEndPoint& userEndPoint : AllUserEndPoint)
-	{
-		ServerSerializer sr;
-		packet >> sr;
-		_udpSession->Send(sr.GetBuffer(), userEndPoint);
-	}
-	UnserEndPointLock.unlock();
-}
 
 void ContentCore::UserStart()
 {

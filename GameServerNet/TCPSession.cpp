@@ -18,6 +18,7 @@ TCPSession::TCPSession()
 	, m_callClose(false)
 	, m_bReuseSocket(false)
 	, m_sendOverlapped(nullptr)
+	, m_packetSize(-1)
 {
 }
 
@@ -181,19 +182,46 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 {
 	ServerDebug::LogInfo("Session Recv Packet");
 
-	std::vector<uint8_t> outBuffer = std::vector<uint8_t>(_byteSize);
-	memcpy_s(&outBuffer[0], _byteSize, _data, _byteSize);
-	
-	// 리시브 콜백 처리
-	if (nullptr != m_recvCallBack)
+	// 데이터를 받아 저장	
+	for (size_t i = 0; i < _byteSize; i++)
 	{
-		m_recvCallBack(std::dynamic_pointer_cast<TCPSession>(shared_from_this()), outBuffer);
+		m_recvBuffer.push_back(_data[i]);
 	}
-	
-	if (false == m_callClose)
+
+	// 패킷 크기가 저장된 경우
+	// 2번째 데이터에 패킷의 크기가 저장된다
+	if (sizeof(int) * 2 <= m_recvBuffer.size())
 	{
-		// 리시브 처리 후 다시 리시브 요청
-		RequestRecv();
+		m_packetSize = *reinterpret_cast<int*>(m_recvBuffer.data() + sizeof(int));
+	}
+
+	// 전체 데이터가 채워질 경우만 콜백함수 실행
+	if (m_packetSize <= m_recvBuffer.size())
+	{
+		// 패킷크기만큼 버퍼에 데이터를 채움
+		std::vector<uint8_t> buffer;
+		buffer.assign(m_recvBuffer.begin(), m_recvBuffer.begin() + m_packetSize);
+
+		// 리시브 콜백 처리
+		if (nullptr != m_recvCallBack)
+		{
+			m_recvCallBack(std::dynamic_pointer_cast<TCPSession>(shared_from_this()), buffer);
+		}
+
+		if (false == m_callClose)
+		{
+			// 리시브 처리 후 다시 리시브 요청
+			RequestRecv();
+		}
+
+		// 사용한 버퍼데이터는 제외하고 나머지 데이터를 세팅해줘야한다
+		m_recvBuffer.erase(m_recvBuffer.begin(), m_recvBuffer.begin() + m_packetSize);
+
+		// 패킷 크기 초기화
+		if (m_recvBuffer.size() < sizeof(int) * 2)
+		{
+			m_packetSize = -1;
+		}
 	}
 }
 

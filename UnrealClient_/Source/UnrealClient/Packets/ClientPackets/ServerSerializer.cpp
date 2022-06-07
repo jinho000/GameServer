@@ -104,7 +104,7 @@ void ServerSerializer::operator>>(float& _value)
 
 void ServerSerializer::operator>>(std::string& _value)
 {
-	size_t size;
+	size_t size = 0;
 	Read(&size, sizeof(size_t));
 	_value.resize(size);
 	Read(&_value[0], static_cast<int>(size));

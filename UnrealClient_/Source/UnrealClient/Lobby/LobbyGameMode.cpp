@@ -19,7 +19,7 @@ void ALobbyGameMode::BeginPlay()
 	UDPStartPacket packet;
 	packet.udpPort = gameInst->GetUnrealUDPPort();
 
-	ServerSerializer sr;
+	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;
 	gameInst->SendBytes(sr.GetBuffer());
 }

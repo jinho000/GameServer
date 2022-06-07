@@ -28,7 +28,7 @@ bool UJoinUI::Join()
 	packet.ID = std::string(FTCHARToUTF8(*ID).Get());
 	packet.PW = std::string(FTCHARToUTF8(*Password).Get());
 
-	ServerSerializer sr;
+	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;
 
 	

@@ -23,8 +23,12 @@ public:
 
 	int GetDataSize()
 	{
-		// int, float 개수: 8, 문자열개수저장변수:4, 문자열개수
-		return (4 * 8) + 4 + static_cast<int>(NickName.size());
+		int size = sizeof(FCharacterInfo) - sizeof(std::string) + sizeof(size_t) + static_cast<size_t>(NickName.size());
+
+		// int, float 개수: 8, 문자열개수저장변수:8, 문자열개수
+		int test = (4 * 8) + 8 + static_cast<size_t>(NickName.size());
+		
+		return size;
 	}
 
 	void Serialize(ServerSerializer& _Ser)

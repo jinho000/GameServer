@@ -25,8 +25,9 @@ void UCharacterListItem::SelectCharacter()
 	SelectCharacterPacket packet;
 	packet.SelectCharNickName = nickNameUTF8;
 
-	ServerSerializer sr;
+	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;
+
 	if (false != Inst->SendBytes(sr.GetBuffer()))
 	{
 		int a = 0;
@@ -43,7 +44,7 @@ void UCharacterListItem::CreateCharacter()
 	CreateCharacterPacket packet;
 	UCBlueprintFunctionLibrary::FStringToUTF8(NickName, packet.NickName);
 
-	ServerSerializer sr;
+	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;
 
 	gameInst->SendBytes(sr.GetBuffer());
@@ -62,7 +63,7 @@ void UCharacterListItem::DeleteCharacter()
 	DeleteCharacterPacket packet;
 	UCBlueprintFunctionLibrary::FStringToUTF8(NickName, packet.NickName);
 
-	ServerSerializer sr;
+	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;
 
 	gameInst->SendBytes(sr.GetBuffer());

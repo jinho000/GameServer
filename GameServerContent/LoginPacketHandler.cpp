@@ -88,7 +88,6 @@ void LoginPacketHandler::NetThreadSendLoginResult()
 	m_loginResultPacket >> sr;
 	m_TCPSession->Send(sr.GetBuffer());
 
-
 	// 로그인이 완료된 경우에만 디비에서 캐릭터 정보 가져오기
 	if (ELoginResultCode::OK == m_loginResultPacket.LoginResultCode)
 	{
@@ -136,6 +135,7 @@ void LoginPacketHandler::NetThreadSendCharList()
 {
 	ServerSerializer sr;
 	m_CharacterListPacket >> sr;
+
 	m_TCPSession->Send(sr.GetBuffer());
 
 	ServerDebug::LogInfo("Send Character List");

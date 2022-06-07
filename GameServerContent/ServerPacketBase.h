@@ -10,7 +10,7 @@ class ServerPacketBase
 {
 protected: // member var
 	PacketType	m_packetType;
-	UINT		m_size;
+	size_t		m_size;
 
 public: // default
 	ServerPacketBase(PacketType _packetType)
@@ -35,7 +35,7 @@ public: // member Func
 	unsigned int DataSizeCheck(const std::string& _Value)
 	{
 		// string은 문자열앞에 문자개수값이 존재
-		return sizeof(int) + static_cast<unsigned int>(_Value.size());
+		return sizeof(size_t) + static_cast<unsigned int>(_Value.size());
 	}
 
 	template<typename Type>
@@ -60,7 +60,7 @@ public: // member Func
 	virtual void Serialize(ServerSerializer& _Serializer)
 	{
 		_Serializer.WriteEnum<PacketType>(m_packetType);
-		_Serializer << SizeCheck();
+		_Serializer << (sizeof(PacketType) + sizeof(uint64_t) + SizeCheck());
 	}
 	virtual void operator>>(ServerSerializer& _serializer)
 	{
@@ -82,5 +82,10 @@ public: // member Func
 
 
 	PacketType GetPacketType() { return m_packetType; }
+
+	size_t GetPacketSize() 
+	{ 
+		return sizeof(PacketType) + sizeof(uint64_t) + SizeCheck();
+	}
 };
 

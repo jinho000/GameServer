@@ -14,7 +14,7 @@ void ULobbyUI::RequestGameMatch()
 	RequestMathPacket packet;
 	packet.PlayerID = gameInst->GetPlayerID();
 
-	ServerSerializer sr;
+	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;
 	gameInst->SendBytes(sr.GetBuffer());
 }

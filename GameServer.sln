@@ -7,7 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServerBase", "GameServe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DOC", "DOC", "{897E8CD3-A7F8-45C9-8286-3C76BDE4B541}"
 	ProjectSection(SolutionItems) = preProject
-		게임서버.txt = 게임서버.txt
 		설정.txt = 설정.txt
 		패킷 등록 순서.txt = 패킷 등록 순서.txt
 	EndProjectSection

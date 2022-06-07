@@ -51,6 +51,12 @@ private: // member var
 	std::atomic_bool		m_callClose;
 	std::atomic_bool		m_bReuseSocket;
 
+	// 리시브로 받은 데이터를 처리하기위한 버퍼
+	// TCP의 경우 데이터의 경계가 없기 때문에 패킷의 전체데이터를 확인 후 처리해야한다
+	// 패킷 크기의 단위는 byte로 처리
+	std::vector<uint8_t>	m_recvBuffer;
+	UINT					m_packetSize;
+
 public: // default
 	TCPSession();
 	~TCPSession();

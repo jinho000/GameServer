@@ -49,7 +49,7 @@ public: // member Func
 	template<typename T>
 	void WriteVector(std::vector<T>& _Value)
 	{
-		operator<<(static_cast<int>(_Value.size()));
+		operator<<(static_cast<size_t>(_Value.size()));
 		for (size_t i = 0; i < _Value.size(); i++)
 		{
 			_Value[i].Serialize(*this);
@@ -75,7 +75,7 @@ public: // member Func
 	template<typename T>
 	void ReadVector(std::vector<T>& _Value)
 	{
-		int Size;
+		size_t Size;
 		operator>>(Size);
 		_Value.resize(Size);
 		for (size_t i = 0; i < _Value.size(); i++)
