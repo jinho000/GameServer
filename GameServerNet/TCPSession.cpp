@@ -208,12 +208,6 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 			m_recvCallBack(std::dynamic_pointer_cast<TCPSession>(shared_from_this()), buffer);
 		}
 
-		if (false == m_callClose)
-		{
-			// 리시브 처리 후 다시 리시브 요청
-			RequestRecv();
-		}
-
 		// 사용한 버퍼데이터는 제외하고 나머지 데이터를 세팅해줘야한다
 		m_recvBuffer.erase(m_recvBuffer.begin(), m_recvBuffer.begin() + m_packetSize);
 
@@ -222,6 +216,12 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 		{
 			m_packetSize = -1;
 		}
+	}
+
+	if (false == m_callClose)
+	{
+		// 리시브 처리 후 다시 리시브 요청
+		RequestRecv();
 	}
 }
 
