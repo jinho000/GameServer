@@ -31,7 +31,8 @@ void ServerQueue::RunThread(std::shared_ptr<ServerIOCPWorker> _worker)
 		// 스레드 일 시작
 		if (FALSE == waitResult)
 		{
-			if (WAIT_TIMEOUT == GetLastError())
+			DWORD lastErrorCode = GetLastError();
+			if (WAIT_TIMEOUT == lastErrorCode)
 			{
 				ServerDebug::AssertDebugMsg("work wait return timeout");
 				return;

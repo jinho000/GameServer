@@ -158,6 +158,7 @@ void AClientPlayCharacter::Attack()
 void AClientPlayCharacter::SendUDPPlayerData()
 {
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+
 	PlayerUpdatePacket packet;
 	packet.PlayerData.PlayerID = gameInst->GetPlayerID();
 	packet.PlayerData.SessionIdx = gameInst->GetSessionIdx();

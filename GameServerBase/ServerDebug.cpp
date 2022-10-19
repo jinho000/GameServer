@@ -23,7 +23,9 @@ void ServerDebug::Destroy()
 
 void ServerDebug::LogThread(LOG_TYPE _type, const std::string& _log)
 {
-	std::cout << TypeText[static_cast<int>(_type)] << _log << std::endl;
+	std::string print = std::string(TypeText[static_cast<int>(_type)]) + _log;
+	print += '\n';
+	std::cout << print;
 }
 
 void ServerDebug::AssertDebug()

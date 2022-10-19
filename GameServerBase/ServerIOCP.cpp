@@ -75,12 +75,14 @@ size_t ServerIOCP::GetThreadCount() const
 
 void ServerIOCP::PostQueued(DWORD _dwNumberOfBytesTransferred, ULONG_PTR _dwCompletionKey) const
 {
-	if (nullptr == m_IOCPHandle)
+	if (nullptr != m_IOCPHandle)
+	{
+		PostQueuedCompletionStatus(m_IOCPHandle, _dwNumberOfBytesTransferred, _dwCompletionKey, nullptr);
+	}
+	else
 	{
 		ServerDebug::AssertDebug();
 	}
-
-	PostQueuedCompletionStatus(m_IOCPHandle, _dwNumberOfBytesTransferred, _dwCompletionKey, nullptr);
 }
 
 bool ServerIOCP::BindHandle(HANDLE _handle, ULONG_PTR _dwCompletionKey) const

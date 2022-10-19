@@ -190,7 +190,7 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 
 	// 패킷 크기가 저장된 경우
 	// 2번째 데이터에 패킷의 크기가 저장된다
-	if (sizeof(int) * 2 <= m_recvBuffer.size())
+	if (sizeof(int) + sizeof(size_t) < m_recvBuffer.size())
 	{
 		m_packetSize = *reinterpret_cast<int*>(m_recvBuffer.data() + sizeof(int));
 	}
@@ -212,7 +212,7 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 		m_recvBuffer.erase(m_recvBuffer.begin(), m_recvBuffer.begin() + m_packetSize);
 
 		// 패킷 크기 초기화
-		if (m_recvBuffer.size() < sizeof(int) * 2)
+		if (m_recvBuffer.size() < sizeof(int) + sizeof(size_t))
 		{
 			m_packetSize = -1;
 		}

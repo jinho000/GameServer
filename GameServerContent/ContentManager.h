@@ -29,21 +29,21 @@ public:
 	}
 
 private: // member var
-	std::mutex								m_lobbyLock;
+
 	std::unordered_map<uint64_t, UserInfo>	m_lobbyUserTable;
+	std::mutex								m_lobbyUserLock;
 
-	std::queue<uint64_t>				m_matchQueue;
-	UINT								m_matchCount;
+	std::queue<uint64_t>					m_matchQueue;
+	std::mutex								m_matchLock;
 
-	std::vector<GameSession>			m_gameSession;
+	UINT									m_matchCount;
+
+	std::vector<GameSession>				m_gameSession;
+	std::mutex								m_sessionLock;
 
 private: // default
 	ContentManager();
 	~ContentManager();
-	ContentManager(const ContentManager& _other) = delete;
-	ContentManager(ContentManager&& _other) = delete;
-	ContentManager& operator=(const ContentManager& _other) = delete;
-	ContentManager& operator=(const ContentManager&& _other) = delete;
 
 public: // member Func
 

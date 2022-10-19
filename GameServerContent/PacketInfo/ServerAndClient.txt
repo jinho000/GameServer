@@ -1,4 +1,4 @@
 |ChatMessage-
 std::string NickName;
 std::string Message;
-
+int sessionID;

@@ -16,22 +16,21 @@
 #include "SessionUserDBData.h"
 #include "DBTableEHeader.h"
 
+// DB에 접근 데이터 처리 요청
+// 1 로컬 변수로 DB커넥터를 만들어 처리
+//   -> 함수가 실행될때마다 디비에 계속 연결을 해줘야하므로 비효울적
+//
+// 2 DB매니저에서 DB에 연결된 커넥터를 여러개 만들고, 스레드가 커넥터를 요청 후 처리
+//   -> 어떤 스레드가 요청했는지 알기 어려움
+// 
+// 3 Thread local로 스레드마다 디비커넥터를 스레드의 로컬메모리로 만들어 두고 꺼내 사용
+//   -> ServerThread::GetLocalData<DBConnecter>();
+//   
+// 쿼리문 클래스에서 스레드 로컬의 디비커넥터객체를 가져와 사용한다
+// DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
+
 void LoginPacketHandler::DBThreadCheckLogin()
 {
-	// 
-	// DB에 접근 데이터 처리 요청
-	// 1 로컬 변수로 DB커넥터를 만들어 처리
-	//   -> 함수가 실행될때마다 디비에 계속 연결을 해줘야하므로 비효울적
-	//
-	// 2 DB매니저에서 DB에 연결된 커넥터를 여러개 만들고, 스레드가 커넥터를 요청 후 처리
-	//   -> 어떤 스레드가 요청했는지 알기 어려움
-	// 
-	// 3 Thread local로 스레드마다 디비커넥터를 스레드의 로컬메모리로 만들어 두고 꺼내 사용
-	//   -> ServerThread::GetLocalData<DBConnecter>();
-	//   
-	// 쿼리문 클래스에서 스레드 로컬의 디비커넥터객체를 가져와 사용한다
-	// DBConnecter* pDBConnecter = ServerThread::GetLocalData<DBConnecter>();
-
 	ServerSerializer sr;
 
 	// 데이터 확인

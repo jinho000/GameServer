@@ -57,6 +57,7 @@ void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::
 	FCharacterInfo currCharacter = gameInst->SelectCharacter;
 	packet.NickName = currCharacter.NickName;
 	packet.Message = FTCHARToUTF8(*_chatMessage).Get();
+	packet.sessionID = gameInst->GetSessionIdx();
 
 	ServerSerializer sr(packet.GetPacketSize());
 	packet >> sr;

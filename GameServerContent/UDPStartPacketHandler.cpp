@@ -13,14 +13,12 @@ void UDPStartPacketHandler::InitUDP(PtrSUDPSession _UDPSession, std::shared_ptr<
 	m_clientEndPoint = _clientEndPoint;
 }
 
-// 
-// 로비 -> 참가요청(10) -> 세션1(10); <-> ::
+
 void UDPStartPacketHandler::Start()
 {
 	// udp 통신을 위한 클라이언트 endpoint 저장
 	IPEndPoint clientEndPoint(m_TCPSession->GetRemoteIPEndPoint().GetIPAddress(), m_packet->udpPort);
 
-	// 스레드 동시접근
 	// ContentManager접근 게임로비에 endpoint, player ID 저장
 	std::shared_ptr<ClientPlayer> pClientPlayer = std::make_shared<ClientPlayer>();
 	ContentManager::GetInst()->AddUserToLobby(pClientPlayer, clientEndPoint, m_TCPSession);
@@ -32,6 +30,4 @@ void UDPStartPacketHandler::Start()
 	ServerSerializer sr;
 	packet >> sr;
 	m_TCPSession->Send(sr.GetBuffer());
-
-
 }

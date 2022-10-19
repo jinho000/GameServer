@@ -2,6 +2,12 @@
 #include <Kismet/GameplayStatics.h>
 #include "../../Play/PlayGameMode.h"
 
+class Test
+{};
+
+class D : public Test
+{};
+
 void AllPlayerInfoPacketHandler::Start()
 {
 	// 다른 유저의 정보를 받아 세팅

@@ -6,12 +6,14 @@ class ChatMessagePacket : public ServerPacketBase
 public:                                                         
 	std::string NickName;
 	std::string Message;
+	int sessionID;
                                                                 
 public:                                                         
     ChatMessagePacket()                                               
         : ServerPacketBase(PacketType::ChatMessage)                    
         , NickName()
         , Message()
+        , sessionID()
     {                                                           
                                                                 
     }                                                           
@@ -20,7 +22,7 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(NickName) + DataSizeCheck(Message);
+		return DataSizeCheck(NickName) + DataSizeCheck(Message) + DataSizeCheck(sessionID);
     }                                                           
                                                                 
     void Serialize(ServerSerializer& _Serializer)           
@@ -28,6 +30,7 @@ public:
         ServerPacketBase::Serialize(_Serializer);              
         _Serializer << NickName;
         _Serializer << Message;
+        _Serializer << sessionID;
 
     }                                                           
                                                                 
@@ -36,6 +39,7 @@ public:
         ServerPacketBase::Deserialize(_Serializer);            
         _Serializer >> NickName;
         _Serializer >> Message;
+        _Serializer >> sessionID;
 
     }                                                           
 };                                                              

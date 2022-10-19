@@ -53,7 +53,6 @@ GameSession& GameSession::operator=(GameSession&& other) noexcept
 
 void GameSession::AddUser(const UserInfo& userInfo)
 {
-	// ContentManager에서 락을 걸어주므로 걸 필요없다
 	m_userInfo.push_back(userInfo);
 	
 	m_userInfo.back().userCharacterInfo->SetSessionIdx(m_sessionIdx);
@@ -62,7 +61,6 @@ void GameSession::AddUser(const UserInfo& userInfo)
 
 void GameSession::BroadCastTCP(const std::shared_ptr<ServerPacketBase>& packet)
 {
-	std::lock_guard lock(m_userInfoLock);
 	for (UserInfo& userInfo : m_userInfo)
 	{
 		ServerSerializer sr;
@@ -73,7 +71,6 @@ void GameSession::BroadCastTCP(const std::shared_ptr<ServerPacketBase>& packet)
 
 void GameSession::BroadCastUDP(const std::shared_ptr<ServerPacketBase>& packet, const std::shared_ptr<UDPSession>& udpSession)
 {
-	std::lock_guard lock(m_userInfoLock);
 	for (UserInfo& userInfo : m_userInfo)
 	{
 		ServerSerializer sr;
@@ -89,8 +86,6 @@ void GameSession::SetPlayerData(const FPlayerUpdateData& playerData)
 
 void GameSession::BroadCastUDPPlayerData(const FPlayerUpdateData& playerData, const std::shared_ptr<UDPSession>& udpSession)
 {
-	std::lock_guard lock(m_userInfoLock);
-
 	// 플레이어 데이터 저장
 	SetPlayerData(playerData);
 
@@ -110,7 +105,6 @@ void GameSession::BroadCastUDPPlayerData(const FPlayerUpdateData& playerData, co
 
 void GameSession::BroadCastMachingPacket()
 {
-	// ContentManager에서 락을 걸어주므로 걸 필요없다
 	GameMatchPacket packet;
 	packet.sessionIdx = static_cast<int>(m_sessionIdx);
 	for (size_t i = 0; i < m_userInfo.size(); i++)

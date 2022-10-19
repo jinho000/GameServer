@@ -88,57 +88,18 @@ void OnRecv(const char* _data, DWORD _byteSize)
 	}
 }
 
+int& func()
+{
+	int a;
+	return a;
+}
+
 int main()
 {
-	// m_recvBuffer 초기화
-	// 버퍼 초기 크기는 1024
-	//m_recvReadBuffer.reserve(1024);
-	//m_packetSize = -1;
+	int& aa = func();
+	aa = 23;
 
-	// 테스트1 
-	// 데이터가 하나만 온 경우
-	{
-		//char data[1] = {3};
-		//DWORD byteSize = 1;
-		//OnRecv(data, byteSize);
-	}
-
-	// 테스트2 
-	// 데이터가 2개 온 경우
-	{		
-		//const DWORD byteSize = 2;
-		//char data[byteSize] = { 3, 5 };
-		//OnRecv(data, byteSize);
-	}
-
-	// 테스트3
-	// 패킷 크기보다 작게온경우
-	{
-		//const DWORD byteSize = 4;
-		//char data[byteSize] = { 3, 10, 2, 5 };
-		//OnRecv(data, byteSize);
-	}
-
-	// 테스트4
-	// 패킷 크기와 동일하게 온 경우
-	{
-		//const DWORD byteSize = 4;
-		//char data[byteSize] = { 3, 4, 1, 2 };
-		//OnRecv(data, byteSize);
-	}
-
-	// 테스트5
-	// 패킷 크기보다 크게 온경우
-	{
-		//const DWORD byteSize = 6;
-		//char data[byteSize] = { 3, 4, 1, 2, 2, 3 };
-		//OnRecv(data, byteSize);
-		//OnRecv(data, byteSize);
-	}
-
-	std::string str("Test");
-
-	cout << sizeof(str) << endl;
+	aa = 54;
 
 	return 0;
 }

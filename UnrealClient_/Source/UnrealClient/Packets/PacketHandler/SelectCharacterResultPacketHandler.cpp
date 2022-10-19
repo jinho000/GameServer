@@ -35,8 +35,6 @@ void SelectCharacterResultPacketHandler::Start()
 			m_pGameInst->SelectCharacter = characterList[i];
 			m_pGameInst->LoginProcess = true;
 
-			UE_LOG(LogTemp, Log, TEXT("GameSession Number %d"), (int)m_packet->GameSessionType);
-
 			// 다음레벨 이동
 			UGameplayStatics::OpenLevel(m_pWorld, TEXT("Lobby"));
 			return;
