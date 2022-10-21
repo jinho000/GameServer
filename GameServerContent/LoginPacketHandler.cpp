@@ -33,10 +33,10 @@ void LoginPacketHandler::DBThreadCheckLogin()
 {
 	ServerSerializer sr;
 
-	// 데이터 확인
-	// ID로 유저정보 가져오기
+
 	UserTable_SelectIDToUserInfo SelectQuery(m_packet->ID);
 
+	// DB접근 후 처리 
 	if (false == SelectQuery.DoQuery())
 	{
 		ServerDebug::LogInfo("ID is not exist");
@@ -47,7 +47,7 @@ void LoginPacketHandler::DBThreadCheckLogin()
 		return;
 	}
 
-
+	// DB에서 가져온 데이터를 처리
 	std::shared_ptr<UserRow> userData = SelectQuery.RowData;
 	if (m_packet->PW != userData->Pw)
 	{
@@ -65,7 +65,6 @@ void LoginPacketHandler::DBThreadCheckLogin()
 	std::shared_ptr<SessionUserDBData> sessionUserDBData = std::make_shared<SessionUserDBData>();
 	sessionUserDBData->UserInfo = userData;
 	m_TCPSession->SetLink(EDBTable::USER, sessionUserDBData);
-
 	m_userData = userData;
 
 	
@@ -73,8 +72,8 @@ void LoginPacketHandler::DBThreadCheckLogin()
 	ServerDebug::LogInfo("Login OK");
 	m_loginResultPacket.LoginResultCode = ELoginResultCode::OK;
 
-	// 로그인시 UDP포트도 같이 보내기
-	m_loginResultPacket.UDPPort = ServerCore::GetUDPSession(0)->GetEndPoint().GetPort();
+	// 로그인시 UDP포트도 같이 전송
+	m_loginResultPacket.UDPPort = ServerCore::GetUDPSession()->GetEndPoint().GetPort();
 
 	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 
@@ -97,14 +96,14 @@ void LoginPacketHandler::NetThreadSendLoginResult()
 
 void LoginPacketHandler::DBThreadCheckCharList()
 {
-	ServerDebug::LogInfo("Get User Character List");
+	ServerDebug::LogInfo("Get User NickName List");
 	CharacterTable_SelectUserCharacters SelectQuery(m_userData->Index);
 	if (false == SelectQuery.DoQuery())
 	{
 		ServerDebug::AssertDebugMsg("Fail Select Query");
 		return;
 	}
-	ServerDebug::LogInfo("Character List Count : " + std::to_string(SelectQuery.RowDatas.size()));
+	ServerDebug::LogInfo("NickName List Count : " + std::to_string(SelectQuery.RowDatas.size()));
 
 
 	// 패킷에 데이터 채워넣기
@@ -135,15 +134,14 @@ void LoginPacketHandler::NetThreadSendCharList()
 	ServerSerializer sr;
 	m_CharacterListPacket >> sr;
 
-	m_TCPSession->Send(sr.GetBuffer());
-
 	ServerDebug::LogInfo("Send Character List");
+	m_TCPSession->Send(sr.GetBuffer());
 }
 
 
 void LoginPacketHandler::Start()
 {
-	ServerDebug::LogInfo("Login Request Packet");
+	ServerDebug::LogInfo("LoginPacketHandler");
 
 	std::string ID; ServerString::UTF8ToANSI(m_packet->ID, ID);
 	std::string PW; ServerString::UTF8ToANSI(m_packet->PW, PW);
@@ -151,11 +149,7 @@ void LoginPacketHandler::Start()
 	ServerDebug::LogInfo("ID: " + ID);
 	ServerDebug::LogInfo("PW: " + PW);
 
-	// DB에 처리 요청
-	// DB에 관한일은 DB큐에서 처리한다
-	// 
-	// 핸들러에서 이함수를 실행 후 종료되면, 핸들러 객체가 사라지기때문에 shared_from_this 사용
-
+	// DB처리는 다른 스레드에서 처리
 	m_loginResultPacket.LoginResultCode = ELoginResultCode::FAIL;
 	DBQueue::EnQueue(std::bind(&LoginPacketHandler::DBThreadCheckLogin, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 }

@@ -18,8 +18,8 @@ private: // member var
 	static TCPListener								ServerListener;
 	static std::function<void(PtrSTCPSession)>		AcceptCallBack;
 	static std::vector<std::shared_ptr<UDPSession>> AllUDPSession;
-
-
+	static int										CurrentUDPPort;
+	static int										UDPPortCount;
 protected:
 	static IPEndPoint	ServerEndPoint;
 	static int			ServerPort;
@@ -63,6 +63,7 @@ public:
 
 	static const DBInfo& GetDBInfo() { return DBConfig; }
 	static const std::shared_ptr<UDPSession> GetUDPSession(UINT _idx) { return AllUDPSession[_idx]; }
+	static const std::shared_ptr<UDPSession> GetUDPSession();
 
 };
 

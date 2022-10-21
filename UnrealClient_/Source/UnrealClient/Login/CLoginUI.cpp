@@ -34,6 +34,7 @@ bool UCLoginUI::ConnectServer()
 
 bool UCLoginUI::Login()
 {
+	UE_LOG(LogTemp, Log, TEXT("Login Packet"));
 	UE_LOG(LogTemp, Log, TEXT("Login user id: %s"), *ID);
 	UE_LOG(LogTemp, Log, TEXT("Login user pw: %s"), *Password);
 	
@@ -47,6 +48,7 @@ bool UCLoginUI::Login()
 	packet >> sr;
 	
 	UCGameInstance* gameInst = Cast<UCGameInstance>(GetGameInstance());
+	
 	return gameInst->SendBytes(sr.GetBuffer());
 }
 

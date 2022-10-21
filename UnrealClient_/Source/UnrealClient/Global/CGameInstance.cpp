@@ -88,7 +88,7 @@ bool UCGameInstance::ConnectServer(const FString& _IP, const FString& _port)
 		FString error = m_socketSystem->GetSocketError(m_socketSystem->GetLastErrorCode());
 		UE_LOG(LogTemp, Error, TEXT("GameInstance - %s"), *error);
 
-		CloseSocket();
+		CloseSocket();	
 		return false;
 	}
 	UE_LOG(LogTemp, Log, TEXT("GameInstance - Connect Server"));

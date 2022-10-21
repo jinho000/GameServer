@@ -13,6 +13,8 @@
 IPEndPoint	ServerCore::ServerEndPoint;
 DBInfo		ServerCore::DBConfig = {};
 int			ServerCore::ServerPort = 0;
+int			ServerCore::CurrentUDPPort = 0;
+int			ServerCore::UDPPortCount = 0;
 
 TCPListener ServerCore::ServerListener;
 std::function<void(PtrSTCPSession)> ServerCore::AcceptCallBack;
@@ -43,6 +45,8 @@ void ServerCore::SetUDPRecvCallBack(RecvCallBack _recvCallback)
 
 void ServerCore::CreateUDPSession(int UDPCount)
 {
+	UDPPortCount = UDPCount;
+
 	for (int i = 0; i < UDPCount; ++i)
 	{
 		IPEndPoint UDPEndPoint(ServerEndPoint.GetIPAddress(), ServerEndPoint.GetPort() + i);
@@ -162,10 +166,9 @@ bool ServerCore::CoreEnd()
     return true;
 }
 
-//void ServerCore::SetUserEndPoint(const IPEndPoint& _userEndPoint)
-//{
-//	unserEndPointLock.lock();
-//	allUserEndPoint.push_back(_userEndPoint);
-//	unserEndPointLock.unlock();
-//}
+const std::shared_ptr<UDPSession> ServerCore::GetUDPSession()
+{
+	++CurrentUDPPort;
+	return GetUDPSession(CurrentUDPPort % UDPPortCount);
+}
 
