@@ -70,3 +70,4 @@ void UCChatWindow::OnChatMsgCommitted(const FString& _chatMessage, ETextCommit::
 	UE_LOG(LogTemp, Log, TEXT("Send NickName: %s"), *nickName);
 	UE_LOG(LogTemp, Log, TEXT("Send Message: %s"), *_chatMessage);
 }
+

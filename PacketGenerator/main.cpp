@@ -269,7 +269,6 @@ int main()
 	std::vector<CodeSave>	 vecSaveFile;
 	vecSaveFile.resize((int)CodeType::SIZE);
 
-	// 만들고 나면 다 단순복사가 됩니다 ok?
 	{
 		GameServerDirectory LoadDir;
 		LoadDir.MoveParent("Project");

@@ -159,14 +159,17 @@ void TCPSession::RequestRecv()
 	// 리시브 요청을 할 때마다 오버렙드 클리어
 	m_recvOverlapped->Clear();
 
-	if (SOCKET_ERROR == WSARecv(
+	int sockError = WSARecv(
 		m_sessionSocket
 		, m_recvOverlapped->GetWSABuffer()
 		, 1
 		, &recvByte
 		, &dwFlags
 		, m_recvOverlapped->GetLPOverlapped()
-		, nullptr))
+		, nullptr);
+
+
+	if (SOCKET_ERROR == sockError)
 	{
 		int Error = WSAGetLastError();
 		if (WSA_IO_PENDING != Error)

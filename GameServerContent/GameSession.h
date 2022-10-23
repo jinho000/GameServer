@@ -9,8 +9,7 @@ class GameSession
 
 private: // member var
 	std::vector<UserInfo>	m_userInfo;		// session이 들고있는 유저의 정보
-	std::mutex				m_userLock;
-
+	
 	size_t					m_sessionIdx;	// session의 인덱스 번호
 
 public: // default
