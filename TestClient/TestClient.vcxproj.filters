@@ -2,10 +2,36 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="TestClient.cpp" />
+    <ClCompile Include="TCPClientSocket.cpp">
+      <Filter>TCPClientSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>User</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Socket">
+    <Filter Include="User">
       <UniqueIdentifier>{24d47604-342b-4d5c-a1b7-a9b6228ba633}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pch">
+      <UniqueIdentifier>{3144a5e7-e010-49fd-acb0-e84146e1a4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TCPClientSocket">
+      <UniqueIdentifier>{b0143c73-fc51-4191-b1cb-b7a9fdeeb979}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TCPClientSocket.h">
+      <Filter>TCPClientSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>User</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

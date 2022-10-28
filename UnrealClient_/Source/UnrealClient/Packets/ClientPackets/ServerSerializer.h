@@ -85,5 +85,6 @@ public: // member Func
 
 public:
 	const std::vector<uint8_t>& GetBuffer() { return m_buffer; }
+	const size_t GetOffset() const { return m_offset; }
 };
 
