@@ -12,7 +12,7 @@ private: // member var
 
 public: // default
 	AcceptExOverlapped(TCPSession* _tcpSession);
-	~AcceptExOverlapped() = default;
+	~AcceptExOverlapped();
 
 	AcceptExOverlapped(const AcceptExOverlapped& _other) = delete;
 	AcceptExOverlapped(AcceptExOverlapped&& _other) = delete;

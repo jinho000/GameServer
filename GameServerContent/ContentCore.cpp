@@ -54,8 +54,6 @@ void ContentCore::UserStart()
 	// ContentManager 처리
 	// 게임의 컨텐츠 관련 내용을 처리
 	ContentManager::Init();
-
-
 }
 
 void ContentCore::UserEnd()

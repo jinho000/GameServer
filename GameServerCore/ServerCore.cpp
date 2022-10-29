@@ -73,9 +73,9 @@ bool ServerCore::CoreInit()
 	// xml 파일 읽어오기
 	{
 		GameServerDirectory Dir;
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		Dir.MoveParent("Project");
-#endif
+//#endif
 		xmlStream << Dir.PathToPlusFileName("ServerConfig.xml");
 		Doc.LoadFile(xmlStream.str().c_str());
 

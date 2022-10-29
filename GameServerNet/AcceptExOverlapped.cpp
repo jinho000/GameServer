@@ -10,6 +10,10 @@ AcceptExOverlapped::AcceptExOverlapped(TCPSession* _tcpSession)
 {
 }
 
+AcceptExOverlapped::~AcceptExOverlapped()
+{
+}
+
 void AcceptExOverlapped::Excute(BOOL _result, DWORD _byteSize)
 {
 	if (nullptr == m_tcpSession)

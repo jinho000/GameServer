@@ -82,5 +82,5 @@ void TCPClientSocket::Send(ServerPacketBase& _packet)
 	ServerSerializer sr;
 	_packet >> sr;
 	
-	int sendResult = send(m_socket, (const char*)sr.GetBuffer().data(), sr.GetBuffer().size(), 0);
+	int sendResult = send(m_socket, (const char*)sr.GetBuffer().data(), sr.GetOffset(), 0);
 }

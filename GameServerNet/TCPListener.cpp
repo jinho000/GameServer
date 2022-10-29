@@ -53,7 +53,7 @@ void TCPListener::Initialize(const std::string _ip, int _port, const std::functi
 		return;
 	}
 
-	int backLog = 512;
+	int backLog = 8;
 	ErrorCode = listen(m_listenerSocket, backLog);
 	if (SOCKET_ERROR == ErrorCode)
 	{
@@ -122,10 +122,6 @@ void TCPListener::CreateAcceptSession()
 			m_acceptPool.pop_front();
 			newSession->SetReuse();
 
-			//std::string log = "Reuse ";
-			//log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
-			//log += " Socket";
-			//ServerDebug::LogInfo(log);
 		}
 
 		m_acceptPoolLock.unlock();
@@ -218,10 +214,10 @@ void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
 		std::lock_guard<std::mutex> lock(m_acceptPoolLock);
 		m_acceptPool.push_back(_tcpSession);
 
-		std::string log = "Reuse ";
-		log += std::to_string(static_cast<int>(_tcpSession->GetSessionSocket()));
-		log += " Socket";
-		ServerDebug::LogInfo(log);
+		//std::string log = "Reuse ";
+		//log += std::to_string(static_cast<int>(_tcpSession->GetSessionSocket()));
+		//log += " Socket";
+		//ServerDebug::LogInfo(log);
 	}
 }
 

@@ -149,11 +149,11 @@
     <Filter Include="IO\Overlapped">
       <UniqueIdentifier>{40392f50-d27b-464d-9258-0582c21214c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NetHelper">
-      <UniqueIdentifier>{0bbdf82c-c393-4b67-b11f-916ee51ec856}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DBBase">
       <UniqueIdentifier>{75d659c8-0831-4b33-ae36-848ac46f73a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetHelper">
+      <UniqueIdentifier>{0bbdf82c-c393-4b67-b11f-916ee51ec856}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
