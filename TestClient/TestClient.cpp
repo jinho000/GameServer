@@ -22,6 +22,9 @@ bool isNumber(const string& str)
 
 // 동시접속 테스트
 int userCount = 0;
+std::string ServerIP;
+std::string ServerPort;
+
 std::vector<User*> socketArray;
 
 void Test()
@@ -30,7 +33,7 @@ void Test()
 
     for (size_t i = 0; i < userCount; i++)
     {
-        socketArray.push_back(new User("127.0.0.1", 30001));
+        socketArray.push_back(new User(ServerIP.c_str(), std::stoi(ServerPort.c_str())));
     }
 
     Pause();
@@ -58,6 +61,11 @@ void Test()
 
 int main()
 {
+    cout << "Input Server IP And Port ex) 127.0.0.1 30001\n";
+    cin >> ServerIP;
+    cin >> ServerPort;
+    cout << endl;
+    
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
     

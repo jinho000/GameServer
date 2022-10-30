@@ -13,7 +13,6 @@ ServerSectionThread::~ServerSectionThread()
 // 섹션 스레드 함수
 void ServerSectionThread::SectionThreadWork(UINT _threadOrder)
 {
-	SetThreadName(GetNameCopy());
 	SetThreadOrder(_threadOrder);
 	IOCP.InitHandle(1);
 

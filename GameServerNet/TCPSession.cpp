@@ -3,7 +3,6 @@
 #include "GameServerBase/ServerUnique.h"
 #include "Overlapped.h"
 #include "RecvOverlapped.h"
-#include "DisconnectOverlapped.h"
 #include "SendOverlapped.h"
 #include "AcceptExOverlapped.h"
 
@@ -12,11 +11,8 @@ TCPSession::TCPSession()
 	, m_sessionSocket(NULL)
 	, m_acceptExOverlapped(nullptr)
 	, m_recvOverlapped(nullptr)
-	, m_disconOverlapped(nullptr)
 	, m_recvCallBack(nullptr)
 	, m_closeCallBack(nullptr)
-	, m_callClose(false)
-	, m_bReuseSocket(false)
 	, m_sendOverlapped(nullptr)
 	, m_packetSize(-1)
 {
@@ -24,6 +20,8 @@ TCPSession::TCPSession()
 
 TCPSession::~TCPSession()
 {
+	CloseSocket();
+
 	if (nullptr != m_recvOverlapped)
 	{
 		delete m_recvOverlapped;
@@ -34,12 +32,6 @@ TCPSession::~TCPSession()
 	{
 		delete m_acceptExOverlapped;
 		m_acceptExOverlapped = nullptr;
-	}
-
-	if (nullptr != m_disconOverlapped)
-	{
-		delete m_disconOverlapped;
-		m_disconOverlapped = nullptr;
 	}
 
 	if (nullptr != m_sendOverlapped)
@@ -61,54 +53,23 @@ void TCPSession::OnCallback(BOOL _result, DWORD _numberOfBytes, LPOVERLAPPED _lp
 	pOverlapped->Excute(_result, _numberOfBytes);
 }
 
-void TCPSession::CloseSession(bool _forceClose)
+void TCPSession::CloseSession()
 {
-	// 세션 종료 상태 처리
-	m_callClose = true;
-
 	// close callback 실행
 	if (nullptr != m_closeCallBack)
 	{
 		m_closeCallBack(std::dynamic_pointer_cast<TCPSession>(shared_from_this()));
 	}
 
-	if (false == _forceClose)
+	if (INVALID_SOCKET == m_sessionSocket)
 	{
-		if (INVALID_SOCKET == m_sessionSocket)
-		{
-			ServerDebug::AssertDebugMsg("session socket invalid");
-			return;
-		}
-
-		if (nullptr == m_disconOverlapped)
-		{
-			ServerDebug::AssertDebugMsg("disconOverlapped invalid");
-			return;
-		}
-
-		BOOL bResult = TransmitFile(m_sessionSocket, 0, 0, 0
-			, m_disconOverlapped->GetLPOverlapped()
-			, 0
-			, TF_DISCONNECT | TF_REUSE_SOCKET
-		);
-
-		if (FALSE == bResult)
-		{
-			int iError = WSAGetLastError();
-			if (ERROR_IO_PENDING != iError)
-			{
-				ServerDebug::GetLastErrorPrint();
-			}
-		}
-	}
-	else
-	{
-		// 강제 종료인 경우
-		CloseSocket();
+		ServerDebug::AssertDebugMsg("session socket invalid");
+		return;
 	}
 
-	// 새로운 데이터를 받기위해 Overlapped 정리
-	m_acceptExOverlapped->ResetOverlapped();
+	// 리스너에서 종료 처리
+	UnregisterSession();
+
 }
 
 void TCPSession::CloseSocket()
@@ -132,22 +93,10 @@ void TCPSession::UnregisterSession()
 	}
 	
 	pListener->CloseSession(std::dynamic_pointer_cast<TCPSession>(shared_from_this()));
-	
-	// 소켓 종료 후 새로운 아이디를 받음
-	m_conectId = ServerUnique::GetNextUniqueId();
-
-	m_callClose = false;
-}
-
-void TCPSession::SetReuse()
-{
-	m_bReuseSocket = true;
 }
 
 bool TCPSession::BindQueue(const ServerQueue& _workQueue)
 {
-	if (m_bReuseSocket) return true;
-
 	return _workQueue.RegistSocket(m_sessionSocket, &m_IOCallback);
 }
 
@@ -221,11 +170,8 @@ void TCPSession::OnRecv(const char* _data, DWORD _byteSize)
 		}
 	}
 
-	if (false == m_callClose)
-	{
-		// 리시브 처리 후 다시 리시브 요청
-		RequestRecv();
-	}
+	// 리시브 처리 후 다시 리시브 요청
+	RequestRecv();
 }
 
 void TCPSession::Send(const std::vector<uint8_t>& _buffer)
@@ -311,20 +257,20 @@ void TCPSession::Initialize()
 
 	// 소켓 재활용 옵션
 	{
-		BOOL bReuse = TRUE;
-		errorCode = setsockopt(m_sessionSocket
-			, SOL_SOCKET
-			, SO_REUSEADDR
-			, reinterpret_cast<const char*>(&bReuse)
-			, sizeof(BOOL)
-		);
+		//BOOL bReuse = TRUE;
+		//errorCode = setsockopt(m_sessionSocket
+		//	, SOL_SOCKET
+		//	, SO_REUSEADDR
+		//	, reinterpret_cast<const char*>(&bReuse)
+		//	, sizeof(BOOL)
+		//);
 
-		if (SOCKET_ERROR == errorCode)
-		{
-			ServerDebug::GetLastErrorPrint();
-			CloseSocket();
-			return;
-		}
+		//if (SOCKET_ERROR == errorCode)
+		//{
+		//	ServerDebug::GetLastErrorPrint();
+		//	CloseSocket();
+		//	return;
+		//}
 	}
 
 	// 연결관련 옵션
@@ -350,7 +296,6 @@ void TCPSession::Initialize()
 	}
 
 	 m_recvOverlapped = new RecvOverlapped(this);
-	 m_disconOverlapped = new DisconnectOverlapped(this);
 	 m_acceptExOverlapped = new AcceptExOverlapped(this);
 	 m_sendOverlapped = new SendOverlapped(this);
 

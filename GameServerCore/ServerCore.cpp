@@ -5,6 +5,7 @@
 
 #include <GameServerBase/GameServerDirectory.h>
 #include <GameServerNet/ServerHelper.h>
+#include <GameServerNet/TCPListener.h>
 
 #include "ServerSectionManager.h"
 #include "NetQueue.h"
@@ -147,14 +148,20 @@ bool ServerCore::CoreRun()
 
 	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
 	ServerListener.BindNetQueue(NetQueue::GetQueue());
-	ServerListener.StartAccept(10);
+	ServerListener.StartAccept();
 
-
+	std::string input;
 	while (true)
 	{
-		if ('`' == _getch())
+		std::cin >> input;
+		if (input == "`")
 		{
 			return true;
+		}
+
+		if (input == "pause")
+		{
+			int a = 0;
 		}
 	}
 }

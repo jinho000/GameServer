@@ -18,12 +18,12 @@ private: // member var
 	SOCKET												m_listenerSocket;
 	IPEndPoint											m_ipEndPoint;
 	const ServerQueue*									m_pNetQueue;
+
 	std::function<void(std::shared_ptr<TCPSession>)>	m_acceptCallback; // 클라이언트접속 완료 후 호출될 함수
 	std::function<void(BOOL, DWORD, LPOVERLAPPED)>		m_listenCallback; // 클라이언트가 접속했을떄 호출되는 함수
 	
-	std::vector<std::shared_ptr<TCPSession>>			m_sessionPool;	  // 전체 세션을 가진 풀
-	std::deque<std::shared_ptr<TCPSession>>				m_acceptPool;
-	std::mutex											m_acceptPoolLock;
+	std::unordered_map<__int64, std::shared_ptr<TCPSession>>	m_acceptPool;
+	std::mutex													m_acceptPoolLock;
 
 	std::unordered_map<__int64, std::shared_ptr<TCPSession>>	m_connectionPool;
 	std::mutex													m_connectionPoolLock;
@@ -52,7 +52,7 @@ private:
 
 public: // member Func
 	void Initialize(const std::string _ip, int _port, const std::function<void(std::shared_ptr<TCPSession>)>& _acceptCallback);
-	void StartAccept(UINT _backLog);
+	void StartAccept();
 
 	void BindNetQueue(const ServerQueue& _workQueue);
 

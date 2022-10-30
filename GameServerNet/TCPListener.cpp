@@ -53,8 +53,7 @@ void TCPListener::Initialize(const std::string _ip, int _port, const std::functi
 		return;
 	}
 
-	int backLog = 8;
-	ErrorCode = listen(m_listenerSocket, backLog);
+	ErrorCode = listen(m_listenerSocket, SOMAXCONN);
 	if (SOCKET_ERROR == ErrorCode)
 	{
 		CloseSocket();
@@ -63,17 +62,10 @@ void TCPListener::Initialize(const std::string _ip, int _port, const std::functi
 	}
 }
 
-void TCPListener::StartAccept(UINT _backLog)
+void TCPListener::StartAccept()
 {
-	if (128 < _backLog)
-	{
-		SYSTEM_INFO sysInfo;
-		GetSystemInfo(&sysInfo);
-		_backLog = sysInfo.dwNumberOfProcessors;
-	}
-
-	// backlog 개수만큼 미리 세션을 만들어 놓음
-	for (UINT i = 0; i < _backLog; i++)
+	// Accept 걸어두기
+	for (UINT i = 0; i < 20; i++)
 	{
 		CreateAcceptSession();
 	}
@@ -101,30 +93,18 @@ void TCPListener::CreateAcceptSession()
 {
 	PtrSTCPSession newSession = nullptr;
 	{
+		newSession = std::make_shared<TCPSession>();
+		newSession->Initialize();
+		newSession->SetParent(this);
+	
 		m_acceptPoolLock.lock();
-
-		if (m_acceptPool.empty())
-		{
-			newSession = std::make_shared<TCPSession>();
-			newSession->Initialize();
-			newSession->SetParent(this);
-			m_sessionPool.push_back(newSession);
-			
-			std::string log = "Create ";
-			log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
-			log += " Socket";
-			ServerDebug::LogInfo(log);
-		}
-		else
-		{
-			// 커넥션 풀에 세션이 있을경우 재활용
-			newSession = m_acceptPool.front();
-			m_acceptPool.pop_front();
-			newSession->SetReuse();
-
-		}
-
+		m_acceptPool[newSession->GetSessionID()] = newSession;
 		m_acceptPoolLock.unlock();
+			
+		std::string log = "Create ";
+		log += std::to_string(static_cast<int>(newSession->GetSessionSocket()));
+		log += " Socket";
+		ServerDebug::LogInfo(log);
 	}
 
 	// 접속 완료 후 전달할 overlapped
@@ -184,15 +164,18 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	session->BindQueue(*m_pNetQueue);
 	session->RequestRecv();
 
+	// acceptpool 에서 꺼내기
+	m_acceptPoolLock.lock();
+	m_acceptPool.erase(session->GetSessionID());
+	m_acceptPoolLock.unlock();
+
 	// 세션 저장하기
 	m_connectionPoolLock.lock();
 	m_connectionPool.insert(std::make_pair(session->GetSessionID(), session));
-
 	m_connectionPoolLock.unlock();
 
-	// callback 함수 실행
+	// accept callback 함수 실행
 	m_acceptCallback(session);
-
 
 	// 접속자가 들어와 세션이 생긴경우
 	// 대기소켓을 하나더 생성
@@ -207,17 +190,6 @@ void TCPListener::CloseSession(PtrSTCPSession _tcpSession)
 	{
 		std::lock_guard<std::mutex> lock(m_connectionPoolLock);
 		m_connectionPool.erase(_tcpSession->GetSessionID());
-	}
-
-	// 재활용하기 위해 connection 풀에 추가
-	{
-		std::lock_guard<std::mutex> lock(m_acceptPoolLock);
-		m_acceptPool.push_back(_tcpSession);
-
-		//std::string log = "Reuse ";
-		//log += std::to_string(static_cast<int>(_tcpSession->GetSessionSocket()));
-		//log += " Socket";
-		//ServerDebug::LogInfo(log);
 	}
 }
 

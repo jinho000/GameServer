@@ -13,7 +13,7 @@ class ServerThread : public ServerNameBase
 {
 private:
 	// thread에서만 사용할 메모리영역
-	static thread_local std::string THREAD_NAME;
+	//static thread_local std::string THREAD_NAME;
 	static thread_local unsigned int THREAD_OREDER;
 	static thread_local const std::type_info* LOCAL_DATA_TYPE;
 	static thread_local void* LOCAL_DATA;
@@ -54,7 +54,6 @@ private:
 
 public: // static
 	static void SetThreadName(const std::string& _Name);
-	static std::string GetName();
 
 public: // inline
 	inline std::thread::id ThreadId()

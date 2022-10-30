@@ -10,7 +10,6 @@
 // 클라이언트와 연결할 세션
 class RecvOverlapped;
 class AcceptExOverlapped;
-class DisconnectOverlapped;
 class TCPSession : public ServerBaseObject
 {
 private:
@@ -18,7 +17,6 @@ private:
 	friend class TCPListener;
 	friend class RecvOverlapped;
 	friend class AcceptExOverlapped;
-	friend class DisconnectOverlapped;
 	friend class SendOverlapped;
 
 private: // member var
@@ -27,11 +25,9 @@ private: // member var
 	IPEndPoint	m_localAddr;
 	IPEndPoint	m_remoteAddr;
 
-	// 스레드 동기화에 안전한가?
 	// overlapped
 	AcceptExOverlapped*		m_acceptExOverlapped;
 	RecvOverlapped*			m_recvOverlapped;
-	DisconnectOverlapped*	m_disconOverlapped;
 
 	// send를 동시에 여러개 보낼수 있어야함 (Sendpool)
 	SendOverlapped*			m_sendOverlapped;
@@ -47,9 +43,6 @@ private: // member var
 	CloseCallBack			m_closeCallBack;
 
 	//ServerObjectPool<SendOverlapped> m_sendPool;
-
-	std::atomic_bool		m_callClose;
-	std::atomic_bool		m_bReuseSocket;
 
 	// 리시브로 받은 데이터를 처리하기위한 버퍼
 	// TCP의 경우 데이터의 경계가 없기 때문에 패킷의 전체데이터를 확인 후 처리해야한다
@@ -77,13 +70,11 @@ private:
 
 	// workQueue에 세션소켓 연결(등록)
 	bool BindQueue(const ServerQueue& _workQueue);
-	void SetReuse();
 	
 	void RequestRecv();
 	void OnRecv(const char* _data, DWORD _byteSize);
 
-
-	void CloseSession(bool _forceClose = false);
+	void CloseSession();
 	void CloseSocket();
 	void UnregisterSession();
 
