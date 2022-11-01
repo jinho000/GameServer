@@ -45,8 +45,8 @@ void ContentCore::UserStart()
 	SetAcceptCallBack(ContentCore::AcceptEvent);
 
 	// UDP Session 생성
-	CreateUDPSession(4);
-	SetUDPRecvCallBack(ContentCore::UDPRecvEvent);
+	//CreateUDPSession(4);
+	//SetUDPRecvCallBack(ContentCore::UDPRecvEvent);
 
 	// SessionQueue 만들기
 	ContentQueue::Init();

@@ -46,6 +46,14 @@ void Test()
 
     Pause();
 
+    cout << "Login" << endl;
+    for (size_t i = 0; i < userCount; i++)
+    {
+        socketArray[i]->Login(std::string("ID") + std::to_string(i), std::to_string(i));
+    }
+
+    Pause();
+
     cout << "Disconnect" << endl;
     for (size_t i = 0; i < userCount; i++)
     {

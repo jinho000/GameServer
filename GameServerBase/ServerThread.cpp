@@ -22,10 +22,14 @@ ServerThread::ServerThread(const ServerThread&& _other) noexcept
 {
 }
 
-void ServerThread::SetThreadName(const std::string& _Name)
+void ServerThread::SetThreadName(std::string&& _Name)
 {
 	//THREAD_NAME.resize(100);
-	//THREAD_NAME = _Name;
+
+	//thread_local std::string THREAD_NAME = std::move(_Name);
+	//std::string print = THREAD_NAME;
+	//print += "\n";
+	//std::cout << print;
 
 	//std::wstring String;
 	//String.assign(_Name.begin(), _Name.end());

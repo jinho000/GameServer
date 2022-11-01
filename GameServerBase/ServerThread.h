@@ -53,7 +53,7 @@ protected:
 private:
 
 public: // static
-	static void SetThreadName(const std::string& _Name);
+	static void SetThreadName(std::string&& _Name);
 
 public: // inline
 	inline std::thread::id ThreadId()

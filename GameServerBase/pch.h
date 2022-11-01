@@ -39,6 +39,7 @@
 #include <cassert>
 #include <crtdbg.h>
 
+// 메모리 릭 검출 라이브러러
 //#include <vld.h>
 
 

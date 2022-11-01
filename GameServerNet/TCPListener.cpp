@@ -5,6 +5,7 @@
 #include "AcceptExOverlapped.h"
 #include "TCPSession.h"
 #include "GameServerBase/ServerDebug.h"
+#include "TCPSession.h"
 
 UINT TCPListener::listenThreadCount = 4;
 
@@ -126,6 +127,7 @@ void TCPListener::CreateAcceptSession()
 		if (ERROR_IO_PENDING != WSAGetLastError())
 		{
 			ServerDebug::LogInfo("AcceptEx Error");
+			assert(nullptr);
 			return;
 		}
 	}
@@ -138,29 +140,38 @@ void TCPListener::OnAccept(BOOL _result, DWORD _byteSize, LPOVERLAPPED _overlapp
 	if (nullptr == _overlapped)
 	{
 		ServerDebug::LogWarning("OnAccept overlapped가 없음");
+		assert(nullptr);
 		return;
 	}
 
 	if (nullptr == m_acceptCallback)
 	{
 		ServerDebug::LogWarning("accept callback이 없음");
+		assert(nullptr);
 		return;
 	}
 
 	if (0 == _result)
 	{
 		ServerDebug::LogError("accept error");
+		assert(nullptr);
 		return;
 	}
 
 	// overlapped 객체 가져오기
 	AcceptExOverlapped* acceptExOver = reinterpret_cast<AcceptExOverlapped*>(reinterpret_cast<char*>(_overlapped) - sizeof(void*));
+	std::shared_ptr<TCPSession> session = acceptExOver->GetTCPSession();
+
+	// 유효소켓 확인
+	if (session->GetSessionSocket() == INVALID_SOCKET)
+	{
+		assert(nullptr);
+	}
 
 	// acceptExOver 객체에 리모트, 로컬 주소값을 채워넣음
 	acceptExOver->Excute(_result, _byteSize);
 
 	// 클라와 연결된 세션에 IOCP 연결후 리시브 요청
-	std::shared_ptr<TCPSession> session = acceptExOver->GetTCPSession();
 	session->BindQueue(*m_pNetQueue);
 	session->RequestRecv();
 

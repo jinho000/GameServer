@@ -73,7 +73,7 @@ void LoginPacketHandler::DBThreadCheckLogin()
 	m_loginResultPacket.LoginResultCode = ELoginResultCode::OK;
 
 	// 로그인시 UDP포트도 같이 전송
-	m_loginResultPacket.UDPPort = ServerCore::GetUDPSession()->GetEndPoint().GetPort();
+	//m_loginResultPacket.UDPPort = ServerCore::GetUDPSession()->GetEndPoint().GetPort();
 
 	NetQueue::EnQueue(std::bind(&LoginPacketHandler::NetThreadSendLoginResult, std::dynamic_pointer_cast<LoginPacketHandler>(shared_from_this())));
 

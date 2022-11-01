@@ -99,7 +99,7 @@ bool ServerCore::CoreInit()
 	{
 		tinyxml2::XMLElement* ServerStart = Root->FirstChildElement("ServerStart");
 		ServerPort = nullptr != ServerStart->FindAttribute("Port") ? std::stoi(ServerStart->FindAttribute("Port")->Value()) : -1;
-		ServerEndPoint = IPEndPoint("127.0.0.1", ServerPort);
+		ServerEndPoint = IPEndPoint("0.0.0.0", ServerPort);
 		ServerDebug::LogInfo(std::string("ServerPort : " + std::to_string(ServerPort)));
 	}
 
@@ -146,7 +146,8 @@ bool ServerCore::CoreRun()
 		return false;
 	}
 
-	ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
+	ServerListener.Initialize("0.0.0.0", ServerPort, AcceptCallBack);
+	//ServerListener.Initialize("127.0.0.1", ServerPort, AcceptCallBack);
 	ServerListener.BindNetQueue(NetQueue::GetQueue());
 	ServerListener.StartAccept();
 
